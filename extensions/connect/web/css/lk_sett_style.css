@@ -1,0 +1,130 @@
+.connect_set{
+	padding: 10px 20px;
+	border-radius: 0;
+}
+
+.connect_set .uk-modal-dialog{
+	padding: 0;
+}
+
+.connect_set .h4-border{
+    padding-bottom: 4px;
+    border-bottom: 1px solid #D8DAE7;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 540px) {
+	.connect_set .col-1-2 {
+	    margin-left: 20px;
+	    width: calc(50% - 20px);
+	    margin-bottom: 20px;
+	}
+}
+
+.connect_set .nav_button{
+    list-style: none;
+    display: flex;
+    align-items: center;
+	padding: 4px 0;
+	justify-content: space-between;
+}
+.connect_set .nav_button a{
+	text-decoration: none;
+}
+.connect_set li.nav_button__last a.uk-close:hover{
+	color: #E04265;
+}
+
+.connect_set form a{
+	font-size: 12px;
+	padding: 6px;
+	width: calc(100% - 20px);
+	text-align: center;
+}
+
+@media (max-width: 766px) {
+	.connect_set .row-line .col-1-2:not(:last-child){
+		margin-bottom: 2rem;
+	}
+}
+
+
+.connect_set .save_bar{
+	padding: 10px 0;
+	justify-content: center;
+}
+
+.connect_set .button-green{
+	display: grid;
+	height: auto;
+
+    padding: 2px 30px 2px;
+    cursor: pointer;
+    min-height: 30px;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease 0s;
+    border: 1px solid #5dce59;
+    background: #5dce59;
+    color: #ffffff;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 12px;
+    text-decoration: none;
+}
+.connect_set .button-green:hover {
+    text-decoration: none;
+    border: 1px solid #5dce59;
+    background: none;
+    color: #000;
+}
+.connect_set .button-green.hover {
+    text-decoration: none;
+    border: 1px solid #5dce59;
+    background: none;
+    color: #000;
+}
+
+.connect_set h4 span{
+	font-size: 16px;
+}
+.connect_set h3.mb-0{
+	display: flex;
+}
+.connect_set .logotp{
+	margin-right: 10px;
+	display: block;
+	width: 20px;
+	min-height: 20px;
+	/*height: 100%;*/
+	background-size: 100%;
+	background-image: url('/template/admin/images/ext/connect.svg');
+    background-repeat:no-repeat;
+    background-position: center center;
+}
+
+.connect_set .tab{
+	margin-left: 18px;
+}
+
+.connect_set .row-line{
+	display: flex;
+	flex-wrap: wrap;
+}
+
+
+.connect_set .load-line {
+	display: none;
+  	width: 100%;
+  	height: 1px;
+  	background:linear-gradient(#000 0 0) center/20px 100% no-repeat;
+  	animation: load-line 1.5s linear infinite alternate;
+}
+
+@keyframes load-line {
+  	to {
+  		background-size: 100% 100%
+  	}
+}
+

@@ -1,0 +1,74 @@
+AddDefaultCharset utf-8
+
+#Order Deny,Allow
+#Deny from all
+#Allow from 128.69.41.160
+
+#Options +FollowSymlinks
+Options -Indexes 
+
+<IfModule mod_security.c>
+  SecFilterEngine Off
+  SecFilterScanPOST Off
+</IfModule>
+
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L,QSA]
+
+#От XSS-атак, расскомментируйте и проверьте работу сервера
+#RewriteCond %{REQUEST_URI} /(load|tmp|images)/($|(.*\..?(php|cgi|exe|asp|pl|.html|py|jsp|do))) [NC]
+#RewriteRule ^.*$ - [R=404,L]
+
+<IfModule mod_headers.c>
+    Header set X-Frame-Options: SAMEORIGIN
+    Header set X-Content-Type-Options: nosniff
+    Header edit Set-Cookie ^(.*)$ "$1; HttpOnly; SameSite=Lax"
+</IfModule>
+
+<IfModule mod_php5.c>
+    php_value upload_max_filesize 16M
+    php_value post_max_size 16M
+</IfModule>
+
+
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 16M
+    php_value post_max_size 16M
+</IfModule>
+
+# Склейка домена www направляет на без wwww
+#RewriteCond %{HTTP_HOST} ^www.site\.ru$ [NC]
+#RewriteRule ^(.*)$ https://site.ru/$1 [R=301,L]
+
+# Редирект с index.php на главную
+#RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
+#RewriteRule ^index\.php$ https://site.ru/$1 [R=301,L]
+
+# Редирект с index.html на главную
+#RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
+#RewriteRule ^index\.php$ https://site.ru/$1 [R=301,L]
+
+# Реирект с index на главную
+#RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\ HTTP/
+#RewriteRule ^index\.php$ https://site.ru/$1 [R=301,L]
+
+# Редирект со слеша на без слеша
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteCond %{REQUEST_URI} ^(.+)/$
+# RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# Редирект со слеша на без слеша вариант 2
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# Ускорение 
+#<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+#SetOutputFilter DEFLATE
+#ExpiresActive on
+#ExpiresDefault "access plus 1 year"
+#Header set Cache-Control "max-age=31536000, private, must-revalidate"
+#</FilesMatch>
+#FileETag MTime Size

@@ -1,0 +1,2 @@
+ALTER TABLE `#PREFIX#training_task` ADD `stop_lesson_vastness` TINYINT(1) NOT NULL DEFAULT 1 COMMENT 'обширнось действия стоп-урока (раздел,тренинг)';
+ALTER TABLE `#PREFIX#training_test` CHANGE `show_questions_count` `show_questions_count` SMALLINT(4);

@@ -1,0 +1,1 @@
+INSERT IGNORE INTO `hda_extensions` (`name`, `title`, `type`, `enable`, `params`, `link`, `version`, `update_url`) VALUES ('simple', 'Simple', 'template', 0, '{"params":""}','simplesettings','1.0',NULL);

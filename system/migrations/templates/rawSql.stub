@@ -1,0 +1,18 @@
+<?php
+
+use \Migrations\Schema;
+use \Migrations\Migration;
+
+class [MIGRATION_NAME] extends Migration {
+
+    public $table = "[TABLE-NAME]";
+
+    public function up() {
+        Schema::rawSql($this->table, "");
+    }
+
+    public function down() {
+        //Schema::rawSql($this->table, "");
+    }
+
+}

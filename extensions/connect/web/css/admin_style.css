@@ -1,0 +1,40 @@
+.connect_set{
+	padding: 10px 20px;
+}
+
+.connect_set .uk-modal-dialog{
+	padding: 0;
+}
+
+.connect_set .uk-close{
+	color: #D8DAE7; 
+	background: none;
+	border-color: transparent;
+}
+.connect_set .close_bar{
+	padding: 5px 0 0;
+	justify-content: space-between;
+}
+.connect_set .close_bar li{
+	align-items: center;
+}
+.connect_set .logotp{
+	margin-right: 10px;
+	display: block;
+	width: 30px;
+	min-height: 30px;
+	height: 100%;
+	background-size: 100%;
+	background-image: url('/template/admin/images/ext/connect.svg');
+    background-repeat:no-repeat;
+    background-position: center center;
+}
+
+
+.connect_set .save_bar{
+	padding: 10px 0;
+	justify-content: center;
+}
+.connect_set .button-green{
+	height: auto;
+}

@@ -1,0 +1,252 @@
+.loading {
+    animation: loading 0.8s infinite ease-in-out;
+}
+
+@keyframes loading {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@keyframes loadingColor {
+    0% {
+        background: #6BD069;
+    }
+    50% {
+        background: #14b111;
+    }
+    100% {
+        background: #6BD069;
+    }
+}
+
+.no-margin-bottom {
+    margin-bottom: 0 !important;
+}
+.margin-30-bottom {
+    margin-bottom: 30px !important;
+}
+.select-wrap .select2-selection__rendered:before, .select-wrap .select2-selection__rendered:after {
+    content: none !important;
+}
+
+/* Размер бекапа */
+
+.backupSize-BlockWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.backupSizeWrapper {
+    width: 80%;
+    margin-left: auto;
+    background-color: rgba(55, 58, 76, 0.03);
+    padding: 24px;
+    border-radius: 10px;
+}
+.backupSize-item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    white-space: nowrap;
+    margin-bottom: 8px;
+}
+.texticonwrapper {
+    display: flex;
+    align-items: center;
+}
+.texticonwrapper img {
+    margin-right: 5px;
+}
+
+/* Прогресс задания */
+.progress_text {
+    margin-top: 24px;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #E6E8F0;
+    border-radius: 10px;
+}
+.progress .bar {
+    height: 10px;
+    width: 0;
+    background: #6BD069;
+    transition: width 1s ease-out;
+    border-radius: 10px;
+    animation: loadingColor 2s infinite ease-in-out;
+}
+.backup_messages_wrapper {
+    background-color: #FFF0B8;
+    margin-top: 20px;
+    padding: 30px;
+    border-radius: 10px;
+}
+.messages {
+    font-style: italic;
+}
+.message {
+    margin-top: 8px;
+    word-break: break-word;
+}
+.backup_errors_wrapper {
+    background-color: #FCEDF0;
+    margin-top: 24px;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+/* Задание */
+.course-list-item {
+    padding: 15px 30px;
+}
+.backupTask_title {
+    margin-bottom: -10px !important;
+}
+.backupTask_title div {
+    margin-left: 17px;
+}
+.backupTask_title .storages img {
+    width: 24px !important;
+    height: 24px !important;
+    margin-right: 8px;
+}
+.backupTask_methods span {
+    margin-right: 20px;
+}
+.extension-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.extension-status a:last-child {
+    margin-top: 10px;
+}
+.course-list-item__center {
+    width: 62%;
+}
+.button-red {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.button-red:hover {
+    background: #E04265;
+    color: #fff;
+}
+.backuptaskimg {
+    width: 64px;
+    max-width: 64px !important;
+}
+.backupTaskmethod {
+    display: flex;
+    align-items: center;
+}
+.backupTaskmethod i, .backupTaskmethod img {
+    font-size: 16px;
+    width: 16px;
+}
+.course-list-item__data > *:last-child {
+    margin: 0 0 0 20px;
+}
+.extension-status .button-red {
+    border-radius: 25px;
+}
+.extension-status .button-red img {
+    margin-right: 5px;
+}
+.extension-status > *:last-child {
+    font-size: 12px;
+}
+.course-list-item + .course-list-item {
+    margin-top: 15px;
+}
+.iscopy.course-list-item + .course-list-item {
+    margin-top: 30px;
+}
+.nothavecopies {
+    width: 100%;
+}
+.iscopy .course-list-item__left {
+    width: auto !important;
+    min-width: auto !important;
+    margin-right: 30px !important;
+    margin-top: 0 !important;
+}
+.iscopy .extension-status {
+    margin-left: 40px;
+}
+.size {
+    margin-left: 20px !important;
+}
+.backuprestorewrapper {
+    padding: 40px;
+}
+.backuprestorewrapper .backupTask_title {
+    padding-top: 4px;
+}
+.backuprestorewrapper .course-list-item__left {
+    margin-top: 0;
+}
+
+/* Алерты */
+.block_fullscreen {
+    position: fixed; width: 100%; height: 100%; left: 0; top: 0; backdrop-filter: brightness(0.5); z-index: 99999;
+}
+.inner_block_task_result, .inner_block_task_alert {
+    width: 668px; background-color: white; padding: 32px; border-radius: 10px; word-break: break-word;
+}
+.hidden {
+    display: none !important;
+}
+.inner_block_task_alert h1 {
+    text-align: center;
+    margin-bottom: 16px;
+}
+.inner_block_task_alert .btnwrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+#restore_form .btnwrapper {
+    margin-top: 33px;
+}
+.inner_block_task_alert .btnwrapper .button-red{
+    width: auto;
+}
+
+.bucket_type_restore {
+    margin-top: 8px;
+}
+.bucket_type_restore .custom-radio {
+    margin-bottom: 8px;
+}
+
+.drop_down a{
+    font-size: 12px;
+}
+.storagewrapper {
+    margin-bottom: 30px !important;
+    margin-top: 0 !important;
+    border-radius: 10px;
+}
+.storagewrapper .course-list-item__left {
+    width: auto !important;
+    min-width: auto;
+    margin-right: 8px;
+}
+.storagewrapper .extension-status {
+    margin-left: auto;
+}

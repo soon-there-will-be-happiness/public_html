@@ -1,0 +1,162 @@
+.segment-filter .select-wrap {
+    background-color: #fff;
+}
+
+.segment-filter-left .select-wrap {
+    max-width: 372px;
+}
+.segment-filter #add_conditions {
+    margin-top: 20px;
+}
+.segment-filter .condition-wrap {
+    padding: 25px;
+    background-color: #F7F8FA;
+    border: 1px dashed #FFCA10;
+    border-radius: 10px;
+    max-width: 372px;
+}
+.segment-filter .condition-wrap + .condition-wrap, .segment-filter .condition-wrap + .conditions-group {
+    margin-top: 20px;
+}
+.segment-filter .condition-wrap[data-invert="1"] {
+    position: relative;
+}
+.segment-filter .condition-wrap[data-invert="1"]:before {
+    content: 'не';
+    position: absolute;
+    background: #F7F8FA;
+    left: 12px;
+    text-align: center;
+    top: 7px;
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+.segment-filter .condition-wrap.active, .conditions-group.active {
+    background-color: #ffffe0;
+}
+.segment-filter .logic-buttons-wrap {
+    /*opacity: 0;*/
+    text-align: right;
+    margin-bottom: 15px;
+}
+.segment-filter_conditions .input {
+
+}
+.segment-filter .conditions-group.active > .logic-buttons-wrap,
+.segment-filter .condition-wrap.active > .logic-buttons-wrap {
+    opacity: 1;
+}
+.segment-filter .logic-button {
+    margin-left: 10px;
+    padding: 5px;
+    background-color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.segment-filter .conditions-group > .logic-buttons-wrap .logic-button {
+    background-color: #F7F8FA;
+}
+.segment-filter .logic-button[data-logic_type="del"] {
+    position: relative;
+    display: inline-block;
+    width: 22px;
+    height: 100%;
+}
+.segment-filter .logic-button[data-logic_type="del"]:after {
+    content: '';
+    position: absolute;
+    top: 11px;
+    right: 7px;
+    display: block;
+    width: 8px;
+    height: 8px;
+    background: url('../images/icons/icon-remove.svg') no-repeat center;
+    background-size: contain;
+}
+.segment-filter .conditions-group {
+    position: relative;
+    border: 1px solid #D8DAE7;
+    padding: 20px 40px 20px 30px;
+}
+.segment-filter .conditions-group .logic-button-change, .segment-filter .conditions-group[data-invert="1"]:after {
+    position: absolute;
+    background: #F7F8FA;
+    left: -20px;
+    text-align: center;
+    top: 50%;
+    width: 40px;
+    height: 30px;
+    padding-top: 5px;
+    margin-top: -15px;
+    border-radius: 5px;
+}
+.segment-filter .conditions-group[data-invert="1"]:after {
+    content: 'не';
+    top: 14px;
+    left: -1px;
+}
+.segment-filter .conditions-group + .conditions-group, .segment-filter .conditions-group + .condition-wrap {
+    margin-top: 20px;
+}
+.segment-filter .del-segment {
+    margin-left: 10px;
+}
+body .segment-filter .inline-block {
+    margin-top: 0;
+    display: inline-block;
+    width: calc(50% - 9px)!important;
+}
+.segment-filter .inline-block:nth-child(2) {
+    margin-left: 18px;
+}
+.condition-top {
+    width: 100%;
+}
+.condition-top + .condition-top {
+    margin-top: 10px;
+}
+.segment-filter .condition div {
+    width: 100%;
+}
+.segment-filter .condition .depended-elements div + div {
+    margin-top: 10px;
+}
+
+.segment-filter .depended-elements {
+    display: flex;
+}
+.segment-filter .depend-block:not(.hidden) + .depend-block:not(.hidden) {
+    margin-left: 18px;
+}
+.segment-filter .datetimepicker-wrap {
+    background: #fff;
+}
+.segment-filter .custom-radio-wrap {
+    padding-left: 1px;
+}
+.segment-filter .save-segment, .del-segment, .logic-button-change {
+    text-decoration: none;
+}
+.segment-filter .additional-info {
+    margin-top: 20px;
+    font-style: italic;
+}
+.segment-filter .groups-elements {
+    display: flex;
+}
+.segment-filter .groups-elements div + div {
+    margin-left: 18px;
+}
+.add_action {
+    display: flex;
+    align-items: center;
+}
+.add_action:before {
+    content: '';
+    display: block;
+    width: 17px;
+    height: 17px;
+    margin-right: 10px;
+    background: url(../images/icons/add.svg) no-repeat;
+    background-size: contain;
+}

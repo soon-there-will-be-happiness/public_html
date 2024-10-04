@@ -1,0 +1,20 @@
+<?php
+
+use \Migrations\Schema;
+use \Migrations\Migration;
+
+class [MIGRATION_NAME] extends Migration {
+
+    public $table = "[TABLE-NAME]";
+
+    public function up()
+    {
+        Schema::table($this->table, "");
+    }
+
+    public function down() {
+        //Schema::dropColumnIfExists($this->table, "");
+        //Schema::table($this->table, "");
+    }
+
+}

@@ -1,0 +1,18 @@
+User-Agent: *
+Disallow: /tilda/form*
+Disallow: /tilda/rec*
+Disallow: /tilda/click*
+Disallow: /tilda/scroll*
+Disallow: /tilda/popup*
+Disallow: /tilda/cart*
+Disallow: /tilda/product*
+Disallow: /tilda/event*
+Disallow: /*_escaped_fragment_*
+Disallow: /members/login*
+Disallow: /members/signup*
+Disallow:
+
+
+Sitemap: https://youngschool.ru/sitemap.xml
+Sitemap: https://youngschool.ru/sitemap-store.xml
+Host: https://youngschool.ru

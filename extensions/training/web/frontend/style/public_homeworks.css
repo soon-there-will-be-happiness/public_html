@@ -1,0 +1,81 @@
+.public-homework-list {
+    padding-bottom: 10px;
+}
+.public-homework-list .sub-answers-wrap {
+    margin-top: 15px;
+}
+.public-homework-list .btn-show-sub-answers {
+    font-size: 14px;
+    display: inline-block;
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #D8DAE7;
+    color: #373A4C;
+    text-decoration: none;
+}
+.public-homework-list .btn-show-public-homeworks-wrap {
+    margin-top: 20px;
+}
+.public-homework-list .btn-show-public-homeworks {
+    display: inline-block;
+    width: 100%;
+    padding: 8px 85px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #D8DAE7;
+    color: #373A4C;
+    text-decoration: none;
+}
+.public-homework-list .answer_item__right_top {
+    display: flex;
+    align-items: center;
+}
+.public-homework-list .homework_status {
+    margin-left: auto;
+    margin-bottom: 20px;
+}
+.public-homework-list .homework_status .less_complete {
+    position: static;
+}
+.public-homework-list .add-user-comment-wrap {
+    position: relative;
+}
+.public-homework-list .add-user-comment {
+    margin-left: 84px;
+    margin-top: 15px;
+}
+.public-homework-list .public-homework + .public-homework {
+    margin-top: 10px;
+}
+.public-homework-list .answer_item [data-user_type="curator"] .user_name_text {
+    position: relative;
+    display: inline-block;
+    width: auto;
+    padding-right: 19px;
+    margin-right: 15px;
+}
+.public-homework-list .answer_item [data-user_type="curator"] .user_name_text:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: 0;
+    width: 13px;
+    height: 15px;
+    background: url(../images/icon-1.svg) no-repeat center;
+    background-size: cover;
+}
+.public-homework-list .answer_item + .btn-show-sub-answers {
+    margin-top: 15px;
+}
+.answer_list.public-homework + .answer_list.public-homework {
+    margin-top: 20px;
+}
+.public-homework-list .answer_list.public-homework {
+    padding: 1px 0 0;
+}
+.public-homework-list .reply_btn {
+    font-size: 14px;
+}

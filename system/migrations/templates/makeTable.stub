@@ -1,0 +1,19 @@
+<?php
+
+use \Migrations\Schema;
+use \Migrations\Migration;
+
+class [MIGRATION_NAME] extends Migration {
+
+    public $table = "[TABLE-NAME]";
+
+    public function up()
+    {
+        Schema::create($this->table, "", "");
+    }
+
+    public function down() {
+        Schema::dropIfExists($this->table);
+    }
+
+}

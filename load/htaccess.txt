@@ -1,0 +1,5 @@
+RewriteEngine on  
+# Скачивание только с вашего домена
+RewriteCond %{HTTP_REFERER} !^http://vash-site.ru/ [nc]
+# Куда направить если будет попытка скачать извне и для каких форматов файлов
+RewriteRule .*.(djvu|pdf|rar|zip|mp3|wmv|flv|avi|wma)$ http://vash-site.ru/oops.html [nc]
