@@ -282,6 +282,9 @@ only screen and (max-device-width:854px) {
     .footer-inner > div + div{
         margin-top: 10px;
     }
+    .order_link_input {
+        width: 200px !important;
+    }
 }
 
 

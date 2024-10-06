@@ -66,6 +66,14 @@
         $last_month_pay = Aff::getLastMonthPay($userId, 'aff', $first_day_past_month, $last_day_pay_month); // заработано за последий месяц?>
 
         <h4><?=System::Lang('YOUR_ID');?> <?=$userId;?></h4>
+        <?php
+        $fill_req = Aff::checkAllPartnerReq($userId);
+        if ($fill_req): ?> 
+            <h4>
+                <?= System::Lang('YOUR_OFERTA'); ?> 
+                <a data-uk-lightbox data-lightbox-type="iframe" class="oferta" href="/oferta" target="_blank"> оферта</a>
+            </h4>
+        <?php endif; ?>
         <h4><?=System::Lang('TOTAL_EARNED');?> <?if($total['SUM(summ)'] > 0) echo $total['SUM(summ)']; else echo 0;?> <?=$this->settings['currency'];?></h4>
         <p title="с <?=date("d.m.Y H:i:s", $first_day_past_month);?> по <?=date("d.m.Y H:i:s", $last_day_pay_month);?>"><?=System::Lang('EANED_IN_LAST_YEAR');?> <?if(!empty($last_month_pay['SUM(summ)'])) echo $last_month_pay['SUM(summ)']; else echo 0;?> <?=$this->settings['currency'];?></p>
 

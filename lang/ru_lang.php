@@ -217,6 +217,7 @@ $lang = array(
 'IN_PROCESS' => 'В процессе',
 'EARNED' => 'Заработано',
 'YOUR_ID' => 'Ваш ID:',
+'YOUR_OFERTA' => 'Ваша оферта:',
 'CREATION' => 'Создан',
 'POSTBACKS' => 'Postbacks',
 'USER_REG' => 'Регистрация юзера',

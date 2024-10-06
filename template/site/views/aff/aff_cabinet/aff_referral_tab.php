@@ -1,10 +1,5 @@
 <?php defined('BILLINGMASTER') or die;?>
 <!-- 2 Партнёрские ссылки -->
-<style>
-    input.order_link_input {
-    width: 200px !important;
-}
-</style>
 <div>
     <div class="table-responsive">
         <?php if(False & $params['params']['aff_2_level'] > 0):?>

@@ -3867,7 +3867,7 @@ if ($partner_id != null) {
                                     <input class="input-field" type="tel" id="phone_inp" name="phone" maxlength="12" placeholder="912 333-33-33" required>
                    
                                     <?if(Product::isRequestTelegram($product, $price, $this->settings)):?>
-                                    <label for="telegram">Телеграм:</label>
+                                    <label for="telegram">Укажи свой телеграм через @:</label>
                                     <input class="input-field" type="text" id="telegram" name="telegram" <?if($this->settings['show_telegram_nick'] == 3) echo
                                     'required';?>>
                                     <?endif;?>
