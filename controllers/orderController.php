@@ -179,6 +179,7 @@ class orderController extends baseController {
             $param = isset($_COOKIE["$cookie"]) ? htmlentities($_COOKIE["$cookie"]) : htmlentities($_SESSION["$cookie"]);
             $ip = System::getUserIp();
             $flow = isset($_POST['flows']) ? intval($_POST['flows']) : 0;
+            $not_me = isset($_POST['not-me']) ? htmlspecialchars($_POST['not-me']) : false;
 
             // ПАРТНЁРКА ПРИ ЗАКАЗЕ
             $partner_id = null;
@@ -254,6 +255,9 @@ class orderController extends baseController {
                 }
 
                 $order = Order::getOrder($add_order_id);
+                if($not_me){
+                    ToChild::addToChild($order['product_id'],$order['order_id'],$order['client_email']);
+                }
                 $domain = Helper::getDomain();
                 $expire = $this->settings['order_life_time'] * 86400 + $date;
                 setcookie("cl_eml", $user_email, $expire, '/', $domain);
@@ -278,7 +282,8 @@ class orderController extends baseController {
                         }
                         // +KEMSTAT-8
                         $product = Product::getProductDataForSendOrder($order['product_id']);
-                        Email::sendMessageAccountStatement($email, $order['order_id'], $order['client_name'], $surname?$surname:'', $order['product_id'], $product['product_name'], $order['client_email'], $order['client_phone'], $order['order_date'], $nds_price['price']);
+                        Email::sendMessageAccountStatement($email,
+                        $order['order_id'],$order['client_name'], $order['product_id'], $order['client_email'], $order['client_phone'], $order['order_date'], $nds_price['price']);
                         // -KEMSTAT-8
                         
                     }
@@ -723,9 +728,8 @@ class orderController extends baseController {
 
 		$order_date = intval($order_date);
 		// Получить данные заказа
-		// +KEMSTAT-30
-        $order = Order::getOrderData($order_date);//, 0, 1);
-        // -KEMSTAT-30
+        $order = Order::getOrderData($order_date, 0, 1);
+        
         if (!$order) {
             ErrorPage::returnError('Заказ не найден');
         }
