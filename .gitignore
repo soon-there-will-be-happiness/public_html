@@ -2,4 +2,5 @@
 /tmp/*.zip
 /tmp/
 /config/config.php
+/vendor/
 
