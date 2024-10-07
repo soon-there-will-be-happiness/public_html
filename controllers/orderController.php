@@ -283,8 +283,7 @@ class orderController extends baseController {
                         // +KEMSTAT-8
                         $product = Product::getProductDataForSendOrder($order['product_id']);
                         Email::sendMessageAccountStatement($email, $order['order_id'], $order['client_name'], $surname?$surname:'', $order['product_id'], $product['product_name'], $order['client_email'], $order['client_phone'], $order['order_date'], $nds_price['price'],$to_child!=false);
-                           // -KEMSTAT-8);
-                        // -KEMSTAT-8
+                        // -KEMSTAT-8);
                     }
                 }
 
@@ -727,9 +726,8 @@ class orderController extends baseController {
 
 		$order_date = intval($order_date);
 		// Получить данные заказа
-		// +KEMSTAT-30
-        $order = Order::getOrderData($order_date);//, 0, 1);
-        // -KEMSTAT-30
+        $order = Order::getOrderData($order_date, 0, 1);
+        
         if (!$order) {
             ErrorPage::returnError('Заказ не найден');
         }
