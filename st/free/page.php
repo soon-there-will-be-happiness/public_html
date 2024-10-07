@@ -66,18 +66,12 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
             }
         }</script>
 <script src="js/jquery-1.10.2.min.js" charset="utf-8" onerror="this.loaderr='y';">
-</script> <script src="js/tilda-scripts-3.0.min.js" charset="utf-8" defer onerror="this.loaderr='y';">
-</script>
-<script src="js/tilda-blocks-page33844683.min.js?t=1725305517" charset="utf-8" async onerror="this.loaderr='y';">
-</script>
-<script src="js/lazyload-1.3.min.export.js" charset="utf-8" async onerror="this.loaderr='y';">
-</script>
-<script src="js/tilda-animation-2.0.min.js" charset="utf-8" async onerror="this.loaderr='y';">
-</script>
-<script src="js/tilda-cover-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';">
-</script>
-<script src="js/tilda-events-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';">
-</script>
+</script> <script src="js/tilda-scripts-3.0.min.js" charset="utf-8" defer onerror="this.loaderr='y';"></script>
+<script src="js/tilda-blocks-page33844683.min.js?t=1725305517" charset="utf-8" async onerror="this.loaderr='y';"></script>
+<script src="js/lazyload-1.3.min.export.js" charset="utf-8" async onerror="this.loaderr='y';"></script>
+<script src="js/tilda-animation-2.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script>
+<script src="js/tilda-cover-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script>
+<script src="js/tilda-events-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script>
     <!-- Facebook Pixel Code -->
     <script>
         !function(f,b,e,v,n,t,s)
