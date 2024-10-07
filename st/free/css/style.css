@@ -232,3 +232,40 @@
   margin-left: 6px;
 }
 
+
+@media (max-width: 630px) {
+    p {
+        margin-bottom: -10px;
+        padding-bottom: -10px;
+    }
+    .form label {
+        font-size: 16px;
+    }
+    .t_title {
+        font-size: 42px !important; 
+        line-height: 56px !important;
+    }
+    .title {
+        font-size: 42px !important;
+    }
+}
+
+@media (max-width: 415px) {
+    #promo {
+        margin-top: 0px !important;
+        margin-bottom: -10 !important;
+    }
+    .popup_content {
+        padding: 30px 30px 0px;
+    }
+    .t_title {
+        font-size: 36px !important; 
+        line-height: 40px !important;
+    }
+    .title {
+        font-size: 36px !important;
+    }
+    .t181__wrapper {
+        padding-top: 0 !important;
+    }
+}

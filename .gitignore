@@ -1,3 +1,5 @@
 /load/backups/*.zip
 /tmp/*.zip
+/tmp/
+/config/config.php
 

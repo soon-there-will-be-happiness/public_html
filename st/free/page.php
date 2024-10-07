@@ -587,7 +587,7 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                 document.addEventListener('DOMContentLoaded', t_setvisRecs);
             }
         })();</script> -->
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/style.css?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/st/free/css/style.css'); ?>">
 </head>
 <body class="t-body" style="margin:0;">
     
@@ -608,9 +608,9 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                             <div data-hook-content="covercontent">
 <div class="t181__wrapper">
 <div class="t181__title t-title t-title_md" field="title">
-<div style="font-size: 62px; line-height: 76px;" data-customstyle="yes">
+<div class="t_title" style="font-size: 62px; line-height: 76px;" data-customstyle="yes">
 <p style="text-align: left;">
-<strong style="font-family: Arial; font-size: 62px;">Попробуй на практике бесплатно урок по профориентации программы "Кем Стать?"</strong>
+<strong class='title' style="font-family: Arial; font-size: 62px;">Попробуй на практике бесплатно урок по профориентации программы "Кем Стать?"</strong>
 <strong style="font-family: Arial;"> </strong>
 </p>
 </div>
@@ -679,12 +679,12 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                     </div>
 
 
-                                    <div class="not-me">
+                                    <!-- <div class="not-me">
                                         <input type="checkbox" id="agreement" name="not-me">
                                         <label>
                                             Курс буду проходить не я
                                         </label>
-                                    </div>
+                                    </div> -->
                                     <label>
                                         <input type="checkbox" id="agreement" name="agreement" required> 
                                         <!--politika-->

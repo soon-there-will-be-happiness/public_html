@@ -3894,12 +3894,12 @@ if ($partner_id != null) {
                                     </div>
 
 
-                                    <div class="not-me">
+                                    <!-- <div class="not-me">
                                         <input type="checkbox" id="agreement" name="not-me">
                                         <label>
                                             Курс буду проходить не я
                                         </label>
-                                    </div>
+                                    </div> -->
                                     <label>
                                         <input type="checkbox" id="agreement" name="agreement" required> 
                                         <!--politika-->
