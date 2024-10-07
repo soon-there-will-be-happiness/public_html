@@ -135,7 +135,7 @@ class Email {
 
 
     // ОТПРАВКА ДОКУМЕНТА СТРОГОЙ ОТЧЁТНОСТИ
-    public static function SendStrictReport($client_name, $client_email, $order_date, $payment_date, $summ, $setting, $order_items, $surname = null)
+    public static function SendStrictReport($client_name, $client_email, $order_date, $payment_date, $summ, $setting, $order_items, $surname = null,$send_child=false,$childlink=null)
     {
         $ticket = unserialize(base64_decode($setting['org_data']));
         $admin_email = $setting['admin_email'];
@@ -168,7 +168,8 @@ class Email {
             '[PHONE]' => $ticket['phone'],
             '[ORDER_ITEMS]' => $order_items,
         );
-
+        if($send_child)
+        $letter.=$setting['script_url'].'/lk/registration?o='.$childlink;
         $text = strtr($letter, $replace);
 
         return self::sender($client_email, $subject, $text, $setting, $setting['sender_name'], $setting['sender_email']);
@@ -676,6 +677,8 @@ class Email {
 
     // ПИСЬМО КЛИЕНТУ О ЗАКАЗЕ
     // ПРИНИМАЕТ ТЕКСТ ПИСЬМА, ИМЯ КЛИЕНТА, НОМЕР ЗАКАЗА
+    //    public static function SendOrder($order_date, $letter, $product, $name, $email, $summ, $pincode, $addsubject = null, $surname = false, $patronymic = false,$to_child=false,$childlink=null)
+
     public static function SendOrder($order_date, $letter, $product, $name, $email, $summ, $pincode, $addsubject = null, $surname = false, $patronymic = false)
     {
         $setting = System::getSetting();
@@ -708,7 +711,8 @@ class Email {
 
         $text = strtr($letter, $replace);
         $text = User::replaceAuthLinkInText($text, $prelink);//Ссылка автологин с редиректом
-
+/*     if($to_child==true)
+        {  $text.=$setting['script_url'].'/lk/registration?o='.$childlink;} */
         if ($addsubject != null) {
             $subject = $addsubject;
         } else {
@@ -1429,7 +1433,7 @@ class Email {
         return $result->execute();
     }
 
-    public static function sendMessageAccountStatement($email, $order_id, $client_name, $client_surmane, $product_id, $product_name, $client_email, $client_phone, $order_date, $price) {
+    public static function sendMessageAccountStatement($email, $order_id, $client_name, $client_surmane, $product_id, $product_name, $client_email, $client_phone, $order_date, $price,$to_child=false) {
         $setting = System::getSetting();
         $letter = System::Lang('ACCOUNT_STATEMENT_NOTIFY_EMAIL');
         $replace = array (
@@ -1445,7 +1449,8 @@ class Email {
         );
         $text = strtr($letter, $replace);
         $subject = System::Lang('Сформирован заказ');
-
+        if($to_child==true)
+        $text.=$setting['script_url'].'/lk/registration?o='.$order_id;
         return self::sender($email, $subject, $text, $setting, $setting['sender_email'], $email);
     }
 }

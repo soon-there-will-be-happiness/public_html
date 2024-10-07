@@ -2,8 +2,7 @@
 
 
 class userController extends baseController {
-    
-    
+
     public function actionLogin()
     {
         if ($this->settings['enable_cabinet'] == 0 && $this->settings['enable_aff'] == 0) {
@@ -72,8 +71,7 @@ class userController extends baseController {
         require_once ("{$this->template_path}/main.php");
         return true;
     }
-    
-    
+
     public function actionForgot ()
     {
         if ($this->settings['enable_cabinet'] == 0 && $this->settings['enable_aff'] == 0) {
@@ -136,9 +134,7 @@ class userController extends baseController {
         }
         return true;
     }
-    
-    
-    
+
     public function actionChangepass() {
         if ($this->settings['enable_cabinet'] == 0 && $this->settings['enable_aff'] == 0) {
             ErrorPage::return404();
@@ -272,7 +268,7 @@ class userController extends baseController {
             $phone = htmlentities($_POST['phone']);
             $pass = htmlentities($_POST['pass']);
             $confirm_pass = htmlentities($_POST['confirm_pass']);
-
+            $order_id=  htmlentities($_POST['order_id']);
             if ($email && $name && $phone && $pass && $confirm_pass) {
                 if ($pass == $confirm_pass) {
                     if (strlen($pass) >= 6) {
@@ -283,12 +279,30 @@ class userController extends baseController {
                             $hash = password_hash($pass, PASSWORD_DEFAULT);
                             $reg_date = time();
                             $user_param = "$reg_date;0;;";
+                            if($order_id){
+                                $is_child=ToChild::searchByOrderId($order_id);
+                                if(!$is_child&&$is_child['status']=false){
+                                    $order=Order::getOrder($order_id);
+                                $user = User::AddNewClient($name, $email, $phone,
+                                $order['client_city'], $order['client_address'], $order['client_index'], 'user',true,
+                    $reg_date, 'custom', $order['visit_param'],0, $hash,$pass,
+                    false,
+                    $this->settings['register_letter'], 0, null, $order['partner_id'], $surname, $patronymic,
+                    null, null, null, null, true
+                );
+                ToChild::close($order_id,$email);
+
+            }else{
+                User::addError('');
+            }
+        }else{
+
 
                             $user = User::AddNewClient($name, $email, $phone, null, null, null,
                                 'user',  null, $reg_date, 'custom', $user_param, 0, $hash,
                                 $pass, false, $this->settings['register_letter'], 0, null, null,
                                 $surname, $patronymic, null, null, null, null, true
-                            );
+                            );}
 
                             if ($user) {
                                 if (isset($_SESSION['confirm_phone'])) {

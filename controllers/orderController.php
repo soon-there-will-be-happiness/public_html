@@ -179,6 +179,7 @@ class orderController extends baseController {
             $param = isset($_COOKIE["$cookie"]) ? htmlentities($_COOKIE["$cookie"]) : htmlentities($_SESSION["$cookie"]);
             $ip = System::getUserIp();
             $flow = isset($_POST['flows']) ? intval($_POST['flows']) : 0;
+            $not_me = isset($_POST['not-me']) ? htmlspecialchars($_POST['not-me']) : false;
 
             // ПАРТНЁРКА ПРИ ЗАКАЗЕ
             $partner_id = null;
@@ -254,6 +255,9 @@ class orderController extends baseController {
                 }
 
                 $order = Order::getOrder($add_order_id);
+                if($not_me){
+                    ToChild::addToChild($order['product_id'],$order['order_id'],$order['client_email']);
+                }
                 $domain = Helper::getDomain();
                 $expire = $this->settings['order_life_time'] * 86400 + $date;
                 setcookie("cl_eml", $user_email, $expire, '/', $domain);
@@ -261,7 +265,6 @@ class orderController extends baseController {
                 $client = User::getUserDataByEmail($user_email, null); // получаем данные клиента, если он есть.
 
                 OrderTask::addTask($order['order_id'], OrderTask::STAGE_ACC_STAT); // добавление задач для крона по заказу
-
                 // Если есть куки с именем и емейлом
                 if (!isset($_COOKIE['emnam'])) {
                     $emnam = $user_email . '='.$name . '='.$phone;
@@ -276,14 +279,15 @@ class orderController extends baseController {
                         if ($email == "") {
                             continue;
                         }
+                        $to_child=ToChild::searchByOrderId($order['order_id']);
                         // +KEMSTAT-8
                         $product = Product::getProductDataForSendOrder($order['product_id']);
-                        Email::sendMessageAccountStatement($email, $order['order_id'], $order['client_name'], $surname?$surname:'', $order['product_id'], $product['product_name'], $order['client_email'], $order['client_phone'], $order['order_date'], $nds_price['price']);
+                        Email::sendMessageAccountStatement($email, $order['order_id'], $order['client_name'], $surname?$surname:'', $order['product_id'], $product['product_name'], $order['client_email'], $order['client_phone'], $order['order_date'], $nds_price['price'],$to_child!=false);
+                           // -KEMSTAT-8);
                         // -KEMSTAT-8
-                        
                     }
                 }
-            
+
                 // Если у продукта есть апселл
                 if ($product['upsell_1'] != 0) {
                     if ($product['type_id'] == 2) {
