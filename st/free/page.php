@@ -6,6 +6,7 @@ $price = Price::getFinalPrice(31);
 
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 ?>
+<?require_once ("{$this->layouts_path}/head.php");?>
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -17,7 +18,6 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="images/tild6331-6163-4462-b931-633838313032__-__resize__504x__heidi-sandstrom-1203.jpg" />
-<?require_once ("{$this->layouts_path}/head.php");?>
 <!-- Подключаем UIkit CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" />
 <!-- Подключаем UIkit JS -->
