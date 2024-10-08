@@ -180,7 +180,6 @@ class orderController extends baseController {
             $ip = System::getUserIp();
             $flow = isset($_POST['flows']) ? intval($_POST['flows']) : 0;
             $not_me = isset($_POST['not-me']) ? htmlspecialchars($_POST['not-me']) : false;
-
             // ПАРТНЁРКА ПРИ ЗАКАЗЕ
             $partner_id = null;
             if ($partner_id_promocode && $use_partner) {//если партнер из промокода и опция в акции "Начислять партнерские" включена
@@ -265,6 +264,7 @@ class orderController extends baseController {
                 $client = User::getUserDataByEmail($user_email, null); // получаем данные клиента, если он есть.
 
                 OrderTask::addTask($order['order_id'], OrderTask::STAGE_ACC_STAT); // добавление задач для крона по заказу
+
                 // Если есть куки с именем и емейлом
                 if (!isset($_COOKIE['emnam'])) {
                     $emnam = $user_email . '='.$name . '='.$phone;
@@ -282,11 +282,12 @@ class orderController extends baseController {
                         $to_child=ToChild::searchByOrderId($order['order_id']);
                         // +KEMSTAT-8
                         $product = Product::getProductDataForSendOrder($order['product_id']);
-                        Email::sendMessageAccountStatement($email, $order['order_id'], $order['client_name'], $surname?$surname:'', $order['product_id'], $product['product_name'], $order['client_email'], $order['client_phone'], $order['order_date'], $nds_price['price'],$to_child!=false);
-                        // -KEMSTAT-8);
+                        Email::sendMessageAccountStatement($email, $order['order_id'], $order['client_name'], $surname?$surname:'', $order['product_id'], $product['product_name'], $order['client_email'], $order['client_phone'], $order['order_date'], $nds_price['price'],  $to_child!=false);
+                        // -KEMSTAT-8
+                        
                     }
                 }
-
+            
                 // Если у продукта есть апселл
                 if ($product['upsell_1'] != 0) {
                     if ($product['type_id'] == 2) {
@@ -726,8 +727,9 @@ class orderController extends baseController {
 
 		$order_date = intval($order_date);
 		// Получить данные заказа
-        $order = Order::getOrderData($order_date, 0, 1);
-        
+		// +KEMSTAT-30
+        $order = Order::getOrderData($order_date);//, 0, 1);
+        // -KEMSTAT-30
         if (!$order) {
             ErrorPage::returnError('Заказ не найден');
         }

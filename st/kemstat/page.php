@@ -4,7 +4,7 @@
 <?php  defined('BILLINGMASTER') or die;  
 $product = Product::getProductById(28);
 $price = Price::getFinalPrice(28);
-
+$setting = System::getSetting();
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 if ($partner_id != null) {
 ?>
@@ -3843,7 +3843,7 @@ if ($partner_id != null) {
                                 <span class="close-btn">&times;</span>
                                 <p>Продукт: <?=$product['product_name'];?></p>
                                 <p>Стоимость: <?=$price['real_price']?></p>
-                                <form class="form" action="<?$setting['script_url'].'/buy/28'?>" method="POST"
+                                <form class="form" action="<?=$setting['script_url']?>/buy/28"method="POST"
                                         <?=$metriks;?> id="form_order_buy">
                                     <label for="first_name">Имя:</label>
                                     <input class="input-field" type="text" id="first_name" name="first_name" value="<?=$name?>" required>

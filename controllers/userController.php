@@ -2,7 +2,8 @@
 
 
 class userController extends baseController {
-
+    
+    
     public function actionLogin()
     {
         if ($this->settings['enable_cabinet'] == 0 && $this->settings['enable_aff'] == 0) {
@@ -71,7 +72,8 @@ class userController extends baseController {
         require_once ("{$this->template_path}/main.php");
         return true;
     }
-
+    
+    
     public function actionForgot ()
     {
         if ($this->settings['enable_cabinet'] == 0 && $this->settings['enable_aff'] == 0) {
@@ -134,7 +136,9 @@ class userController extends baseController {
         }
         return true;
     }
-
+    
+    
+    
     public function actionChangepass() {
         if ($this->settings['enable_cabinet'] == 0 && $this->settings['enable_aff'] == 0) {
             ErrorPage::return404();
@@ -337,6 +341,7 @@ class userController extends baseController {
         require_once ("{$this->template_path}/main.php");
         return true;
     }
+
 
 
     /**

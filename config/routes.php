@@ -57,11 +57,12 @@ return [
     // СТАТИЧНЫЕ СТРАНИЦЫ
     'page/([a-zA-Z0-9_-]+)' => 'site/page/$1',
     'politika' => 'site/politika',
-    'privacy' => 'site/privacy',
+    'privacy' => 'site/politika',
     'oferta' => 'site/oferta',
-    'st/kemstat/page' => 'site/popup',
     'st/free/page' => 'site/free',
+    'st/kemstat/page' => 'site/kemstat',
     'oferta?id=([0-9]+)' => 'site/oferta/$1',
+
 
     // РАССЫЛКА
     'responder/confirm/([0-9]+)' => 'responder/confirm/$1', // подтверждение подписки

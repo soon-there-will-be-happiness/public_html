@@ -3,10 +3,10 @@
 <?php  defined('BILLINGMASTER') or die;  
 $product = Product::getProductById(31);
 $price = Price::getFinalPrice(31);
+$setting = System::getSetting();
 $metriks = !empty($this->settings['yacounter']) || $this->settings['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
 $id=31;
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
-$setting = System::getSetting();
 ?>
 <head>
 <meta charset="utf-8" />
@@ -45,7 +45,7 @@ $setting = System::getSetting();
 <link rel="stylesheet" href="css/tilda-grid-3.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"/>
 <link rel="stylesheet" href="css/tilda-blocks-page33844683.min.css?t=1725305517" type="text/css" media="all" onerror="this.loaderr='y';" />
 <link rel="stylesheet" href="css/tilda-animation-2.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';" />
-<link rel="stylesheet" href="css/tilda-cover-1.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';" />
+<link rel="stylesheet" href="css/tilda-cover-1.0.min.css<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/st/free/css/tilda-cover-1.0.min.css');" type="text/css" media="all" onerror="this.loaderr='y';" />
 <script type="text/javascript">TildaFonts = ["427","429","433","435"];</script>
 <script type="text/javascript" src="js/tilda-fonts.min.js" charset="utf-8" onerror="this.loaderr='y';">
 </script>
@@ -630,7 +630,7 @@ $setting = System::getSetting();
         <span class="close-btn">&times;</span>
         <p>Продукт: <?=$product['product_name'];?></p>
         <p>Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
-        <form class="form" action="<?$setting['script_url'].'/buy/31'?>" method="POST"
+        <form class="form" action="<?=$setting['script_url']?>/buy/31" method="POST"
             <?=$metriks;?> id="form_order_buy">
             <label for="first_name">Имя:</label>
             <input class="input-field" type="text" id="first_name" name="name" value="<?=$name?>" required>
