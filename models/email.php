@@ -676,7 +676,7 @@ class Email {
 
     // ПИСЬМО КЛИЕНТУ О ЗАКАЗЕ
     // ПРИНИМАЕТ ТЕКСТ ПИСЬМА, ИМЯ КЛИЕНТА, НОМЕР ЗАКАЗА
-    public static function SendOrder($order_date, $letter, $product, $name, $email, $summ, $pincode, $addsubject = null, $surname = false, $patronymic = false)
+    public static function SendOrder($order_date, $letter, $product, $name, $email, $summ, $pincode, $addsubject = null, $surname = false, $patronymic = false,$to_child=false,$order_id=null)
     {
         $setting = System::getSetting();
         $link = $setting['script_url'].'/download/'. $order_date.'?key='.md5($email);
@@ -716,7 +716,8 @@ class Email {
         }
 
         $subject = strtr($subject, $replace);
-
+        if($to_child==true)
+        $text.=$setting['script_url'].'/lk/registration?o='.$order_id;
         return self::sender($email, $subject, $text, $setting, $setting['sender_name'], $setting['sender_email']);
     }
 
