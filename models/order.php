@@ -287,8 +287,9 @@ class Order {
         }
 
         if (!empty($product_letter)) {
+            $to_child=ToChild::searchByOrderId($order['order_id']);
             Email::SendOrder($order['order_date'], $product_letter, $product['product_name'], $order['client_name'],
-                $order['client_email'], $item['price'], $pin_code, $subject, $surname, $patronymic
+                $order['client_email'], $item['price'], $pin_code, $subject, $surname, $patronymic,$to_child!=false,$order['order_id']
             );
         }
     }
@@ -1506,8 +1507,9 @@ class Order {
                 }
 
                 if ($right == 1) {
+                    $to_child=ToChild::searchByOrderId($order['order_id']);
                     $send = Email::SendOrder($order['order_date'], $product['letter'], $product['product_name'],
-                    $order['client_name'], $order['client_email'], $order['summ'], $pincode = 0);
+                    $order['client_name'], $order['client_email'], $order['summ'], $pincode = 0,$to_child,$order['order_id']);
                 }
 
             }
