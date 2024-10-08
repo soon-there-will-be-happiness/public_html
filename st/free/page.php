@@ -6,6 +6,7 @@ $price = Price::getFinalPrice(31);
 $metriks = !empty($this->settings['yacounter']) || $this->settings['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
 $id=31;
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
+$setting = System::getSetting();
 ?>
 <head>
 <meta charset="utf-8" />
@@ -629,7 +630,7 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
         <span class="close-btn">&times;</span>
         <p>Продукт: <?=$product['product_name'];?></p>
         <p>Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
-        <form class="form" action="http://smdemo.ru/buy/31" method="POST"
+        <form class="form" action="<?$setting['script_url'].'/buy/31'?>" method="POST"
             <?=$metriks;?> id="form_order_buy">
             <label for="first_name">Имя:</label>
             <input class="input-field" type="text" id="first_name" name="name" value="<?=$name?>" required>
