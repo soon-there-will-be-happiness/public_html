@@ -45,7 +45,7 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 <link rel="stylesheet" href="css/tilda-grid-3.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"/>
 <link rel="stylesheet" href="css/tilda-blocks-page33844683.min.css?t=1725305517" type="text/css" media="all" onerror="this.loaderr='y';" />
 <link rel="stylesheet" href="css/tilda-animation-2.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';" />
-<link rel="stylesheet" href="css/tilda-cover-1.0.min.css<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/st/free/css/tilda-cover-1.0.min.css');" type="text/css" media="all" onerror="this.loaderr='y';" />
+<link rel="stylesheet" href="css/tilda-cover-1.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';" />
 <script type="text/javascript">TildaFonts = ["427","429","433","435"];</script>
 <script type="text/javascript" src="js/tilda-fonts.min.js" charset="utf-8" onerror="this.loaderr='y';">
 </script>
