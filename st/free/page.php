@@ -17,14 +17,12 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="images/tild6331-6163-4462-b931-633838313032__-__resize__504x__heidi-sandstrom-1203.jpg" />
-    <?require_once ("{$this->layouts_path}/head.php");?>
-    
-    <!-- Подключаем UIkit CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" />
-
-    <!-- Подключаем UIkit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script>
+<?require_once ("{$this->layouts_path}/head.php");?>
+<!-- Подключаем UIkit CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" />
+<!-- Подключаем UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script>
 <link rel="canonical" href="https://youngschool.ru/testlesson">
 <!--/metatextblock-->
 <meta name="format-detection" content="telephone=no" />
