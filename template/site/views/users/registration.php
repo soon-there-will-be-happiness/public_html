@@ -1,6 +1,6 @@
 <?defined('BILLINGMASTER') or die;
 $o= $_GET['o'];
-echo($o);
+
 $is_show_cpbutton = false;
 $call_password = System::CheckExtensension('callpassword', 1);
 if($call_password){
@@ -146,10 +146,10 @@ if ($custom_fields) {
                     </label>
                 </div>
             <?endif; ?>
-
+          <input type="hidden" name="order_id" value="<?=$o?>">
             <div class="form-line-submit">
                 <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
-                <input type="hidden" name="order_id" value="<?$o?>">
+      
                 <input class="btn-yellow-fz-16 font-bold button" type="submit" name="save" value="Зарегистрироваться">
             </div>
         </form>
