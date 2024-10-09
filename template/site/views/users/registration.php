@@ -1,5 +1,6 @@
 <?defined('BILLINGMASTER') or die;
 $o= $_GET['o'];
+echo($o);
 $is_show_cpbutton = false;
 $call_password = System::CheckExtensension('callpassword', 1);
 if($call_password){
