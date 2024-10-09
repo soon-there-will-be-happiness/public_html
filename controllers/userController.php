@@ -287,19 +287,49 @@ class userController extends baseController {
                                 $is_child=ToChild::searchByOrderId($order_id);
                                 if(!$is_child&&$is_child['status']=false){
                                     $order=Order::getOrder($order_id);
-                                $user = User::AddNewClient($name, $email, $phone,
-                                $order['client_city'], $order['client_address'], $order['client_index'], 'user',true,
-                    $reg_date, 'custom', $order['visit_param'],0, $hash,$pass,
-                    false,
-                    $this->settings['register_letter'], 0, null, $order['partner_id'], $surname, $patronymic,
-                    null, null, null, null, true
-                );
-                ToChild::close($order_id,$email);
+                                    $user = User::AddNewClient($name, $email, $phone,$order['client_city'], $order['client_address'], $order['client_index'], 'user',true,$reg_date, 'custom', $order['visit_param'],0, $hash,$pass,
+                                    false,$this->settings['register_letter'], 0, null, $order['partner_id'], $surname, $patronymic,
+                                    null, null, null, null, true);
+                                    ToChild::close($order_id,$email);
+                                    if ($user['channel_id'] != 0 && $user['channel_id'] != $order['channel_id']) {
+                                        // Обновление channel_id у заказа
+                                        Order::updateChannel_id($order['order_id'], $user['channel_id']);
+                                    }
+                                    $items = Order::getOrderItems($order['order_id']);
+                                    foreach($items as $item) {
+                                        $product = Product::getProductDataForSendOrder($item['product_id']);
+                                        if ($product['manager_letter'] != null) {
+                                            $manager_letter = unserialize(base64_decode($product['manager_letter']));
+                        
+                                            if (isset($manager_letter['email_manager']) && !empty($manager_letter['email_manager'])) {
+                                                $subj_manager = isset($manager_letter['subj_manager']) ? $manager_letter['subj_manager'] : null;
+                                                $letter_manager = isset($manager_letter['letter_manager']) ? $manager_letter['letter_manager'] : null;
+                        
+                                                $send_custom = Email::sendCustomLetterForManager($manager_letter['email_manager'],
+                                                    $subj_manager, $letter_manager, $order
+                                                );
+                                            }
+                                        }
+                                        if ($product['del_group_id']) {
+                                            User::deleteUserGroupsFromList($user['user_id'], $product['del_group_id']);
+                                        }
+                        
+                                        // Добавление групп для пользователя при рассрчоке и БЕЗ
+                                        if ($product['group_id'] != 0 && ($order['installment_map_id'] == 0 || $product['installment_addgroups'] == 0)) {
+                                            $add_groups = explode(",", $product['group_id']);
+                                            foreach ($add_groups as $group) {
+                                                User::WriteUserGroup($user['user_id'], $group);
+                                            }
+                                        }
 
-            }else{
-                User::addError('');
-            }
-        }else{
+                                    }
+                        
+
+
+                                }else{
+                                    User::addError('');
+                                }
+                            }else{
 
 
                             $user = User::AddNewClient($name, $email, $phone, null, null, null,
