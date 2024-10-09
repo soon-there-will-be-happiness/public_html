@@ -27,7 +27,7 @@ class ToChild{
     }
     public static function close( $id_order,$email){
     $db = Db::getConnection();
-    $sql = 'UPDATE '.PREFICS.'child SET child_email = :email,status=true WHERE id_order = '.$id_order;
+    $sql = 'UPDATE '.PREFICS.'child SET child_email = :email, status=true WHERE id_order = '.$id_order;
 
     $result = $db->prepare($sql);
     $result->bindParam(':email',  $email, PDO::PARAM_STR);

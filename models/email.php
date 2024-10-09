@@ -717,7 +717,7 @@ class Email {
 
         $subject = strtr($subject, $replace);
         if($to_child==true)
-        $text.=$setting['script_url'].'/lk/registration?o='.$order_id;
+        $text.=" ".$setting['script_url'].'/lk/registration?o='.$order_id;
         return self::sender($email, $subject, $text, $setting, $setting['sender_name'], $setting['sender_email']);
     }
 
@@ -1466,7 +1466,7 @@ class Email {
         $text = strtr($letter, $replace);
         $subject = System::Lang('Сформирован заказ');
         if($to_child==true)
-        $text.=$setting['script_url'].'/lk/registration?o='.$order_id;
+        //$text.=" ".$setting['script_url'].'/lk/registration?o='.$order_id;
         return self::sender($email, $subject, $text, $setting, $setting['sender_email'], $email);
     }
 }

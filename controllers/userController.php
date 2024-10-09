@@ -283,7 +283,13 @@ class userController extends baseController {
                             $hash = password_hash($pass, PASSWORD_DEFAULT);
                             $reg_date = time();
                             $user_param = "$reg_date;0;;";
+
+
+
                             if($order_id){
+
+
+
                                 $is_child=ToChild::searchByOrderId($order_id);
                                 if(!$is_child&&$is_child['status']=false){
                                     $order=Order::getOrder($order_id);
@@ -300,11 +306,9 @@ class userController extends baseController {
                                         $product = Product::getProductDataForSendOrder($item['product_id']);
                                         if ($product['manager_letter'] != null) {
                                             $manager_letter = unserialize(base64_decode($product['manager_letter']));
-                        
                                             if (isset($manager_letter['email_manager']) && !empty($manager_letter['email_manager'])) {
                                                 $subj_manager = isset($manager_letter['subj_manager']) ? $manager_letter['subj_manager'] : null;
                                                 $letter_manager = isset($manager_letter['letter_manager']) ? $manager_letter['letter_manager'] : null;
-                        
                                                 $send_custom = Email::sendCustomLetterForManager($manager_letter['email_manager'],
                                                     $subj_manager, $letter_manager, $order
                                                 );
@@ -319,6 +323,28 @@ class userController extends baseController {
                                             $add_groups = explode(",", $product['group_id']);
                                             foreach ($add_groups as $group) {
                                                 User::WriteUserGroup($user['user_id'], $group);
+                                            }
+                                        }
+
+                                        $training = System::CheckExtensension('training', 1);
+                                        if ($training) {
+                                            $user_groups = $user['user_id'] ? User::getGroupByUser($user['user_id']) : false;
+                                            $user_planes = $user['user_id'] ? Member::getPlanesByUser($user['user_id'], 1) : false;
+                            
+                                            if ($user_groups || $user_planes) {
+                                                $filter = [
+                                                    'user_groups' => $user_groups,
+                                                    'user_planes' => $user_planes
+                                                ];
+                            
+                                                $training_list = $user['user_id'] ? Training::getTrainingList(null, null, $filter, null) : null;
+                                                if ($training_list) {
+                                                    foreach($training_list as $training) {
+                                                        if ($training['curators_auto_assign']==1) {
+                                                            Order::AssignUserToCurator($user['user_id'], $training);
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
 
