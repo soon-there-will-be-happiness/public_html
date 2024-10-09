@@ -283,15 +283,13 @@ class userController extends baseController {
                             $hash = password_hash($pass, PASSWORD_DEFAULT);
                             $reg_date = time();
                             $user_param = "$reg_date;0;;";
+                            $is_child=ToChild::searchByOrderId($order_id);
 
-
+                            User::addError(    $order_id);
 
                             if($order_id){
-
-
-
                                 $is_child=ToChild::searchByOrderId($order_id);
-                                if(!$is_child&&$is_child['status']=false){
+                                if($is_child!=false){
                                     $order=Order::getOrder($order_id);
                                     $user = User::AddNewClient($name, $email, $phone,$order['client_city'], $order['client_address'], $order['client_index'], 'user',true,$reg_date, 'custom', $order['visit_param'],0, $hash,$pass,
                                     false,$this->settings['register_letter'], 0, null, $order['partner_id'], $surname, $patronymic,
