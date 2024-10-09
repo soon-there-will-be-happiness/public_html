@@ -347,6 +347,12 @@ class userController extends baseController {
                                                 }
                                             }
                                         }
+                                        $subscription_id=null;
+                                        $membership = System::CheckExtensension('membership', 1);
+                                        if ($membership && $user && !empty($product['subscription_id']) && ($order['installment_map_id'] == 0 )) {
+                                            Member::renderMember($product['subscription_id'], $user['user_id'], 1, $subscription_id, $order['subs_id']);
+                                        }
+                        
 
                                     }
                         
