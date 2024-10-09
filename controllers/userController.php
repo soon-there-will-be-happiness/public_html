@@ -353,36 +353,37 @@ class userController extends baseController {
                         
 
                                     }
-                        
+                                    if ($user) {
+                                        if (isset($_SESSION['confirm_phone'])) {
+                                            User::confirmPhone($user['user_id'], $phone);
+                                        }
+        
+                                        Email::SendRegConfirm($name, $email, $user['reg_key'], $pass, $this->settings['reg_confirm_letter']);
+                                        $_SESSION['reg_status'] = 1;
+        
+                                        if ($custom_fields) {
+                                            $custom_fields_data = isset($_POST['custom_fields']) ? $_POST['custom_fields'] : [];
+                                            CustomFields::saveUserFields($user['user_id'], null, $custom_fields_data);
+                                        }
+        
+                                        System::redirectUrl('/lk/registration');
+                                    }
 
 
                                 }else{
-                                    User::addError('');
+                                    User::addError('Error1');
                                 }
                             }else{
 
-
-                            $user = User::AddNewClient($name, $email, $phone, null, null, null,
+                                User::addError('Error2');
+                         /*   $user = User::AddNewClient($name, $email, $phone, null, null, null,
                                 'user',  null, $reg_date, 'custom', $user_param, 0, $hash,
                                 $pass, false, $this->settings['register_letter'], 0, null, null,
                                 $surname, $patronymic, null, null, null, null, true
-                            );}
+                            );*/
+                        }
 
-                            if ($user) {
-                                if (isset($_SESSION['confirm_phone'])) {
-                                    User::confirmPhone($user['user_id'], $phone);
-                                }
-
-                                Email::SendRegConfirm($name, $email, $user['reg_key'], $pass, $this->settings['reg_confirm_letter']);
-                                $_SESSION['reg_status'] = 1;
-
-                                if ($custom_fields) {
-                                    $custom_fields_data = isset($_POST['custom_fields']) ? $_POST['custom_fields'] : [];
-                                    CustomFields::saveUserFields($user['user_id'], null, $custom_fields_data);
-                                }
-
-                                System::redirectUrl('/lk/registration');
-                            }
+                       
                         }
                     } else {
                         User::addError('Пароль должен содержать не меньше 6 символов');
