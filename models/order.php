@@ -84,7 +84,6 @@ class Order {
                     if ($installment_map_data['pay_actions'] != null) {
                         $next = 1;
                     }
-                    
 					// проверка на досрочное погашение
                     $ahead = $installment_map_data['ahead_id'] == $order['order_id'] ? 1 : false;
                     $installment_map_data = Installment::updateInstallMap($order, $installment_data, // обновить данные в карте рассрочек
@@ -101,9 +100,7 @@ class Order {
             $rand_str = System::generateStr(9);
             $partners_payouts = 0;
             $sendCheckBL = false;
-            
             $flows = System::CheckExtensension('learning_flows', 1);
-            
             $aff_extension = System::CheckExtensension('partnership', 1); // Получить настройки партнёрки
             $aff_params = $aff_extension ? unserialize(System::getExtensionSetting('partnership')) : null;
             $items = self::getOrderItems($order['order_id']);

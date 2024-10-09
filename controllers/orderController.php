@@ -642,7 +642,6 @@ class orderController extends baseController {
     }
 
 
-
     // ПОДВТЕРЖДЕНИЕ ДОСТАВКИ
     public function actionConfirmdelivery($order_date)
     {
@@ -672,7 +671,6 @@ class orderController extends baseController {
         }
         return true;
     }
-
 
 
     // ОТМЕНА ЗАКАЗА
