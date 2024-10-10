@@ -198,15 +198,19 @@ class Order {
                 // Удаление групп для пользователя
                 if ($product['del_group_id']) {
                     User::deleteUserGroupsFromList($client['user_id'], $product['del_group_id']);
-                }
-
-                // Добавление групп для пользователя при рассрчоке и БЕЗ
-                if ($product['group_id'] != 0 && ($order['installment_map_id'] == 0 || $product['installment_addgroups'] == 0)) {
+                } 
+                 // Добавление групп для пользователя при рассрчоке и БЕЗ
+                $to_child=ToChild::searchByOrderId($order['order_id']);
+                if( $to_child==false){
+                     if ($product['group_id'] != 0 && ($order['installment_map_id'] == 0 || $product['installment_addgroups'] == 0)) {
                     $add_groups = explode(",", $product['group_id']);
                     foreach ($add_groups as $group) {
                         User::WriteUserGroup($client['user_id'], $group);
                     }
+                } 
                 }
+              
+              
             }
 
             self::updateOrderData($order['order_id'], $partner_id, $partner2_id, $partner3_id, $partners_payouts);
