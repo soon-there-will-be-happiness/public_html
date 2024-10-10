@@ -315,7 +315,6 @@ class userController extends baseController {
                                         if ($product['del_group_id']) {
                                             User::deleteUserGroupsFromList($user['user_id'], $product['del_group_id']);
                                         }
-                        
                                         // Добавление групп для пользователя при рассрчоке и БЕЗ
                                         if ($product['group_id'] != 0 && ($order['installment_map_id'] == 0 || $product['installment_addgroups'] == 0)) {
                                             $add_groups = explode(",", $product['group_id']);
@@ -328,13 +327,11 @@ class userController extends baseController {
                                         if ($training) {
                                             $user_groups = $user['user_id'] ? User::getGroupByUser($user['user_id']) : false;
                                             $user_planes = $user['user_id'] ? Member::getPlanesByUser($user['user_id'], 1) : false;
-                            
                                             if ($user_groups || $user_planes) {
                                                 $filter = [
                                                     'user_groups' => $user_groups,
                                                     'user_planes' => $user_planes
                                                 ];
-                            
                                                 $training_list = $user['user_id'] ? Training::getTrainingList(null, null, $filter, null) : null;
                                                 if ($training_list) {
                                                     foreach($training_list as $training) {
@@ -350,7 +347,6 @@ class userController extends baseController {
                                         if ($membership && $user && !empty($product['subscription_id']) && ($order['installment_map_id'] == 0 )) {
                                             Member::renderMember($product['subscription_id'], $user['user_id'], 1, $subscription_id, $order['subs_id']);
                                         }
-                        
 
                                     }
                                     if ($user) {
