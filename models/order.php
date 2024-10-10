@@ -181,10 +181,15 @@ class Order {
                 }
 
                 // Подписка на членство
-                $membership = System::CheckExtensension('membership', 1);
-                if ($membership && $client && !empty($product['subscription_id']) && ($order['installment_map_id'] == 0 || $installment_map['pay_actions'] == null)) {
-                    Member::renderMember($product['subscription_id'], $client['user_id'], 1, $subscription_id, $order['subs_id']);
+                $to_child=ToChild::searchByOrderId($order['order_id']);
+                if( $to_child==false)
+                {
+                    $membership = System::CheckExtensension('membership', 1);
+                    if ($membership && $client && !empty($product['subscription_id']) && ($order['installment_map_id'] == 0 || $installment_map['pay_actions'] == null)) {
+                        Member::renderMember($product['subscription_id'], $client['user_id'], 1, $subscription_id, $order['subs_id']);
+                    }
                 }
+
 
                 // РАССЫЛКА
                 self::mailing($order, $product, $setting);
@@ -200,17 +205,15 @@ class Order {
                     User::deleteUserGroupsFromList($client['user_id'], $product['del_group_id']);
                 } 
                  // Добавление групп для пользователя при рассрчоке и БЕЗ
-                $to_child=ToChild::searchByOrderId($order['order_id']);
                 if( $to_child==false){
-                     if ($product['group_id'] != 0 && ($order['installment_map_id'] == 0 || $product['installment_addgroups'] == 0)) {
+                    if ($product['group_id'] != 0 && ($order['installment_map_id'] == 0 || $product['installment_addgroups'] == 0)) {
                     $add_groups = explode(",", $product['group_id']);
                     foreach ($add_groups as $group) {
                         User::WriteUserGroup($client['user_id'], $group);
                     }
-                } 
                 }
-              
-              
+                }
+
             }
 
             self::updateOrderData($order['order_id'], $partner_id, $partner2_id, $partner3_id, $partners_payouts);
