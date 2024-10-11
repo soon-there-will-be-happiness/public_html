@@ -1818,4 +1818,5 @@ class User {
 
         return "vk.com/".$vkClear;
     }
+    
 }

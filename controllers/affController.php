@@ -33,6 +33,13 @@ class affController extends baseController {
         }
     }
 
+    public function actionTelegram(){
+        if (isset($_POST['telegram'])&&isset($_POST['product_id'])){
+            $product_id = htmlentities($_POST['product_id']);
+            $telegram = htmlentities($_POST['telegram']);
+            TelegramProduct::addOrUpdate(  $product_id , $telegram );
+        }
+    }
 
     /**
      * СТРАНИЦА ПАРТНЁРА В ЛК

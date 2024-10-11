@@ -487,6 +487,7 @@ Email: [EMAIL]</p><p>Pass to the admin Billing Master and carry out the order.</
 'TRACK_YOUR_TRAINING' => 'Track your study process.',
 'YOUR_SURNAME' => 'your family name:',
 'TELEGRAM' => 'Тelegram (your user name in Telegram, if you have no Telegram leave out this slot):',
+'TELEGRAM_TILE' => 'Тelegram',
 'INSTAGRAM_NIK' => 'Your Instragram nick:',
 'ADRESS_VK' => 'your VK page address:',
 'CONFIRM_YOUR_ORDER' => 'Confirm your order.',

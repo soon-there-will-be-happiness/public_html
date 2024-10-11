@@ -3,7 +3,7 @@
 // <?= System::Lang('HELLO');
 
 $lang = array(
-
+'TELEGRAM_TILE' => 'Телеграм',
 'DELETE_TASK' => 'Удалить задание',
 'DELETE_STORAGE' => 'Удалить хранилище',
 
