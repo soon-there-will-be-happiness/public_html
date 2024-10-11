@@ -32,6 +32,7 @@
                         <th class="text-left"><?=System::Lang('ITEM');?></th>
                         <th><?=System::Lang('PAYMENT_DATE');?></th>
                         <th><?=System::Lang('STATUS');?></th>
+                        <th></th>
                     </tr>
                     
                     <?foreach($orders as $order):
@@ -78,6 +79,16 @@
 
                             <td>
                                 <span class="status-act"><?=System::Lang('ACTIVE');?></span>
+                            </td>
+                            <td>
+                                <? $child=ToChild::searchByOrderId($order['order_id']);?>
+                                <? if($child!=false):?>
+                                    <? if($user['email']!=$child['child_email']):?>
+                                        Прикреплен к ребенку:<?=$child['child_email'];?>
+                                    <?else:?>
+                                        Родитель:<?=$child['client_email'];?>
+                                    <?endif;?>
+                                <?endif;?>
                             </td>
                         </tr>
                     <?endforeach;?>
