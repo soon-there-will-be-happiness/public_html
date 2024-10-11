@@ -731,7 +731,16 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 </div>
 </div>
 </div>
-<script src="js/script.js"></script>
+<script src="js/script.js">
+<?php $teledram=TelegramProduct::searchByProguctId($link['product_id']);
+if($teledram!=false):
+?>
+document.getElementById('buy').addEventListener('click', function() {
+  let newWindow = window.open(<?=$teledram['teledram']?>, "_blank");
+});
+<?php endif;?>
+    
+</script>
 <!-- <script>
     // Выполнение функции updateLabels после загрузки внешнего скрипта
     window.onload = function() {
