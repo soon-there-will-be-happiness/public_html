@@ -33,19 +33,33 @@ class affController extends baseController {
         }
     }
 
-    public function actionTelegram(){
-        if (isset($_POST['telegram'])&&isset($_POST['product_id'])){
-            $product_id = htmlentities($_POST['product_id']);
-            $telegram = htmlentities($_POST['telegram']);
+    public function actionTelegram(){  
+            require_once ("{$this->template_path}/main.php");
+        $product_id = isset($_POST['product_id']) ? htmlentities($_POST['product_id']) : null;
+        $telegram = isset($_POST['telegram']) ? htmlentities($_POST['telegram']) : null;
+         if ($telegram!=null&&   $product_id!=null){
+        
+           
             TelegramProduct::addOrUpdate(  $product_id , $telegram );
         }
+        else{ User::addError($telegram );
+             User::addError($product_id );
+                require_once ("{$this->template_path}/404.php");
+        }
+        $this->setSEOParams('Партнёрская программа');
+        $this->setViewParams('lk', 'aff/aff_index.php',
+            false, null, 'aff-page'
+        );
+
+    
     }
 
     /**
      * СТРАНИЦА ПАРТНЁРА В ЛК
      */
     public function actionAff()
-    {
+    {  $product_id = intval($_POST['product_id']) ? intval($_POST['product_id']) : null;
+        $telegram = htmlentities($_POST['telegram']) ? htmlentities($_POST['telegram']) : null;
         $extension = System::CheckExtensension('partnership', 1);
         if (!$extension) {
             require_once ("{$this->template_path}/404.php");
@@ -54,6 +68,11 @@ class affController extends baseController {
         // Проверка авторизации
         $userId = User::checkLogged();
         
+      
+          if ($telegram!=null&&   $product_id!=null){
+          
+            TelegramProduct::addOrUpdate(  $product_id , $telegram );
+        }
         // Данные юзера
         $user = User::getUserById($userId);
         if ($user['is_partner'] != 1) {

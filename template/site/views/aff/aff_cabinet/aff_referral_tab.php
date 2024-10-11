@@ -1,4 +1,6 @@
-<?php defined('BILLINGMASTER') or die;?>
+<?php defined('BILLINGMASTER') or die;
+  $setting = System::getSetting();
+?>
 <!-- 2 Партнёрские ссылки -->
 <div>
     <div class="table-responsive">
@@ -158,14 +160,14 @@
                         <?php endif;?></td>
 
                         <td class="send_message">
-                            <form action="<?=$setting['script_url']."lk/telegram"?>" method="POST">
-                            <?php $teledram=TelegramProduct::searchByProguctId($link['product_id']);
-                                if($teledram!=false):?>
-                                <input type="text" id="telegram" class="order_link_input" value="<?=$teledram['teledram']?>" required/>
+                            <form action="" method="POST">
+                            <?php $telegram=TelegramProduct::searchByProguctId($link['product_id']);
+                                if($telegram!=false):?>
+                                <input type="text" name="telegram" class="order_link_input" value="<?=$telegram['telegram']?>" >
                                 <?else:?>
-                                    <input type="text" id="telegram" class="order_link_input" value="" required/>
+                                    <input type="text" name="telegram" class="order_link_input" value="https://t.me/+Q0Eh2EVqoctkZmFi"  >
                                 <?endif;?>
-                                <input type="hidden" id="product_id"  value="<?=$link['product_id'];?>" required/>
+                                <input type="hidden" name="product_id"  value="31" >
                                 <button type="submit">Отправить</button>
                             </form>
                         </td>
@@ -256,9 +258,9 @@
                                 </td>
                                 <td class="send_message">
                             <form action="<?=$setting['script_url']."lk/telegram"?>" method="POST">
-                            <?php $teledram=TelegramProduct::searchByProguctId($link['product_id']);
-                                if($teledram!=false):?>
-                                <input type="text" id="telegram" class="order_link_input" value="<?=$teledram['teledram']?>" required/>
+                            <?php $telegram=TelegramProduct::searchByProguctId($link['product_id']);
+                                if($telegram!=false):?>
+                                <input type="text" id="telegram" class="order_link_input" value="<?=$telegram['telegram']?>" required/>
                                 <?else:?>
                                     <input type="text" id="telegram" class="order_link_input" value="" required/>
                                 <?endif;?>

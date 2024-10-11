@@ -732,11 +732,11 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 </div>
 </div>
 <script src="js/script.js">
-<?php $teledram=TelegramProduct::searchByProguctId($link['product_id']);
-if($teledram!=false):
+<?php $telegram=TelegramProduct::searchByProguctId($link['product_id']);
+if($telegram!=false):
 ?>
 document.getElementById('buy').addEventListener('click', function() {
-  let newWindow = window.open(<?=$teledram['teledram']?>, "_blank");
+  let newWindow = window.open(<?=$telegram['telegram']?>, "_blank");
 });
 <?php endif;?>
     
