@@ -1,11 +1,15 @@
+<?php require_once ("{$this->layouts_path}/head.php");?>
 <!DOCTYPE html>
 <html>
-<?php  defined('BILLINGMASTER') or die;  
-$product = Product::getProductById(31);
-$price = Price::getFinalPrice(31);
+<?php  
+defined('BILLINGMASTER') or die; 
+//require_once ("{$this->layouts_path}/head.php");
+$id=31;
+$product = Product::getProductById($id);
+$price = Price::getFinalPrice($id);
 $setting = System::getSetting();
 $metriks = !empty($this->settings['yacounter']) || $this->settings['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
-$id=31;
+
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 ?>
 <head>
@@ -19,7 +23,6 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="images/tild6331-6163-4462-b931-633838313032__-__resize__504x__heidi-sandstrom-1203.jpg" />
-    <?require_once ("{$this->layouts_path}/head.php");?>
     
     <!-- Подключаем UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" />
@@ -81,6 +84,7 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 </script>
 <script src="js/tilda-events-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';">
 </script>
+
     <!-- Facebook Pixel Code -->
     <script>
         !function(f,b,e,v,n,t,s)
@@ -117,6 +121,7 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
             z-index: 1;
         }
     </style>
+
     <noscript>
 <img height="1" width="1" style="display:none"
                    src="https://www.facebook.com/tr?id=663488660829171&ev=PageView&noscript=1"
@@ -629,47 +634,58 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 <div id="popup" class="popup hidden">
     <div class="popup-content">
         <span class="close-btn">&times;</span>
-        <p>Продукт: <?=$product['product_name'];?></p>
-        <p>Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
-        <form class="form" action="<?=$setting['script_url']?>/buy/31" method="POST"
-            <?=$metriks;?> id="form_order_buy">
-            <label for="first_name">Имя:</label>
-            <input class="input-field" type="text" id="first_name" name="name" value="<?=$name?>" required>
-
+        <h4>Эта форма регистрации на пробный урок. Пожалуйста, заполните свои данные для получения доступа.</h4>
+        <p>Продукт: <?=$product['product_name'];?></br>
+           Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
+        
+        <form class="form" action="<?=$setting['script_url']?>/buy/31" method="POST" <?=$metriks;?> id="form_order_buy">
+                                    <!-- <span>Обратите внимание! При заполнении данных, во вкладке "Я Родитель" необходимо внести данные того, кто оплачивает курс.</span>  -->
+                                    <!-- <div class="toggle-container">
+                                        <input type="radio" name="toggle" id="child" value="child" checked>
+                                        <label for="child" class="toggle-option child" onclick="updateLabels('child')">Ребёнок</label>
+                                        
+                                        <input type="radio" name="toggle" id="parent" value="parent">
+                                        <label for="parent" class="toggle-option parent" onclick="updateLabels('parent')">Родитель</label>
+                                    </div> -->
+                                    <label for="first_name" id="label_first_name">Имя<span style="color: red;">*</span></label>
+                                    <input class="input-field" type="text" id="first_name" name="name" value="<?= isset($name) ? $name : ''; ?>" placeholder="Введите ваше имя" required>
+                
                                     <?if($this->settings['show_surname'] == 2 || ($this->settings['show_surname'] == 1 &&
                                         $price['real_price'] > 0)):?>
-                                    <label for="last_name">Фамилия:</label>
-                                    <input class="input-field" type="text" id="last_name" name="surname" value="<?=$surname;?>" required>
-                                    <?endif;?>
+                                        
+                                    <!-- <label for="last_name" id="label_last_name">Фамилия:</label>
+                                    <input class="input-field" type="text" id="last_name" name="surname" value="<?= isset($surname) ? $surname : ''; ?>" placeholder="Введите вашу фамилию" required>
+                                    <?endif;?> -->
 
-                                    <label for="email">Электронная почта:</label>
+                                    <label for="email" id="label_email">Электронная почта<span style="color: red;">*</span></label>
                                     <?if($this->settings['email_protection']):?>
                                     <script>document.write(window.atob("PGlucHV0IHR5cGU9ImVtYWlsIiBuYW1lPSJlbWFpbCI="));</script>
-                                    <input class="input-field" type="email" id="email" name="email" value="<?=$user_email ?? $email?>" required>
+                                    <input class="input-field" type="email" id="email" name="email" value="<?=$user_email ?? $email?>" placeholder="Введите вашу почту" required>
                                     <?else:?>
-                                    <input class="input-field" type="email" id="email" name="email" value=""
-                                           required>
+                                    <input class="input-field" type="email" id="email" name="email" value="" placeholder="Введите вашу почту" required>
                                     <?endif;?>
 
-                                    <label for="phone">Телефон:</label>
+                                    <label for="phone" id="label_phone">Телефон<span style="color: red;">*</span></label>
                                     <input class="input-field" type="tel" id="phone_inp" name="phone" maxlength="12" placeholder="912 333-33-33" required>
-
-                                    <?if(Product::isRequestTelegram($product, $price, $this->settings)):?>
-                                    <label for="telegram">Укажи свой телеграм через @:</label>
-                                    <input class="input-field" type="text" id="telegram" name="telegram" <?if($this->settings['show_telegram_nick'] == 3) echo
-                                    'required';?>>
-                                    <?endif;?>
+                                    
+                                    <span class="text-hint" onclick="toggleFields()">Вы также можете указать никнейм телеграм для оперативной связи</span>
+                                    
+                                    <label for="telegram" id="label_telegram" style="display: none;">Телеграм через @</label>
+                                    <input class="input-field" type="text" id="telegram" name="telegram" placeholder="@ваш_ник" style="display: none;">
+                                    
+                                    
                                     <!-- <label for="payment_method">Выберите способ оплаты:</label>
                                     <select id="payment_method" name="payment_method" required>
                                        <option value="credit_card">Кредитная карта</option>
                                        <option value="paypal">PayPal</option>
                                        <option value="bank_transfer">Банковский перевод</option>
                                     </select> -->
-                                    <div style="margin-top:15px;" id="promo">
+                                    
+                                    <!-- <div style="margin-top:15px;" id="promo">
                                         <p><a class="promo-link" href="#">Есть промокод?</a></p>
                                         <div class="promo-block hidden">
                                             <h6>Если у вас есть промокод, введите его в поле:</h6>
-
+                                    
                                             <div class="flex-row">
                                                 <div class="modal-form-line max-width-200">
                                                     <input class="small-input" type="text" name="promo" value="">
@@ -679,15 +695,13 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-
-                                    <div class="not-me">
-                                        <input type="checkbox" id="agreement" name="not-me">
+                                    </div> -->
+                                    <!-- <div class="not-me" style="display:none;">
+                                        <input type="checkbox" id="agreement" name="not-me" checked>
                                         <label>
                                             Курс буду проходить не я
                                         </label>
-                                    </div>
+                                    </div> -->
                                     <label>
                                         <input type="checkbox" id="agreement" name="agreement" required> 
                                         <!--politika-->
@@ -703,7 +717,7 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                         <input type="hidden" name="pid" value="<?=$_REQUEST['pid'] ?? "" ?>">
                                     <?php endif; ?>
 
-                                    <button class="pay" name="buy" type="submit">Оплатить</button>
+                                    <button class="pay" name="buy" type="submit">З А П И С А Т Ь С Я</button>
         </form>
     </div>
 </div>
@@ -717,7 +731,15 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 </div>
 </div>
 </div>
-<script src="js/script.js">
+<script src="js/script.js"></script>
+<!-- <script>
+    // Выполнение функции updateLabels после загрузки внешнего скрипта
+    window.onload = function() {
+        // Set default labels based on the initial selection (Родитель by default)
+        updateLabels('parent');
+    };
+</script> -->
+
 <style>#rec546920578 .t-btn[data-btneffects-first],
             #rec546920578 .t-btn[data-btneffects-second],
             #rec546920578 .t-btn[data-btneffects-third],
@@ -894,4 +916,5 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
     }
 });
 </script>
+
 </html>

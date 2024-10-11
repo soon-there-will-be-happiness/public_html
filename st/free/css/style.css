@@ -1,4 +1,3 @@
-
 .buy-btn {
     background-color: #ffa600;
     color: #ffffff;
@@ -144,6 +143,7 @@
   font-size: 14px;
 }
 
+
 #popup > div > form > div > div.iti.iti--show-flags.iti--inline-dropdown {
   width: 100%;
 }
@@ -232,6 +232,54 @@
   margin-left: 6px;
 }
 
+.text-hint {
+  cursor: pointer;
+  color: #555; /* Обычный цвет текста */
+  transition: color 0.3s; /* Плавный переход */
+}
+
+
+.text-hint:hover {
+    color: #111; /* Цвет текста при наведении */
+    text-decoration: underline; /* Добавляет подчеркивание при наведении */
+}
+
+/* .toggle-container {
+    display: flex;
+    width: 330px;
+    height: 50px;
+}
+
+.toggle-option {
+    flex: 1;
+    text-align: center;
+    line-height: 50px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.child {
+    background-color: #ccc;
+    border-top-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.parent {
+    background-color: #ccc;
+    border-top-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+input[type="radio"]:checked + label {
+    background-color: #FF9913;
+    color: #fff;
+} */
+    
 
 @media (max-width: 630px) {
     p {
@@ -269,3 +317,4 @@
         padding-top: 0 !important;
     }
 }
+

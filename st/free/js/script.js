@@ -27,22 +27,50 @@ document.querySelector('.buy-btn').addEventListener('click', function() {
     });
 });
 
-document.querySelector('.promo-link').addEventListener('click', function(e) {
-  e.preventDefault(); // Останавливаем стандартное поведение ссылки
+// document.querySelector('.promo-link').addEventListener('click', function(e) {
+//   e.preventDefault(); // Останавливаем стандартное поведение ссылки
 
-  var promoBlock = document.querySelector('.promo-block');
+//   var promoBlock = document.querySelector('.promo-block');
   
-  // Убираем или добавляем класс hidden и active для управления анимацией
-  if (promoBlock.classList.contains('active')) {
-      promoBlock.classList.remove('active');
-      setTimeout(function() {
-          promoBlock.classList.add('hidden');
-      }, 500); // Ждём завершения анимации перед скрытием через display: none
+//   // Убираем или добавляем класс hidden и active для управления анимацией
+//   if (promoBlock.classList.contains('active')) {
+//       promoBlock.classList.remove('active');
+//       setTimeout(function() {
+//           promoBlock.classList.add('hidden');
+//       }, 500); // Ждём завершения анимации перед скрытием через display: none
+//   } else {
+//       promoBlock.classList.remove('hidden');
+//       setTimeout(function() {
+//           promoBlock.classList.add('active');
+//       }, 10); // Небольшая задержка для активации анимации
+//   }
+// });
+
+// function updateLabels(userType) {
+//         if (userType === 'child') {
+//             document.getElementById('label_first_name').innerText = 'Имя ребёнка:';
+//             document.getElementById('label_last_name').innerText = 'Фамилия ребёнка:';
+//             document.getElementById('label_email').innerText = 'Электронная почта ребёнка:';
+//             document.getElementById('label_phone').innerText = 'Телефон ребёнка:';
+//             document.getElementById('label_telegram').innerText = 'Телеграм ребёнка через @:';
+//         } else if (userType === 'parent') {
+//             document.getElementById('label_first_name').innerText = 'Имя родителя:';
+//             document.getElementById('label_last_name').innerText = 'Фамилия родителя:';
+//             document.getElementById('label_email').innerText = 'Электронная почта родителя:';
+//             document.getElementById('label_phone').innerText = 'Телефон родителя:';
+//             document.getElementById('label_telegram').innerText = 'Телеграм родителя через @:';
+//         }
+//     }
+
+
+function toggleFields() {
+  var telegramInput = document.getElementById('telegram');
+
+  if (telegramInput.style.display === 'none') {
+    telegramInput.style.display = 'block';
   } else {
-      promoBlock.classList.remove('hidden');
-      setTimeout(function() {
-          promoBlock.classList.add('active');
-      }, 10); // Небольшая задержка для активации анимации
-  }
-});
+    telegramInput.style.display = 'none';
+    }
+}
+
 

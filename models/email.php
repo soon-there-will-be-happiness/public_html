@@ -708,13 +708,15 @@ class Email {
 
         $text = strtr($letter, $replace);
         $text = User::replaceAuthLinkInText($text, $prelink);//Ссылка автологин с редиректом
-
+        
+        //$text = System::Lang('LETTER_PART_1') . $text . System::Lang('LETTER_PART_2');
+        
         if ($addsubject != null) {
             $subject = $addsubject;
         } else {
             $subject = $setting['client_letter_subj'] != null ? $setting['client_letter_subj'] : System::Lang('SUBJECT_EMAIL_ORDER');
         }
-
+        
         $subject = strtr($subject, $replace);
         if($to_child==true)
         $text.=" ".$setting['script_url'].'/lk/registration?o='.$order_id;

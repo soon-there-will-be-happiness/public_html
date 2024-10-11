@@ -859,9 +859,9 @@ Email: [EMAIL]</p><p>Перейдите в админку School-Master и об�
 // ПЛАТЁЖНЫЕ МОДУЛИ
 'CUSTOM_SUCCESS_THANK' => 'Спасибо! Ваш заказ ждёт подтверждения.',
 'COMPANY_SUCCESS_THANK' => 'Спасибо! Счёт уже готовится.',
-'THANKS' => 'Спасибо!',
-'INSTRUCTIONS_ON_EMAIL' => '<p><strong>Всё отлично! Инструкции отправлены вам на е-маил.</strong></p>
-                <p>На всякий случай проверьте папку СПАМ.</p>',
+'THANKS' => 'Спасибо! ',
+'INSTRUCTIONS_ON_EMAIL' => '<p><strong>Вход выполнен автоматически! <a href="https://dev.xn--80ajojzgb4f.xn--p1ai/lk/mytrainings">Нажмите чтобы приступить к обучению</a></strong></p><p><strong>Инструкции отправлены вам на почту ',
+'INSTRUCTIONS_ON_EMAIL_HINT' => '</strong></p><p>На всякий случай проверьте папку СПАМ.</p>',
 'TO_BE_PAID' => 'К оплате:',
 'SELECT_YOU_PAID' => 'Выберите систему через которую оплачивали:',
 'INSTRUCTIONS' => 'Инструкция',
@@ -909,6 +909,52 @@ Email: [EMAIL]</p><p>Перейдите в админку School-Master и об�
 'LEAVE_A_COMMENT' => 'Оставьте комментарий к работе, при необходимости.',
 'FILL_REQ' => 'Заполните все поля во вкладке "Реквизиты". При необходимости свяжитесь с поддержкой',
 'CLIENT_EMAIL' => 'Почта',
+'LETTER_PART_1' => '<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      text-align: center;
+      padding-bottom: 20px;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #777;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">',
+'LETTER_PART_2' => '  </div>
+</body>
+</html>'
 );
 
 ?>

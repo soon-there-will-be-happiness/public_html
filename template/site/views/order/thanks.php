@@ -7,6 +7,10 @@
 
             <div class="order_data">
                 <?=System::Lang('INSTRUCTIONS_ON_EMAIL');?>
+                <?php if (isset($_COOKIE['cl_eml'])): ?>
+                  <?= $_COOKIE['cl_eml'] ?>
+                <?php endif; ?>
+                <?=System::Lang('INSTRUCTIONS_ON_EMAIL_HINT');?>
             </div>
         </div>
     </div>
