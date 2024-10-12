@@ -722,9 +722,24 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
     </div>
 </div>
 
-<script>
+<!-- <script>
 document.getElementById('buy').addEventListener('click', function() {
   let newWindow = window.open("https://t.me/+Q0Eh2EVqoctkZmFi", "_blank"); // Открываем пустое окно сразу
+});
+</script> -->
+
+<script>
+document.getElementById('buy').addEventListener('click', function() {
+    const form = document.getElementById('form_order_buy');
+    if (form.checkValidity()) {
+        <?php $telegram = TelegramProduct::searchByProguctId($id);
+        if($telegram != false): ?>
+        window.open('<?=$telegram['telegram']?>', '_blank');
+        <?php endif; ?>
+    } else {
+        //alert('Пожалуйста, заполните все обязательные поля.');
+        pass;
+    }
 });
 </script>
 
