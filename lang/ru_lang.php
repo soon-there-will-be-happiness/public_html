@@ -909,7 +909,7 @@ Email: [EMAIL]</p><p>Перейдите в админку School-Master и об�
 'LEAVE_A_COMMENT' => 'Оставьте комментарий к работе, при необходимости.',
 'FILL_REQ' => 'Заполните все поля во вкладке "Реквизиты". При необходимости свяжитесь с поддержкой',
 'CLIENT_EMAIL' => 'Почта',
-'LETTER_PART_1' => '<!DOCTYPE html>
+'LETTER_START' => '<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
@@ -952,9 +952,12 @@ Email: [EMAIL]</p><p>Перейдите в админку School-Master и об�
 </head>
 <body>
   <div class="container">',
-'LETTER_PART_2' => '  </div>
+'LETTER_END' => '  </div>
 </body>
-</html>'
+</html>',
+'LETTER_FOOTER_START' => '<div class="footer">',
+'LETTER_FOOTER_END' => '</div>',
+'TG_GROUP' => 'Телеграм'
 );
 
 ?>

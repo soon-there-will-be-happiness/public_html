@@ -166,6 +166,7 @@
                         <td class="not-aff_links"><?php if($link['ads'] != null):?><a class="text-decoration-none" target="_blank" href="/load/ads/<?=$link['ads']?>"><i class="icon-attach-1"></i>&nbsp;<?=System::Lang('DOWNLOAD');?></a>
                         <?php endif;?></td>
                         <td class="tg_group"><div class="table-form-input"><input onclick="this.select()" type="text" value="<?=$order_url;?>" class="order_link_input tg_input"></div></td>
+<<<<<<< HEAD
                   
                         <td class="send_message">
                             <form action="" method="POST">
@@ -180,6 +181,9 @@
                             </form>
                         </td>
                       </tr>
+=======
+                    </tr>
+>>>>>>> 185f1dd (change consts and partner tab)
                 <?php endforeach;
             } else {
                 // ОСОБЫЙ РЕЖИМ
