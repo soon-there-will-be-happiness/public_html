@@ -1,7 +1,7 @@
-<?php defined('BILLINGMASTER') or die;
-  $setting = System::getSetting();
-?>
+<?php defined('BILLINGMASTER') or die;?>
 <!-- 2 Партнёрские ссылки -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <div>
     <div class="table-responsive">
         <?php if(False & $params['params']['aff_2_level'] > 0):?>
@@ -15,11 +15,12 @@
                 <th><?=System::Lang('PRICE');?></th>
                 <th><?=System::Lang('COMMISSION');?></th>
                 <th><?=System::Lang('LINKS');?></th>
-                <th><?=System::Lang('TELEGRAM_TILE');?></th>
                 <!-- <th><?=System::Lang('MAT');?></th> -->
+                <th><?=System::Lang('TG_GROUP');?></th>
             </tr>
 
             <?php if($links && $user['spec_aff'] == 0) {
+                
                 // Без особого режима партнёра
                 foreach($links as $link):
                     $product=Product::getMinProductById($link['product_id']);
@@ -27,11 +28,16 @@
                         // внутренний лендинг
                         $url = $this->settings['script_url'].'/catalog/'.$link['product_alias'].'?pr='.$user['user_id'];
                     } else {
+                        
                         // внешний лендинг
                         if(isset($params['params']['get_params']) && $params['params']['get_params'] == 1 && $link['external_url'] != null){
+                            
                             $url = $link['external_url'].'?pr='.$user['user_id'];
+                            
                         } else $url = $this->settings['script_url'].'/ext/'.$link['product_id'].'/'.$user['user_id'];
                     }
+                    
+                    
                     if($product['product_text2']!=null && !empty($product['product_text2'])){
                         $url =$this->settings['script_url'].$product['product_text2'];
                         $short_link_id_tx2_url = Aff::isShortLinkByPartner($user['user_id'], $url);
@@ -41,6 +47,7 @@
                         } else {
                             // Если короткая ссылка не найдена, создаём новую
                             $created = Aff::AddPartnerShortLink($user['user_id'], $url, $product['product_title']);
+                            
                             if ($created) {
                                 // После создания, ищем созданную ссылку
                                 $short_link_id_tx2_url = Aff::isShortLinkByPartner($user['user_id'], $url);
@@ -61,7 +68,7 @@
                         } else {
                             // Если короткая ссылка не найдена, создаём новую
                             $created = Aff::AddPartnerShortLink($user['user_id'], $order_url, $product['product_title']);
-
+                            
                             if ($created) {
                                 // После создания, ищем созданную ссылку
                                 $short_link_id_tx2_order = Aff::isShortLinkByPartner($user['user_id'], $order_url);
@@ -112,7 +119,7 @@
                                 <td class="not-aff_links"><?=$req['custom_comiss'];?>%</td>
                             <?php elseif(isset($link['product_comiss']) && $link['product_comiss']>0):?>
                                 <td class="not-aff_links"><?=$link['product_comiss'];?>%</td>
-                            <?php else:?>
+                            <?php else:?>                                                            
                                 <td class="not-aff_links">
                                     <?=$params['params']['aff_1_level'] ? "1 уровень - {$params['params']['aff_1_level']}%<br>" : '';?>
                                     <?=$params['params']['aff_2_level'] ? "2 уровень - {$params['params']['aff_2_level']}%<br>" : '';?>
@@ -154,11 +161,12 @@
                                 ?>
                                 <span class="text-right"><?=System::Lang('FILL_REQ');?></span>
                             <?php }
-                        endif;?>
+                                 endif;?>
                         </td>
                         <td class="not-aff_links"><?php if($link['ads'] != null):?><a class="text-decoration-none" target="_blank" href="/load/ads/<?=$link['ads']?>"><i class="icon-attach-1"></i>&nbsp;<?=System::Lang('DOWNLOAD');?></a>
                         <?php endif;?></td>
-
+                        <td class="tg_group"><div class="table-form-input"><input onclick="this.select()" type="text" value="<?=$order_url;?>" class="order_link_input tg_input"></div></td>
+                  
                         <td class="send_message">
                             <form action="" method="POST">
                             <?php $telegram=TelegramProduct::searchByProguctId($link['product_id']);
@@ -171,7 +179,7 @@
                                 <button type="submit"  name="addlinktg">Отправить</button>
                             </form>
                         </td>
-                    </tr>
+                      </tr>
                 <?php endforeach;
             } else {
                 // ОСОБЫЙ РЕЖИМ
@@ -183,10 +191,14 @@
                             if($link['external_landing'] == 0) {
                                 $url = $this->settings['script_url'].'/catalog/'.$link['product_alias'].'?pr='.$user['user_id'];
                             } else {
+                                
                                 if(isset($params['params']['get_params']) && $params['params']['get_params'] == 1 && $link['external_url'] != null){
+                            
                                     $url = $link['external_url'].'?pr='.$user['user_id'];
+                                    
                                 } else $url = $this->settings['script_url'].'/ext/'.$link['product_id'].'/'.$user['user_id'];
                             }
+                            
                             $product=Product::getMinProductById($link['product_id']);
                             if($product['product_text2']!=null){
                                 $url =$this->settings['script_url'].$product['product_text2'];
@@ -257,15 +269,15 @@
                                     <?php endif;?>
                                 </td>
                                 <td class="send_message">
-                            <form action="<?=$setting['script_url']."lk/telegram"?>" method="POST">
+                            <form action="" method="POST">
                             <?php $telegram=TelegramProduct::searchByProguctId($link['product_id']);
                                 if($telegram!=false):?>
-                                <input type="text" id="telegram" class="order_link_input" value="<?=$telegram['telegram']?>" required/>
+                                <input type="text" name="telegram" class="order_link_input" value="<?=$telegram['telegram']?>" >
                                 <?else:?>
-                                    <input type="text" id="telegram" class="order_link_input" value="" required/>
+                                    <input type="text" name="telegram" class="order_link_input" value=""  >
                                 <?endif;?>
-                                <input type="hidden" id="product_id"  value="<?=$link['product_id'];?>" required/>
-                                <button type="submit">Отправить</button>
+                                <input type="hidden" name="product_id" id="product_id" value="<?=$link['product_id']?>" >
+                                <button type="submit"  name="addlinktg">Отправить</button>
                             </form>
                         </td>
                             </tr>
@@ -276,3 +288,23 @@
         </table>
     </div>
 </div>
+
+<script>
+$(document).ready(function(){
+    $('.tg_input').on('change', function() {
+        var orderUrl = $(this).val();
+        
+        $.ajax({
+            url: 'save_order_url.php', // Ваш серверный файл
+            type: 'POST',
+            data: { order_url: orderUrl },
+            success: function(response) {
+                console.log('URL сохранен');
+            },
+            error: function() {
+                console.log('Ошибка сохранения');
+            }
+        });
+    });
+});
+</script>

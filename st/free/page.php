@@ -701,7 +701,7 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                         <label>
                                             Курс буду проходить не я
                                         </label>
-                                    </div> -->
+                                    </div>  -->
                                     <label>
                                         <input type="checkbox" id="agreement" name="agreement" required> 
                                         <!--politika-->
@@ -717,31 +717,28 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                         <input type="hidden" name="pid" value="<?=$_REQUEST['pid'] ?? "" ?>">
                                     <?php endif; ?>
 
-                                    <button class="pay" name="buy" type="submit">З А П И С А Т Ь С Я</button>
+                                    <button id ="buy" class="pay" name="buy" type="submit">З А П И С А Т Ь С Я</button>
         </form>
     </div>
 </div>
 
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<script src="js/script.js">
-</script>
 <script>
-<?php $telegram=TelegramProduct::searchByProguctId(31);
-if($telegram!=false):?>
 document.getElementById('buy').addEventListener('click', function() {
-    let newWindow = window.open(<?=$telegram['telegram']?>, "_blank");
+  let newWindow = window.open("https://t.me/+Q0Eh2EVqoctkZmFi", "_blank"); // Открываем пустое окно сразу
 });
-<?php endif;?>
-
 </script>
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="js/script.js"></script>
 <!-- <script>
     // Выполнение функции updateLabels после загрузки внешнего скрипта
     window.onload = function() {
@@ -919,12 +916,21 @@ document.getElementById('buy').addEventListener('click', function() {
 </body>
 <?require_once ("{$this->layouts_path}/tech-footer.php");?>
 <script>
+
+<?php $telegram=TelegramProduct::searchByProguctId(31);
+if($telegram!=false):?>
+document.getElementById('buy').addEventListener('click', function() {
+    let newWindow = window.open(<?=$telegram['telegram']?>, "_blank");
+});
+<?php endif;?>
+
     document.addEventListener('DOMContentLoaded', function() {
     // Проверяем, есть ли в URL якорь "#pay" при загрузке страницы
     if (window.location.hash === '#pay') {
         document.getElementById('popup').classList.add('show');
     }
 });
+
 </script>
 
 </html>

@@ -33,7 +33,6 @@ class affController extends baseController {
         }
     }
 
-
     /**
      * СТРАНИЦА ПАРТНЁРА В ЛК
      */
