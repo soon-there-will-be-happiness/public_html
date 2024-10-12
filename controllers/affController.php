@@ -33,32 +33,14 @@ class affController extends baseController {
         }
     }
 
-    public function actionTelegram(){  
-            
-        require_once ("{$this->template_path}/main.php");
-        $product_id = isset($_POST['product_id']) ? htmlentities($_POST['product_id']) : null;
-        $telegram = isset($_POST['telegram']) ? htmlentities($_POST['telegram']) : null;
-        if ($telegram!=null&&   $product_id!=null){
-
-            TelegramProduct::addOrUpdate(  $product_id , $telegram );
-        }
-        else{
-            require_once ("{$this->template_path}/404.php");
-        }
-        $this->setSEOParams('Партнёрская программа');
-        $this->setViewParams('lk', 'aff/aff_index.php',
-            false, null, 'aff-page'
-        );
-
-    
-    }
 
     /**
      * СТРАНИЦА ПАРТНЁРА В ЛК
      */
     public function actionAff()
-    {  $product_id = intval($_POST['product_id']) ? intval($_POST['product_id']) : null;
-        $telegram = htmlentities($_POST['telegram']) ? htmlentities($_POST['telegram']) : null;
+    {     
+
+
         $extension = System::CheckExtensension('partnership', 1);
         if (!$extension) {
             require_once ("{$this->template_path}/404.php");
@@ -68,10 +50,7 @@ class affController extends baseController {
         $userId = User::checkLogged();
         
       
-          if ($telegram!=null&&   $product_id!=null){
-          
-            TelegramProduct::addOrUpdate(  $product_id , $telegram );
-        }
+         
         // Данные юзера
         $user = User::getUserById($userId);
         if ($user['is_partner'] != 1) {
@@ -86,7 +65,13 @@ class affController extends baseController {
                 System::redirectUrl('/lk/aff?success');
             }
         }
-        
+        if (isset($_POST['addlinktg'])) {
+            $product_id =intval( $_POST['product_id']);
+            $telegram = htmlentities($_POST['telegram']) ? htmlentities($_POST['telegram']) : null;
+            if ($telegram!=null&&   $product_id!=null){
+                TelegramProduct::addOrUpdate(  $product_id , $telegram );
+            }
+        }
         if (isset($_POST['save_req'])) {
             if (isset($_POST['req'])) {
                 foreach($_POST['req'] as $key => $value) {

@@ -5,12 +5,33 @@ class TelegramProduct{
     public static function addOrUpdate($id_proguct, $telegram)
     {
         $db = Db::getConnection();
-        $sql = 'INSERT INTO '.PREFICS.'telegram_proguct (id_proguct, telegram) 
-            VALUES ( '.$id_proguct.', "'.$telegram.'" ) ON DUPLICATE KEY UPDATE id_proguct= '.$id_proguct.',telegram="'.$telegram.'"';
-
-        $result = $db->prepare( $sql);
-        return $result->execute();
+    
+        // Шаг 1: Проверка существования записи с таким id_proguct
+        $checkSql = 'SELECT COUNT(*) FROM '.PREFICS.'telegram_proguct WHERE id_proguct = :id_proguct';
+        $checkResult = $db->prepare($checkSql);
+        $checkResult->bindParam(':id_proguct', $id_proguct, PDO::PARAM_INT);
+        $checkResult->execute();
+        $exists = $checkResult->fetchColumn();
+    
+        // Шаг 2: В зависимости от результата выполняем либо обновление, либо вставку
+        if ($exists) {
+            // Обновление записи
+            $updateSql = 'UPDATE '.PREFICS.'telegram_proguct SET telegram = :telegram WHERE id_proguct = :id_proguct';
+            $updateResult = $db->prepare($updateSql);
+            $updateResult->bindParam(':telegram', $telegram, PDO::PARAM_STR);
+            $updateResult->bindParam(':id_proguct', $id_proguct, PDO::PARAM_INT);
+            return $updateResult->execute();
+        } else {
+            // Вставка новой записи
+            $insertSql = 'INSERT INTO '.PREFICS.'telegram_proguct (id_proguct, telegram) VALUES (:id_proguct, :telegram)';
+            $insertResult = $db->prepare($insertSql);
+            $insertResult->bindParam(':id_proguct', $id_proguct, PDO::PARAM_INT);
+            $insertResult->bindParam(':telegram', $telegram, PDO::PARAM_STR);
+            return $insertResult->execute();
+        }
     }
+    
+    
 
     public static function searchByProguctId($id_proguct) {
 

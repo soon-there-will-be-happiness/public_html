@@ -165,10 +165,10 @@
                                 if($telegram!=false):?>
                                 <input type="text" name="telegram" class="order_link_input" value="<?=$telegram['telegram']?>" >
                                 <?else:?>
-                                    <input type="text" name="telegram" class="order_link_input" value="https://t.me/+Q0Eh2EVqoctkZmFi"  >
+                                    <input type="text" name="telegram" class="order_link_input" value=""  >
                                 <?endif;?>
-                                <input type="hidden" name="product_id"  value="31" >
-                                <button type="submit">Отправить</button>
+                                <input type="hidden" name="product_id" id="product_id" value="<?=$link['product_id']?>" >
+                                <button type="submit"  name="addlinktg">Отправить</button>
                             </form>
                         </td>
                     </tr>
