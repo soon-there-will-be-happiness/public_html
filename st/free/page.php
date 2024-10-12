@@ -732,14 +732,15 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 </div>
 </div>
 <script src="js/script.js">
-<?php $telegram=TelegramProduct::searchByProguctId($link['product_id']);
-if($telegram!=false):
-?>
+</script>
+<script>
+<?php $telegram=TelegramProduct::searchByProguctId(31);
+if($telegram!=false):?>
 document.getElementById('buy').addEventListener('click', function() {
-  let newWindow = window.open(<?=$telegram['telegram']?>, "_blank");
+    let newWindow = window.open(<?=$telegram['telegram']?>, "_blank");
 });
 <?php endif;?>
-    
+
 </script>
 <!-- <script>
     // Выполнение функции updateLabels после загрузки внешнего скрипта
