@@ -1,7 +1,7 @@
 <?php defined('BILLINGMASTER') or die;
 // <?php echo System::Lang('HELLO');
 $lang = array(
-'Parent/Child' => 'Батько/Дитина',
+'Parent/Child' => 'Сімейні рахунки',
 
 'DELETE_TASK' => 'Видалити завдання',
 'DELETE_STORAGE' => 'Видалити сховище',

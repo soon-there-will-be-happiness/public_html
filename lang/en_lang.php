@@ -3,7 +3,7 @@
 // <?= System::Lang('HELLO');
 
 $lang = array(
-'Parent/Child' => 'Parent/Child' ,
+'Parent/Child' => 'Family accounts' ,
 'DELETE_TASK' => 'Delete task',
 'DELETE_STORAGE' => 'Delete storage',
 
