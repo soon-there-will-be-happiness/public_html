@@ -131,6 +131,7 @@ return [
     'lk/aff' => 'aff/aff', // стартовая страница партнёрки в кабинете
     'lk/author' => 'aff/author',
     'lk/telegram' => 'aff/telegram',
+    "aff/parent"=>"aff/parent",
     ///////////////////////
     /// АДМИНКА
     //////////////////////

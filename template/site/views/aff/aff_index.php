@@ -19,7 +19,7 @@ if(isset($_GET['success'])):
         <li id="tab4"><?=System::Lang('PARTER_ORDERS');?></li>
         <li id="tab6"><?=System::Lang('ATTRACTED_PEOPLE');?></li>
         <li id="tab5"><?=System::Lang('REQUISITES');?></li>
-        <li id="tab6"><?=System::Lang('Parent/Child');?></li>
+
         <!-- <li id="tab7"><?=System::Lang('INTEGRATION');?></li> -->
     </ul>
 
@@ -30,7 +30,7 @@ if(isset($_GET['success'])):
         <?php require_once (__DIR__ . '/aff_cabinet/aff_orders_tab.php');?>
         <?php require_once (__DIR__ . '/aff_cabinet/aff_people_tab.php');?>
         <?php require_once (__DIR__ . '/aff_cabinet/aff_requisites_tab.php');?>
-        <?php require_once (__DIR__ . '/aff_cabinet/aff_child_parther_tab.php');?>
+
         <?php //require_once (__DIR__ . '/aff_cabinet/aff_postbacks_tab.php');?>
     </div>
 </div>

@@ -169,7 +169,7 @@ $courses_enable = System::CheckExtensension('courses', 1);
                 if (isset($user_menu['custom1']) && $user_menu['custom1'] == 1) {
                     $user_menu_links[] = ['href' => $user_menu['custom1_url'], 'title' => $user_menu['custom1_title']];
                 }
-
+                $user_menu_links[] = ['href' => '/lk/membership', 'title' => $user_menu['mysubs_title']];
                 if($user_menu_links):?>
                     <ul>
                         <?foreach ($user_menu_links as $menu_link):?>
@@ -192,7 +192,7 @@ $courses_enable = System::CheckExtensension('courses', 1);
                     }
                 }
                 if ($user['is_partner'] == 1 && isset($user_menu['partners']) && $user_menu['partners']) {
-                    $user_menu_links[] = ['href' => '/lk/aff', 'title' => $user_menu['partners_title']];
+                    $user_menu_links[] = ['href' => '/aff/parent', 'title' => "Семейные аккаунты"];
                 }
 
                 if($user_menu_links):?>

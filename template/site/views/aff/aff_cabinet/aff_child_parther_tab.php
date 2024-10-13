@@ -1,13 +1,11 @@
 <?defined('BILLINGMASTER') or die;?>
-<!-- 4 Партнёрские заказы -->
+
 <div>
     <div class="table-responsive">
-        <p><?=System::Lang('SHOW');?> <a href="/lk/aff"<?if(!isset($_GET['all'])) echo ' style="font-weight:bold"'?>><?=System::Lang('ONLY_PAID');?></a> | <a href="/lk/aff?all"<?if(isset($_GET['all'])) echo ' style="font-weight:bold"'?>><?=System::Lang('SHOW_ALL');?></a></p>
         <table class="usertable fz-14">
             <tr>
                 <th>Email родителя или ребенка</th>
-                <th>Продукты</th>         
-        
+                <th>Продукты</th>
             </tr>
 
            <?
@@ -64,6 +62,6 @@
             endif;?>
         </table>
 
-        <p class="text-right"><?='Итого: '.$total_summ_orders;?> <?=$this->settings['currency'];?></p>
+
     </div>
 </div>

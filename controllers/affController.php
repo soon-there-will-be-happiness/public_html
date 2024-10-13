@@ -156,10 +156,20 @@ class affController extends baseController {
 
         require_once ("{$this->template_path}/main.php");
     }
-    
-    
-    
-    // СТРАНИЦА АВТОРА В ЛИЧНОМ КАБИНЕТЕ
+public function actionParent(){
+    $userId = User::checkLogged();
+
+    $user = User::getUserById($userId);
+
+
+
+    $this->setSEOParams('Партнёрская программа');
+    $this->setViewParams('aff', 'aff/aff_cabinet/aff_child_parther_tab.php',
+    false, null, 'aff-req-page'
+);
+
+    require_once ("{$this->template_path}/main.php");
+}
     public function actionAuthor()
     {
         $extension = System::CheckExtensension('partnership', 1);
