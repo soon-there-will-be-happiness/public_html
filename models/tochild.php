@@ -10,7 +10,7 @@ class ToChild{
         $result = $db->prepare( $sql);
         return $result->execute();
     }
-    public static function searchByPartherAndOrderId($client_email, $id_order) {
+    public static function searchByParentAndOrderId($client_email, $id_order) {
 
         $db = Db::getConnection();
         $query = "SELECT *
@@ -22,7 +22,35 @@ class ToChild{
             $data[] = $row;
                 }
         return !empty($data) ? $data : false;
-        }
+    }
+    
+    public static function searchByParent($client_email) {
+
+        $db = Db::getConnection();
+        $query = "SELECT *
+                    FROM ".PREFICS."child WHERE client_email = '$client_email' ORDER BY id DESC";
+        $result = $db->query($query);
+
+        $data = [];
+        while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            $data[] = $row;
+                }
+        return !empty($data) ? $data : false;
+    }
+    
+    public static function searchByChild($child_email) {
+
+        $db = Db::getConnection();
+        $query = "SELECT *
+                    FROM ".PREFICS."child WHERE child_email = '$child_email' ORDER BY id DESC";
+        $result = $db->query($query);
+
+        $data = [];
+        while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            $data[] = $row;
+                }
+        return !empty($data) ? $data : false;
+    }
     public static function close( $id_order,$email){
     $db = Db::getConnection();
     $sql = 'UPDATE '.PREFICS.'child SET child_email = :email, status=true WHERE id_order = '.$id_order;

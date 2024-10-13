@@ -3,6 +3,7 @@
 // <?= System::Lang('HELLO');
 
 $lang = array(
+'Parent/Child' => 'Родитель/Ребенок',
 'TELEGRAM_TILE' => 'Телеграм',
 'DELETE_TASK' => 'Удалить задание',
 'DELETE_STORAGE' => 'Удалить хранилище',
