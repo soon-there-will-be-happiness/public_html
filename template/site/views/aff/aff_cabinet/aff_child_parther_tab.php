@@ -15,7 +15,7 @@
                 <td class="text-right">
                     <?=$orders['child_email'] ?>
                 </td>
-                <?$order_items = self::getOrderItems($order['id_order']);
+                <?$order_items = Order::getOrderItems($order['id_order']);
                 $all_product="";
                 foreach($order_items as $item) {
                     $product = Product::getProductDataForSendOrder($item['product_id']);
@@ -33,7 +33,7 @@
                 <td class="text-right">
                     <?=$orders['client_email'] ?>
                 </td>
-                <?$order_items = self::getOrderItems($order['id_order']);
+                <?$order_items = Order::getOrderItems($order['id_order']);
                 $all_product="";
                 foreach($order_items as $item) {
                     $product = Product::getProductDataForSendOrder($item['product_id']);
