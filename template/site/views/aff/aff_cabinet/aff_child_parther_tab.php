@@ -15,10 +15,10 @@
                 <td class="text-right">
                     <?=$orders['child_email'] ?>
                 </td>
-                <?$order_items = Order::getOrderItems($order['id_order']);
+                <?$order_items = Order::getOrderItems($orders['id_order']);
                 $all_product="";
-                foreach($order_items as $item) {
-                    $product = Product::getProductDataForSendOrder($item['product_id']);
+                foreach($item as $order_items  ) {
+                    $product = Product::getProductDataForSendOrder($item[0]['product_id']);
                     $all_product.=", "+$product['product_name'];
                 }?>
                 <td class="text-right">
@@ -33,10 +33,10 @@
                 <td class="text-right">
                     <?=$orders['client_email'] ?>
                 </td>
-                <?$order_items = Order::getOrderItems($order['id_order']);
+                <?$order_items = Order::getOrderItems( $orders['id_order']);
                 $all_product="";
-                foreach($order_items as $item) {
-                    $product = Product::getProductDataForSendOrder($item['product_id']);
+                foreach($item as $order_items  ) {
+                    $product = Product::getProductDataForSendOrder($item[0]['product_id']);
                     $all_product.=", "+$product['product_name'];
                 }?>
                 <td class="text-right">
