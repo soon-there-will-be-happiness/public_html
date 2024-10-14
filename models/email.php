@@ -768,10 +768,7 @@ class Email {
             '[PINCODE]' => $pin,
             '[EMAIL]' => $email,
             '[AUTH_LINK]' => $prelink,
-            
-            
-            
-            
+
         );
 
         if (preg_match('#\[CUSTOM_FIELD_([0-9]+)\]#', $letter)) {
