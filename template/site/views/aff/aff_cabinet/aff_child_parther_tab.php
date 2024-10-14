@@ -10,7 +10,7 @@
             <?$status = isset($_GET['all']) ? 'all' : 'pay';
             $child = ToChild::searchByParent($user['email']);
             if($child!=false):
-            foreach($orders as $child):?>
+            foreach( $child as $orders):?>
             <tr>
                 <td class="text-right">
                     <?=$orders['child_email'] ?>
@@ -28,7 +28,7 @@
             <?endforeach;endif;?>
             <?$parent = ToChild::searchByChild($user['email']);
             if($parent!=false):
-            foreach($orders as $parent):?>
+            foreach($parent as $orders ):?>
             <tr>
                 <td class="text-right">
                     <?=$orders['client_email'] ?>

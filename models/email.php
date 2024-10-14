@@ -1556,27 +1556,7 @@ class Email {
         return $result->execute();
     }
 
-   /* public static function sendMessageAccountStatement($email, $order_id, $client_name, $client_surmane, $product_id, $product_name, $client_email, $client_phone, $order_date, $price) {
-        $setting = System::getSetting();
-        $letter = System::Lang('ACCOUNT_STATEMENT_NOTIFY_EMAIL');
-        $replace = array (
-            '[ORDER_ID]' => $order_id,
-            '[PRODUCT_ID]' => $product_id,
-            '[PRODUCT_NAME]' => $product_name,
-            '[CLIENT_EMAIL]' => $client_email,
-            '[CLIENT_PHONE]' => $client_phone,
-            '[SUMM]' => $price,
-            '[CLIENT_NAME]' => $client_name,
-            '[CLIENT_SURNAME]' => $client_surmane,
-            '[LINK]' => $setting['script_url'].'/pay/'.$order_date,
-            
-            
-        );
-        $text = strtr($letter, $replace);
-        $subject = System::Lang('Сформирован заказ');
 
-        return self::sender($email, $subject, $text, $setting, $setting['sender_email'], $email);
-    }*/
     public static function sendMessageAccountStatement($email, $order_id, $client_name, $client_surmane, $product_id, $product_name, $client_email, $client_phone, $order_date, $price,$to_child=false) {
         $setting = System::getSetting();
         $letter = System::Lang('ACCOUNT_STATEMENT_NOTIFY_EMAIL');
