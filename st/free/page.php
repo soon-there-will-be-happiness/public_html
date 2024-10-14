@@ -696,12 +696,12 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                             </div>
                                         </div>
                                     </div> -->
-                                    <!-- <div class="not-me" style="display:none;">
+                                    <div class="not-me" style="display:none;">
                                         <input type="checkbox" id="agreement" name="not-me" checked>
                                         <label>
                                             Курс буду проходить не я
                                         </label>
-                                    </div>  -->
+                                    </div>
                                     <label>
                                         <input type="checkbox" id="agreement" name="agreement" required> 
                                         <!--politika-->
