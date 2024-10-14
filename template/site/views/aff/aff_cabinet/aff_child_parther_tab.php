@@ -17,8 +17,8 @@
                 </td>
                 <?$order_items = Order::getOrderItems($orders['id_order']);
                 $all_product="";
-                foreach($item as $order_items  ) {
-                    $product = Product::getProductDataForSendOrder($item[0]['product_id']);
+                foreach($order_items as  $item ) {
+                    $product = Product::getProductDataForSendOrder($item['product_id']);
                     $all_product.=", "+$product['product_name'];
                 }?>
                 <td class="text-right">
@@ -35,8 +35,8 @@
                 </td>
                 <?$order_items = Order::getOrderItems( $orders['id_order']);
                 $all_product="";
-                foreach($item as $order_items  ) {
-                    $product = Product::getProductDataForSendOrder($item[0]['product_id']);
+                foreach($order_items as  $item ) {
+                    $product = Product::getProductDataForSendOrder($item['product_id']);
                     $all_product.=", "+$product['product_name'];
                 }?>
                 <td class="text-right">
