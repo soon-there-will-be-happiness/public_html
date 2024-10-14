@@ -192,7 +192,9 @@ $courses_enable = System::CheckExtensension('courses', 1);
                     }
                 }
                 $user_menu_links[] = ['href' => '/aff/parent', 'title' => "Семейные аккаунты"];
-
+                if ($user['is_partner'] == 1 && isset($user_menu['partners']) && $user_menu['partners']) {
+                    $user_menu_links[] = ['href' => '/lk/aff', 'title' => $user_menu['partners_title']];
+                }
 
                 if($user_menu_links):?>
                     <ul>
