@@ -634,8 +634,8 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 <div id="popup" class="popup hidden">
     <div class="popup-content">
         <span class="close-btn">&times;</span>
-        <h4>Эта форма регистрации на пробный урок. Пожалуйста, заполните свои данные для получения доступа.</h4>
-        <p>Продукт: <?=$product['product_name'];?></br>
+        <h4 class="pop_up_title">Форма регистрации на пробный урок на платформе. Для получения доступа к уроку заполните данные о себе.</h4>
+        <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?></br>
            Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
         
         <form class="form" action="<?=$setting['script_url']?>/buy/31" method="POST" <?=$metriks;?> id="form_order_buy">
@@ -696,12 +696,12 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                             </div>
                                         </div>
                                     </div> -->
-                                    <div class="not-me" style="display:none;">
+                                    <!-- <div class="not-me" style="display:none;">
                                         <input type="checkbox" id="agreement" name="not-me" checked>
                                         <label>
                                             Курс буду проходить не я
                                         </label>
-                                    </div>
+                                    </div> -->
                                     <label>
                                         <input type="checkbox" id="agreement" name="agreement" required> 
                                         <!--politika-->
