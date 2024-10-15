@@ -19,7 +19,11 @@
                 $all_product="";
                 foreach($order_items as  $item ) {
                     $product = Product::getProductDataForSendOrder($item['product_id']);
+                    if(  $all_product!="")
                     $all_product.=", ".$product['product_name'];
+                    else
+                    $all_product.=$product['product_name'];
+
                 }?>
                 <td class="text-right">
                     <?=$all_product ?>
@@ -37,7 +41,10 @@
                 $all_product="";
                 foreach($order_items as  $item ) {
                     $product = Product::getProductDataForSendOrder($item['product_id']);
+                    if(  $all_product!="")
                     $all_product.=", ".$product['product_name'];
+                    else
+                    $all_product.=$product['product_name'];
                 }?>
                 <td class="text-right">
                     <?=$all_product ?>
