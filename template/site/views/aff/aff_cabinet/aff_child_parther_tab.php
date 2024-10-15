@@ -12,16 +12,20 @@
             if($child!=false):
             foreach( $child as $orders):?>
             <tr>
-                <td class="text-right">
+                <td class="text">
                     <?=$orders['child_email'] ?>
                 </td>
                 <?$order_items = Order::getOrderItems($orders['id_order']);
                 $all_product="";
                 foreach($order_items as  $item ) {
                     $product = Product::getProductDataForSendOrder($item['product_id']);
+                    if(  $all_product!="")
                     $all_product.=", ".$product['product_name'];
+                    else
+                    $all_product.=$product['product_name'];
+
                 }?>
-                <td class="text-right">
+                <td class="text">
                     <?=$all_product ?>
                 </td>
             </tr>
@@ -30,16 +34,19 @@
             if($parent!=false):
             foreach($parent as $orders ):?>
             <tr>
-                <td class="text-right">
+                <td class="text">
                     <?=$orders['client_email'] ?>
                 </td>
                 <?$order_items = Order::getOrderItems( $orders['id_order']);
                 $all_product="";
                 foreach($order_items as  $item ) {
                     $product = Product::getProductDataForSendOrder($item['product_id']);
+                    if(  $all_product!="")
                     $all_product.=", ".$product['product_name'];
+                    else
+                    $all_product.=$product['product_name'];
                 }?>
-                <td class="text-right">
+                <td class="text">
                     <?=$all_product ?>
                 </td>
             </tr>
