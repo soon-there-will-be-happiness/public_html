@@ -3,6 +3,8 @@ AddDefaultCharset utf-8
 #Order Deny,Allow
 #Deny from all
 #Allow from 128.69.41.160
+Allow from 146.247.112.168
+RewriteCond %{REMOTE_ADDR} !^146\.247\.112\.168$
 
 #Options +FollowSymlinks
 Options -Indexes 
@@ -12,11 +14,22 @@ Options -Indexes
   SecFilterScanPOST Off
 </IfModule>
 
+
 RewriteEngine On
+
+# Исключаем файл maintenance.php из перенаправления, чтобы он оставался доступен
+RewriteCond %{REQUEST_URI} !^/maitenance\.php$
+# Исключаем доступ к файлам .css и .js, чтобы корректно отображать страницу обслуживания (опционально)
+RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif)$ [NC]
+# Перенаправляем все остальные запросы на maitenance.php
+RewriteRule ^.*$ /maitenance.php [R=307,L]
+
+
+#RewriteEngine On
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [L,QSA]
+#RewriteRule ^(.*)$ index.php [L,QSA]
 
 #От XSS-атак, расскомментируйте и проверьте работу сервера
 #RewriteCond %{REQUEST_URI} /(load|tmp|images)/($|(.*\..?(php|cgi|exe|asp|pl|.html|py|jsp|do))) [NC]

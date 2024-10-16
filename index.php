@@ -3,6 +3,12 @@
 define('START', microtime(1));
 define('CURR_VER', '3.9.9');
 
+if (file_exists('maintenance.flag') && $_SERVER['REQUEST_URI'] !== 'maintenance.php') {
+    header('Location: maintenance.php');
+    exit;
+}
+
+
 // Настройки
 require_once 'setting.php';
 

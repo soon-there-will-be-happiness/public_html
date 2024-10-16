@@ -83,9 +83,9 @@
                             <td>
                                 <? $child=ToChild::searchByOrderId($order['order_id']);?>
                                 <? if($child!=false):?>
-                                    <? if($user['email']!=$child['child_email']):?>
+                                    <? if(isset($child['child_email']) && $user['email']!=$child['child_email']):?>
                                         Прикреплен к ребенку:<?=$child['child_email'];?>
-                                    <?else:?>
+                                    <?php elseif (isset($child['client_email'])): ?>
                                         Родитель:<?=$child['client_email'];?>
                                     <?endif;?>
                                 <?endif;?>
