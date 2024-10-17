@@ -41,7 +41,7 @@
                 <?if($orders['child_email']==null):?>
                 <td>
                     Ссылка на регистрацию
-                <?=$setting['script_url'].'/lk/registration?o='.$order_id; ?>
+                <?=$setting['script_url'].'/lk/registration?o='.$orders['id_order']; ?>
                 </td>
                 <?endif;?>
             </tr>
