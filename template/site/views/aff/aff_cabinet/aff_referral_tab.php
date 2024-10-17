@@ -154,13 +154,14 @@
                                         <span class="text-right"><?=System::Lang('TG_GROUP');?></span>
                                        
                                         <form class="table-form-input" action="" method="POST">
-                                            <?php $telegram=TelegramProduct::searchByProguctId($link['product_id']);
+                                            <?php $telegram=TelegramProduct::searchByProductId($user['user_id'],$link['product_id']);
                                             if($telegram!=false):?>
                                                 <input type="text" id ="telegram" name="telegram" class="link_input" value="<?=$telegram['telegram']?>">
                                             <?else:?>
                                                 <input type="text" id ="telegram" name="telegram" class="link_input" value="">
                                             <?endif;?>
                                             <input style="display:none;" type="hidden" name="product_id" id="product_id" value="<?=$link['product_id']?>">
+                                            <input style="display:none;" type="hidden" name="user_id" id="user_id" value="<?=$user['user_id']?>">
                                             <button style="display:none;" type="submit"  name="addlinktg">Отправить</button>
                                         </form>
                                        

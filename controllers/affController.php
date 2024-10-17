@@ -65,10 +65,11 @@ class affController extends baseController {
             }
         }
         if (isset($_POST['addlinktg'])) {
-            $product_id =intval( $_POST['product_id']);
-            $telegram = htmlentities($_POST['telegram']) ? htmlentities($_POST['telegram']) : null;
-            if ($telegram!=null&&   $product_id!=null){
-                TelegramProduct::addOrUpdate(  $product_id , $telegram );
+            $user_id =intval($_POST['user_id']);
+            $product_id =intval($_POST['product_id']);
+            $telegram = !empty($_POST['telegram']) ? htmlentities($_POST['telegram']) : null;
+            if (!is_null($telegram) && !is_null($product_id) && !is_null($user_id)){
+                TelegramProduct::addOrUpdate($user_id, $product_id , $telegram );
             }
         }
         if (isset($_POST['save_req'])) {

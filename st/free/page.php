@@ -732,7 +732,7 @@ document.getElementById('buy').addEventListener('click', function() {
 document.getElementById('buy').addEventListener('click', function() {
     const form = document.getElementById('form_order_buy');
     if (form.checkValidity()) {
-        <?php $telegram = TelegramProduct::searchByProguctId($id);
+        <?php $telegram = TelegramProduct::searchByProductId($partner_id,$id);
         if($telegram != false): ?>
         window.open('<?=$telegram['telegram']?>', '_blank');
         <?php endif; ?>
