@@ -1,4 +1,6 @@
-<?defined('BILLINGMASTER') or die;?>
+<?defined('BILLINGMASTER') or die;
+ $setting = System::getSetting();
+?>
 
 <div>
     <div class="table-responsive">
@@ -13,7 +15,15 @@
             foreach( $child as $orders):?>
             <tr>
                 <td class="text">
+                    <?if($orders['child_email']!=null):?>
                     <?=$orders['child_email'] ?>
+                    <?else:?>
+                        <form class="table-form-input" action="" method="POST">
+                            <input type="text" id ="child" name="child" class="link_input" value="">
+                            <input style="display:none;" type="hidden" name="id_order" id="id_order" value="<?=$orders['id_order']?>">
+                            <button type="submit"  name="addchild">Отправить</button>
+                        </form>
+                    <?endif;?>
                 </td>
                 <?$order_items = Order::getOrderItems($orders['id_order']);
                 $all_product="";
@@ -28,6 +38,12 @@
                 <td class="text">
                     <?=$all_product ?>
                 </td>
+                <?if($orders['child_email']==null):?>
+                <td>
+                    Ссылка на регистрацию
+                <?=$setting['script_url'].'/lk/registration?o='.$order_id; ?>
+                </td>
+                <?endif;?>
             </tr>
             <?endforeach;endif;?>
             <?$parent = ToChild::searchByChild($user['email']);

@@ -1519,7 +1519,7 @@ class Order {
                 if ($right == 1) {
                     $to_child=ToChild::searchByOrderId($order['order_id']);
                     $send = Email::SendOrder($order['order_date'], $product['letter'], $product['product_name'],
-                    $order['client_name'], $order['client_email'], $order['summ'], $pincode = 0,$to_child,$order['order_id']);
+                    $order['client_name'], $order['client_email'], $order['summ'], $pincode = 0,$to_child!=false,$order['order_id']);
                 }
 
             }
