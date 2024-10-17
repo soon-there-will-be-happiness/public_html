@@ -756,7 +756,7 @@ class Email {
         if($to_child==true)
         {
             $letter.=" <p>".$setting['script_url'].'/lk/registration?o='.$order_id."</p>";
-            $order_date=" $order_date.<p> Ссілка для регистрации".$setting['script_url'].'/lk/registration?o='.$order_id."</p>";
+            $order_date=" $order_date.<p> Ссылка для регистрации".$setting['script_url'].'/lk/registration?o='.$order_id."</p>";
         }
 
         // реплейсим письмо
