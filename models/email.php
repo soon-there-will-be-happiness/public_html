@@ -756,7 +756,7 @@ class Email {
         if($to_child==true)
         {
             $letter.=" <p>".$setting['script_url'].'/lk/registration?o='.$order_id."</p>";
-            $order_date=" $order_date.<p> Ссылка для регистрации".$setting['script_url'].'/lk/registration?o='.$order_id."</p>";
+            $order_date=" $order_date.<p> Ссылка для регистрацию: ".$setting['script_url'].'/lk/registration?o='.$order_id."</p>";
         }
 
         // реплейсим письмо
@@ -764,7 +764,7 @@ class Email {
             '[CLIENT_NAME]' => $name,
             '[FULL_NAME]' => $name.' '.$surname,
             '[NAME]' => $name ?? " ",
-            '[ORDER]' => $order_date." <p> Конец письма </p>",
+            '[ORDER]' => $order_date,
             '[PRODUCT_NAME]' => $product,
             '[LINK]' => $link,
             '[SUMM]' => $summ,
