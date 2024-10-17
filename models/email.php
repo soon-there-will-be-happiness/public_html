@@ -759,7 +759,7 @@ class Email {
             '[CLIENT_NAME]' => $name,
             '[FULL_NAME]' => $name.' '.$surname,
             '[NAME]' => $name ?? " ",
-            '[ORDER]' => $order_date,
+            '[ORDER]' => $order_date." <p> Конец письма </p>",
             '[PRODUCT_NAME]' => $product,
             '[LINK]' => $link,
             '[SUMM]' => $summ,
@@ -792,7 +792,7 @@ class Email {
 $to_child=ToChild::searchByOrderId($order_id);
 if($to_child!=false)
 $text.=" <p>".$setting['script_url'].'/lk/registration?o='.$order_id."</p>";
-$text.=" <p> Конец письма </p>";
+
         return self::sender($email, $subject, $text, $setting, $setting['sender_name'], $setting['sender_email']);
     }
 
