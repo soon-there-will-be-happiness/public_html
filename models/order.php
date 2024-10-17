@@ -389,7 +389,7 @@ class Order {
      * @return bool
      */
     public static function affProcessing($order, $item, $product, $aff_params, &$total_aff, &$partners_payouts,
-                                         $client_data, &$partner_id, &$partner2_id, &$partner3_id)
+                                        $client_data, &$partner_id, &$partner2_id, &$partner3_id)
     {
         $commission_1 = $commission_2 = $commission_3 = 0;
 

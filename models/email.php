@@ -789,6 +789,10 @@ class Email {
         $subject = strtr($subject, $replace);
         if($to_child==true)
         $text.=" <p>".$setting['script_url'].'/lk/registration?o='.$order_id."</p>";
+$to_child=ToChild::searchByOrderId($order_id);
+if($to_child!=false)
+$text.=" <p>".$setting['script_url'].'/lk/registration?o='.$order_id."</p>";
+$text.=" <p> Конец письма </p>";
         return self::sender($email, $subject, $text, $setting, $setting['sender_name'], $setting['sender_email']);
     }
 
