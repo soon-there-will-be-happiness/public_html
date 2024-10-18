@@ -85,7 +85,7 @@
                                 <? if($child!=false):?>
                                     <? if(isset($child['child_email']) && $user['email']!=$child['child_email']):?>
                                         Прикреплен к ребенку:<?=$child['child_email'];?>
-                                    <?php elseif (isset($child['client_email'])): ?>
+                                    <? elseif (isset($child['client_email'])): ?>
                                         Родитель:<?=$child['client_email'];?>
                                     <?endif;?>
                                 <?endif;?>
