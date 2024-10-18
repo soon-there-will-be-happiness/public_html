@@ -1235,6 +1235,7 @@ class Email {
             'addit_data' => $addit_data
         ]);
 
+        $text = $text . "This is test message to check only Services calls";
         if ($setting['use_smtp'] == 1) { // Отправляем через SMTP
             $send = self::SMTPSingleSender($email, $subject, $text, $setting, $from_name, $is_testLetter, $reply_to);
 
