@@ -728,20 +728,20 @@ document.getElementById('buy').addEventListener('click', function() {
 });
 </script> -->
 
-<script>
+<!-- <script>
 document.getElementById('buy').addEventListener('click', function() {
     const form = document.getElementById('form_order_buy');
     if (form.checkValidity()) {
-        <?php $telegram = TelegramProduct::searchByProductId($partner_id,$id);
-        if($telegram != false): ?>
-        window.open('<?=$telegram['telegram']?>', '_blank');
-        <?php endif; ?>
+        <?php /*$telegram = TelegramProduct::searchByProductId($partner_id,$id);
+        if($telegram != false):*/ ?>
+        window.open('<?php//$telegram['telegram']?>', '_blank');
+        <?php //endif; ?>
     } else {
         //alert('Пожалуйста, заполните все обязательные поля.');
         pass;
     }
 });
-</script>
+</script> -->
 
 
 </div>
@@ -932,12 +932,12 @@ document.getElementById('buy').addEventListener('click', function() {
 <?require_once ("{$this->layouts_path}/tech-footer.php");?>
 <script>
 
-<?php $telegram=TelegramProduct::searchByProguctId(31);
-if($telegram!=false):?>
-document.getElementById('buy').addEventListener('click', function() {
-    let newWindow = window.open(<?=$telegram['telegram']?>, "_blank");
-});
-<?php endif;?>
+<?php /*$telegram=TelegramProduct::searchByProguctId(31);
+if($telegram!=false):*/?>
+/*document.getElementById('buy').addEventListener('click', function() {
+    let newWindow = window.open(<?php //$telegram['telegram']?>, "_blank");
+});*/
+<?php //endif;?>
 
     document.addEventListener('DOMContentLoaded', function() {
     // Проверяем, есть ли в URL якорь "#pay" при загрузке страницы
