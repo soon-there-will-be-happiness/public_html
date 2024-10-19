@@ -296,7 +296,6 @@ class userController extends baseController {
                                     null, null, null, null, true);
                                     ToChild::close($order_id,$email);
                                     if ($user['channel_id'] != 0 && $user['channel_id'] != $order['channel_id']) {
-                                     
                                         Order::updateChannel_id($order['order_id'], $user['channel_id']);
                                     }
                                     $items = Order::getOrderItems($order['order_id']);

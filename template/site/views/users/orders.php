@@ -86,9 +86,9 @@
                                 <? $child=ToChild::searchByOrderId($order['order_id']);?>
                                 <? if($child!=false):?>
                                     <? if(isset($child['child_email'])!=false && $current_user['email']==$child['client_email']):?>
-                                        Прикреплен к ребенку:<?=$child['child_email'];?>
-                                    <? elseif (isset($child['client_email'])): ?>
-                                        Родитель:<?=$child['client_email'];?>
+                                        Прикреплен к ребенку <?=$child['child_email'];?>
+                                    <? elseif (isset($child['client_email'])&& $current_user['email']!=$child['client_email']): ?>
+                                        Родитель: <?=$child['client_email'];?>
                                     <?endif;?>
                                 <?endif;?>
                             </td>

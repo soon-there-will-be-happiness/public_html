@@ -72,8 +72,8 @@ class affController extends baseController {
         }
         if (isset($_POST['addchild'])) {
             $child =intval( $_POST['child']);
-            $id_order = htmlentities($_POST['id_order']) ? htmlentities($_POST['id_order']) : null;
-            if ($child!=null&&   $id_order!=null){
+            $id_order = intval($_POST['id_order']) ;
+            if ($child!=null&&$id_order!=null){
                 $user_child = User::searchUser($child);
                 $order=Order::getOrder($order_id);
                 if($user_child!=false){
