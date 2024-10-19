@@ -170,40 +170,24 @@ class affController extends baseController {
                 $order = Order::getOrder($order_id);
                 $user_child = User::searchByUser($child_email);
                 if($user_child==false){
-                    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>?';
-                    $characters_length = strlen($characters);
-                    $random_password = '';
-                
-                    for ($i = 0; $i < 12; $i++) {
-                        $random_password .= $characters[random_int(0, $characters_length - 1)];
-                    }
-                    $pass=$random_password;
-                    $hash = password_hash($pass, PASSWORD_DEFAULT);
-                    $reg_date = time();
-                    $user_param = "$reg_date;0;;";
-                    $date = time();
                     $setting = System::getSetting();
                     $send_pass = $setting['enable_cabinet'];
                     $enter_method = 'free';
                     $is_client=true;
-            // Создаём пароль клиенту
-            $order_info = $order['order_info'] != null ? unserialize(base64_decode($order['order_info'])) : null;
-            $surname = isset($order_info['surname']) ? $order_info['surname'] : null;
-            $nick_telegram = isset($order_info['nick_telegram']) ? $order_info['nick_telegram'] : null;
-            $nick_instagram = isset($order_info['nick_instagram']) ? $order_info['nick_instagram'] : null;
-            $vk_id = isset($order_info['vk_id']) ? $order_info['vk_id'] : null;
-            $ok_id = isset($order_info['ok_id']) ? $order_info['ok_id'] : 0;
-            $patronymic = isset($order_info['patronymic']) ? $order_info['patronymic'] : null;
+                    $order_info = $order['order_info'] != null ? unserialize(base64_decode($order['order_info'])) : null;
+                    $surname = isset($order_info['surname']) ? $order_info['surname'] : null;
+                    $nick_telegram = isset($order_info['nick_telegram']) ? $order_info['nick_telegram'] : null;
+                    $vk_id = isset($order_info['vk_id']) ? $order_info['vk_id'] : null;
+                    $ok_id = isset($order_info['ok_id']) ? $order_info['ok_id'] : 0;
+                    $patronymic = isset($order_info['patronymic']) ? $order_info['patronymic'] : null;
                     $user_child == User::AddNewClient($child_email, $child_email, $order['client_phone'],
                     $order['client_city'], $order['client_address'], $order['client_index'], 'user', $is_client,
                     time(), $enter_method, $order['visit_param'], 1, null, null, $send_pass,
                     $setting['register_letter'], 0, null, $order['partner_id'], $surname, $patronymic,
                     $nick_telegram, "", $order, $vk_id, null, $ok_id
                 );
-                sleep(2); 
-                   // Email::SendLogin($child_email, $child_email, $pass,  $this->settings['register_letter']);
+                sleep(2);
                 }
-                $user_child = User::searchByUser($child_email);
                 $order_items = Order::getOrderItems($order['order_id']);
                 if ($user_child != false) {
                     foreach ($order_items as $order_item) {
