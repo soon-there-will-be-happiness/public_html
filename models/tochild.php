@@ -63,8 +63,7 @@ class ToChild{
     public static function searchByOrderId( $id_order) {
 
         $db = Db::getConnection();
-        $query = "SELECT *
-                    FROM ".PREFICS."child WHERE id_order = '$id_order' ";
+        $query = "SELECT * FROM ".PREFICS."child WHERE id_order = '$id_order' ";
         $result = $db->query($query);
 
         $data = [];
@@ -72,7 +71,7 @@ class ToChild{
             $data[] = $row;
         }
 
-        return !empty($data) ? $data : false;
+        return !empty($data) ? $data[0] : false;
 
     }
 
