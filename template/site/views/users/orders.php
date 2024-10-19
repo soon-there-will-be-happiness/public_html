@@ -11,6 +11,8 @@
 
     // Вывод уведомления Telegram
     Connect::showConnectNotice('telegram', $user['user_id'], true);
+    $current_user = User::getUserById($user['user_id']);
+
 ?>
 
     <?if(isset($_GET['success'])):?>
@@ -83,9 +85,8 @@
                             <td>
                                 <? $child=ToChild::searchByOrderId($order['order_id']);?>
                                 <? if($child!=false):?>
-                                    Прикреплен к ребенку:
-                                    <? if(isset($child['child_email']) && $user['email']!=$child['child_email']):?>
-                                        <?=$child['child_email'];?>
+                                    <? if(isset($child['child_email'])!=false && $current_user['email']==$child['client_email']):?>
+                                        Прикреплен к ребенку:<?=$child['child_email'];?>
                                     <? elseif (isset($child['client_email'])): ?>
                                         Родитель:<?=$child['client_email'];?>
                                     <?endif;?>
