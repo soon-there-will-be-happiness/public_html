@@ -184,6 +184,7 @@ class affController extends baseController {
                     $user_child = User::AddNewClient("Имя", $child_email, "",$order['client_city'], $order['client_address'], $order['client_index'], 'user',true,$reg_date, 'custom', $order['visit_param'],0, $hash,$pass,
                     false,$this->settings['register_letter'], 0, null, $order['partner_id'], "Фамилия", "",
                     null, null, null, null, true);
+                    Email::SendLogin($child_email, $child_email, $pass,  $this->settings['register_letter']);
                 }
 
                 $order_items = Order::getOrderItems($order['order_id']);
