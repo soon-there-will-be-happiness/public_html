@@ -39,7 +39,7 @@ class User {
 
         if ($user_id) {
             if ($send_login == 1 || $send_login == 2 && !$registeredHimself) {
-                Email::SendLogin($name, $email, $password, $letter);
+                Email::SendLogin($name, $email, $password,  $letter);
 
                 if ($phone) {
                     SMS::send2UserRegistration($phone, $name, $email, $password);
