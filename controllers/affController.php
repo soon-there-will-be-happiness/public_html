@@ -191,7 +191,7 @@ class affController extends baseController {
                      null, 
                      $order['partner_id'],
                       "Фамилия", "",
-                    null, null, null, null, true);
+                    null, null, null, null, false);
                     Email::SendLogin($child_email, $child_email, $pass,  $this->settings['register_letter']);
                 }
 
