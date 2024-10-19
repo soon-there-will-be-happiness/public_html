@@ -180,7 +180,7 @@ class affController extends baseController {
                     $vk_id = isset($order_info['vk_id']) ? $order_info['vk_id'] : null;
                     $ok_id = isset($order_info['ok_id']) ? $order_info['ok_id'] : 0;
                     $patronymic = isset($order_info['patronymic']) ? $order_info['patronymic'] : null;
-                    $user_child == User::AddNewClient($child_email, $child_email, $order['client_phone'],
+                    $user_child = User::AddNewClient($child_email, $child_email, $order['client_phone'],
                     $order['client_city'], $order['client_address'], $order['client_index'], 'user', $is_client,
                     time(), $enter_method, $order['visit_param'], 1, null, null, $send_pass,
                     $setting['register_letter'], 0, null, $order['partner_id'], $surname, $patronymic,
