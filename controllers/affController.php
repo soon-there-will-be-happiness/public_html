@@ -164,11 +164,28 @@ class affController extends baseController {
         $user = User::getUserById($user_id);
     
         if (isset($_POST['addchild'])) {
-            $child_email = !empty($_POST['child']) ? htmlentities($_POST['child']) : null;
-            $order_id = intval($_POST['id_order']);
+            $child_email = !empty($_POST['child_email']) ? htmlentities($_POST['child_email']) : null;
+            $order_id = intval($_POST['order_id']);
             if ($child_email != null && $order_id != null) {
-                $user_child = User::searchByUser($child_email);
                 $order = Order::getOrder($order_id);
+                $user_child = User::searchByUser($child_email);
+                if($user_child==false){
+                    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>?';
+                    $characters_length = strlen($characters);
+                    $random_password = '';
+                
+                    for ($i = 0; $i < 12; $i++) {
+                        $random_password .= $characters[random_int(0, $characters_length - 1)];
+                    }
+                    $pass=$random_password;
+                    $hash = password_hash($pass, PASSWORD_DEFAULT);
+                    $reg_date = time();
+                    $user_param = "$reg_date;0;;";
+                    $user_child = User::AddNewClient("Имя", $child_email, "",$order['client_city'], $order['client_address'], $order['client_index'], 'user',true,$reg_date, 'custom', $order['visit_param'],0, $hash,$pass,
+                    false,$this->settings['register_letter'], 0, null, $order['partner_id'], "Фамилия", "",
+                    null, null, null, null, true);
+                }
+
                 $order_items = Order::getOrderItems($order['order_id']);
                 if ($user_child != false) {
                     foreach ($order_items as $order_item) {
@@ -226,8 +243,6 @@ class affController extends baseController {
                         }
                     }
                     ToChild::close($order_id, $child_email);
-                } else {
-                    ErrorPage::returnError('Пользователя с таким email нет в системе');
                 }
             } else {
                 ErrorPage::returnError('Пользователя с таким email нет в системе');
@@ -239,7 +254,7 @@ class affController extends baseController {
     
         require_once ("{$this->template_path}/main.php");
     }
-    
+
     public function actionAuthor()
     {
         $extension = System::CheckExtensension('partnership', 1);

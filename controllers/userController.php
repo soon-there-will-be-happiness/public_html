@@ -367,16 +367,16 @@ class userController extends baseController {
 
 
                                 }else{
-                                    User::addError('Error1');
+                                    User::addError('Too late!');
                                 }
                             }else{
 
-                                User::addError('Error2');
-                         /*   $user = User::AddNewClient($name, $email, $phone, null, null, null,
+                              //  User::addError('Error2');
+                            $user = User::AddNewClient($name, $email, $phone, null, null, null,
                                 'user',  null, $reg_date, 'custom', $user_param, 0, $hash,
                                 $pass, false, $this->settings['register_letter'], 0, null, null,
                                 $surname, $patronymic, null, null, null, null, true
-                            );*/
+                            );
                         }
 
                        

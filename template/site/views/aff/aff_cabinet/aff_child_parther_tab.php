@@ -22,7 +22,7 @@ $settings = System::getSetting();
                             <form class="table-form-input" action="" method="POST">
                                 <input type="text" id="child_email" name="child_email" class="link_input" value="">
                                 <input type="hidden" name="order_id" value="<?= $child['id_order'] ?>">
-                                <button type="submit" name="add_child">Отправить</button>
+                                <button type="submit" name="addchild">Отправить</button>
                             </form>
                         <?php endif; ?>
                     </td>

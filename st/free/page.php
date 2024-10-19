@@ -9,7 +9,8 @@ $product = Product::getProductById($id);
 $price = Price::getFinalPrice($id);
 $setting = System::getSetting();
 $metriks = !empty($this->settings['yacounter']) || $this->settings['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
-
+$date = time();
+$name = $email = $phone = $surname = $patronymic = null;
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 ?>
 <head>

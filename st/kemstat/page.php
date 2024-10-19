@@ -4,6 +4,8 @@
 <?php  defined('BILLINGMASTER') or die;  
 $product = Product::getProductById(28);
 $price = Price::getFinalPrice(28);
+$date = time();
+$name = $email = $phone = $surname = $patronymic = null;
 $setting = System::getSetting();
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 if ($partner_id != null) {
