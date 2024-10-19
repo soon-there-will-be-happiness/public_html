@@ -167,7 +167,7 @@ public function actionParent(){
         $child =!empty($_POST['child']) ? htmlentities($_POST['child']) : null;
         $id_order = intval($_POST['id_order']);
         if ($child!=null&&$id_order!=null){
-            $user_child = User::searchUser($child);
+            $user_child = User::searchByUser($child);
             $order=Order::getOrder( $id_order);
             $items = Order::getOrderItems($order['order_id']);
             if($user_child!=false){
