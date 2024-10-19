@@ -168,7 +168,7 @@ class affController extends baseController {
             $order_id = intval($_POST['order_id']);
             if ($child_email != null && $order_id != null) {
                 $order = Order::getOrder($order_id);
-                $user_child = User::searchByUser($child_email);
+                $user_child = User::getUserDataByEmail($child_email);
                 if($user_child==false){
                     $setting = System::getSetting();
                     $send_pass = $setting['enable_cabinet'];
