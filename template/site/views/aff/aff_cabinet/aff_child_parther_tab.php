@@ -1,5 +1,5 @@
-<?defined('BILLINGMASTER') or die;
- $setting = System::getSetting();
+<?php defined('BILLINGMASTER') or die;
+$settings = System::getSetting();
 ?>
 
 <div>
@@ -9,64 +9,66 @@
                 <th>Email родителя или ребенка</th>
                 <th>Продукты</th>
             </tr>
-            <?$status = isset($_GET['all']) ? 'all' : 'pay';
-            $child = ToChild::searchByParent($user['email']);
-            if($child!=false):
-            foreach( $child as $orders):?>
-            <tr>
-                <td class="text">
-                    <?if($orders['child_email']!=null):?>
-                    <?=$orders['child_email'] ?>
-                    <?else:?>
-                        <form class="table-form-input" action="" method="POST">
-                            <input type="text" id ="child" name="child" class="link_input" value="">
-                            <input style="display:none;" type="hidden" name="id_order" id="id_order" value="<?=$orders['id_order']?>">
-                            <button type="submit"  name="addchild">Отправить</button>
-                        </form>
-                    <?endif;?>
-                </td>
-                <?$order_items = Order::getOrderItems($orders['id_order']);
-                $all_product="";
-                foreach($order_items as  $item ) {
-                    $product = Product::getProductDataForSendOrder($item['product_id']);
-                    if(  $all_product!="")
-                    $all_product.=", ".$product['product_name'];
-                    else
-                    $all_product.=$product['product_name'];
+            <?php 
+            $status = isset($_GET['all']) ? 'all' : 'pay';
+            $children = ToChild::searchByParent($user['email']);
+            if ($children !== false):
+                foreach ($children as $child): ?>
+                <tr>
+                    <td class="text">
+                        <?php if ($child['child_email'] !== null): ?>
+                            <?= $child['child_email'] ?>
+                        <?php else: ?>
+                            <form class="table-form-input" action="" method="POST">
+                                <input type="text" id="child_email" name="child_email" class="link_input" value="">
+                                <input type="hidden" name="order_id" value="<?= $child['id_order'] ?>">
+                                <button type="submit" name="add_child">Отправить</button>
+                            </form>
+                        <?php endif; ?>
+                    </td>
+                    <?php 
+                    $order_items = Order::getOrderItems($child['id_order']);
+                    $product_list = "";
+                    foreach ($order_items as $order_item) {
+                        $product = Product::getProductDataForSendOrder($order_item['product_id']);
+                        $product_list .= ($product_list !== "" ? ", " : "") . $product['product_name'];
+                    }
+                    ?>
+                    <td class="text">
+                        <?= $product_list ?>
+                    </td>
+                    <?php if ($child['child_email'] === null): ?>
+                        <td>
+                            Ссылка на регистрацию
+                            <?= $settings['script_url'] . '/lk/registration?o=' . $child['id_order']; ?>
+                        </td>
+                    <?php endif; ?>
+                </tr>
+                <?php endforeach; 
+            endif; ?>
 
-                }?>
-                <td class="text">
-                    <?=$all_product ?>
-                </td>
-                <?if($orders['child_email']==null):?>
-                <td>
-                    Ссылка на регистрацию
-                <?=$setting['script_url'].'/lk/registration?o='.$orders['id_order']; ?>
-                </td>
-                <?endif;?>
-            </tr>
-            <?endforeach;endif;?>
-            <?$parent = ToChild::searchByChild($user['email']);
-            if($parent!=false):
-            foreach($parent as $orders ):?>
-            <tr>
-                <td class="text">
-                    <?=$orders['client_email'] ?>
-                </td>
-                <?$order_items = Order::getOrderItems( $orders['id_order']);
-                $all_product="";
-                foreach($order_items as  $item ) {
-                    $product = Product::getProductDataForSendOrder($item['product_id']);
-                    if(  $all_product!="")
-                    $all_product.=", ".$product['product_name'];
-                    else
-                    $all_product.=$product['product_name'];
-                }?>
-                <td class="text">
-                    <?=$all_product ?>
-                </td>
-            </tr>
-            <?endforeach;endif;?>
+            <?php 
+            $parents = ToChild::searchByChild($user['email']);
+            if ($parents !== false):
+                foreach ($parents as $parent): ?>
+                <tr>
+                    <td class="text">
+                        <?= $parent['client_email'] ?>
+                    </td>
+                    <?php 
+                    $order_items = Order::getOrderItems($parent['id_order']);
+                    $product_list = "";
+                    foreach ($order_items as $order_item) {
+                        $product = Product::getProductDataForSendOrder($order_item['product_id']);
+                        $product_list .= ($product_list !== "" ? ", " : "") . $product['product_name'];
+                    }
+                    ?>
+                    <td class="text">
+                        <?= $product_list ?>
+                    </td>
+                </tr>
+                <?php endforeach; 
+            endif; ?>
         </table>
     </div>
 </div>

@@ -223,6 +223,7 @@ class userController extends baseController {
      * REGISTRATION
      */
     public function actionRegistration() {
+
         if ($this->settings['enable_registration'] == 0) {
             ErrorPage::return404();
         }

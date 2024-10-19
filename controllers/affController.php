@@ -158,89 +158,88 @@ class affController extends baseController {
 
         require_once ("{$this->template_path}/main.php");
     }
-public function actionParent(){
-    $userId = User::checkLogged();
-
-    $user = User::getUserById($userId);
-
-    if (isset($_POST['addchild'])) {
-        $child =!empty($_POST['child']) ? htmlentities($_POST['child']) : null;
-        $id_order = intval($_POST['id_order']);
-        if ($child!=null&&$id_order!=null){
-            $user_child = User::searchByUser($child);
-            $order=Order::getOrder( $id_order);
-            $items = Order::getOrderItems($order['order_id']);
-            if($user_child!=false){
-                foreach($items as $item) {
-                $product = Product::getProductDataForSendOrder($item['product_id']);
-                if ($product['manager_letter'] != null) {
-                    $manager_letter = unserialize(base64_decode($product['manager_letter']));
-                    if (isset($manager_letter['email_manager']) && !empty($manager_letter['email_manager'])) {
-                        $subj_manager = isset($manager_letter['subj_manager']) ? $manager_letter['subj_manager'] : null;
-                        $letter_manager = isset($manager_letter['letter_manager']) ? $manager_letter['letter_manager'] : null;
-                        $send_custom = Email::sendCustomLetterForManager($manager_letter['email_manager'],
-                            $subj_manager, $letter_manager, $order
-                        );
-                    }
-                }
-                if ($product['del_group_id']) {
-                    User::deleteUserGroupsFromList($user_child['user_id'], $product['del_group_id']);
-                }
-                // Добавление групп для пользователя при рассрчоке и БЕЗ
-                if ($product['group_id'] != 0 && ($order['installment_map_id'] == 0 || $product['installment_addgroups'] == 0)) {
-                    $add_groups = explode(",", $product['group_id']);
-                    foreach ($add_groups as $group) {
-                        User::WriteUserGroup($user_child['user_id'], $group);
-                    }
-                }
-
-                $training = System::CheckExtensension('training', 1);
-                if ($training) {
-                    $user_groups = $user_child['user_id'] ? User::getGroupByUser($user_child['user_id']) : false;
-                    $user_planes = $user_child['user_id'] ? Member::getPlanesByUser($user_child['user_id'], 1) : false;
-                    if ($user_groups || $user_planes) {
-                        $filter = [
-                            'user_groups' => $user_groups,
-                            'user_planes' => $user_planes
-                        ];
-                        $training_list = $user_child['user_id'] ? Training::getTrainingList(null, null, $filter, null) : null;
-                        if ($training_list) {
-                            foreach($training_list as $training) {
-                                if ($training['curators_auto_assign']==1) {
-                                    Order::AssignUserToCurator($user_child['user_id'], $training);
+    public function actionParent() {
+        $user_id = User::checkLogged();
+    
+        $user = User::getUserById($user_id);
+    
+        if (isset($_POST['addchild'])) {
+            $child_email = !empty($_POST['child']) ? htmlentities($_POST['child']) : null;
+            $order_id = intval($_POST['id_order']);
+            if ($child_email != null && $order_id != null) {
+                $user_child = User::searchByUser($child_email);
+                $order = Order::getOrder($order_id);
+                $order_items = Order::getOrderItems($order['order_id']);
+                if ($user_child != false) {
+                    foreach ($order_items as $order_item) {
+                        $product = Product::getProductDataForSendOrder($order_item['product_id']);
+                        if ($product['manager_letter'] != null) {
+                            $manager_letter = unserialize(base64_decode($product['manager_letter']));
+                            if (isset($manager_letter['email_manager']) && !empty($manager_letter['email_manager'])) {
+                                $subj_manager = isset($manager_letter['subj_manager']) ? $manager_letter['subj_manager'] : null;
+                                $letter_manager = isset($manager_letter['letter_manager']) ? $manager_letter['letter_manager'] : null;
+                                $send_custom = Email::sendCustomLetterForManager(
+                                    $manager_letter['email_manager'],
+                                    $subj_manager,
+                                    $letter_manager,
+                                    $order
+                                );
+                            }
+                        }
+    
+                        if ($product['del_group_id']) {
+                            User::deleteUserGroupsFromList($user_child['user_id'], $product['del_group_id']);
+                        }
+    
+                        // Добавление групп для пользователя при рассрочке и БЕЗ
+                        if ($product['group_id'] != 0 && ($order['installment_map_id'] == 0 || $product['installment_addgroups'] == 0)) {
+                            $add_groups = explode(",", $product['group_id']);
+                            foreach ($add_groups as $group) {
+                                User::WriteUserGroup($user_child['user_id'], $group);
+                            }
+                        }
+    
+                        $training_enabled = System::CheckExtensension('training', 1);
+                        if ($training_enabled) {
+                            $user_groups = $user_child['user_id'] ? User::getGroupByUser($user_child['user_id']) : false;
+                            $user_planes = $user_child['user_id'] ? Member::getPlanesByUser($user_child['user_id'], 1) : false;
+                            if ($user_groups || $user_planes) {
+                                $filter = [
+                                    'user_groups' => $user_groups,
+                                    'user_planes' => $user_planes
+                                ];
+                                $training_list = $user_child['user_id'] ? Training::getTrainingList(null, null, $filter, null) : null;
+                                if ($training_list) {
+                                    foreach ($training_list as $training) {
+                                        if ($training['curators_auto_assign'] == 1) {
+                                            Order::AssignUserToCurator($user_child['user_id'], $training);
+                                        }
+                                    }
                                 }
                             }
                         }
+    
+                        $subscription_id = null;
+                        $membership_enabled = System::CheckExtensension('membership', 1);
+                        if ($membership_enabled && $user_child && !empty($product['subscription_id']) && ($order['installment_map_id'] == 0)) {
+                            Member::renderMember($product['subscription_id'], $user_child['user_id'], 1, $subscription_id, $order['subs_id']);
+                        }
                     }
+                    ToChild::close($order_id, $child_email);
+                } else {
+                    ErrorPage::returnError('Пользователя с таким email нет в системе');
                 }
-                $subscription_id=null;
-                $membership = System::CheckExtensension('membership', 1);
-                if ($membership && $user_child && !empty($product['subscription_id']) && ($order['installment_map_id'] == 0 )) {
-                    Member::renderMember($product['subscription_id'], $user_child['user_id'], 1, $subscription_id, $order['subs_id']);
-                }
-
-            }
-       
-            ToChild::close($id_order,$child);
-            }
-            else{
+            } else {
                 ErrorPage::returnError('Пользователя с таким email нет в системе');
             }
-            
-
         }
-        else{
-            ErrorPage::returnError('Пользователя с таким email нет в системе');
-        }
+    
+        $this->setSEOParams('Партнёрская программа');
+        $this->setViewParams('aff', 'aff/aff_cabinet/aff_child_parther_tab.php', false, null, 'aff-req-page');
+    
+        require_once ("{$this->template_path}/main.php");
     }
-
-    $this->setSEOParams('Партнёрская программа');
-    $this->setViewParams('aff', 'aff/aff_cabinet/aff_child_parther_tab.php',
-    false, null, 'aff-req-page'
-);
-
-    require_once ("{$this->template_path}/main.php");
-}
+    
     public function actionAuthor()
     {
         $extension = System::CheckExtensension('partnership', 1);
