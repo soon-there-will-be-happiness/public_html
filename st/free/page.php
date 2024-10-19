@@ -13,6 +13,7 @@ $date = time();
 $name = $email = $phone = $surname = $patronymic = null;
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 ?>
+<?require_once ("{$this->layouts_path}/head.php");?>
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -24,13 +25,11 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="images/tild6331-6163-4462-b931-633838313032__-__resize__504x__heidi-sandstrom-1203.jpg" />
-    
-    <!-- Подключаем UIkit CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" />
-
-    <!-- Подключаем UIkit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script>
+<!-- Подключаем UIkit CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" />
+<!-- Подключаем UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script>
 <link rel="canonical" href="https://youngschool.ru/testlesson">
 <!--/metatextblock-->
 <meta name="format-detection" content="telephone=no" />
@@ -73,18 +72,13 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
             }
         }</script>
 <script src="js/jquery-1.10.2.min.js" charset="utf-8" onerror="this.loaderr='y';">
-</script> <script src="js/tilda-scripts-3.0.min.js" charset="utf-8" defer onerror="this.loaderr='y';">
-</script>
-<script src="js/tilda-blocks-page33844683.min.js?t=1725305517" charset="utf-8" async onerror="this.loaderr='y';">
-</script>
-<script src="js/lazyload-1.3.min.export.js" charset="utf-8" async onerror="this.loaderr='y';">
-</script>
-<script src="js/tilda-animation-2.0.min.js" charset="utf-8" async onerror="this.loaderr='y';">
-</script>
-<script src="js/tilda-cover-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';">
-</script>
-<script src="js/tilda-events-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';">
-</script>
+
+</script> <script src="js/tilda-scripts-3.0.min.js" charset="utf-8" defer onerror="this.loaderr='y';"></script>
+<script src="js/tilda-blocks-page33844683.min.js?t=1725305517" charset="utf-8" async onerror="this.loaderr='y';"></script>
+<script src="js/lazyload-1.3.min.export.js" charset="utf-8" async onerror="this.loaderr='y';"></script>
+<script src="js/tilda-animation-2.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script>
+<script src="js/tilda-cover-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script>
+<script src="js/tilda-events-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script>
 
     <!-- Facebook Pixel Code -->
     <script>
