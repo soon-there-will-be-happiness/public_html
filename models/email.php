@@ -752,10 +752,9 @@ class Email {
 
         $userdata = User::getUserDataByEmail($email);
 
-        $prelink = User::generateAutoLoginLink($userdata);//Ссылка автологин без редиректа
+        $prelink = User::generateAutoLoginLink($userdata);
         if($to_child==true)
         {
-            $letter.=" <p>".$setting['script_url'].'/lk/registration?o='.$order_id."</p>";
             $order_date=" $order_date.<p> Ссылка для регистрацию: ".$setting['script_url'].'/lk/registration?o='.$order_id."</p>";
         }
 

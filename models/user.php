@@ -163,15 +163,16 @@ class User {
 
         return $count[0] > 0 ? $count[0] : false;
     }
-
+    // НАЙТИ ПОЛЬЗОВАТЕЛЯ И ВЕРНУТЬ ЕГО ДАННЕ
     public static function searchByUser($email)
     {
         $db = Db::getConnection();
 
         $result = $db->query("SELECT * FROM ".PREFICS."users WHERE email = '$email'");
-        $count = $result->fetch();
+        $data = $result->fetch();
 
-        return !empty($data) ? $data[0] : false;}
+        return !empty($data) ? $data[0] : false;
+    }
     /**
      * ДОБАВИТЬ ПОЛЬЗОВАТЕЛЯ
      * @param $name

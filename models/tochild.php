@@ -10,6 +10,7 @@ class ToChild{
         $result = $db->prepare( $sql);
         return $result->execute();
     }
+
     public static function searchByParentAndOrderId($client_email, $id_order) {
 
         $db = Db::getConnection();
@@ -51,6 +52,7 @@ class ToChild{
                 }
         return !empty($data) ? $data : false;
     }
+
     public static function close( $id_order,$email){
     $db = Db::getConnection();
     $sql = 'UPDATE '.PREFICS.'child SET child_email = :email, status=true WHERE id_order = '.$id_order;
@@ -59,7 +61,8 @@ class ToChild{
     $result->bindParam(':email',  $email, PDO::PARAM_STR);
 
     return $result->execute();
-}
+    }
+
     public static function searchByOrderId( $id_order) {
 
         $db = Db::getConnection();
@@ -70,12 +73,7 @@ class ToChild{
         while($row = $result->fetch(PDO::FETCH_ASSOC)) {
             $data[] = $row;
         }
-
         return !empty($data) ? $data[0] : false;
-
     }
-
-
 }
-
 ?>
