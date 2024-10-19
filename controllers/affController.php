@@ -71,9 +71,9 @@ class affController extends baseController {
             }
         }
         if (isset($_POST['addchild'])) {
-            $child =intval( $_POST['child']);
-            $id_order = htmlentities($_POST['id_order']) ? htmlentities($_POST['id_order']) : null;
-            if ($child!=null&&   $id_order!=null){
+            $child =!empty($_POST['child']) ? htmlentities($_POST['child']) : null;
+            $id_order = intval($_POST['id_order']);
+            if ($child!=null&&$id_order!=null){
                 $user_child = User::searchUser($child);
                 $order=Order::getOrder($order_id);
                 if($user_child!=false){
@@ -147,6 +147,9 @@ class affController extends baseController {
                 }
                 
 
+            }
+            else{
+                ErrorPage::returnError('Пользователя с таким email нет в системе');
             }
         }
 
