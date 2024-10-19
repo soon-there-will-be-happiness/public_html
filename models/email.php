@@ -135,7 +135,7 @@ class Email {
     public static function builder($text) {
         $letter_start = System::Lang('LETTER_START');
         $letter_end = System::Lang('LETTER_END');
-        $sContent =System::Lang('SIMPLE_CONTENT');
+        $sContent = System::Lang('SIMPLE_CONTENT');
 
         preg_match('/\[HEAD_START\](.*?)\[HEAD_END\]/s', $text, $matches_head);
         preg_match('/\[S_CONTENT_START\](.*?)\[S_CONTENT_END\]/s', $text, $matches_sContent);
@@ -145,9 +145,9 @@ class Email {
             $headContent = $matches_head[1];
             $letter_start = str_replace('[HEAD_MSG]', $headContent, $letter_start);
             $text = preg_replace('/\[HEAD_START\](.*?)\[HEAD_END\]/s', '', $text);
-        } else {
+        } /*else {
             $letter_start = str_replace('[HEAD_MSG]', '', $letter_start);
-        }
+        }*/
 
         if (isset($matches_sContent[1])) {
             $simpleContent = $matches_sContent[1];
