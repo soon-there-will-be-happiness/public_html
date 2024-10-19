@@ -203,7 +203,7 @@ class affController extends baseController {
                 sleep(2); 
                    // Email::SendLogin($child_email, $child_email, $pass,  $this->settings['register_letter']);
                 }
-
+                $user_child = User::searchByUser($child_email);
                 $order_items = Order::getOrderItems($order['order_id']);
                 if ($user_child != false) {
                     foreach ($order_items as $order_item) {
