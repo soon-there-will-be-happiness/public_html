@@ -1188,7 +1188,7 @@ class Aff {
         
         foreach ($requiredFields as $field) {
             // Проверяем, пустое ли значение или отсутствует
-            if (empty(trim($data['rs'][$field]))) {
+            if (empty(trim($data['rs'][$field] ?? ''))) {
                 $allFieldsFilled = false;
                 break;  // Останавливаем проверку, если найдём незаполненное поле
             }

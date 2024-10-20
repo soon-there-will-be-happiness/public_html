@@ -39,7 +39,7 @@ class User {
 
         if ($user_id) {
             if ($send_login == 1 || $send_login == 2 && !$registeredHimself) {
-                Email::SendLogin($name, $email, $password, $letter);
+                Email::SendLogin($name, $email, $password,  $letter);
 
                 if ($phone) {
                     SMS::send2UserRegistration($phone, $name, $email, $password);
@@ -163,8 +163,16 @@ class User {
 
         return $count[0] > 0 ? $count[0] : false;
     }
+    // НАЙТИ ПОЛЬЗОВАТЕЛЯ И ВЕРНУТЬ ЕГО ДАННЕ
+    public static function searchByUser($email)
+    {
+        $db = Db::getConnection();
 
+        $result = $db->query("SELECT * FROM ".PREFICS."users WHERE email = '$email'");
+        $data = $result->fetch();
 
+        return !empty($data) ? $data[0] : false;
+    }
     /**
      * ДОБАВИТЬ ПОЛЬЗОВАТЕЛЯ
      * @param $name
@@ -1818,4 +1826,5 @@ class User {
 
         return "vk.com/".$vkClear;
     }
+    
 }

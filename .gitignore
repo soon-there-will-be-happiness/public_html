@@ -5,3 +5,9 @@
 /vendor/
 /lib/
 
+.idea/.gitignore
+.idea/modules.xml
+.idea/smdemo.ru.iml
+.idea/vcs.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/jsLinters/jshint.xml

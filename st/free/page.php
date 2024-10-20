@@ -1,9 +1,16 @@
+<?php require_once ("{$this->layouts_path}/head.php");?>
 <!DOCTYPE html>
 <html>
-<?php  defined('BILLINGMASTER') or die;  
-$product = Product::getProductById(31);
-$price = Price::getFinalPrice(31);
-
+<?php  
+defined('BILLINGMASTER') or die; 
+//require_once ("{$this->layouts_path}/head.php");
+$id=31;
+$product = Product::getProductById($id);
+$price = Price::getFinalPrice($id);
+$setting = System::getSetting();
+$metriks = !empty($this->settings['yacounter']) || $this->settings['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
+$date = time();
+$name = $email = $phone = $surname = $patronymic = null;
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 ?>
 <?require_once ("{$this->layouts_path}/head.php");?>
@@ -41,6 +48,7 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 <link rel="stylesheet" href="css/tilda-grid-3.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"/>
 <link rel="stylesheet" href="css/tilda-blocks-page33844683.min.css?t=1725305517" type="text/css" media="all" onerror="this.loaderr='y';" />
 <link rel="stylesheet" href="css/tilda-animation-2.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';" />
+
 <link rel="stylesheet" href="css/tilda-cover-1.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';" />
 <script type="text/javascript">TildaFonts = ["427","429","433","435"];</script>
 <script type="text/javascript" src="js/tilda-fonts.min.js" charset="utf-8" onerror="this.loaderr='y';">
@@ -64,12 +72,14 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
             }
         }</script>
 <script src="js/jquery-1.10.2.min.js" charset="utf-8" onerror="this.loaderr='y';">
+
 </script> <script src="js/tilda-scripts-3.0.min.js" charset="utf-8" defer onerror="this.loaderr='y';"></script>
 <script src="js/tilda-blocks-page33844683.min.js?t=1725305517" charset="utf-8" async onerror="this.loaderr='y';"></script>
 <script src="js/lazyload-1.3.min.export.js" charset="utf-8" async onerror="this.loaderr='y';"></script>
 <script src="js/tilda-animation-2.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script>
 <script src="js/tilda-cover-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script>
 <script src="js/tilda-events-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script>
+
     <!-- Facebook Pixel Code -->
     <script>
         !function(f,b,e,v,n,t,s)
@@ -106,6 +116,7 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
             z-index: 1;
         }
     </style>
+
     <noscript>
 <img height="1" width="1" style="display:none"
                    src="https://www.facebook.com/tr?id=663488660829171&ev=PageView&noscript=1"
@@ -618,73 +629,36 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 <div id="popup" class="popup hidden">
     <div class="popup-content">
         <span class="close-btn">&times;</span>
-        <p>Продукт: <?=$product['product_name'];?></p>
-        <p>Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
-        <form class="form" action="https://xn--80ajojzgb4f.xn--p1ai/buy/31" method="POST"
-            <?=$metriks;?> id="form_order_buy">
-            <label for="first_name">Имя:</label>
-                                    <input class="input-field" type="text" id="first_name" name="first_name" value="<?=$name?>" required>
+        <h4 class="pop_up_title">Форма регистрации на пробный урок на платформе. Для получения доступа к уроку заполните данные о себе.</h4>
+        <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?></br>
+           Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
+        
+        <form class="form" action="<?=$setting['script_url']?>/buy/<?=$id?>" method="POST" <?=$metriks;?> id="form_order_buy">
+                                    <label for="first_name" id="label_first_name">Имя<span style="color: red;">*</span></label>
+                                    <input class="input-field" type="text" id="first_name" name="name" value="<?= isset($name) ? $name : ''; ?>" placeholder="Введите ваше имя" required>
 
-                                    <?if($this->settings['show_surname'] == 2 || ($this->settings['show_surname'] == 1 &&
-                                        $price['real_price'] > 0)):?>
-                                    <label for="last_name">Фамилия:</label>
-                                    <input class="input-field" type="text" id="last_name" name="last_name" value="<?=$surname;?>" required>
-                                    <?endif;?>
-
-                                    <label for="email">Электронная почта:</label>
-                                    <?if($this->settings['email_protection']):?>
+                                    <label for="email" id="label_email">Электронная почта<span style="color: red;">*</span></label>
+                                    <?php if($this->settings['email_protection']):?>
                                     <script>document.write(window.atob("PGlucHV0IHR5cGU9ImVtYWlsIiBuYW1lPSJlbWFpbCI="));</script>
-                                    <input class="input-field" type="email" id="email" name="email" value="<?=$user_email ?? $email?>" required>
-                                    <?else:?>
-                                    <input class="input-field" type="email" id="email" name="email" value=""
-                                           required>
-                                    <?endif;?>
+                                    <input class="input-field" type="email" id="email" name="email" value="<?=$user_email ?? $email?>" placeholder="Введите вашу почту" required>
+                                    <?php else:?>
+                                    <input class="input-field" type="email" id="email" name="email" value="" placeholder="Введите вашу почту" required>
+                                    <?php endif;?>
 
-                                    <label for="phone">Телефон:</label>
+                                    <label for="phone" id="label_phone">Телефон<span style="color: red;">*</span></label>
                                     <input class="input-field" type="tel" id="phone_inp" name="phone" maxlength="12" placeholder="912 333-33-33" required>
-
-                                    <?if(Product::isRequestTelegram($product, $price, $this->settings)):?>
-                                    <label for="telegram">Укажи свой телеграм через @:</label>
-                                    <input class="input-field" type="text" id="telegram" name="telegram" <?if($this->settings['show_telegram_nick'] == 3) echo
-                                    'required';?>>
-                                    <?endif;?>
-                                    <!-- <label for="payment_method">Выберите способ оплаты:</label>
-                                    <select id="payment_method" name="payment_method" required>
-                                       <option value="credit_card">Кредитная карта</option>
-                                       <option value="paypal">PayPal</option>
-                                       <option value="bank_transfer">Банковский перевод</option>
-                                    </select> -->
-                                    <div style="margin-top:15px;" id="promo">
-                                        <p><a class="promo-link" href="#">Есть промокод?</a></p>
-                                        <div class="promo-block hidden">
-                                            <h6>Если у вас есть промокод, введите его в поле:</h6>
-
-                                            <div class="flex-row">
-                                                <div class="modal-form-line max-width-200">
-                                                    <input class="small-input" type="text" name="promo" value="">
-                                                </div>
-                                                <div class="modal-form-submit mb-0">
-                                                    <a href="javascript:void(0)" class="btn-yellow-fz-16 d-block small-button button" data-name="apply_promo">Применить</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <!-- <div class="not-me">
-                                        <input type="checkbox" id="agreement" name="not-me">
-                                        <label>
-                                            Курс буду проходить не я
-                                        </label>
-                                    </div> -->
+                                    
+                                    <span class="text-hint" onclick="toggleFields()">Вы также можете указать никнейм телеграм для оперативной связи</span>
+                                    
+                                    <label for="telegram" id="label_telegram" style="display: none;">Телеграм через @</label>
+                                    <input class="input-field" type="text" id="telegram" name="telegram" placeholder="@ваш_ник" style="display: none;">
                                     <label>
                                         <input type="checkbox" id="agreement" name="agreement" required> 
                                         <!--politika-->
-                                        <?if(!isset($_SESSION['org'])):?>
+                                        <?php if(!isset($_SESSION['org'])):?>
                                                 <span class="politics"><?=System::Lang('LINK_CONFIRMED');?></span>
-                                        <?endif;?>
+                                        <?php endif;?>
                                     </label>
-
                                     <input type="hidden" name="time" value="<?=$date;?>">
                                     <input type="hidden" name="token" value="<?=md5($id.'s+m'.$date);?>">
                                     <input type="hidden" name="vk_id" value="<?=@$_REQUEST['vk_id'] ?>">
@@ -692,10 +666,25 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                         <input type="hidden" name="pid" value="<?=$_REQUEST['pid'] ?? "" ?>">
                                     <?php endif; ?>
 
-                                    <button class="pay" name="buy" type="submit">Оплатить</button>
+                                    <button id ="buy" class="pay" name="buy" type="submit">З А П И С А Т Ь С Я</button>
         </form>
     </div>
 </div>
+<script>
+document.getElementById('buy').addEventListener('click', function() {
+    const form = document.getElementById('form_order_buy');
+    if (form.checkValidity()) {
+        <?php $telegram = TelegramProduct::searchByProductId($partner_id,$id);
+        if($telegram != false): ?>
+        window.open('<?php echo $telegram['telegram']?>', '_blank');
+        <?php endif; ?>
+    } else {
+        //alert('Пожалуйста, заполните все обязательные поля.');
+        pass;
+    }
+});
+</script> 
+
 
 </div>
 </div>
@@ -706,7 +695,15 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 </div>
 </div>
 </div>
-<script src="js/script.js">
+<script src="../kemstat/js/script.js"></script>
+<!-- <script>
+    // Выполнение функции updateLabels после загрузки внешнего скрипта
+    window.onload = function() {
+        // Set default labels based on the initial selection (Родитель by default)
+        updateLabels('parent');
+    };
+</script> -->
+
 <style>#rec546920578 .t-btn[data-btneffects-first],
             #rec546920578 .t-btn[data-btneffects-second],
             #rec546920578 .t-btn[data-btneffects-third],
@@ -821,15 +818,16 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                     transform: translateX(100%);
                 }
             }</style>
-<script>t_onReady(function() {
+<script>
+    t_onReady(function() {
                 var rec = document.getElementById('rec546920578');
                 if (!rec) return;
                 var firstButton = rec.querySelectorAll('.t-btn[data-btneffects-first], .t-submit[data-btneffects-first]');
                 Array.prototype.forEach.call(firstButton, function (button) {
                     button.insertAdjacentHTML('beforeend', '<div class="t-btn_wrap-effects">
-<div class="t-btn_effects">
-</div>
-</div>');
+                    <div class="t-btn_effects">
+                    </div>
+                    </div>');
                     var buttonEffect = button.querySelector('.t-btn_wrap-effects');
                     if (button.offsetWidth > 230) {
                         buttonEffect.classList.add('t-btn_wrap-effects_md');
@@ -839,23 +837,12 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                         buttonEffect.classList.add('t-btn_wrap-effects_lg');
                     }
                 });
-            });</script>
+            });
+</script>
 <style>@media (hover: hover), (min-width: 0\0) {#rec546920578 .t-btn:not(.t-animate_no-hover):hover {background-color: #e68a00 !important;}#rec546920578 .t-btn:not(.t-animate_no-hover):focus-visible {background-color: #e68a00 !important;}#rec546920578 .t-btn:not(.t-animate_no-hover) {transition-property: background-color, color, border-color, box-shadow;transition-duration: 0.2s;transition-timing-function: ease-in-out;}}</style> <style> #rec546920578 .t181__title { color: #000000; } #rec546920578 .t181__descr { opacity: 1; }</style>
 </div>
 </div>
-<!--/allrecords-->
-<!-- Tilda copyright. Don't remove this line -->
-<!-- <div class="t-tildalabel " id="tildacopy" data-tilda-sign="227222#33844683">
-<a href="https://tilda.cc/" class="t-tildalabel__link">
-<div class="t-tildalabel__wrapper">
-<div class="t-tildalabel__txtleft">Made on </div>
-<div class="t-tildalabel__wrapimg">
-<img src="images/tildacopy.png" class="t-tildalabel__img" fetchpriority="low" alt="">
-</div>
-<div class="t-tildalabel__txtright">Tilda</div>
-</div>
-</a>
-</div> -->
+
 <!-- Stat -->
 <!-- Google Tag Manager (noscript) -->
 <noscript>
@@ -877,10 +864,9 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 <?require_once ("{$this->layouts_path}/tech-footer.php");?>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    // Проверяем, есть ли в URL якорь "#pay" при загрузке страницы
-    if (window.location.hash === '#pay') {
-        document.getElementById('popup').classList.add('show');
-    }
-});
+        if (window.location.hash === '#pay') {
+            document.getElementById('popup').classList.add('show');
+        }
+    });
 </script>
 </html>

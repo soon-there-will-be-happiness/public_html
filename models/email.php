@@ -49,7 +49,7 @@ class Email {
         if(!$sender_name || empty(trim($sender_name)) || !is_string($sender_name) || $sender_name == "none")
             $sender_name = $setting['sender_name'];
             $sender_name = html_entity_decode($sender_name);
-
+        
         $send = self::sender($email, $subject, $text, $setting, $sender_name, $setting['sender_email'], $is_testLetter, $reply_to, $addit_data);
 
         return $send ? true : false;
@@ -69,6 +69,10 @@ class Email {
             '[EMAIL]' => $user['email'],
             '[NICK_TG]' => $user['nick_telegram'],
             '[NICK_IG]' => $user['nick_instagram'],
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -126,6 +130,10 @@ class Email {
             '[NICK_TG]' => $nick_telegram,
             '[NICK_IG]' => $nick_instagram,
             '[CLIENT_PHONE]' => $order['client_phone'],
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -167,6 +175,10 @@ class Email {
             '[OGRN]' => $ticket['ogrn'],
             '[PHONE]' => $ticket['phone'],
             '[ORDER_ITEMS]' => $order_items,
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -189,6 +201,10 @@ class Email {
             '[CLIENT_NAME]' => $name,
             '[ORDER]' => $order_date,
             '[LINK]' => $link,
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -213,6 +229,10 @@ class Email {
             '[NAME]' => $name,
             '[ORDER]' => $order_date,
             '[LINK]' => $link,
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -239,6 +259,10 @@ class Email {
             '[DELIVERY]' => $delivery_name,
             '[EMAIL]' => $email,
             '[CONFIRM_LINK]' => $confirm_link,
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -291,6 +315,10 @@ class Email {
             '[TOPIC]' => $topic['topic_title'],
             '[USER]' => $user,
             '[UNSUBSCRIBE]' => $unsub_link,
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -326,6 +354,10 @@ class Email {
             '[TOPIC]' => $topic['topic_title'],
             '[USER]' => $user,
             '[TEXT]' => $message,
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -353,6 +385,10 @@ class Email {
             '[DEL_LINK]' => $del_link,
             '[USER]' => $user,
             '[TEXT]' => $topic_message,
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -382,7 +418,11 @@ class Email {
         $replace = array(
             '[NAME]' => $name,
             '[CLIENT_NAME]' => $name,
-            '[LINK]' => $link
+            '[LINK]' => $link,
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -409,7 +449,7 @@ class Email {
         $replace = array(
             '[NAME]' => $name,
             '[CLIENT_NAME]' => $name,
-            '[LINK]' => $link
+            '[LINK]' => $link,
         );
 
         $letter = System::Lang('MESS_NOTIF_ABOUT_TASK_ANSWER');
@@ -458,7 +498,11 @@ class Email {
                 '[COURSE]' => $course_name,
                 '[LESSON]' => $lesson['name'],
                 '[USER]' => $user,
-                '[LINK]' => $link
+                '[LINK]' => $link,
+                
+                
+            
+            
             );
 
             $text = strtr($letter, $replace);
@@ -477,7 +521,11 @@ class Email {
                     '[COURSE]' => $course_name,
                     '[LESSON]' => $lesson['name'],
                     '[USER]' => $user,
-                    '[LINK]' => $link_admin
+                    '[LINK]' => $link_admin,
+                    
+                    
+            
+            
                 );
 
                 $text = strtr($letter, $replace);
@@ -490,7 +538,11 @@ class Email {
                 '[COURSE]' => $course_name,
                 '[LESSON]' => $lesson['name'],
                 '[USER]' => $user,
-                '[LINK]' => $link_admin
+                '[LINK]' => $link_admin,
+                
+                
+            
+            
             );
 
             $text = strtr($letter, $replace);
@@ -541,6 +593,10 @@ class Email {
             '[SURNAME]' => $user['surname'],
             '[EMAIL]' => $user['email'],
             '[TRAINING]' => $training_name,
+            
+            
+            
+            
         );
         $text = strtr($letter, $replace);
 
@@ -612,13 +668,21 @@ class Email {
             '[SURNAME]' => $user['surname'],
             '[CURATOR]' => $curator_name,
             '[MESSAGE]' => $message,
-            '[STATUS]' => $str
+            '[STATUS]' => $str,
+            
+            
+            
+            
         );
 
         if (strpos($letter, '[AUTH_LINK]') !== false) {
             $auth_link = User::generateAutoLoginLink($user); //Ссылка автологин без редиректа
             $replace = array_merge($replace, [
                 '[AUTH_LINK]' => $auth_link,
+                
+                
+            
+            
             ]);
         }
 
@@ -663,7 +727,11 @@ class Email {
             '[SUMM]' => $total,
             '[METHOD]' => $metod_name,
             '[CURRENCY]' => $setting['currency'],
-            '[LINK]' => $link
+            '[LINK]' => $link,
+            
+            
+            
+            
         );
 
         $letter = System::Lang('CONFIRM_DELIVERY_LETTER');
@@ -676,7 +744,7 @@ class Email {
 
     // ПИСЬМО КЛИЕНТУ О ЗАКАЗЕ
     // ПРИНИМАЕТ ТЕКСТ ПИСЬМА, ИМЯ КЛИЕНТА, НОМЕР ЗАКАЗА
-    public static function SendOrder($order_date, $letter, $product, $name, $email, $summ, $pincode, $addsubject = null, $surname = false, $patronymic = false)
+    public static function SendOrder($order_date, $letter, $product, $name, $email, $summ, $pincode, $addsubject = null, $surname = false, $patronymic = false,$to_child=false,$order_id=null)
     {
         $setting = System::getSetting();
         $link = $setting['script_url'].'/download/'. $order_date.'?key='.md5($email);
@@ -684,7 +752,11 @@ class Email {
 
         $userdata = User::getUserDataByEmail($email);
 
-        $prelink = User::generateAutoLoginLink($userdata);//Ссылка автологин без редиректа
+        $prelink = User::generateAutoLoginLink($userdata);
+        if($to_child==true)
+        {
+            $order_date=" $order_date.<p> Ссылка для регистрацию: ".$setting['script_url'].'/lk/registration?o='.$order_id."</p>";
+        }
 
         // реплейсим письмо
         $replace = array(
@@ -700,6 +772,7 @@ class Email {
             '[PINCODE]' => $pin,
             '[EMAIL]' => $email,
             '[AUTH_LINK]' => $prelink,
+
         );
 
         if (preg_match('#\[CUSTOM_FIELD_([0-9]+)\]#', $letter)) {
@@ -708,14 +781,17 @@ class Email {
 
         $text = strtr($letter, $replace);
         $text = User::replaceAuthLinkInText($text, $prelink);//Ссылка автологин с редиректом
-
+        
+        //$text = System::Lang('LETTER_START') . $text . System::Lang('LETTER_END');
+        
         if ($addsubject != null) {
             $subject = $addsubject;
         } else {
             $subject = $setting['client_letter_subj'] != null ? $setting['client_letter_subj'] : System::Lang('SUBJECT_EMAIL_ORDER');
         }
-
+        
         $subject = strtr($subject, $replace);
+
 
         return self::sender($email, $subject, $text, $setting, $setting['sender_name'], $setting['sender_email']);
     }
@@ -742,6 +818,10 @@ class Email {
             '[SUPPORT]' => $setting['support_email'],
             '[PASS]' => $pass,
             '[AUTH_LINK]' => $prelink,
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -771,9 +851,14 @@ class Email {
             '[LINK2]' => $link2,
             '[SUPPORT]' => $setting['support_email'],
             '[PASS]' => $pass,
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
+
         $subject = System::Lang('SUBJECT_EMAIL_REGISTER');
 
         return self::sender($email, $subject, $text, $setting, $setting['sender_name'], $setting['sender_email']);
@@ -792,7 +877,11 @@ class Email {
             '[NAME]' => $name,
             '[CLIENT_NAME]' => $name,
             '[LINK]' => $link,
-            '[SUPPORT]' => $setting['support_email']
+            '[SUPPORT]' => $setting['support_email'],
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -868,7 +957,11 @@ class Email {
             '[PARTNER_MAIL]' => $partner_mail,
             // -KEMSTAT-8
             '[CONTENTS]' => $contents,
-            '[CLIENT_PHONE]' => $clientPhone
+            '[CLIENT_PHONE]' => $clientPhone,
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -909,7 +1002,11 @@ class Email {
         $replace = array (
             '[NAME]' => $name,
             '[CLIENT_NAME]' => $name,
-            '[EMAIL]' => $email
+            '[EMAIL]' => $email,
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -936,7 +1033,11 @@ class Email {
         // реплейсим письмо
         $replace = array(
             '[LINK]' => $link,
-            '[SITE]' => $setting['script_url']
+            '[SITE]' => $setting['script_url'],
+            
+            
+            
+            
         );
 
         $text = strtr($letter, $replace);
@@ -981,7 +1082,11 @@ class Email {
             '[ORDER]' => $order_date,
             '[CLIENT_NAME]' => $name,
             '[NAME]' => $name,
-            '[EMAIL]' => $email
+            '[EMAIL]' => $email,
+            
+            
+            
+            
         );
 
         $letter = System::Lang('CONFIRM_DELIVERY_ADMIN_LETTER');
@@ -1211,7 +1316,32 @@ class Email {
         return self::sender($email, 'School-Master - отладка', $message, $setting, 'BillingMaster', $email);
     }
 
-
+    public static function builder($text) {
+        $letter_start = System::Lang('LETTER_START');
+        $letter_end = System::Lang('LETTER_END');
+        $sContent =System::Lang('SIMPLE_CONTENT');
+        
+        preg_match('/\[HEAD_START\](.*?)\[HEAD_END\]/s', $text, $matches_head);
+        preg_match('/\[S_CONTENT_START\](.*?)\[S_CONTENT_END\]/s', $text, $matches_sContent);
+        
+        // Если найдено, заменяем [HEAD_MSG] на найденное содержимое
+        if (isset($matches_head[1])) {
+            $headContent = $matches_head[1];
+            $letter_start = str_replace('[HEAD_MSG]', $headContent, $letter_start);
+            $text = preg_replace('/\[HEAD_START\](.*?)\[HEAD_END\]/s', '', $text);
+        } else {
+            $letter_start = str_replace('[HEAD_MSG]', '', $letter_start);
+        }
+        
+        if (isset($matches_sContent[1])) {
+            $simpleContent = $matches_sContent[1];
+            $sContent = str_replace('[CONTENT]', $simpleContent, $sContent);
+            $text = $sContent;
+        }
+        
+        $text = $letter_start . $text . $letter_end;
+        return $text;
+    }
     /**
      * ОТПРАВИТЬ ПИСЬМО
      * @param $email
@@ -1224,6 +1354,8 @@ class Email {
      */
     public static function sender($email, $subject, $text, $setting, $from_name, $from, $is_testLetter = false, $reply_to = false, array $addit_data = []) {
         $caller = System::get_caller(__FUNCTION__);
+        
+        $text = self::builder($text);
         $res = Connect::sendMessagesByEmail($email, $subject . "\n\n" . $text, [
             'caller' => $caller,
             'email' => $email,
@@ -1234,7 +1366,6 @@ class Email {
             'form_name' => $from_name,
             'addit_data' => $addit_data
         ]);
-
         if ($setting['use_smtp'] == 1) { // Отправляем через SMTP
             $send = self::SMTPSingleSender($email, $subject, $text, $setting, $from_name, $is_testLetter, $reply_to);
 
@@ -1429,7 +1560,8 @@ class Email {
         return $result->execute();
     }
 
-    public static function sendMessageAccountStatement($email, $order_id, $client_name, $client_surmane, $product_id, $product_name, $client_email, $client_phone, $order_date, $price) {
+
+    public static function sendMessageAccountStatement($email, $order_id, $client_name, $client_surmane, $product_id, $product_name, $client_email, $client_phone, $order_date, $price,$to_child=false) {
         $setting = System::getSetting();
         $letter = System::Lang('ACCOUNT_STATEMENT_NOTIFY_EMAIL');
         $replace = array (
@@ -1445,7 +1577,8 @@ class Email {
         );
         $text = strtr($letter, $replace);
         $subject = System::Lang('Сформирован заказ');
-
+        if($to_child==true)
+        //$text.=" ".$setting['script_url'].'/lk/registration?o='.$order_id;
         return self::sender($email, $subject, $text, $setting, $setting['sender_email'], $email);
     }
 }

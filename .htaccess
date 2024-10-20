@@ -3,6 +3,8 @@ AddDefaultCharset utf-8
 #Order Deny,Allow
 #Deny from all
 #Allow from 128.69.41.160
+#Allow from 146.247.112.168
+#RewriteCond %{REMOTE_ADDR} !^146\.247\.112\.168$
 
 #Options +FollowSymlinks
 Options -Indexes 
@@ -11,6 +13,14 @@ Options -Indexes
   SecFilterEngine Off
   SecFilterScanPOST Off
 </IfModule>
+
+
+RewriteEngine On
+
+#RewriteCond %{REQUEST_URI} !^/maitenance\.php$
+#RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif)$ [NC]
+#RewriteRule ^.*$ /maitenance.php [R=307,L]
+
 
 RewriteEngine On
 RewriteBase /

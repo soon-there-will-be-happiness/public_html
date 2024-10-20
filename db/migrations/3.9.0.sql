@@ -6,3 +6,22 @@ ALTER TABLE `#PREFIX#menu_items` ADD `showByGroup` TINYINT NOT NULL DEFAULT '0' 
 
 ALTER TABLE `#PREFIX#users` ADD ok_id BIGINT NULL DEFAULT '0' AFTER tg_id, ADD INDEX ok_id (ok_id);
 
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+DROP TABLE IF EXISTS `[PREFIX]telegram_product`;
+CREATE TABLE `[PREFIX]telegram_product` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `telegram` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `[PREFIX]telegram_product`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
