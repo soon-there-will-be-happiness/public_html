@@ -3843,14 +3843,11 @@ if ($partner_id != null) {
                                 <span class="close-btn">&times;</span>
                                 <h4 class="pop_up_title">Форма регистрации на пробный урок на платформе. Для получения доступа к уроку заполните данные о себе.</h4>
                                 <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?></br>
-                                    Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
+                                    Стоимость: <?=$price['real_price']?> ₽</p>
 
                                 <form class="form" action="<?=$setting['script_url']?>/buy/31" method="POST" <?=$metriks;?> id="form_order_buy">
                                     <label for="first_name" id="label_first_name">Имя<span style="color: red;">*</span></label>
                                     <input class="input-field" type="text" id="first_name" name="name" value="<?= isset($name) ? $name : ''; ?>" placeholder="Введите ваше имя" required>
-
-                                    <?if($this->settings['show_surname'] == 2 || ($this->settings['show_surname'] == 1 &&
-                                        $price['real_price'] > 0)):?>
 
                                     <label for="email" id="label_email">Электронная почта<span style="color: red;">*</span></label>
                                     <?if($this->settings['email_protection']):?>
