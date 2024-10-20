@@ -59,11 +59,13 @@ return [
     'politika' => 'site/politika',
     'privacy' => 'site/privacy',
     'oferta' => 'site/oferta',
-    'st/free/page' => 'site/free',
     'st/kemstat/page' => 'site/kemstat',
-    'st/ambassador/page' => 'site/ambassador',
-    'oferta?id=([0-9]+)' => 'site/oferta/$1',
 
+    'st/free/page' => 'site/free',
+
+    'st/ambassador/page' => 'site/ambassador',
+
+    'oferta?id=([0-9]+)' => 'site/oferta/$1',
 
     // РАССЫЛКА
     'responder/confirm/([0-9]+)' => 'responder/confirm/$1', // подтверждение подписки
@@ -133,8 +135,9 @@ return [
     'lk/aff' => 'aff/aff', // стартовая страница партнёрки в кабинете
     'lk/author' => 'aff/author',
     'lk/telegram' => 'aff/telegram',
-    'aff/parent'=>'aff/parent',
-       
+
+    "family"=>"aff/parent",
+
     ///////////////////////
     /// АДМИНКА
     //////////////////////

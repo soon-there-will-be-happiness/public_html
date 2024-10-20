@@ -28,12 +28,12 @@ document.querySelector('.buy-btn').addEventListener('click', function() {
 });
 
 function toggleFields() {
-   var telegramInput = document.getElementById('telegram');
+  var telegramInput = document.getElementById('telegram');
 
-   if (telegramInput.style.display === 'none') {
-     telegramInput.style.display = 'block';
-   } else {
-     telegramInput.style.display = 'none';
-     }
- }
+  if (telegramInput.style.display === 'none') {
+    telegramInput.style.display = 'block';
+  } else {
+    telegramInput.style.display = 'none';
+    }
+}
 

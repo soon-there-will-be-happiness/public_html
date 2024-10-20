@@ -5,11 +5,9 @@
             <ul class="breadcrumbs">
                 <li><a href="/lk/answers"><?=System::Lang('QUESTIONS_LIST');?></a></li>
             </ul>
-            
             <div class="content-wrap">
                 <div class="maincol<?php if($sidebar) echo '_min';?> content-with-sidebar">
                     <h1><?=System::Lang('CURATOR_OFFICE');?></h1>
-                    
                     <div class="userbox dialog">
                         <div class="task_info">
                             <strong><?=System::Lang('TASK_QUESTION');?></strong> <?=$lesson_data['task'];?></div>

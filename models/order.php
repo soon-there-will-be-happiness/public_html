@@ -24,7 +24,7 @@ class Order {
             if (isset($_SESSION['sale_id'])) {
                 unset($_SESSION['sale_id']);
             }
-
+           
             // Подсчитать стоимость продуктов заказа
             $total_sum = self::getOrderTotalSum($order['order_id']);
             $is_client = $total_sum > 0 ? 1 : 0;
@@ -85,7 +85,6 @@ class Order {
                     if ($installment_map_data['pay_actions'] != null) {
                         $next = 1;
                     }
-                    
 					// проверка на досрочное погашение
                     $ahead = $installment_map_data['ahead_id'] == $order['order_id'] ? 1 : false;
                     $installment_map_data = Installment::updateInstallMap($order, $installment_data, // обновить данные в карте рассрочек
@@ -102,9 +101,7 @@ class Order {
             $rand_str = System::generateStr(9);
             $partners_payouts = 0;
             $sendCheckBL = false;
-            
             $flows = System::CheckExtensension('learning_flows', 1);
-            
             $aff_extension = System::CheckExtensension('partnership', 1); // Получить настройки партнёрки
             $aff_params = $aff_extension ? unserialize(System::getExtensionSetting('partnership')) : null;
             $items = self::getOrderItems($order['order_id']);
@@ -161,7 +158,8 @@ class Order {
                         );
                     }
                 }
-    
+
+              
                 if (Product::getProductById($item['product_id'])['group_id'] == 23) {
                     Aff::AddUserToPartner($client['user_id'], 0);
                     Course::AddIsCurator($client['user_id'], 1);
@@ -190,10 +188,15 @@ class Order {
                 }
 
                 // Подписка на членство
-                $membership = System::CheckExtensension('membership', 1);
-                if ($membership && $client && !empty($product['subscription_id']) && ($order['installment_map_id'] == 0 || $installment_map['pay_actions'] == null)) {
-                    Member::renderMember($product['subscription_id'], $client['user_id'], 1, $subscription_id, $order['subs_id']);
+                $to_child=ToChild::searchByOrderId($order['order_id']);
+                if( $to_child==false)
+                {
+                    $membership = System::CheckExtensension('membership', 1);
+                    if ($membership && $client && !empty($product['subscription_id']) && ($order['installment_map_id'] == 0 || $installment_map['pay_actions'] == null)) {
+                        Member::renderMember($product['subscription_id'], $client['user_id'], 1, $subscription_id, $order['subs_id']);
+                    }
                 }
+
 
                 // РАССЫЛКА
                 self::mailing($order, $product, $setting);
@@ -207,15 +210,17 @@ class Order {
                 // Удаление групп для пользователя
                 if ($product['del_group_id']) {
                     User::deleteUserGroupsFromList($client['user_id'], $product['del_group_id']);
-                }
-
-                // Добавление групп для пользователя при рассрчоке и БЕЗ
-                if ($product['group_id'] != 0 && ($order['installment_map_id'] == 0 || $product['installment_addgroups'] == 0)) {
+                } 
+                 // Добавление групп для пользователя при рассрчоке и БЕЗ
+                if( $to_child==false){
+                    if ($product['group_id'] != 0 && ($order['installment_map_id'] == 0 || $product['installment_addgroups'] == 0)) {
                     $add_groups = explode(",", $product['group_id']);
                     foreach ($add_groups as $group) {
                         User::WriteUserGroup($client['user_id'], $group);
                     }
                 }
+                }
+
             }
 
             self::updateOrderData($order['order_id'], $partner_id, $partner2_id, $partner3_id, $partners_payouts);
@@ -293,8 +298,10 @@ class Order {
         }
 
         if (!empty($product_letter)) {
+            $to_child=ToChild::searchByOrderId($order['order_id']);
+            $is_child_attached = $to_child !== false;
             Email::SendOrder($order['order_date'], $product_letter, $product['product_name'], $order['client_name'],
-                $order['client_email'], $item['price'], $pin_code, $subject, $surname, $patronymic
+                $order['client_email'], $item['price'], $pin_code, $subject, $surname, $patronymic,$is_child_attached,$order['order_id']
             );
         }
     }
@@ -384,7 +391,7 @@ class Order {
      * @return bool
      */
     public static function affProcessing($order, $item, $product, $aff_params, &$total_aff, &$partners_payouts,
-                                         $client_data, &$partner_id, &$partner2_id, &$partner3_id)
+                                        $client_data, &$partner_id, &$partner2_id, &$partner3_id)
     {
         $commission_1 = $commission_2 = $commission_3 = 0;
 
@@ -1512,8 +1519,10 @@ class Order {
                 }
 
                 if ($right == 1) {
+                    $to_child=ToChild::searchByOrderId($order['order_id']);
+                    $is_child_attached = $to_child !== false;
                     $send = Email::SendOrder($order['order_date'], $product['letter'], $product['product_name'],
-                    $order['client_name'], $order['client_email'], $order['summ'], $pincode = 0);
+                    $order['client_name'], $order['client_email'], $order['summ'], $pincode = 0,$is_child_attached,$order['order_id']);
                 }
 
             }

@@ -3,6 +3,7 @@
 define('START', microtime(1));
 define('CURR_VER', '3.9.9');
 
+
 // Настройки
 require_once 'setting.php';
 
