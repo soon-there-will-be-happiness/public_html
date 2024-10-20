@@ -257,6 +257,12 @@ class siteController extends baseController {
     }
     
     
+    public function actionAmbassador(){
+        require_once (ROOT.'/st/ambassador/page.php');
+        return true;
+    }
+    
+    
     public function actionFree(){
         require_once (ROOT.'/st/free/page.php');
         return true;

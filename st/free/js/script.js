@@ -27,22 +27,13 @@ document.querySelector('.buy-btn').addEventListener('click', function() {
     });
 });
 
-document.querySelector('.promo-link').addEventListener('click', function(e) {
-  e.preventDefault(); // Останавливаем стандартное поведение ссылки
+function toggleFields() {
+   var telegramInput = document.getElementById('telegram');
 
-  var promoBlock = document.querySelector('.promo-block');
-  
-  // Убираем или добавляем класс hidden и active для управления анимацией
-  if (promoBlock.classList.contains('active')) {
-      promoBlock.classList.remove('active');
-      setTimeout(function() {
-          promoBlock.classList.add('hidden');
-      }, 500); // Ждём завершения анимации перед скрытием через display: none
-  } else {
-      promoBlock.classList.remove('hidden');
-      setTimeout(function() {
-          promoBlock.classList.add('active');
-      }, 10); // Небольшая задержка для активации анимации
-  }
-});
+   if (telegramInput.style.display === 'none') {
+     telegramInput.style.display = 'block';
+   } else {
+     telegramInput.style.display = 'none';
+     }
+ }
 

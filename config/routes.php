@@ -57,10 +57,11 @@ return [
     // СТАТИЧНЫЕ СТРАНИЦЫ
     'page/([a-zA-Z0-9_-]+)' => 'site/page/$1',
     'politika' => 'site/politika',
-    'privacy' => 'site/politika',
+    'privacy' => 'site/privacy',
     'oferta' => 'site/oferta',
     'st/free/page' => 'site/free',
     'st/kemstat/page' => 'site/kemstat',
+    'st/ambassador/page' => 'site/ambassador',
     'oferta?id=([0-9]+)' => 'site/oferta/$1',
 
 
@@ -131,6 +132,8 @@ return [
     'aff/confirm' => 'aff/confirm', // Подтверждение емейла партнёра
     'lk/aff' => 'aff/aff', // стартовая страница партнёрки в кабинете
     'lk/author' => 'aff/author',
+    'lk/telegram' => 'aff/telegram',
+    'aff/parent'=>'aff/parent',
        
     ///////////////////////
     /// АДМИНКА

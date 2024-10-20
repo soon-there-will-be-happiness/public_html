@@ -115,7 +115,11 @@ class Aff {
         if ($partner && $partner['custom_comiss'] != 0) { // если есть партнёр и у него индивид. комиссия
             $comiss = round(($item['price'] / 100) * $partner['custom_comiss'], 2);
         } elseif ($partner && $product['product_comiss'] > 0) { // Если комисиия указана у продукта
-            $comiss = round(($item['price'] / 100) * $product['product_comiss'], 2);
+            if ($product['product_comiss'] > 100) {
+                $comiss = $product['product_comiss'];
+            } else {
+                $comiss = round(($item['price'] / 100) * $product['product_comiss'], 2);
+            }
         } elseif($aff_params['params']['aff_1_level'] > 0) { // если есть партнёр и комисиия из настроек партнёрки
             $comiss = round(($item['price'] / 100) * $aff_params['params']['aff_1_level'], 2);
         } else $comiss = false;
@@ -1188,7 +1192,7 @@ class Aff {
         
         foreach ($requiredFields as $field) {
             // Проверяем, пустое ли значение или отсутствует
-            if (empty(trim($data['rs'][$field]))) {
+            if (empty(trim($data['rs'][$field] ?? ''))) {
                 $allFieldsFilled = false;
                 break;  // Останавливаем проверку, если найдём незаполненное поле
             }

@@ -1,8 +1,14 @@
+<?php require_once ("{$this->layouts_path}/head.php");?>
 <!DOCTYPE html>
 <html>
-<?php  defined('BILLINGMASTER') or die;  
-$product = Product::getProductById(31);
-$price = Price::getFinalPrice(31);
+<?php  
+ defined('BILLINGMASTER') or die; 
+ //require_once ("{$this->layouts_path}/head.php");
+ $id=31;
+ $product = Product::getProductById($id);
+ $price = Price::getFinalPrice($id);
+ $setting = System::getSetting();
+ $metriks = !empty($this->settings['yacounter']) || $this->settings['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
 
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 ?>
@@ -17,7 +23,7 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="images/tild6331-6163-4462-b931-633838313032__-__resize__504x__heidi-sandstrom-1203.jpg" />
-    <?require_once ("{$this->layouts_path}/head.php");?>
+
     
     <!-- Подключаем UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" />
@@ -626,58 +632,38 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 <div id="popup" class="popup hidden">
     <div class="popup-content">
         <span class="close-btn">&times;</span>
-        <p>Продукт: <?=$product['product_name'];?></p>
-        <p>Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
-        <form class="form" action="https://xn--80ajojzgb4f.xn--p1ai/buy/31" method="POST"
-            <?=$metriks;?> id="form_order_buy">
-            <label for="first_name">Имя:</label>
-                                    <input class="input-field" type="text" id="first_name" name="first_name" value="<?=$name?>" required>
+        <h4 class="pop_up_title">Форма регистрации на пробный урок на платформе. Для получения доступа к уроку заполните данные о себе.</h4>
+         <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?></br>
+            Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
 
-                                    <?if($this->settings['show_surname'] == 2 || ($this->settings['show_surname'] == 1 &&
-                                        $price['real_price'] > 0)):?>
-                                    <label for="last_name">Фамилия:</label>
-                                    <input class="input-field" type="text" id="last_name" name="last_name" value="<?=$surname;?>" required>
-                                    <?endif;?>
+         <form class="form" action="<?=$setting['script_url']?>/buy/31" method="POST" <?=$metriks;?> id="form_order_buy">
+                                     <!-- <span>Обратите внимание! При заполнении данных, во вкладке "Я Родитель" необходимо внести данные того, кто оплачивает курс.</span>  -->
+                                     <!-- <div class="toggle-container">
+                                         <input type="radio" name="toggle" id="child" value="child" checked>
+                                         <label for="child" class="toggle-option child" onclick="updateLabels('child')">Ребёнок</label>
 
-                                    <label for="email">Электронная почта:</label>
+                                         <input type="radio" name="toggle" id="parent" value="parent">
+                                         <label for="parent" class="toggle-option parent" onclick="updateLabels('parent')">Родитель</label>
+                                     </div> -->
+                                     <label for="first_name" id="label_first_name">Имя<span style="color: red;">*</span></label>
+                                     <input class="input-field" type="text" id="first_name" name="name" value="<?= isset($name) ? $name : ''; ?>" placeholder="Введите ваше имя" required>
+                                    
+
+                                    <label for="email" id="label_email">Электронная почта<span style="color: red;">*</span></label>
                                     <?if($this->settings['email_protection']):?>
-                                    <script>document.write(window.atob("PGlucHV0IHR5cGU9ImVtYWlsIiBuYW1lPSJlbWFpbCI="));</script>
-                                    <input class="input-field" type="email" id="email" name="email" value="<?=$user_email ?? $email?>" required>
+                                        <script>document.write(window.atob("PGlucHV0IHR5cGU9ImVtYWlsIiBuYW1lPSJlbWFpbCI="));</script>
+                                        <input class="input-field" type="email" id="email" name="email" placeholder="Введите вашу почту" value="<?=$user_email ?? $email?>" required>
                                     <?else:?>
-                                    <input class="input-field" type="email" id="email" name="email" value=""
-                                           required>
+                                        <input class="input-field" type="email" id="email" name="email" placeholder="Введите вашу почту" value="" required>
                                     <?endif;?>
 
-                                    <label for="phone">Телефон:</label>
+                                    <label for="phone" id="label_phone">Телефон<span style="color: red;">*</span></label>
                                     <input class="input-field" type="tel" id="phone_inp" name="phone" maxlength="12" placeholder="912 333-33-33" required>
 
-                                    <?if(Product::isRequestTelegram($product, $price, $this->settings)):?>
-                                    <label for="telegram">Укажи свой телеграм через @:</label>
-                                    <input class="input-field" type="text" id="telegram" name="telegram" <?if($this->settings['show_telegram_nick'] == 3) echo
-                                    'required';?>>
-                                    <?endif;?>
-                                    <!-- <label for="payment_method">Выберите способ оплаты:</label>
-                                    <select id="payment_method" name="payment_method" required>
-                                       <option value="credit_card">Кредитная карта</option>
-                                       <option value="paypal">PayPal</option>
-                                       <option value="bank_transfer">Банковский перевод</option>
-                                    </select> -->
-                                    <div style="margin-top:15px;" id="promo">
-                                        <p><a class="promo-link" href="#">Есть промокод?</a></p>
-                                        <div class="promo-block hidden">
-                                            <h6>Если у вас есть промокод, введите его в поле:</h6>
+                                     <span class="text-hint" onclick="toggleFields()">Вы также можете указать никнейм телеграм для оперативной связи</span>
 
-                                            <div class="flex-row">
-                                                <div class="modal-form-line max-width-200">
-                                                    <input class="small-input" type="text" name="promo" value="">
-                                                </div>
-                                                <div class="modal-form-submit mb-0">
-                                                    <a href="javascript:void(0)" class="btn-yellow-fz-16 d-block small-button button" data-name="apply_promo">Применить</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                     <label for="telegram" id="label_telegram" style="display: none;">Телеграм через @</label>
+                                     <input class="input-field" type="text" id="telegram" name="telegram" placeholder="@ваш_ник" style="display: none;">
 
                                     <!-- <div class="not-me">
                                         <input type="checkbox" id="agreement" name="not-me">
@@ -700,11 +686,12 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                         <input type="hidden" name="pid" value="<?=$_REQUEST['pid'] ?? "" ?>">
                                     <?php endif; ?>
 
-                                    <button class="pay" name="buy" type="submit">Оплатить</button>
+                                    <button id ="buy" class="pay" name="buy" type="submit">З А П И С А Т Ь С Я</button>
         </form>
     </div>
 </div>
 
+ 
 </div>
 </div>
 </div>
@@ -884,6 +871,12 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 </body>
 <?require_once ("{$this->layouts_path}/tech-footer.php");?>
 <script>
+    <?php $telegram=TelegramProduct::searchByProguctId(31);
+    if($telegram!=false):?>
+     document.getElementById('buy').addEventListener('click', function() {
+         let newWindow = window.open(<?=$telegram['telegram']?>, "_blank");
+     });
+    <?php endif;?>
     document.addEventListener('DOMContentLoaded', function() {
     // Проверяем, есть ли в URL якорь "#pay" при загрузке страницы
     if (window.location.hash === '#pay') {

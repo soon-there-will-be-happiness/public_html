@@ -42,6 +42,7 @@ class Order {
             $client = $client_data = User::getUserDataByEmail($order['client_email'], null); // получаем данные клиента, если он есть.
 
             if (!$client) {
+                User::userLogOut();
                 $client = User::AddNewClient($order['client_name'], $order['client_email'], $order['client_phone'],
                     $order['client_city'], $order['client_address'], $order['client_index'], 'user', $is_client,
                     $date, $enter_method, $order['visit_param'], 1, null, null, $send_pass,
@@ -160,7 +161,12 @@ class Order {
                         );
                     }
                 }
-
+    
+                if (Product::getProductById($item['product_id'])['group_id'] == 23) {
+                    Aff::AddUserToPartner($client['user_id'], 0);
+                    Course::AddIsCurator($client['user_id'], 1);
+                }
+                
                 // АВТОРСКИЕ И ПАРТНЁРСКИЕ КОМИССИИ
                 $useAff = true;
                 if ($order['sale_id']) {

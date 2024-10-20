@@ -1151,7 +1151,7 @@ class Training {
                     if ($start_date) {
                         $status = self::NO_ACCESS_TO_DATE;
                         return compact('status', 'start_date');
-                    } elseif ($data['status'] === 8) {
+                    } elseif (is_array($data) && $data['status'] === 8) {
                         $status = self::NO_DATE_FOR_CALCULATION;
                         return compact('status', 'start_date');
                     }

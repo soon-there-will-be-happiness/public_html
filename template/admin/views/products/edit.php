@@ -879,7 +879,7 @@ if ($product['manager_letter'] != null) {
                             </p>
 
                             <p class="width-100">
-                                <label>Индивидуальная комиссия для продукта, %</label><input type="text" value="<?=$product['product_comiss'];?>" name="product_comiss">
+                                <label >Индивидуальная комиссия для продукта, в <span id="symbol">%</span></label><input id='product_comiss' type="text" value="<?=$product['product_comiss'];?>" name="product_comiss" oninput="checkCommission()">
                             </p>
 
                             <div class="width-100">
@@ -1499,4 +1499,21 @@ if ($product['manager_letter'] != null) {
     <?php require_once(ROOT . '/template/admin/layouts/admin-footer.php');?>
 </div>
 </body>
+                            <script>
+                                function checkCommission() {
+                                    var input = document.getElementById("product_comiss").value;
+                                    var symbol = document.getElementById("symbol");
+                                
+                                    // Проверяем, больше ли введенное значение 100
+                                    if (parseFloat(input) > 100) {
+                                        symbol.textContent = 'р'; // Меняем на 'р'
+                                    } else {
+                                        symbol.textContent = '%'; // Возвращаем '%'
+                                    }
+                                }
+                                // Проверяем значение при загрузке страницы
+                                window.onload = function() {
+                                    checkCommission();
+                                };
+                            </script>
 </html>
