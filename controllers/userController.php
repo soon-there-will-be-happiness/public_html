@@ -284,9 +284,7 @@ class userController extends baseController {
                             $hash = password_hash($pass, PASSWORD_DEFAULT);
                             $reg_date = time();
                             $user_param = "$reg_date;0;;";
-                            $is_child=ToChild::searchByOrderId($order_id);
-
-                            User::addError(    $order_id);
+                            //$is_child=ToChild::searchByOrderId($order_id);
 
                             if($order_id){
                                 $is_child=ToChild::searchByOrderId($order_id);

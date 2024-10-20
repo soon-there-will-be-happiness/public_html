@@ -280,9 +280,10 @@ class orderController extends baseController {
                             continue;
                         }
                         $to_child=ToChild::searchByOrderId($order['order_id']);
+                        $is_child_attached = $to_child !== false;
                         // +KEMSTAT-8
                         $product = Product::getProductDataForSendOrder($order['product_id']);
-                        Email::sendMessageAccountStatement($email, $order['order_id'], $order['client_name'], $surname?$surname:'', $order['product_id'], $product['product_name'], $order['client_email'], $order['client_phone'], $order['order_date'], $nds_price['price'],  $to_child!=false);
+                        Email::sendMessageAccountStatement($email, $order['order_id'], $order['client_name'], $surname?$surname:'', $order['product_id'], $product['product_name'], $order['client_email'], $order['client_phone'], $order['order_date'], $nds_price['price'],  $is_child_attached);
                         // -KEMSTAT-8
                         
                     }

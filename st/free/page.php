@@ -633,24 +633,12 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
         <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?></br>
            Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
         
-        <form class="form" action="<?=$setting['script_url']?>/buy/31" method="POST" <?=$metriks;?> id="form_order_buy">
-                                    <!-- <span>Обратите внимание! При заполнении данных, во вкладке "Я Родитель" необходимо внести данные того, кто оплачивает курс.</span>  -->
-                                    <!-- <div class="toggle-container">
-                                        <input type="radio" name="toggle" id="child" value="child" checked>
-                                        <label for="child" class="toggle-option child" onclick="updateLabels('child')">Ребёнок</label>
-                                        
-                                        <input type="radio" name="toggle" id="parent" value="parent">
-                                        <label for="parent" class="toggle-option parent" onclick="updateLabels('parent')">Родитель</label>
-                                    </div> -->
+        <form class="form" action="<?=$setting['script_url']?>/buy/<?=$id?>" method="POST" <?=$metriks;?> id="form_order_buy">
                                     <label for="first_name" id="label_first_name">Имя<span style="color: red;">*</span></label>
                                     <input class="input-field" type="text" id="first_name" name="name" value="<?= isset($name) ? $name : ''; ?>" placeholder="Введите ваше имя" required>
                 
                                     <?if($this->settings['show_surname'] == 2 || ($this->settings['show_surname'] == 1 &&
                                         $price['real_price'] > 0)):?>
-                                        
-                                    <!-- <label for="last_name" id="label_last_name">Фамилия:</label>
-                                    <input class="input-field" type="text" id="last_name" name="surname" value="<?= isset($surname) ? $surname : ''; ?>" placeholder="Введите вашу фамилию" required>
-                                    <?endif;?> -->
 
                                     <label for="email" id="label_email">Электронная почта<span style="color: red;">*</span></label>
                                     <?if($this->settings['email_protection']):?>
@@ -691,12 +679,12 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                             </div>
                                         </div>
                                     </div> -->
-                                    <div class="not-me" style="display:none;">
-                                        <input type="checkbox" id="agreement" name="not-me" checked>
-                                        <label>
-                                            Курс буду проходить не я
-                                        </label>
-                                    </div>
+<!--                                    <div class="not-me" style="display:none;">-->
+<!--                                        <input type="checkbox" id="agreement" name="not-me" checked>-->
+<!--                                        <label>-->
+<!--                                            Курс буду проходить не я-->
+<!--                                        </label>-->
+<!--                                    </div>-->
                                     <label>
                                         <input type="checkbox" id="agreement" name="agreement" required> 
                                         <!--politika-->
@@ -716,14 +704,6 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
         </form>
     </div>
 </div>
-
-<!-- <script>
-document.getElementById('buy').addEventListener('click', function() {
-  let newWindow = window.open("https://t.me/+Q0Eh2EVqoctkZmFi", "_blank"); // Открываем пустое окно сразу
-});
-</script> -->
-
-<!-- <script>
 document.getElementById('buy').addEventListener('click', function() {
     const form = document.getElementById('form_order_buy');
     if (form.checkValidity()) {
@@ -748,7 +728,7 @@ document.getElementById('buy').addEventListener('click', function() {
 </div>
 </div>
 </div>
-<script src="js/script.js"></script>
+<script src="../kemstat/js/script.js"></script>
 <!-- <script>
     // Выполнение функции updateLabels после загрузки внешнего скрипта
     window.onload = function() {
@@ -893,19 +873,7 @@ document.getElementById('buy').addEventListener('click', function() {
 <style>@media (hover: hover), (min-width: 0\0) {#rec546920578 .t-btn:not(.t-animate_no-hover):hover {background-color: #e68a00 !important;}#rec546920578 .t-btn:not(.t-animate_no-hover):focus-visible {background-color: #e68a00 !important;}#rec546920578 .t-btn:not(.t-animate_no-hover) {transition-property: background-color, color, border-color, box-shadow;transition-duration: 0.2s;transition-timing-function: ease-in-out;}}</style> <style> #rec546920578 .t181__title { color: #000000; } #rec546920578 .t181__descr { opacity: 1; }</style>
 </div>
 </div>
-<!--/allrecords-->
-<!-- Tilda copyright. Don't remove this line -->
-<!-- <div class="t-tildalabel " id="tildacopy" data-tilda-sign="227222#33844683">
-<a href="https://tilda.cc/" class="t-tildalabel__link">
-<div class="t-tildalabel__wrapper">
-<div class="t-tildalabel__txtleft">Made on </div>
-<div class="t-tildalabel__wrapimg">
-<img src="images/tildacopy.png" class="t-tildalabel__img" fetchpriority="low" alt="">
-</div>
-<div class="t-tildalabel__txtright">Tilda</div>
-</div>
-</a>
-</div> -->
+
 <!-- Stat -->
 <!-- Google Tag Manager (noscript) -->
 <noscript>
@@ -926,21 +894,10 @@ document.getElementById('buy').addEventListener('click', function() {
 </body>
 <?require_once ("{$this->layouts_path}/tech-footer.php");?>
 <script>
-
-<?php /*$telegram=TelegramProduct::searchByProguctId(31);
-if($telegram!=false):*/?>
-/*document.getElementById('buy').addEventListener('click', function() {
-    let newWindow = window.open(<?php //$telegram['telegram']?>, "_blank");
-});*/
-<?php //endif;?>
-
     document.addEventListener('DOMContentLoaded', function() {
-    // Проверяем, есть ли в URL якорь "#pay" при загрузке страницы
-    if (window.location.hash === '#pay') {
-        document.getElementById('popup').classList.add('show');
-    }
-});
-
+        if (window.location.hash === '#pay') {
+            document.getElementById('popup').classList.add('show');
+        }
+    });
 </script>
-
 </html>

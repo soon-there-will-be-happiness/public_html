@@ -1,5 +1,5 @@
+<?require_once ("{$this->layouts_path}/head.php");?>
 <!DOCTYPE html>
-
 <html>
 <?php  defined('BILLINGMASTER') or die;  
 $product = Product::getProductById(28);
@@ -15,7 +15,7 @@ if ($partner_id != null) {
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="yandex-verification" content="3130095486568572" />
-    <?require_once ("{$this->layouts_path}/head.php");?>
+
     
     <!-- Подключаем UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" />
@@ -23,8 +23,7 @@ if ($partner_id != null) {
     <!-- Подключаем UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script>
-    
-        <style>
+    <style>
         /* Установим наивысший z-index для lightbox */
         .uk-open .uk-responsive-width data-uk-lightbox {
             position: fixed !important;
@@ -35,7 +34,6 @@ if ($partner_id != null) {
             position: fixed !important;
             z-index: 2147483647 !important; /* Самый высокий z-index */
         }
-
 
         /* Установим наивысший z-index для бэкдропа (фон lightbox) */
         .uk-lightbox {
@@ -3843,43 +3841,39 @@ if ($partner_id != null) {
                         <div id="popup" class="popup hidden">
                             <div class="popup-content">
                                 <span class="close-btn">&times;</span>
-                                <p>Продукт: <?=$product['product_name'];?></p>
-                                <p>Стоимость: <?=$price['real_price']?></p>
-                                <form class="form" action="<?=$setting['script_url']?>/buy/28"method="POST"
-                                        <?=$metriks;?> id="form_order_buy">
-                                    <label for="first_name">Имя:</label>
-                                    <input class="input-field" type="text" id="first_name" name="first_name" value="<?=$name?>" required>
+                                <h4 class="pop_up_title">Форма регистрации на пробный урок на платформе. Для получения доступа к уроку заполните данные о себе.</h4>
+                                <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?></br>
+                                    Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
+
+                                <form class="form" action="<?=$setting['script_url']?>/buy/31" method="POST" <?=$metriks;?> id="form_order_buy">
+                                    <label for="first_name" id="label_first_name">Имя<span style="color: red;">*</span></label>
+                                    <input class="input-field" type="text" id="first_name" name="name" value="<?= isset($name) ? $name : ''; ?>" placeholder="Введите ваше имя" required>
 
                                     <?if($this->settings['show_surname'] == 2 || ($this->settings['show_surname'] == 1 &&
                                         $price['real_price'] > 0)):?>
-                                    <label for="last_name">Фамилия:</label>
-                                    <input class="input-field" type="text" id="last_name" name="last_name" value="<?=$surname;?>" required>
-                                    <?endif;?>
 
-                                    <label for="email">Электронная почта:</label>
+                                    <label for="email" id="label_email">Электронная почта<span style="color: red;">*</span></label>
                                     <?if($this->settings['email_protection']):?>
-                                    <script>document.write(window.atob("PGlucHV0IHR5cGU9ImVtYWlsIiBuYW1lPSJlbWFpbCI="));</script>
-                                    <input class="input-field" type="email" id="email" name="email" value="<?=$user_email ?? $email?>" required>
+                                        <script>document.write(window.atob("PGlucHV0IHR5cGU9ImVtYWlsIiBuYW1lPSJlbWFpbCI="));</script>
+                                    <input class="input-field" type="email" id="email" name="email" value="<?=$user_email ?? $email?>" placeholder="Введите вашу почту" required>
                                     <?else:?>
-                                    <input class="input-field" type="email" id="email" name="email" value=""
-                                           required>
+                                    <input class="input-field" type="email" id="email" name="email" value="" placeholder="Введите вашу почту" required>
                                     <?endif;?>
 
-                                    <label for="phone">Телефон:</label>
+                                    <label for="phone" id="label_phone">Телефон<span style="color: red;">*</span></label>
                                     <input class="input-field" type="tel" id="phone_inp" name="phone" maxlength="12" placeholder="912 333-33-33" required>
-                   
-                                    <?if(Product::isRequestTelegram($product, $price, $this->settings)):?>
-                                    <label for="telegram">Укажи свой телеграм через @:</label>
-                                    <input class="input-field" type="text" id="telegram" name="telegram" <?if($this->settings['show_telegram_nick'] == 3) echo
-                                    'required';?>>
-                                    <?endif;?>
-                                    <!-- <label for="payment_method">Выберите способ оплаты:</label>
-                                    <select id="payment_method" name="payment_method" required>
-                                       <option value="credit_card">Кредитная карта</option>
-                                       <option value="paypal">PayPal</option>
-                                       <option value="bank_transfer">Банковский перевод</option>
-                                    </select> -->
-                                    <div style="margin-top:15px;" id="promo">
+
+                                    <span class="text-hint" onclick="toggleFields()">Вы также можете указать никнейм телеграм для оперативной связи</span>
+
+                                    <label for="telegram" id="label_telegram" style="display: none;">Телеграм через @</label>
+                                        <input class="input-field" type="text" id="telegram" name="telegram" placeholder="@ваш_ник" style="display: none;">
+                                        <div class="not-me" style="display:none;">
+                                            <input type="checkbox" id="agreement" name="not-me" checked>
+                                            <label>
+                                                Курс буду проходить не я
+                                            </label>
+                                        </div>
+                                    <!-- <div style="margin-top:15px;" id="promo">
                                         <p><a class="promo-link" href="#">Есть промокод?</a></p>
                                         <div class="promo-block hidden">
                                             <h6>Если у вас есть промокод, введите его в поле:</h6>
@@ -3893,23 +3887,15 @@ if ($partner_id != null) {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-
-                                    <!-- <div class="not-me">
-                                        <input type="checkbox" id="agreement" name="not-me">
-                                        <label>
-                                            Курс буду проходить не я
-                                        </label>
                                     </div> -->
                                     <label>
-                                        <input type="checkbox" id="agreement" name="agreement" required> 
+                                        <input type="checkbox" id="agreement" name="agreement" required>
                                         <!--politika-->
                                         <?if(!isset($_SESSION['org'])):?>
-                                                <span class="politics"><?=System::Lang('LINK_CONFIRMED');?></span>
+                                            <span class="politics"><?=System::Lang('LINK_CONFIRMED');?></span>
                                         <?endif;?>
                                     </label>
-
+                                    <input type="hidden" name="not-me" value=true/>
                                     <input type="hidden" name="time" value="<?=$date;?>">
                                     <input type="hidden" name="token" value="<?=md5($id.'s+m'.$date);?>">
                                     <input type="hidden" name="vk_id" value="<?=@$_REQUEST['vk_id'] ?>">
@@ -3917,10 +3903,24 @@ if ($partner_id != null) {
                                         <input type="hidden" name="pid" value="<?=$_REQUEST['pid'] ?? "" ?>">
                                     <?php endif; ?>
 
-                                    <button class="pay" name="buy" type="submit">Оплатить</button>
+                                    <button id ="buy" class="pay" name="buy" type="submit">О П Л А Т И Т Ь</button>
                                 </form>
                             </div>
                         </div>
+                        <script>
+                            document.getElementById('buy').addEventListener('click', function() {
+                                const form = document.getElementById('form_order_buy');
+                                if (form.checkValidity()) {
+                                    <?php $telegram = TelegramProduct::searchByProductId($partner_id,$id);
+                                    if($telegram != false): ?>
+                                    window.open('<?=$telegram['telegram']?>', '_blank');
+                                    <?php endif; ?>
+                                } else {
+                                    //alert('Пожалуйста, заполните все обязательные поля.');
+                                    pass;
+                                }
+                            });
+                        </script>
                     </div>
                     <div class="t760__descr t-descr t-descr_xxs" field="descr">
                         <div style="font-size: 18px;" data-customstyle="yes">Получите доступ к программе, в которой
