@@ -252,7 +252,7 @@ class affController extends baseController {
         }
     
         $this->setSEOParams('Партнёрская программа');
-        $this->setViewParams('aff', 'aff/aff_cabinet/aff_child_parther_tab.php', false, null, 'aff-req-page');
+        $this->setViewParams('aff', 'family/aff_child_parther_tab.php', false, null, 'aff-req-page');
     
         require_once ("{$this->template_path}/main.php");
     }
