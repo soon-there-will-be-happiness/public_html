@@ -13,14 +13,15 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 
-DROP TABLE IF EXISTS `[PREFIX]telegram_proguct`;
-CREATE TABLE `[PREFIX]telegram_proguct` (
+DROP TABLE IF EXISTS `[PREFIX]telegram_product`;
+CREATE TABLE `[PREFIX]telegram_product` (
   `id` int(11) NOT NULL,
-  `id_proguct` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
   `telegram` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `[PREFIX]telegram_proguct`
+ALTER TABLE `[PREFIX]telegram_product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
