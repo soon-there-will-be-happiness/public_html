@@ -3913,7 +3913,7 @@ if ($partner_id != null) {
                                 if (form.checkValidity()) {
                                     <?php $telegram = TelegramProduct::searchByProductId($partner_id,$id);
                                     if($telegram != false): ?>
-                                    window.open('<?=$telegram['telegram']?>', '_blank');
+                                    window.open('<?php echo $telegram['telegram']?>', '_blank');
                                     <?php endif; ?>
                                 } else {
                                     //alert('Пожалуйста, заполните все обязательные поля.');

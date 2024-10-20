@@ -636,17 +636,14 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
         <form class="form" action="<?=$setting['script_url']?>/buy/<?=$id?>" method="POST" <?=$metriks;?> id="form_order_buy">
                                     <label for="first_name" id="label_first_name">Имя<span style="color: red;">*</span></label>
                                     <input class="input-field" type="text" id="first_name" name="name" value="<?= isset($name) ? $name : ''; ?>" placeholder="Введите ваше имя" required>
-                
-                                    <?if($this->settings['show_surname'] == 2 || ($this->settings['show_surname'] == 1 &&
-                                        $price['real_price'] > 0)):?>
 
                                     <label for="email" id="label_email">Электронная почта<span style="color: red;">*</span></label>
-                                    <?if($this->settings['email_protection']):?>
+                                    <?php if($this->settings['email_protection']):?>
                                     <script>document.write(window.atob("PGlucHV0IHR5cGU9ImVtYWlsIiBuYW1lPSJlbWFpbCI="));</script>
                                     <input class="input-field" type="email" id="email" name="email" value="<?=$user_email ?? $email?>" placeholder="Введите вашу почту" required>
-                                    <?else:?>
+                                    <?php else:?>
                                     <input class="input-field" type="email" id="email" name="email" value="" placeholder="Введите вашу почту" required>
-                                    <?endif;?>
+                                    <?php endif;?>
 
                                     <label for="phone" id="label_phone">Телефон<span style="color: red;">*</span></label>
                                     <input class="input-field" type="tel" id="phone_inp" name="phone" maxlength="12" placeholder="912 333-33-33" required>
@@ -655,42 +652,12 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                     
                                     <label for="telegram" id="label_telegram" style="display: none;">Телеграм через @</label>
                                     <input class="input-field" type="text" id="telegram" name="telegram" placeholder="@ваш_ник" style="display: none;">
-                                    
-                                    
-                                    <!-- <label for="payment_method">Выберите способ оплаты:</label>
-                                    <select id="payment_method" name="payment_method" required>
-                                       <option value="credit_card">Кредитная карта</option>
-                                       <option value="paypal">PayPal</option>
-                                       <option value="bank_transfer">Банковский перевод</option>
-                                    </select> -->
-                                    
-                                    <!-- <div style="margin-top:15px;" id="promo">
-                                        <p><a class="promo-link" href="#">Есть промокод?</a></p>
-                                        <div class="promo-block hidden">
-                                            <h6>Если у вас есть промокод, введите его в поле:</h6>
-                                    
-                                            <div class="flex-row">
-                                                <div class="modal-form-line max-width-200">
-                                                    <input class="small-input" type="text" name="promo" value="">
-                                                </div>
-                                                <div class="modal-form-submit mb-0">
-                                                    <a href="javascript:void(0)" class="btn-yellow-fz-16 d-block small-button button" data-name="apply_promo">Применить</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
-<!--                                    <div class="not-me" style="display:none;">-->
-<!--                                        <input type="checkbox" id="agreement" name="not-me" checked>-->
-<!--                                        <label>-->
-<!--                                            Курс буду проходить не я-->
-<!--                                        </label>-->
-<!--                                    </div>-->
                                     <label>
                                         <input type="checkbox" id="agreement" name="agreement" required> 
                                         <!--politika-->
-                                        <?if(!isset($_SESSION['org'])):?>
+                                        <?php if(!isset($_SESSION['org'])):?>
                                                 <span class="politics"><?=System::Lang('LINK_CONFIRMED');?></span>
-                                        <?endif;?>
+                                        <?php endif;?>
                                     </label>
                                     <input type="hidden" name="not-me" value=true/>
                                     <input type="hidden" name="time" value="<?=$date;?>">
@@ -704,19 +671,20 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
         </form>
     </div>
 </div>
+<script>
 document.getElementById('buy').addEventListener('click', function() {
     const form = document.getElementById('form_order_buy');
     if (form.checkValidity()) {
-        <?php /*$telegram = TelegramProduct::searchByProductId($partner_id,$id);
-        if($telegram != false):*/ ?>
-        window.open('<?php//$telegram['telegram']?>', '_blank');
-        <?php //endif; ?>
+        <?php $telegram = TelegramProduct::searchByProductId($partner_id,$id);
+        if($telegram != false): ?>
+        window.open('<?php echo $telegram['telegram']?>', '_blank');
+        <?php endif; ?>
     } else {
         //alert('Пожалуйста, заполните все обязательные поля.');
         pass;
     }
 });
-</script> -->
+</script> 
 
 
 </div>
@@ -851,15 +819,16 @@ document.getElementById('buy').addEventListener('click', function() {
                     transform: translateX(100%);
                 }
             }</style>
-<script>t_onReady(function() {
+<script>
+    t_onReady(function() {
                 var rec = document.getElementById('rec546920578');
                 if (!rec) return;
                 var firstButton = rec.querySelectorAll('.t-btn[data-btneffects-first], .t-submit[data-btneffects-first]');
                 Array.prototype.forEach.call(firstButton, function (button) {
                     button.insertAdjacentHTML('beforeend', '<div class="t-btn_wrap-effects">
-<div class="t-btn_effects">
-</div>
-</div>');
+                    <div class="t-btn_effects">
+                    </div>
+                    </div>');
                     var buttonEffect = button.querySelector('.t-btn_wrap-effects');
                     if (button.offsetWidth > 230) {
                         buttonEffect.classList.add('t-btn_wrap-effects_md');
@@ -869,7 +838,8 @@ document.getElementById('buy').addEventListener('click', function() {
                         buttonEffect.classList.add('t-btn_wrap-effects_lg');
                     }
                 });
-            });</script>
+            });
+</script>
 <style>@media (hover: hover), (min-width: 0\0) {#rec546920578 .t-btn:not(.t-animate_no-hover):hover {background-color: #e68a00 !important;}#rec546920578 .t-btn:not(.t-animate_no-hover):focus-visible {background-color: #e68a00 !important;}#rec546920578 .t-btn:not(.t-animate_no-hover) {transition-property: background-color, color, border-color, box-shadow;transition-duration: 0.2s;transition-timing-function: ease-in-out;}}</style> <style> #rec546920578 .t181__title { color: #000000; } #rec546920578 .t181__descr { opacity: 1; }</style>
 </div>
 </div>
