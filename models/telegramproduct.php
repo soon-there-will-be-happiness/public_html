@@ -2,11 +2,13 @@
 
 class TelegramProduct{
 
+
     public static function addOrUpdate($user_id, $product_id, $telegram)
     {
         $db = Db::getConnection();
     
         // Шаг 1: Проверка существования записи с таким id_proguct
+
         $checkSql = 'SELECT COUNT(*) FROM '.PREFICS.'telegram_product WHERE product_id = :product_id AND user_id = :user_id';
         $checkResult = $db->prepare($checkSql);
         $checkResult->bindParam(':product_id', $product_id, PDO::PARAM_INT);

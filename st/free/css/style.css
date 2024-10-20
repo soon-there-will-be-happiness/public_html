@@ -148,6 +148,76 @@ input[type="tel"] {
   width: 100%;
 }
 
+.text-hint {
+   color: #007BFF;
+   text-decoration: underline;
+   cursor: pointer;
+   transition: color 0.3s; /* Плавный переход */
+   font-size: 12px;
+ }
+
+
+ .text-hint:hover {
+     color: #0056b3;
+     text-decoration: none;
+ }
+
+ .politics {
+     font-size: 14px;
+     line-height: 0.5;
+     margin: 0; /* Убираем отступы */
+     padding: 0; /* Убираем отступы */
+ }
+
+ .politics a {
+     display: inline;
+     line-height: inherit;
+     margin: 0;
+     padding: 0;
+ }
+
+ .politics a.oferta, .politics a {
+     display: inline;
+     margin: 0;
+     padding: 0;
+ }
+
+ .politics, .politics * {
+     margin: 0 !important; /* Принудительное удаление всех отступов */
+     padding: 0 !important;
+ }
+
+ .popup-content {
+     text-align: center !important; /* Центрирование текста */
+ }
+
+ .pop_up_title, .pop_up_subtitle {
+     display: block;
+     margin: 0 auto;
+     text-align: center !important;
+     color: #000; /* Или любые другие стили */
+ }
+
+ .pop_up_title {
+     font-size: 15px;
+     margin: 10px;
+ }
+
+ .pop_up_subtitle {
+     font-weight: bold;
+     background-color: #D3D3D3;
+     margin: 0px;
+     padding:7px  0px 7px 0px;
+     border-top-left-radius: 10px;
+     border-bottom-right-radius: 10px;
+     border-top-right-radius: 10px;
+     border-bottom-left-radius: 10px;
+ }
+
+ .form {
+     text-align: left !important;
+ }
+ 
 #phone_inp {
   height: 32px;
   padding-top: 2px;

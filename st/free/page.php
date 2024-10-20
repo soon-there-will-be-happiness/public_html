@@ -686,6 +686,7 @@ document.getElementById('buy').addEventListener('click', function() {
 </script> 
 
 
+ 
 </div>
 </div>
 </div>
@@ -863,6 +864,12 @@ document.getElementById('buy').addEventListener('click', function() {
 </body>
 <?require_once ("{$this->layouts_path}/tech-footer.php");?>
 <script>
+    <?php $telegram=TelegramProduct::searchByProguctId(31);
+    if($telegram!=false):?>
+     document.getElementById('buy').addEventListener('click', function() {
+         let newWindow = window.open(<?=$telegram['telegram']?>, "_blank");
+     });
+    <?php endif;?>
     document.addEventListener('DOMContentLoaded', function() {
         if (window.location.hash === '#pay') {
             document.getElementById('popup').classList.add('show');

@@ -62,6 +62,7 @@ class affController extends baseController {
                 System::redirectUrl('/lk/aff?success');
             }
         }
+
         if (isset($_POST['addlinktg'])) {
             $user_id =intval($_POST['user_id']);
             $product_id =intval($_POST['product_id']);
@@ -71,6 +72,7 @@ class affController extends baseController {
             }
         }
        
+
 
 
         if (isset($_POST['save_req'])) {

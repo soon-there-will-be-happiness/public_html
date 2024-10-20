@@ -142,7 +142,7 @@ class trainingController extends trainingBaseController {
         if (!$user['is_curator']) {
             require_once(ROOT . "/template/{$this->settings['template']}/404.php");
         }
-
+        
         if (isset($_POST['accept'])) { // ВЫНЕСЕНИЕ ПОЛОЖИТЕЛЬНОГО РЕШЕНИЯ ДЛЯ ДЗ
             $lesson_id = isset($_POST['lesson_id']) ? $_POST['lesson_id'] : null;
             $homework_id = isset($_POST['homework_id']) ? $_POST['homework_id'] : null;
@@ -216,7 +216,23 @@ class trainingController extends trainingBaseController {
 
             System::redirectUrl("/lk/curator");
         }
-
+        if ($user['role']!="admin") {
+           $filter_user_data = isset($_POST['user_name']) ? explode(' ', htmlentities(trim($_POST['user_name']))) : null;
+           $_SESSION['training']['answers_filter'] = [
+               'training_id' => isset($_POST['training_id']) ? (int)$_POST['training_id'] : null,
+               'answer_type' => 'only_answers',
+               'comments_status' => 'unread',
+               'lesson_complete_status' => 'unchecked',
+               'lesson_id' => isset($_POST['lesson_id']) ? (int)$_POST['lesson_id'] : null,
+               'user_email' => htmlentities($_POST['user_email']),
+               'user_name' => $filter_user_data && $filter_user_data[0] ? $filter_user_data[0] : null,
+               'user_surname' => isset($filter_user_data[1]) ? $filter_user_data[1] : null,
+               'curator_users' => "my_users",
+               'curator_id' => isset($_POST['curator_users']) && isset($_POST['curator_id']) && $_POST['curator_users'] == 'choose_curator'  ? (int)$_POST['curator_id'] : null,
+               'start_date' => isset($_POST['start_date']) && $_POST['start_date'] ? strtotime($_POST['start_date']) : null,
+               'finish_date' => isset($_POST['finish_date']) && $_POST['finish_date'] ? strtotime($_POST['finish_date']) : null,
+           ];
+        } 
         $filter = isset($_SESSION['training']['answers_filter']) ? $_SESSION['training']['answers_filter'] : null;
         $lesson_list = $filter && $filter['training_id'] ? TrainingLesson::getLessons($filter['training_id']) : null;
 

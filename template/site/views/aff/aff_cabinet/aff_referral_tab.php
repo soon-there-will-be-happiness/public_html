@@ -20,9 +20,17 @@
             </tr>
 
             <?php if($links && $user['spec_aff'] == 0) {
+                $user_groups = User::getGroupByUser($user['user_id']);
                 
                 // Без особого режима партнёра
                 foreach($links as $link):
+                    
+                    if (in_array(60, $user_groups) & $link['product_id']!=35) {
+                        continue;
+                    }
+                    if (!in_array(60, $user_groups) & $link['product_id']==35) {
+                        continue;
+                    }
                     $product=Product::getMinProductById($link['product_id']);
                     if($link['external_landing'] == 0) {
                         // внутренний лендинг
@@ -118,7 +126,13 @@
                             if($req['custom_comiss']>0):?> 
                                 <td class="not-aff_links"><?=$req['custom_comiss'];?>%</td>
                             <?php elseif(isset($link['product_comiss']) && $link['product_comiss']>0):?>
-                                <td class="not-aff_links"><?=$link['product_comiss'];?>%</td>
+                                <td class="not-aff_links">
+                                    <?php if ($link['product_comiss'] > 100): ?>
+                                        <?=$link['product_comiss'];?> р.
+                                    <?php else: ?>
+                                        <?=$link['product_comiss'];?> %
+                                    <?php endif; ?>
+                                </td>
                             <?php else:?>                                                            
                                 <td class="not-aff_links">
                                     <?=$params['params']['aff_1_level'] ? "1 уровень - {$params['params']['aff_1_level']}%<br>" : '';?>
@@ -143,10 +157,11 @@
                                     $url = $link['external_url'].'?'.$ender;
 
                                 }
+                            //print_r($user);
+                            //print_r(User::getGroupByUser($user['user_id']));
                             $fill_req = Aff::checkAllPartnerReq($user['user_id']);
-                            if($fill_req) {
-                                if($link['product_id']!=33) {
-                            ?>
+                            if($fill_req || $link['product_id']==33) {
+                                if($link['product_id']!=33 & $link['product_id']!=35) { ?>
                                     <div class="table-form-line">
                                         <span class="text-right"><?=System::Lang('LENDING');?></span><div class="table-form-input"><input readonly onclick="this.select()" type="text" value="<?=$url;?>" class="link_input"></div>
                                     </div>
@@ -155,6 +170,7 @@
                                        
                                         <form class="table-form-input" action="" method="POST">
                                             <?php $telegram=TelegramProduct::searchByProductId($user['user_id'],$link['product_id']);
+
                                             if($telegram!=false):?>
                                                 <input type="text" id ="telegram" name="telegram" class="link_input" value="<?=$telegram['telegram']?>">
                                             <?else:?>
@@ -172,12 +188,9 @@
                             <div class="table-form-line">
                                 <span class="text-right"><?=System::Lang('ORDER');?></span><div class="table-form-input"><input readonly onclick="this.select()" type="text" value="<?=$order_url;?>" class="order_link_input"></div>
                             </div>
-                            <?php 
-                            } else { 
-                                ?>
+                            <?php } else { ?>
                                 <span class="text-right"><?=System::Lang('FILL_REQ');?></span>
-                            <?php }
-                                 endif;?>
+                            <?php } endif;?>
                         </td>
                         <?php if($link['ads'] != null):?><td class="not-aff_links"><a class="text-decoration-none" target="_blank" href="/load/ads/<?=$link['ads']?>"><i class="icon-attach-1"></i>&nbsp;<?=System::Lang('DOWNLOAD');?></a></td><?php endif;?>
 <!--                         <td class="tg_group"><div class="table-form-input"><input onclick="this.select()" type="text" value="<?=$order_url;?>" class="order_link_input tg_input"></div></td>-->                    

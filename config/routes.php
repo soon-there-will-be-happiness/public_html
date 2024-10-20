@@ -60,7 +60,11 @@ return [
     'privacy' => 'site/privacy',
     'oferta' => 'site/oferta',
     'st/kemstat/page' => 'site/kemstat',
+
     'st/free/page' => 'site/free',
+
+    'st/ambassador/page' => 'site/ambassador',
+
     'oferta?id=([0-9]+)' => 'site/oferta/$1',
 
     // РАССЫЛКА
@@ -131,7 +135,9 @@ return [
     'lk/aff' => 'aff/aff', // стартовая страница партнёрки в кабинете
     'lk/author' => 'aff/author',
     'lk/telegram' => 'aff/telegram',
+
     "family"=>"aff/parent",
+
     ///////////////////////
     /// АДМИНКА
     //////////////////////

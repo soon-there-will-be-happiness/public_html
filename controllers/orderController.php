@@ -180,6 +180,8 @@ class orderController extends baseController {
             $ip = System::getUserIp();
             $flow = isset($_POST['flows']) ? intval($_POST['flows']) : 0;
             $not_me = isset($_POST['not-me']) ? htmlspecialchars($_POST['not-me']) : false;
+
+          
             // ПАРТНЁРКА ПРИ ЗАКАЗЕ
             $partner_id = null;
             if ($partner_id_promocode && $use_partner) {//если партнер из промокода и опция в акции "Начислять партнерские" включена

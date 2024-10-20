@@ -158,7 +158,8 @@ class Order {
                         );
                     }
                 }
-                
+
+              
                 if (Product::getProductById($item['product_id'])['group_id'] == 23) {
                     Aff::AddUserToPartner($client['user_id'], 0);
                     Course::AddIsCurator($client['user_id'], 1);
