@@ -704,7 +704,7 @@ class Email {
 
     // ПИСЬМО КЛИЕНТУ О ЗАКАЗЕ
     // ПРИНИМАЕТ ТЕКСТ ПИСЬМА, ИМЯ КЛИЕНТА, НОМЕР ЗАКАЗА
-    public static function SendOrder($order_date, $letter, $product, $name, $email, $summ, $pincode, $addsubject = null, $surname = false, $patronymic = false)
+    public static function SendOrder($order_date, $letter, $product, $name, $email, $summ, $pincode, $addsubject = null, $surname = false, $patronymic = false,$to_child=false, $order_id=null)
     {
         $setting = System::getSetting();
         $link = $setting['script_url'].'/download/'. $order_date.'?key='.md5($email);
@@ -712,7 +712,11 @@ class Email {
 
         $userdata = User::getUserDataByEmail($email);
 
-        $prelink = User::generateAutoLoginLink($userdata);//Ссылка автологин без редиректа
+        $prelink = User::generateAutoLoginLink($userdata);
+        if($to_child==true)
+        {
+            $order_date=" $order_date.<p> Ссылка для регистрацию: ".$setting['script_url'].'/lk/registration?o='.$order_id."</p>";
+        }
 
         // реплейсим письмо
         $replace = array(
