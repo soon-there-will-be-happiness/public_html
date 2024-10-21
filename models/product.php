@@ -2104,6 +2104,10 @@ class Product {
             [
                 'link' => '/st/free/page',
                 'text' => 'Пробный урок'
+            ],
+            [
+                'link' => '/st/ambassador/page',
+                'text' => 'Регистрация амбассадоров'
             ]
         ];
     }
