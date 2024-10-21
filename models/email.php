@@ -1458,6 +1458,12 @@ class Email {
     public static function sendMessageAccountStatement($email, $order_id, $client_name, $client_surmane, $product_id, $product_name, $client_email, $client_phone, $order_date, $price) {
         $setting = System::getSetting();
         $letter = System::Lang('ACCOUNT_STATEMENT_NOTIFY_EMAIL');
+        $order=Order::getOrder($order_id);
+        $partner = User::getUserById($order['partner_id']);
+        if (!$partner) {
+            $partner = ['user_name' => 'Нет данных', 'surname' => 'Нет данных', 'nick_telegram' => 'Нет данных'];
+        }
+
         $replace = array (
             '[ORDER_ID]' => $order_id,
             '[PRODUCT_ID]' => $product_id,
@@ -1468,6 +1474,8 @@ class Email {
             '[CLIENT_NAME]' => $client_name,
             '[CLIENT_SURNAME]' => $client_surmane,
             '[LINK]' => $setting['script_url'].'/pay/'.$order_date,
+            '[P_FIO]' => $partner['user_name'].' '.$partner['surname'],
+            '[P_LINK_TG]' => !empty($partner['nick_telegram']) ? $partner['nick_telegram'] : 'Не указано',
         );
         $text = strtr($letter, $replace);
         $subject = System::Lang('Сформирован заказ');
