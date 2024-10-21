@@ -164,7 +164,7 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                                 <?php if(!empty($user['from_id'])):
                                     $user_data = User::getUserNameByID($user['from_id']);?>
                                     <p>Пришёл от партнёра:
-                                        <a target="_blank" href="/admin/users/edit/<?=$user['from_id'];?>"><?=$user_data['user_name'];?></a>
+                                        <a target="_blank" href="/admin/users/edit/<?=$user['from_id'];?>"><?=$user_data['user_name'].' '.$user_data['surname'];?></a>
                                         <a data-id="<?=$user['user_id'];?>" data-partner-id="<?=$user['from_id'];?>" title="Отвязать партнера" class="remove-label remove-partner"><span class="icon-remove"></span></a>
                                     </p>
                                     
