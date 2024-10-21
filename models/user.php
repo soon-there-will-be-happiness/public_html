@@ -1535,7 +1535,7 @@ class User {
     public static function getUserById($id)
     {
         $db = Db::getConnection();
-        $result = $db->query(" SELECT * FROM ".PREFICS."users WHERE user_id = $id ");
+        $result = $db->query(" SELECT * FROM ".PREFICS."users WHERE user_id = '$id' ");
         $data = $result->fetch(PDO::FETCH_ASSOC);
         
         return !empty($data) ? $data : false;
