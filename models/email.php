@@ -147,8 +147,7 @@ class Email {
             $letter_start = str_replace('[HEAD_MSG]', $headContent, $letter_start);
             $text = preg_replace('/\[HEAD_START\](.*?)\[HEAD_END\]/s', '', $text);
         } else {
-            $letter_start = str_replace('[HEAD_MSG]', '', $letter_start);
-            $text = preg_replace('/\[HEAD_START\](.*?)\[HEAD_END\]/s', '', $text);
+            $text = $matches_head[1] . preg_replace('/\[HEAD_START\](.*?)\[HEAD_END\]/s', '', $text);
         }
 
         if (isset($matches_sContent[1]) && !$empty) {
@@ -156,9 +155,8 @@ class Email {
             $sContent = str_replace('[CONTENT]', $simpleContent, $sContent);
             $text = $sContent;
         } else {
-            $text = preg_replace('/\[S_CONTENT_START\](.*?)\[S_CONTENT_END\]/s', '', $text);
-            $sContent = str_replace('[CONTENT]', '', $sContent);
-            $text = $sContent;
+            $content = preg_replace('/\[S_CONTENT_START\](.*?)\[S_CONTENT_END\]/s', '', $text);
+            $text = $text . $content;
         }
         if (!$empty) {
             $text = $letter_start . $text . $letter_end;
