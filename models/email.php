@@ -1254,12 +1254,12 @@ class Email {
      */
     public static function sender($email, $subject, $text, $setting, $from_name, $from, $is_testLetter = false, $reply_to = false, array $addit_data = []) {
         $caller = System::get_caller(__FUNCTION__);
-        $text = self::builder($text,true);
+        $text_tg = self::builder($text,true);
         $res = Connect::sendMessagesByEmail($email, $subject . "\n\n" . $text, [
             'caller' => $caller,
             'email' => $email,
             'subject' => $subject,
-            'text' => $text,
+            'text' => $text_tg,
             'setting' => $setting,
             'form' => $from,
             'form_name' => $from_name,
