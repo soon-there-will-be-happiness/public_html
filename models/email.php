@@ -132,7 +132,8 @@ class Email {
         return self::sender($email, $subj_manager, $text, $setting, $setting['sender_name'], $setting['sender_email']);
     }
 
-    public static function builder($text) {
+    public static function builder($text, $empty=false)
+    {
         $letter_start = System::Lang('LETTER_START');
         $letter_end = System::Lang('LETTER_END');
         $sContent = System::Lang('SIMPLE_CONTENT');
@@ -141,21 +142,25 @@ class Email {
         preg_match('/\[S_CONTENT_START\](.*?)\[S_CONTENT_END\]/s', $text, $matches_sContent);
 
         // Если найдено, заменяем [HEAD_MSG] на найденное содержимое
-        if (isset($matches_head[1])) {
+        if (isset($matches_head[1]) && !$empty) {
             $headContent = $matches_head[1];
             $letter_start = str_replace('[HEAD_MSG]', $headContent, $letter_start);
             $text = preg_replace('/\[HEAD_START\](.*?)\[HEAD_END\]/s', '', $text);
-        } /*else {
+        } else {
             $letter_start = str_replace('[HEAD_MSG]', '', $letter_start);
-        }*/
+        }
 
-        if (isset($matches_sContent[1])) {
+        if (isset($matches_sContent[1]) && !$empty) {
             $simpleContent = $matches_sContent[1];
             $sContent = str_replace('[CONTENT]', $simpleContent, $sContent);
             $text = $sContent;
+        } else {
+            $sContent = str_replace('[CONTENT]', '', $sContent);
+            $text = $sContent;
         }
-
-        $text = $letter_start . $text . $letter_end;
+        if (!$empty) {
+            $text = $letter_start . $text . $letter_end;
+        }
         return $text;
     }
 
@@ -1249,6 +1254,7 @@ class Email {
      */
     public static function sender($email, $subject, $text, $setting, $from_name, $from, $is_testLetter = false, $reply_to = false, array $addit_data = []) {
         $caller = System::get_caller(__FUNCTION__);
+        $text = self::builder($text,true);
         $res = Connect::sendMessagesByEmail($email, $subject . "\n\n" . $text, [
             'caller' => $caller,
             'email' => $email,
