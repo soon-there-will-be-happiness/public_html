@@ -3841,7 +3841,7 @@ if ($partner_id != null) {
                         <div id="popup" class="popup hidden">
                             <div class="popup-content">
                                 <span class="close-btn">&times;</span>
-                                <h4 class="pop_up_title">Форма регистрации на пробный урок на платформе. Для получения доступа к уроку заполните данные о себе.</h4>
+                                <h4 class="pop_up_title">Форма для регистрации на платформе «Кем стать?»<br>Для получения доступа к услуге по профориентации заполните данные о себе</h4>
                                 <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?></br>
                                     Стоимость: <?=$price['real_price']?> ₽</p>
 
