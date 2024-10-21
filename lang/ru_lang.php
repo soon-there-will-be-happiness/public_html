@@ -806,7 +806,7 @@ Email: [EMAIL]</p><p>Перейдите в админку School-Master и об�
 'LINK_FOR_PARTNERS' => 'Ссылка для привлечения партнёров:',
 
 // +KEMSTAT-8
-'ACCOUNT_STATEMENT_NOTIFY_EMAIL' => "ФИО: [CLIENT_NAME] [CLIENT_SURNAME]<br>ID заказа: [ORDER_ID]<br>ID товара: [PRODUCT_ID]<br>Наименование товара: [PRODUCT_NAME]<br>Email клиента: [CLIENT_EMAIL]<br>Телефон клиента: [CLIENT_PHONE]<br>Сумма: [SUMM]<br><a href='[LINK]'>Ссылка на оплату заказа</a><br>[LINK]",
+'ACCOUNT_STATEMENT_NOTIFY_EMAIL' => "ФИО: [CLIENT_NAME] [CLIENT_SURNAME]<br>ID заказа: [ORDER_ID]<br>ID товара: [PRODUCT_ID]<br>Наименование товара: [PRODUCT_NAME]<br>Email клиента: [CLIENT_EMAIL]<br>Телефон клиента: [CLIENT_PHONE]<br>Сумма: [SUMM]<br><a href='[LINK]'>Ссылка на оплату заказа</a><br>[LINK]<br>ФИО Партнёра: [P_FIO]<br>Связаться с партнёром: [P_LINK_TG]",
 // -KEMSTAT-8
 
 // ВИДЖЕТЫ
@@ -936,6 +936,7 @@ Email: [EMAIL]</p><p>Перейдите в админку School-Master и об�
 <![endif]-->
   <style type="text/css">
 .rollover:hover .rollover-first {
+
   max-height:0px!important;
   display:none!important;
 }
@@ -954,11 +955,13 @@ u + .body img ~ div div {
 }
 span.MsoHyperlink,
 span.MsoHyperlinkFollowed {
+
   color:inherit;
   mso-style-priority:99;
 }
 a.es-button {
   mso-style-priority:100!important;
+
   text-decoration:none!important;
 }
 a[x-apple-data-detectors],
@@ -971,11 +974,13 @@ a[x-apple-data-detectors],
   line-height:inherit!important;
 }
 .es-desk-hidden {
+
   display:none;
   float:left;
   overflow:hidden;
   width:0;
   max-height:0;
+
   line-height:0;
   mso-hide:all;
 }

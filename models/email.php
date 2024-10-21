@@ -140,7 +140,32 @@ class Email {
         return self::sender($email, $subj_manager, $text, $setting, $setting['sender_name'], $setting['sender_email']);
     }
 
+    public static function builder($text) {
+        $letter_start = System::Lang('LETTER_START');
+        $letter_end = System::Lang('LETTER_END');
+        $sContent = System::Lang('SIMPLE_CONTENT');
 
+        preg_match('/\[HEAD_START\](.*?)\[HEAD_END\]/s', $text, $matches_head);
+        preg_match('/\[S_CONTENT_START\](.*?)\[S_CONTENT_END\]/s', $text, $matches_sContent);
+
+        // Если найдено, заменяем [HEAD_MSG] на найденное содержимое
+        if (isset($matches_head[1])) {
+            $headContent = $matches_head[1];
+            $letter_start = str_replace('[HEAD_MSG]', $headContent, $letter_start);
+            $text = preg_replace('/\[HEAD_START\](.*?)\[HEAD_END\]/s', '', $text);
+        } /*else {
+            $letter_start = str_replace('[HEAD_MSG]', '', $letter_start);
+        }*/
+
+        if (isset($matches_sContent[1])) {
+            $simpleContent = $matches_sContent[1];
+            $sContent = str_replace('[CONTENT]', $simpleContent, $sContent);
+            $text = $sContent;
+        }
+
+        $text = $letter_start . $text . $letter_end;
+        return $text;
+    }
 
     // ОТПРАВКА ДОКУМЕНТА СТРОГОЙ ОТЧЁТНОСТИ
     public static function SendStrictReport($client_name, $client_email, $order_date, $payment_date, $summ, $setting, $order_items, $surname = null)
@@ -1355,7 +1380,7 @@ class Email {
     public static function sender($email, $subject, $text, $setting, $from_name, $from, $is_testLetter = false, $reply_to = false, array $addit_data = []) {
         $caller = System::get_caller(__FUNCTION__);
         
-        $text = self::builder($text);
+        
         $res = Connect::sendMessagesByEmail($email, $subject . "\n\n" . $text, [
             'caller' => $caller,
             'email' => $email,
@@ -1366,6 +1391,9 @@ class Email {
             'form_name' => $from_name,
             'addit_data' => $addit_data
         ]);
+
+        $text = self::builder($text);
+
         if ($setting['use_smtp'] == 1) { // Отправляем через SMTP
             $send = self::SMTPSingleSender($email, $subject, $text, $setting, $from_name, $is_testLetter, $reply_to);
 
@@ -1564,6 +1592,12 @@ class Email {
     public static function sendMessageAccountStatement($email, $order_id, $client_name, $client_surmane, $product_id, $product_name, $client_email, $client_phone, $order_date, $price,$to_child=false) {
         $setting = System::getSetting();
         $letter = System::Lang('ACCOUNT_STATEMENT_NOTIFY_EMAIL');
+        $order=Order::getOrder($order_id);
+        $partner = User::getUserById($order['partner_id']);
+        if (!$partner) {
+            $partner = ['user_name' => 'Нет данных', 'surname' => 'Нет данных', 'nick_telegram' => 'Нет данных'];
+        }
+
         $replace = array (
             '[ORDER_ID]' => $order_id,
             '[PRODUCT_ID]' => $product_id,
@@ -1574,6 +1608,8 @@ class Email {
             '[CLIENT_NAME]' => $client_name,
             '[CLIENT_SURNAME]' => $client_surmane,
             '[LINK]' => $setting['script_url'].'/pay/'.$order_date,
+            '[P_FIO]' => $partner['user_name'].' '.$partner['surname'],
+            '[P_LINK_TG]' => !empty($partner['nick_telegram']) ? $partner['nick_telegram'] : 'Не указано',
         );
         $text = strtr($letter, $replace);
         $subject = System::Lang('Сформирован заказ');

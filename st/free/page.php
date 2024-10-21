@@ -629,6 +629,7 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
 <div id="popup" class="popup hidden">
     <div class="popup-content">
         <span class="close-btn">&times;</span>
+
         <h4 class="pop_up_title">Форма регистрации на пробный урок на платформе. Для получения доступа к уроку заполните данные о себе.</h4>
         <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?></br>
            Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
