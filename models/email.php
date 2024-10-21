@@ -134,32 +134,30 @@ class Email {
 
     public static function builder($text, $empty=false)
     {
-        $letter_start = System::Lang('LETTER_START');
-        $letter_end = System::Lang('LETTER_END');
-        $sContent = System::Lang('SIMPLE_CONTENT');
-
-        preg_match('/\[HEAD_START\](.*?)\[HEAD_END\]/s', $text, $matches_head);
-        preg_match('/\[S_CONTENT_START\](.*?)\[S_CONTENT_END\]/s', $text, $matches_sContent);
-
-        // Если найдено, заменяем [HEAD_MSG] на найденное содержимое
-        if (isset($matches_head[1]) && !$empty) {
-            $headContent = $matches_head[1];
-            $letter_start = str_replace('[HEAD_MSG]', $headContent, $letter_start);
-            $text = preg_replace('/\[HEAD_START\](.*?)\[HEAD_END\]/s', '', $text);
-        } else {
-            $text = $matches_head[1] . preg_replace('/\[HEAD_START\](.*?)\[HEAD_END\]/s', '', $text);
-        }
-
-        if (isset($matches_sContent[1]) && !$empty) {
-            $simpleContent = $matches_sContent[1];
-            $sContent = str_replace('[CONTENT]', $simpleContent, $sContent);
-            $text = $sContent;
-        } else {
-            $content = preg_replace('/\[S_CONTENT_START\](.*?)\[S_CONTENT_END\]/s', '', $text);
-            $text = $text . $content;
-        }
         if (!$empty) {
+            $letter_start = System::Lang('LETTER_START');
+            $letter_end = System::Lang('LETTER_END');
+            $sContent = System::Lang('SIMPLE_CONTENT');
+            preg_match('/\[HEAD_START\](.*?)\[HEAD_END\]/s', $text, $matches_head);
+            preg_match('/\[S_CONTENT_START\](.*?)\[S_CONTENT_END\]/s', $text, $matches_sContent);
+
+            // Если найдено, заменяем [HEAD_MSG] на найденное содержимое
+            if (isset($matches_head[1])) {
+                $headContent = $matches_head[1];
+                $letter_start = str_replace('[HEAD_MSG]', $headContent, $letter_start);
+                $text = preg_replace('/\[HEAD_START\](.*?)\[HEAD_END\]/s', '', $text);
+            } else {
+                $letter_start = str_replace('[HEAD_MSG]', '', $letter_start);
+            }
+
+            if (isset($matches_sContent[1])) {
+                $simpleContent = $matches_sContent[1];
+                $sContent = str_replace('[CONTENT]', $simpleContent, $sContent);
+                $text = $sContent;
+            }
             $text = $letter_start . $text . $letter_end;
+        } else {
+            $text = str_replace(['[HEAD_START]', '[HEAD_END]', '[S_CONTENT_START]', '[S_CONTENT_END]'], '', $text);
         }
         return $text;
     }
