@@ -148,6 +148,7 @@ class Email {
             $text = preg_replace('/\[HEAD_START\](.*?)\[HEAD_END\]/s', '', $text);
         } else {
             $letter_start = str_replace('[HEAD_MSG]', '', $letter_start);
+            $text = preg_replace('/\[HEAD_START\](.*?)\[HEAD_END\]/s', '', $text);
         }
 
         if (isset($matches_sContent[1]) && !$empty) {
@@ -155,6 +156,7 @@ class Email {
             $sContent = str_replace('[CONTENT]', $simpleContent, $sContent);
             $text = $sContent;
         } else {
+            $text = preg_replace('/\[S_CONTENT_START\](.*?)\[S_CONTENT_END\]/s', '', $text);
             $sContent = str_replace('[CONTENT]', '', $sContent);
             $text = $sContent;
         }
@@ -1467,7 +1469,7 @@ class Email {
         $order=Order::getOrder($order_id);
         $partner = User::getUserById($order['partner_id']);
         if (!$partner) {
-            $partner = ['user_name' => 'Нет данных', 'surname' => 'Нет данных', 'nick_telegram' => 'Нет данных'];
+            $partner = ['user_name' => 'Нет данных', 'surname' => '', 'nick_telegram' => 'Нет данных'];
         }
 
         $replace = array (
