@@ -179,7 +179,9 @@ class orderController extends baseController {
             $param = isset($_COOKIE["$cookie"]) ? htmlentities($_COOKIE["$cookie"]) : htmlentities($_SESSION["$cookie"]);
             $ip = System::getUserIp();
             $flow = isset($_POST['flows']) ? intval($_POST['flows']) : 0;
+            $not_me = isset($_POST['not-me']) ? htmlspecialchars($_POST['not-me']) : false;
 
+          
             // ПАРТНЁРКА ПРИ ЗАКАЗЕ
             $partner_id = null;
             if ($partner_id_promocode && $use_partner) {//если партнер из промокода и опция в акции "Начислять партнерские" включена
@@ -254,6 +256,9 @@ class orderController extends baseController {
                 }
 
                 $order = Order::getOrder($add_order_id);
+                if($not_me){
+                    ToChild::addToChild($order['product_id'],$order['order_id'],$order['client_email']);
+                }
                 $domain = Helper::getDomain();
                 $expire = $this->settings['order_life_time'] * 86400 + $date;
                 setcookie("cl_eml", $user_email, $expire, '/', $domain);
@@ -276,9 +281,11 @@ class orderController extends baseController {
                         if ($email == "") {
                             continue;
                         }
+                        $to_child=ToChild::searchByOrderId($order['order_id']);
+                        $is_child_attached = $to_child !== false;
                         // +KEMSTAT-8
                         $product = Product::getProductDataForSendOrder($order['product_id']);
-                        Email::sendMessageAccountStatement($email, $order['order_id'], $order['client_name'], $surname?$surname:'', $order['product_id'], $product['product_name'], $order['client_email'], $order['client_phone'], $order['order_date'], $nds_price['price']);
+                        Email::sendMessageAccountStatement($email, $order['order_id'], $order['client_name'], $surname?$surname:'', $order['product_id'], $product['product_name'], $order['client_email'], $order['client_phone'], $order['order_date'], $nds_price['price'],  $is_child_attached);
                         // -KEMSTAT-8
                         
                     }
@@ -638,7 +645,6 @@ class orderController extends baseController {
     }
 
 
-
     // ПОДВТЕРЖДЕНИЕ ДОСТАВКИ
     public function actionConfirmdelivery($order_date)
     {
@@ -668,7 +674,6 @@ class orderController extends baseController {
         }
         return true;
     }
-
 
 
     // ОТМЕНА ЗАКАЗА

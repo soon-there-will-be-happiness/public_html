@@ -1,5 +1,7 @@
 <?php defined('BILLINGMASTER') or die;?>
 <!-- 2 Партнёрские ссылки -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <div>
     <div class="table-responsive">
         <?php if(False & $params['params']['aff_2_level'] > 0):?>
@@ -14,12 +16,21 @@
                 <th><?=System::Lang('COMMISSION');?></th>
                 <th><?=System::Lang('LINKS');?></th>
                 <!-- <th><?=System::Lang('MAT');?></th> -->
+                <!-- <th><?=System::Lang('TG_GROUP');?></th> -->
             </tr>
 
             <?php if($links && $user['spec_aff'] == 0) {
+                $user_groups = User::getGroupByUser($user['user_id']);
                 
                 // Без особого режима партнёра
                 foreach($links as $link):
+                    
+                    if (in_array(60, $user_groups) & $link['product_id']!=35) {
+                        continue;
+                    }
+                    if (!in_array(60, $user_groups) & $link['product_id']==35) {
+                        continue;
+                    }
                     $product=Product::getMinProductById($link['product_id']);
                     if($link['external_landing'] == 0) {
                         // внутренний лендинг
@@ -115,7 +126,13 @@
                             if($req['custom_comiss']>0):?> 
                                 <td class="not-aff_links"><?=$req['custom_comiss'];?>%</td>
                             <?php elseif(isset($link['product_comiss']) && $link['product_comiss']>0):?>
-                                <td class="not-aff_links"><?=$link['product_comiss'];?>%</td>
+                                <td class="not-aff_links">
+                                    <?php if ($link['product_comiss'] > 100): ?>
+                                        <?=$link['product_comiss'];?> р.
+                                    <?php else: ?>
+                                        <?=$link['product_comiss'];?> %
+                                    <?php endif; ?>
+                                </td>
                             <?php else:?>                                                            
                                 <td class="not-aff_links">
                                     <?=$params['params']['aff_1_level'] ? "1 уровень - {$params['params']['aff_1_level']}%<br>" : '';?>
@@ -140,12 +157,30 @@
                                     $url = $link['external_url'].'?'.$ender;
 
                                 }
+                            //print_r($user);
+                            //print_r(User::getGroupByUser($user['user_id']));
                             $fill_req = Aff::checkAllPartnerReq($user['user_id']);
-                            if($fill_req) {
-                                if($link['product_id']!=33) {
-                            ?>
+                            if($fill_req || $link['product_id']==33) {
+                                if($link['product_id']!=33 & $link['product_id']!=35) { ?>
                                     <div class="table-form-line">
                                         <span class="text-right"><?=System::Lang('LENDING');?></span><div class="table-form-input"><input readonly onclick="this.select()" type="text" value="<?=$url;?>" class="link_input"></div>
+                                    </div>
+                                    <div class="table-form-line">
+                                        <span class="text-right"><?=System::Lang('TG_GROUP');?></span>
+                                       
+                                        <form class="table-form-input" action="" method="POST">
+                                            <?php $telegram=TelegramProduct::searchByProductId($user['user_id'],$link['product_id']);
+
+                                            if($telegram!=false):?>
+                                                <input type="text" id ="telegram" name="telegram" class="link_input" value="<?=$telegram['telegram']?>">
+                                            <?else:?>
+                                                <input type="text" id ="telegram" name="telegram" class="link_input" value="">
+                                            <?endif;?>
+                                            <input style="display:none;" type="hidden" name="product_id" id="product_id" value="<?=$link['product_id']?>">
+                                            <input style="display:none;" type="hidden" name="user_id" id="user_id" value="<?=$user['user_id']?>">
+                                            <button style="display:none;" type="submit"  name="addlinktg">Отправить</button>
+                                        </form>
+                                       
                                     </div>
                             
                                 <?php 
@@ -153,16 +188,19 @@
                             <div class="table-form-line">
                                 <span class="text-right"><?=System::Lang('ORDER');?></span><div class="table-form-input"><input readonly onclick="this.select()" type="text" value="<?=$order_url;?>" class="order_link_input"></div>
                             </div>
-                            <?php 
-                            } else { 
-                                ?>
+                            <?php } else { ?>
                                 <span class="text-right"><?=System::Lang('FILL_REQ');?></span>
-                            <?php }
-                                 endif;?>
+                            <?php } endif;?>
                         </td>
-                        <td class="not-aff_links"><?php if($link['ads'] != null):?><a class="text-decoration-none" target="_blank" href="/load/ads/<?=$link['ads']?>"><i class="icon-attach-1"></i>&nbsp;<?=System::Lang('DOWNLOAD');?></a>
-                        <?php endif;?></td>
-                    </tr>
+                        <?php if($link['ads'] != null):?><td class="not-aff_links"><a class="text-decoration-none" target="_blank" href="/load/ads/<?=$link['ads']?>"><i class="icon-attach-1"></i>&nbsp;<?=System::Lang('DOWNLOAD');?></a></td><?php endif;?>
+<!--                         <td class="tg_group"><div class="table-form-input"><input onclick="this.select()" type="text" value="<?=$order_url;?>" class="order_link_input tg_input"></div></td>-->                    
+<!--                         <?php if($link['product_id']!=33):?>
+    <td class="send_message">
+
+    </td>
+<?php endif;?> -->
+                      </tr>
+
                 <?php endforeach;
             } else {
                 // ОСОБЫЙ РЕЖИМ
@@ -251,6 +289,18 @@
                                         <a class="text-decoration-none" target="_blank" href="/load/ads/<?=$link['ads']?>"><i class="icon-attach-1"></i>&nbsp;<?=System::Lang('DOWNLOAD');?></a>
                                     <?php endif;?>
                                 </td>
+                                <td class="send_message">
+                            <form action="" method="POST"> 
+                            <?php $telegram=TelegramProduct::searchByProguctId($link['product_id']);
+                                if($telegram!=false):?>
+                                <input type="text" name="telegram" class="order_link_input" value="<?=$telegram['telegram']?>" >
+                                <?else:?>
+                                    <input type="text" name="telegram" class="order_link_input" value=""  >
+                                <?endif;?>
+                                <input type="hidden" name="product_id" id="product_id" value="<?=$link['product_id']?>" >
+                                <button type="submit"  name="addlinktg">Отправить</button>
+                            </form>
+                        </td>
                             </tr>
                         <?php endif;
                     endforeach;
@@ -259,3 +309,27 @@
         </table>
     </div>
 </div>
+
+<!-- <script>
+document.getElementById('telegram').addEventListener('change', function() {
+    const telegram = document.getElementById('telegram').value;
+    const product_id = document.getElementById('product_id').value;
+    console.log('Telegram:', telegram, 'Product ID:', product_id);
+    document.getElementsByName('addlinktg')[0].click();
+    fetch('https://dev.xn--80ajojzgb4f.xn--p1ai/lk/aff', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `telegram=${encodeURIComponent(telegram)}&product_id=${product_id}`
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log('Успешно отправлено:', data);
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+    });
+});
+</script> -->
+

@@ -24,7 +24,7 @@
                         <div class="add-home-work-line">
                             <div class="add-home-work-left"><?=System::Lang('TEXT');?></div>
                             <div class="add-home-work-right">
-                                <textarea placeholder="<?=System::Lang('ENTER_ANSWER');?>" name="answer" class="editor"><?= System::sessionFlush("homework_last_text") ?></textarea>
+                                <textarea placeholder="<?=System::Lang('ENTER_ANSWER');?>" name="answer" class="editor"><?php //System::sessionFlush("homework_last_text"); ?> </textarea>
 
                                 <?if($task['show_upload_file']):?>
                                     <div class="attach home-work-attach">

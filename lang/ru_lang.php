@@ -3,7 +3,8 @@
 // <?= System::Lang('HELLO');
 
 $lang = array(
-
+'Parent/Child' => 'Семейные аккаунты',
+'TELEGRAM_TILE' => 'Телеграм',
 'DELETE_TASK' => 'Удалить задание',
 'DELETE_STORAGE' => 'Удалить хранилище',
 
@@ -450,6 +451,7 @@ Email: [EMAIL]</p><p>Перейдите в админку School-Master и об�
 'YOUR_SURNAME' => 'Ваша Фамилия:',
 'YOUR_PATRONYMIC' => 'Ваше Отчество:',
 'TELEGRAM' => 'Телеграм (Ваш юзернейм в телеграм, если нет телеграма, пропустите это поле):',
+'TG_GROUP' => 'Телеграм',
 'INSTAGRAM_NIK' => 'Ник в Instagram:',
 'ADRESS_VK' => 'Адрес страницы в ВКонтакте:',
 'CONFIRM_YOUR_ORDER' => 'Подтвердите ваш заказ.',
@@ -859,9 +861,9 @@ Email: [EMAIL]</p><p>Перейдите в админку School-Master и об�
 // ПЛАТЁЖНЫЕ МОДУЛИ
 'CUSTOM_SUCCESS_THANK' => 'Спасибо! Ваш заказ ждёт подтверждения.',
 'COMPANY_SUCCESS_THANK' => 'Спасибо! Счёт уже готовится.',
-'THANKS' => 'Спасибо!',
-'INSTRUCTIONS_ON_EMAIL' => '<p><strong>Всё отлично! Инструкции отправлены вам на е-маил.</strong></p>
-                <p>На всякий случай проверьте папку СПАМ.</p>',
+'THANKS' => 'Спасибо! ',
+'INSTRUCTIONS_ON_EMAIL' => '<p><strong>Вход выполнен автоматически! <a href="https://dev.xn--80ajojzgb4f.xn--p1ai/lk/mytrainings">Нажмите чтобы приступить к обучению</a></strong></p><p><strong>Инструкции отправлены вам на почту ',
+'INSTRUCTIONS_ON_EMAIL_HINT' => '</strong></p><p>На всякий случай проверьте папку СПАМ.</p>',
 'TO_BE_PAID' => 'К оплате:',
 'SELECT_YOU_PAID' => 'Выберите систему через которую оплачивали:',
 'INSTRUCTIONS' => 'Инструкция',
@@ -913,8 +915,15 @@ Email: [EMAIL]</p><p>Перейдите в админку School-Master и об�
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="ru">
  <head>
- <meta charset="UTF-8">
-        </style>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="telephone=no" name="format-detection">
+  <title>Новое письмо</title><!--[if (mso 16)]>
+    <style type="text/css">
+    a {text-decoration: none;}
+    </style>
     <![endif]--><!--[if gte mso 9]><style>sup { font-size: 100% !important; }</style><![endif]--><!--[if gte mso 9]>
 <noscript>
          <xml>
@@ -927,29 +936,32 @@ Email: [EMAIL]</p><p>Перейдите в админку School-Master и об�
 <![endif]-->
   <style type="text/css">
 .rollover:hover .rollover-first {
-    max-height:0px!important;
+
+  max-height:0px!important;
   display:none!important;
 }
 .rollover:hover .rollover-second {
-    max-height:none!important;
+  max-height:none!important;
   display:block!important;
 }
 .rollover span {
-    font-size:0px;
+  font-size:0px;
 }
 u + .body img ~ div div {
-    display:none;
+  display:none;
 }
 #outlook a {
   padding:0;
 }
 span.MsoHyperlink,
 span.MsoHyperlinkFollowed {
-    color:inherit;
-    mso-style-priority:99;
+
+  color:inherit;
+  mso-style-priority:99;
 }
 a.es-button {
-    mso-style-priority:100!important;
+  mso-style-priority:100!important;
+
   text-decoration:none!important;
 }
 a[x-apple-data-detectors],
@@ -962,11 +974,13 @@ a[x-apple-data-detectors],
   line-height:inherit!important;
 }
 .es-desk-hidden {
-    display:none;
-    float:left;
-    overflow:hidden;
-    width:0;
-    max-height:0;
+
+  display:none;
+  float:left;
+  overflow:hidden;
+  width:0;
+  max-height:0;
+
   line-height:0;
   mso-hide:all;
 }
@@ -1006,9 +1020,9 @@ p .footer-msg{Margin:0;mso-line-height-rule:exactly;font-family:tahoma, verdana,
                  </tr>
                </table></td>
              </tr>
-        ',
-'SIMPLE_CONTENT' => '
-        <tr>
+',
+'SIMPLE_CONTENT' => '             
+<tr>
                    <td align="left" style="padding:0;Margin:0;padding-right:20px;padding-bottom:10px;padding-left:20px">
                        <table cellpadding="0" cellspacing="0" width="100%" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                            <tr>
@@ -1016,14 +1030,14 @@ p .footer-msg{Margin:0;mso-line-height-rule:exactly;font-family:tahoma, verdana,
                                    <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                        <tr>
                                            <td align="center" style="padding:0;Margin:0;padding-bottom:35px">
-            [CONTENT]
+                                               [CONTENT]
                                            </td>
                                        </tr>
                                    </table></td>
                            </tr>
                        </table></td>
 </tr>
-        ',
+',
 'LETTER_END' => '
              <tr>
               <td align="left" style="padding:0;Margin:0;padding-right:20px;padding-bottom:10px;padding-left:20px">
@@ -1050,7 +1064,6 @@ p .footer-msg{Margin:0;mso-line-height-rule:exactly;font-family:tahoma, verdana,
 'ADD_LETTER_FOOTER' => '<div class="footer">',
 'LETTER_FOOTER_END' => '</div>',
 'TG_GROUP' => 'Телеграм'
-
 );
 
 ?>
