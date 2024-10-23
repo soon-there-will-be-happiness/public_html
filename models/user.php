@@ -1349,7 +1349,7 @@ class User {
      */
     public static function WriteUserGroup($user_id, $group_id, $date = null)
     {
-        if ($group_id == 0) {
+        if ($user_id === null || $group_id === null) {
             return false;
         }
         $db = Db::getConnection();
