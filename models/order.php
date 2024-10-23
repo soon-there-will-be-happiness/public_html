@@ -98,6 +98,7 @@ class Order {
              * ЦИКЛ --- Перебор продуктов в заказе -----------
              */
             $order_items = $partner_id = $partner2_id = $partner3_id = null;
+            $partner_id = $_COOKIE['aff_billingmaster'] ?? null;
             $rand_str = System::generateStr(9);
             $partners_payouts = 0;
             $sendCheckBL = false;
