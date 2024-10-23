@@ -13,7 +13,6 @@ $date = time();
 $name = $email = $phone = $surname = $patronymic = null;
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 ?>
-<?require_once ("{$this->layouts_path}/head.php");?>
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -865,12 +864,6 @@ document.getElementById('buy').addEventListener('click', function() {
 </body>
 <?require_once ("{$this->layouts_path}/tech-footer.php");?>
 <script>
-    <?php $telegram=TelegramProduct::searchByProguctId(31);
-    if($telegram!=false):?>
-     document.getElementById('buy').addEventListener('click', function() {
-         let newWindow = window.open(<?=$telegram['telegram']?>, "_blank");
-     });
-    <?php endif;?>
     document.addEventListener('DOMContentLoaded', function() {
         if (window.location.hash === '#pay') {
             document.getElementById('popup').classList.add('show');
