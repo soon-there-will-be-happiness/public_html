@@ -115,5 +115,11 @@
                 echo 'нет данных';
             }?>
         </p>
+        <p><?php
+            $api = CyclopsApi::getInstance();
+            $response = $api->echo('Hello world!');
+            echo $response ;
+            ?>
+        </p>
     </div>
 </div>
