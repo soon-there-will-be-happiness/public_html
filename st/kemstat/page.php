@@ -1,9 +1,10 @@
 <?require_once ("{$this->layouts_path}/head.php");?>
 <!DOCTYPE html>
 <html>
-<?php  defined('BILLINGMASTER') or die;  
-$product = Product::getProductById(28);
-$price = Price::getFinalPrice(28);
+<?php  defined('BILLINGMASTER') or die;
+$id=28;
+$product = Product::getProductById($id);
+$price = Price::getFinalPrice($id);
 $date = time();
 $name = $email = $phone = $surname = $patronymic = null;
 $setting = System::getSetting();
@@ -3845,7 +3846,7 @@ if ($partner_id != null) {
                                 <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?></br>
                                     Стоимость: <?=$price['real_price']?> ₽</p>
 
-                                <form class="form" action="<?=$setting['script_url']?>/buy/31" method="POST" <?=$metriks;?> id="form_order_buy">
+                                <form class="form" action="<?=$setting['script_url']?>/buy/<?=$id?>" method="POST" <?=$metriks;?> id="form_order_buy">
                                     <label for="first_name" id="label_first_name">Имя<span style="color: red;">*</span></label>
                                     <input class="input-field" type="text" id="first_name" name="name" value="<?= isset($name) ? $name : ''; ?>" placeholder="Введите ваше имя" required>
 
