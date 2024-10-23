@@ -159,7 +159,7 @@ class Order {
                         );
                     }
                 }
-
+                Email::sendCustomLetterForPartner(System::Lang('NEW_CLIENT'),System::Lang('NEW_CLIENT_TEXT'),$order,$item);
               
                 if (Product::getProductById($item['product_id'])['group_id'] == 23) {
                     Aff::AddUserToPartner($client['user_id'], 0);

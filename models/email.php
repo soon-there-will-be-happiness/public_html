@@ -132,6 +132,49 @@ class Email {
         return self::sender($email, $subj_manager, $text, $setting, $setting['sender_name'], $setting['sender_email']);
     }
 
+    // ОТПРАВКА КАСТОМНОГО ПИСЬМА МЕНЕДЖЕРУ
+    public static function sendCustomLetterForPartner($subj_manager, $letter, $order, $item)
+    {
+        $email = User::getUserById($order['partner_id'])['email'];
+        $setting = System::getSetting();
+        $surname = 'Не задано';
+        $nick_telegram = 'Не задано';
+        $nick_instagram = 'Не задано';
+        $productName = $item['product_name'];
+
+        if ($order['order_info'] != null) {
+            $order_info = unserialize(base64_decode($order['order_info']));
+            if (isset($order_info['surname'])) {
+                $surname = $order_info['surname'];
+            }
+
+            if (isset($order_info['nick_telegram'])) {
+                $nick_telegram = $order_info['nick_telegram'];
+            }
+
+            if (isset($order_info['nick_instagram'])) {
+                $nick_instagram = $order_info['nick_instagram'];
+            }
+        }
+
+        $replace = array(
+            '[ORDER]' => $order['order_date'],
+            '[DATE]' => date("d-m-Y H:i:s", $order['order_date']),
+            '[NAME]' => $order['client_name'],
+            '[CLIENT_NAME]' => $order['client_name'],
+            '[SURNAME]' => $surname,
+            '[EMAIL]' => $order['client_email'],
+            '[SUMM]' => $order['summ'],
+            '[NICK_TG]' => $nick_telegram,
+            '[NICK_IG]' => $nick_instagram,
+            '[CLIENT_PHONE]' => $order['client_phone'],
+            '[PRODUCT_NAME]' => $productName
+        );
+
+        $text = strtr($letter, $replace);
+        return self::sender($email, $subj_manager, $text, $setting, $setting['sender_name'], $setting['sender_email']);
+    }
+
     public static function builder($text, $empty=false)
     {
         if (!$empty) {
