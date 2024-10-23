@@ -9,8 +9,10 @@ class cyclopsApi {
     public function __construct() {
         // Load environment variables from .env or configuration
         $this->apiUrl = 'https://pre.tochka.com/api/v1/cyclops/v2/jsonrpc';
-        $this->signSystem = getenv('SIGN_SYSTEM');
-        $this->signThumbprint = getenv('SIGN_THUMBPRINT');
+        $this->signSystem = $_ENV['SIGN_SYSTEM'];
+        $this->signThumbprint = $_ENV['SIGN_THUMBPRINT'];
+        Log::add(0,'Debug', ["system" => $_ENV['SIGN_SYSTEM'], "t" => $_ENV['SIGN_THUMBPRINT']],'cyclops.log');
+
     }
 
     public static function getInstance()
@@ -26,12 +28,13 @@ class cyclopsApi {
             "jsonrpc" => "2.0",
             "method" => $method,
             "params" => $params,
-            "id" => uniqid()
+            "id" => uniqid() // "908ca508-f1f1-4256-9c43-9ba7ad9c45fb"
         ]);
 
         $headers = [
             'Content-Type: application/json',
             'sign-system: ' . $this->signSystem,
+            'sign-data: ' . '12345',
             'sign-thumbprint: ' . $this->signThumbprint,
         ];
 
@@ -49,11 +52,13 @@ class cyclopsApi {
 
         // Check for errors
         if ($response === false) {
+            Log::add(5,'Curl error', ["error" => curl_error($ch)],'cyclops.log');
             throw new Exception('Curl error: ' . curl_error($ch));
         }
 
-        curl_close($ch);
 
+        curl_close($ch);
+        Log::add(0,'Return request', ["res" => ''.$response, "payload" => $payload, "headers" => $headers],'cyclops.log');
         return json_decode($response, true);
     }
 

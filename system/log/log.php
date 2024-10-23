@@ -135,6 +135,9 @@ class Log
         }
 
         $logfile = self::$logdir.$type ?? self::DefaultType;
+        if (!file_exists(self::$logdir)) {
+            mkdir(self::$logdir, 0777, true);
+        }
 
         return (bool) file_put_contents($logfile, $text, FILE_APPEND);
     }
