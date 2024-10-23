@@ -1063,7 +1063,11 @@ p .footer-msg{Margin:0;mso-line-height-rule:exactly;font-family:tahoma, verdana,
 ',
 'ADD_LETTER_FOOTER' => '<div class="footer">',
 'LETTER_FOOTER_END' => '</div>',
-'TG_GROUP' => 'Телеграм'
+'TG_GROUP' => 'Телеграм',
+'NEW_CLIENT' => '',
+'NEW_CLIENT_TEXT' => 'Поздравляем! У вас новый клиент <br />Имя: [CLIENT_NAME] [SURNAME]<br />Тел: [CLIENT_PHONE]<br />Email: [EMAIL]<br />
+Продукт: [PRODUCT_NAME]<br /> Телеграм: [NICK_TG]<br />
+Свяжитесь с клиентом для уведомления о том, что оплата прошла'
 );
 
 ?>
