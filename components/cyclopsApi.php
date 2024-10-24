@@ -10,12 +10,10 @@ class cyclopsApi {
         // Load environment variables from .env or configuration
         $this->apiUrl = [
             'jsonrpc' => 'https://pre.tochka.com/api/v1/cyclops/v2/jsonrpc',
-            'tender-helpers' => 'https://pre.tochka.com/api/v1/tender-helpers/'
-            ];
+            'tender-helpers' => 'https://pre.tochka.com/api/v1/tender-helpers/jsonrpc'
+        ];
         $this->signSystem = $_ENV['SIGN_SYSTEM'];
         $this->signThumbprint = $_ENV['SIGN_THUMBPRINT'];
-        Log::add(0,'Debug', ["system" => $_ENV['SIGN_SYSTEM'], "t" => $_ENV['SIGN_THUMBPRINT']],'cyclops.log');
-
     }
 
     public static function getInstance()
@@ -37,7 +35,7 @@ class cyclopsApi {
         $headers = [
             'Content-Type: application/json',
             'sign-system: ' . $this->signSystem,
-            'sign-data: ' . hash('sha256', $payload),
+            'sign-data: ' . '12345',//hash('sha256', $payload),
             'sign-thumbprint: ' . $this->signThumbprint,
         ];
 
@@ -61,7 +59,9 @@ class cyclopsApi {
 
 
         curl_close($ch);
-        Log::add(0,'Return request', ["res" => ''.$response, "payload" => $payload, "headers" => $headers],'cyclops.log');
+        Log::add(0,'Return request', [
+            "url" => ''.$this->apiUrl[$api],
+            "res" => ''.$response, "payload" => $payload, "headers" => $headers],'cyclops.log');
         return json_decode($response, true);
     }
 
@@ -71,7 +71,7 @@ class cyclopsApi {
     }
 
     # BETA-function for simulation transact
-    public function transfer_money($amount,$purpose = "ТЕСТОВЫЙ СЛОЙ - Перевод денег, без НДС", $payer_account=40702810713500000456, $payer_bank_code=044525104) {
+    public function transfer_money($amount,$purpose = "ТЕСТОВЫЙ СЛОЙ - Перевод денег, без НДС", $payer_account='40702810713500000456', $payer_bank_code='044525104') {
         $params = [
             "recipient_account" => $_ENV['NOMINAL_ACCOUNT'],
             "recipient_bank_code" => $_ENV['BIC'],
@@ -79,7 +79,67 @@ class cyclopsApi {
             "purpose" => $purpose,
             "payer_account" => $payer_account,
             "payer_bank_code" => $payer_bank_code,
-            ];
+        ];
         return $this->makeRequest('tender-helpers','transfer_money', $params);
+    }
+
+    public function create_beneficiary_ul($inn, $name, $kpp, $ogrn = null,$nominal_account_code=null, $nominal_account_bic=null) {
+        $params = [
+            "inn" => $inn,
+            "beneficiary_data" => [
+                'name' => $name,
+                'kpp' => $kpp,
+            ]
+        ];
+
+        if ($ogrn !== null) {
+            $params['beneficiary_data']['ogrn'] = $ogrn;
+        }
+
+        if ($nominal_account_code !== null) {
+            $params['nominal_account_code'] = $nominal_account_code;
+        }
+
+        if ($nominal_account_bic !== null) {
+            $params['nominal_account_bic'] = $nominal_account_bic;
+        }
+        return $this->makeRequest('jsonrpc','create_beneficiary_ul', $params);
+    }
+
+    public function create_beneficiary_fl($inn, $first_name,$last_name,$birth_date, $birth_place, $passport_number,$passport_date,$registration_address, $middle_name=null,$passport_series=null, $resident = true,$nominal_account_code=null, $nominal_account_bic=null) {
+        $params = [
+            "inn" => $inn,
+            "beneficiary_data" => [
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'birth_date' => $birth_date,
+                'birth_place' => $birth_place,
+                'passport_number' => $passport_number,
+                'passport_date' => $passport_date,
+                'registration_address' => $registration_address,
+            ]
+        ];
+        if ($middle_name !== null) {
+            $params['beneficiary_data']['middle_name'] = $middle_name;
+        }
+        if ($resident !== true) {
+            $params['beneficiary_data']['resident'] = $resident;
+        } else {
+            if ($passport_series !== null) {
+                $params['beneficiary_data']['passport_series'] = $passport_series;
+            } else {
+                Log::add(0,'Wrong data', ["resident" => $resident, "passport_series_empty" => isset($passport_series)],'cyclops.log');
+                return false;
+            }
+        }
+
+        if ($nominal_account_code !== null) {
+            $params['nominal_account_code'] = $nominal_account_code;
+        }
+
+        if ($nominal_account_bic !== null) {
+            $params['nominal_account_bic'] = $nominal_account_bic;
+        }
+        return $this->makeRequest('jsonrpc','create_beneficiary_ul', $params);
     }
 }
