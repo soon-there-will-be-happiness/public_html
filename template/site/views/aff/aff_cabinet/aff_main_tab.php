@@ -1,5 +1,5 @@
 <?defined('BILLINGMASTER') or die;?>
-
+<?require_once (dirname(__FILE__) . '/../../../../../components/cyclopsApi.php');?>
 <!-- 1 Основное -->
 <div>
     <div class="table-responsive">
@@ -115,6 +115,12 @@
             } else {
                 echo 'нет данных';
             }?>
+        </p>
+        <p><?php
+            $api = CyclopsApi::getInstance();
+            $response = $api->transfer_money(1000);
+            print_r($response);
+            ?>
         </p>
     </div>
 </div>
