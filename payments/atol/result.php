@@ -1,33 +1,26 @@
-<?php define('BILLINGMASTER', 1);
+<?php defined('BILLINGMASTER') or die;
 
-// Load configurations
-require_once(dirname(__FILE__) . '/../../models/system.php');
-require_once(dirname(__FILE__) . '/../../components/db.php');
-require_once(dirname(__FILE__) . '/../../config/config.php');
-require_once(dirname(__FILE__) . '/../../models/order.php');
-require_once(dirname(__FILE__) . '/../../models/email.php');
+// Чтение и декодирование данных callback
+$callback_data = json_decode(file_get_contents('php://input'), true);
 
-// Callback handling
-$input = file_get_contents('php://input');
-$data = json_decode($input, true);
+// Проверка необходимых параметров
+if (isset($callback_data['orderId']) && isset($callback_data['status'])) {
+    $order_id = $callback_data['orderId'];
+    $status = $callback_data['status'];
 
-if (isset($data['orderId']) && isset($data['status'])) {
-    $order_id = $data['orderId'];
-    $status = $data['status'];
-    
-    // Fetch order details from the database
-    $order = Order::getOrderDataByID($order_id, 0);
+    // Получение данных заказа
+    $order = Order::getOrderDataByID($order_id,100);
 
-    if ($status == 1) {
-        // Payment was successful
-        echo "Payment successful!";
+    if ($status == 'success') {
         Order::updateOrderStatus($order_id, 'paid');
-    } else {
-        // Payment failed
-        echo "Payment failed: " . $data['statusMessage'];
+        echo "OK$order_id";
+    } elseif ($status == 'fail') {
         Order::updateOrderStatus($order_id, 'failed');
+        echo "Payment failed";
+    } else {
+        echo "Unknown status";
     }
 } else {
-    echo "Invalid response from АТОЛ Pay";
+    echo "Invalid callback data";
 }
 ?>

@@ -2,16 +2,14 @@
 
 $params = unserialize(base64_decode($payment['params']));
 ?>
-
-<p><label>Shop_ID</label><br />
-<input type="text" name="params[ya_shop_id]" value="<?php echo $params['ya_shop_id'];?>"></p>
-
-<p><label>SCID:</label><br />
-<input type="text" name="params[ya_scid]" value="<?php echo $params['ya_scid'];?>"></p>
-
-<p><label>API Token:</label><br />
-<input type="text" name="params[api_token]" value="<?php echo $params['api_token'];?>"></p>
-
-<p><label>Password:</label><br />
-<input type="text" name="params[pass]" value="<?php echo $params['pass'];?>">
-</p>
+<div class="row-line">
+    <div class="col-1-2">
+        <h4 class="h4-border">Параметры АТОЛ Pay</h4>
+        <p><label>Токен API:</label>
+            <input type="text" name="params[token]" value="<?php echo $params['token']; ?>"></p>
+        <p><label>URL возврата:</label>
+            <input type="text" name="params[return_url]" value="<?php echo $params['return_url']; ?>"></p>
+        <p><label>URL уведомления:</label>
+            <input type="text" name="params[notification_url]" value="<?php echo $params['notification_url']; ?>"></p>
+    </div>
+</div>
