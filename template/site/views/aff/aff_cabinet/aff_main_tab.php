@@ -116,13 +116,64 @@
                 echo 'нет данных';
             }?>
         </p>
-        <p><?php
-            $api = CyclopsApi::getInstance();
-            $response = $api->create_beneficiary_fl('7925930371','Иван','Иванов','1990-01-24','г. Свердловск','6509','2020-01-01','683031, г. Петропавловск-Камчатский, пр-кт. Карла Маркса, д. 21/1, офис 305','Иванович','6509',true,'000000000000000000000','0000000000');
-            print_r($response);
-            $response = $api->create_beneficiary_ul('7925930371',"ООО \"Рога и Копыта\"",'246301001','000000000000000000000','0000000000');
-            print_r($response);
+        <p>
+            <?php
+                $api = CyclopsApi::getInstance();
+                $response = $api->transfer_money('2990');
+                print_r($response);
+                $response = $api->listPayments(['identify' => false]);
+                print_r($response);
+                $paymentId = $response['result']['payments'][0];
+                $response = $api->getPayment($paymentId);
+                $response = $api->create_beneficiary_fl('503205345326','Иван','Лев','1994-10-24','г. Свердловск','683031','2020-01-01', 'г. Петропавловск-Камчатский, пр-кт. Карла Маркса, д. 21/1, офис 305','Иванович','6509',true,'000000000000000000000','0000000000');
+                print_r($response);
+                $beneficiary_id=$response["result"]['beneficiary_id'];
+                $response = $api->uploadDocumentBeneficiary($beneficiary_id,'contract_offer',"2020-01-19",'0001','ben.pdf');
+                print_r($response);
+                $document_id=$response["document_id"];
+                $response = $api->getDocument($document_id);
+                print_r($response);
+                $response = $api->create_virtual_account($beneficiary_id);
+                print_r($response);
+                $virtual_account=$response["result"]['beneficiary_id'];
+                $response = $api->identifyPayment($paymentId,[$virtual_account,'2990']);
+                print_r($response);
+                $response = $api->createDeal('','2990',[
+                        'virtual_account' => $virtual_account,
+                         'amount' =>'2990'
+                         ],[
+                                 [
+                                         'number' => 1,
+                                         'type' => 'commission',
+                                         'amount' => 1990
+                                 ],[
+                                         "number" => 2,
+                                         "type"=> "payment_contract",
+                                         "amount"=> 1000,
+                                         "account"=> "40702810901500016731",
+                                         "bank_code"=> "044525999",
+                                         "name"=> "Иван Лев",
+                                         "inn"=> "503205345326"
+                                ]
+                        ]
+                );
+                print_r($response);
+                $deal_id=$response["result"]['deal_id'];
+                $response = $api->uploadDocumentDeal($beneficiary_id,$deal_id,'contract_offer',"2020-01-20",'0002','ben.pdf');
+                print_r($response);
+                $document_id = $response["document_id"];
+                $response = $api->getDocument($document_id);
+                print_r($response);
+                $response = $api->executeDeal($deal_id);
+                print_r($response);
+                $response = $api->getDeal($deal_id);
+                print_r($response);
+                $response = $api->deactivate_beneficiary($beneficiary_id);
+                print_r($response);
+                $response = $api->activate_beneficiary($beneficiary_id);
+                print_r($response);
             ?>
         </p>
     </div>
 </div>
+
