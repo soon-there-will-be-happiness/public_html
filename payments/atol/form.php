@@ -5,7 +5,7 @@ $inv_id = $order['order_id'];
 
 $params = unserialize(base64_decode($payment['params']));
 $record = AtolDB::findRecordByOrderId($inv_id);
-echo($record);
+
 $inv_id='0'.$inv_id;
 if (!$record) {
 
