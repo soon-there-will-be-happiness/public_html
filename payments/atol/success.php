@@ -1,8 +1,8 @@
 <?php defined('BILLINGMASTER') or die;
 $order_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-$order = Order::getOrderDataByID($order_id,100);
-echo($order_id)
-;if($order['status']==1):
+$order = Order::getOrder($order_id);
+
+if($order['status']==1):
 
 ?>
 
