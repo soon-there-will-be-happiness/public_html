@@ -1,7 +1,7 @@
 <?php defined('BILLINGMASTER') or die;
 $setting = System::getSetting();
 $inv_id = $order['order_id'];
-require_once (dirname(__FILE__) . '/../../models/atoldb.php');
+
 
 $params = unserialize(base64_decode($payment['params']));
 $record = AtolDB::findRecordByOrderId($inv_id);
