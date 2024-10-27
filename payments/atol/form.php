@@ -35,7 +35,7 @@ $data = [
     'orderId' => $inv_id,
     'sessionType' => 'oneStep',
     'additionalProps' => [
-        'returnUrl' => $setting['script_url'] . '/pay/'.$order_date,
+        'returnUrl' =>$setting['script_url'] . '/payments/atol/result.php',
         'notificationUrl' => $setting['script_url'] . '/payments/atol/result.php',
     ],
     'receipt' => [
