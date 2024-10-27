@@ -1,13 +1,12 @@
 <?php defined('BILLINGMASTER') or die;
 $setting = System::getSetting();
 $inv_id = $order['order_id'];
-echo(AtolDB::insertRecord( "htmlspecialchars()",2,false))
-;
+require_once (dirname(__FILE__) . '/../../models/atoldb.php');
 
 $params = unserialize(base64_decode($payment['params']));
 $record = AtolDB::findRecordByOrderId($inv_id);
 echo($record);
-$inv_id='00022';/*
+$inv_id='0'.$inv_id;
 if (!$record) {
 
 $token = $params['token'];
@@ -85,9 +84,7 @@ if ($http_code == 200) {
     echo 'Ошибка: ' . $http_code . ' - ' . htmlspecialchars($error_message);
 }
 $record = AtolDB::findRecordByOrderId($inv_id);
-
-
-} 
+}
 if($record){
     echo '<form action="' . $record['url'] . '" method="POST">';
     echo '<input type="submit" class="payment_btn" value="' . System::Lang('TO_PAY') . '"/>';
@@ -96,7 +93,7 @@ if($record){
 else{
     echo 'Ошибка: ';
 }
-*/
+
 /*
 $token = $params['token'];
 $api_url = $params['url'];
