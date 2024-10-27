@@ -710,15 +710,19 @@ class orderController extends baseController {
         return true;
     }
 
+    public function actionAtolSuccess(){
+        $this->setViewParams('payments', '/payments/atol/success.php', null, null, 'order-pay-page');
 
+        require_once (ROOT . '/payments/atol/success.php');
+        return true;
+    }
     /**
      * ОПЛАТА
      * @param $order_date
      * @return bool
      */
     public function actionPay($order_date)
-    {echo(AtolDB::insertRecord( "htmlspecialchars()",2,false))
-        ;
+    {
         $this->view['noindex'] = true;
 
         // Проверить дату заказа и текущую дату (в настройках получить сколько времени хранить заказ)

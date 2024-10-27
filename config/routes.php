@@ -4,7 +4,7 @@ return [
     ///////////////
     // FRONT - END ---------------------------------
     //////////////\\
-
+    'payments/atol/success'=>'order/atolsuccess',
     'ext/([0-9]+)/([0-9]+)' => 'aff/extland/$1/$2',
     'buy/([0-9]+)' => 'order/buy/$1',
     'pay/([0-9]+)' => 'order/pay/$1', // оплата заказа

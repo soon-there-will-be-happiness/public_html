@@ -1,5 +1,7 @@
 <?php defined('BILLINGMASTER') or die;
 
+
+
 // Чтение и декодирование данных callback
 $callback_data = json_decode(file_get_contents('php://input'), true);
 Log::add(2,'Curl error', ["error" => $callback_data],'return.log');
