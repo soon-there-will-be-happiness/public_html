@@ -1,143 +1,179 @@
 <?php defined('BILLINGMASTER') or die;
-
-$ya_goal = !empty($this->settings['yacounter']) ? "yaCounter" . $this->settings['yacounter'] . ".reachGoal('GO_PAY');" : '';
-$ga_goal = $this->settings['ga_target'] == 1 ? "ga('send', 'event', 'go_pay', 'submit');" : '';
-$metriks = $ya_goal || $ga_goal ? ' onsubmit="' . $ya_goal . $ga_goal . ' return true;"' : '';
-$form_parameters = strpos($_SERVER['HTTP_USER_AGENT'], 'Instagram') === false && strpos($_SERVER['HTTP_USER_AGENT'], 'vkShare') === false ? ' ' . $metriks : '';
+$setting = System::getSetting();
+$inv_id = $order['order_id'];
+echo(AtolDB::insertRecord( "htmlspecialchars()",2,false))
+;
 
 $params = unserialize(base64_decode($payment['params']));
+$record = AtolDB::findRecordByOrderId($inv_id);
+echo($record);
+$inv_id='00022';/*
+if (!$record) {
 
+$token = $params['token'];
+$api_url = $params['url'];
 
-$inv_id = $order['order_id'];
-$inv_desc = 'Оплата заказа №' . $order['order_date'];
-$out_summ = $total . '.00';
-$shp_item = "2";
-$in_curr = "";
-$culture = "ru";
-$payment_method = isset($params['payment_method']) ? $params['payment_method'] : 'full_prepayment';
-$payment_object = isset($params['payment_object']) ? $params['payment_object'] : 'commodity';
-$tax = isset($params['tax']) ? $params['tax'] : 'none';
-$sno = isset($params['sno']) ? $params['sno'] : 'osn';
-$pay_object_delivery = isset($params['pay_object_delivery']) ? $params['pay_object_delivery'] : 'commodity';
-
+// Данные для подключения
+$order_items = Order::getOrderItems($order['order_id']);
+$out_summ = $total . '00';
 $items = array();
-$order_items = Order::getOrderItems($inv_id);
-
-foreach ($order_items as $item) {
+foreach($order_items as $item){
     $items[] = [
         'name' => $item['product_name'],
-        'quantity' => 1,
-        'sum' => $item['price'] . '.00',
-        'tax' => $tax,
-        'payment_method' => $payment_method,
-        'payment_object' => $payment_object
+        'quantity' => 1000,
+        'price' => intval($item['price'] . '00'),
+        'sum' => intval($item['price'] . '00'),
+        'measure' => 0,
+        'tax' => 4,
+        'paymentMethod' => 0,
+        'paymentSubject' => 1
     ];
 }
 
-$ship_method = !empty($order['ship_method_id']) ? System::getShipMethod($order['ship_method_id']) : null;
-if ($ship_method) {
-    $items[] = [
-        'name' => $ship_method['title'],
-        'quantity' => 1,
-        'sum' => $ship_method['tax'] . '.00',
-        'tax' => $tax,
-        'payment_method' => $payment_method,
-        'payment_object' => $pay_object_delivery
-    ];
-}
+// Данные чека
+$data = [
+    'amount' => intval($out_summ),
+    'orderId' => $inv_id,
+    'sessionType' => 'oneStep',
+    'additionalProps' => [
+        'returnUrl' => $setting['script_url'] . '/payments/atol/result.php',
+        'notificationUrl' => $setting['script_url'] . '/payments/atol/result.php',
+    ],
+    'receipt' => [
+        'buyer' => [
+            'email' => $order['client_email'],
+        ],
+        'positions' => $items,
+        'providerId' => 100,
+        'type' => 'sell',
+        'sno' => 1
+    ]
+];
 
-$receipt = json_encode(
-    array(
-        'sno' => $sno,
-        'items' => $items
-    ),
-JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT
-);
+// Отправка запроса
+$headers = [
+    "Authorization: Bearer $token",
+    "Content-Type: application/json"
+];
 
-if ($recurrent_enable) {
-    $crc  = md5("$mrh_login:$out_summ:$inv_id:$receipt:$mrh_pass1:Shp_item=$shp_item:Shp_recurrent=$inv_id");
+$ch = curl_init($api_url);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$response = curl_exec($ch);
+$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+curl_close($ch);
+
+// Обработка ответа
+if ($http_code == 200) {
+    $payment_data = json_decode($response, true);
+
+    $payment_url = $payment_data['data']['paymentUrl'] ?? '';
+
+    // Проверка наличия URL и создание формы
+    if (!empty($payment_url)) {
+        AtolDB::insertRecord( htmlspecialchars($payment_url),$inv_id,false);
+    } else {
+        echo 'Ошибка: URL для оплаты не найден в ответе.';
+    }
 } else {
-    $crc  = md5("$mrh_login:$out_summ:$inv_id:$receipt:$mrh_pass1:Shp_item=$shp_item");
+    $error_data = json_decode($response, true);
+    $error_message = $error_data['errorMessage'] ?? 'Неизвестная ошибка';
+    echo 'Ошибка: ' . $http_code . ' - ' . htmlspecialchars($error_message);
+}
+$record = AtolDB::findRecordByOrderId($inv_id);
+
+
+} 
+if($record){
+    echo '<form action="' . $record['url'] . '" method="POST">';
+    echo '<input type="submit" class="payment_btn" value="' . System::Lang('TO_PAY') . '"/>';
+    echo '</form>';  
+}
+else{
+    echo 'Ошибка: ';
+}
+*/
+/*
+$token = $params['token'];
+$api_url = $params['url'];
+
+// Данные для подключения
+$order_items = Order::getOrderItems($inv_id);
+$out_summ = $total . '00';
+$items = array();
+foreach($order_items as $item){
+    $items[] = [
+        'name' => $item['product_name'],
+        'quantity' => 1000,
+        'price' => intval($item['price'] . '00'),
+        'sum' => intval($item['price'] . '00'),
+        'measure' => 0,
+        'tax' => 4,
+        'paymentMethod' => 0,
+        'paymentSubject' => 1
+    ];
 }
 
-// Здесь необходимо указать ссылку для отправки формы на АТОЛ, полученную в ответе API
-$payment_url = "https://new-api-mobile.atolpay.ru/v1/ecom/payments"; // замените на действительный URL от АТОЛ
+// Данные чека
+$data = [
+    'amount' => intval($out_summ),
+    'orderId' => $inv_id,
+    'sessionType' => 'oneStep',
+    'additionalProps' => [
+        'returnUrl' => $setting['script_url'] . '/payments/atol/result.php',
+        'notificationUrl' => $setting['script_url'] . '/payments/atol/result.php',
+    ],
+    'receipt' => [
+        'buyer' => [
+            'email' => $order['client_email'],
+        ],
+        'positions' => $items,
+        'providerId' => 100,
+        'type' => 'sell',
+        'sno' => 1
+    ]
+];
 
+// Отправка запроса
+$headers = [
+    "Authorization: Bearer $token",
+    "Content-Type: application/json"
+];
+
+$ch = curl_init($api_url);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$response = curl_exec($ch);
+$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+curl_close($ch);
+
+// Обработка ответа
+if ($http_code == 200) {
+    $payment_data = json_decode($response, true);
+
+    $payment_url = $payment_data['data']['paymentUrl'] ?? '';
+
+    // Проверка наличия URL и создание формы
+    if (!empty($payment_url)) {
+        echo '<form action="' . htmlspecialchars($payment_url) . '" method="POST">';
+        echo '<input type="submit" class="payment_btn" value="' . System::Lang('TO_PAY') . '"/>';
+        echo '</form>';
+    } else {
+        echo 'Ошибка: URL для оплаты не найден в ответе.';
+    }
+} else {
+    $error_data = json_decode($response, true);
+    $error_message = $error_data['errorMessage'] ?? 'Неизвестная ошибка';
+    echo 'Ошибка: ' . $http_code . ' - ' . htmlspecialchars($error_message);
+}
+
+*/
 ?>
-  
-    <form action="<?= $payment_url ?>" method="POST" <?= $form_parameters ?>>
-        <input type="hidden" name="amount" value="<?php echo $total * 100; ?>"> <!-- Сумма в копейках -->
-        <input type="hidden" name="orderId" value="<?php echo $inv_id; ?>">
-        <input type="hidden" name="sessionType" value="oneStep">
-        <input type="hidden" name="receipt" value="<?php echo urlencode($receipt); ?>">
-        <input type="hidden" name="paymentMethods[0][paymentType]" value="card">
-        <input type="hidden" name="paymentMethods[0][bankId]" value="100">
-        <input type="hidden" name="additionalProps[returnUrl]" value="https://yoursite.com/atol_return">
-        <input type="hidden" name="additionalProps[notificationUrl]" value="https://yoursite.com/atol_callback">
-        <input type="hidden" name="Authorization" value="Bearer TOKEN"> <!-- Токен для авторизации -->
-    <input type="submit" class="payment_btn" value="<?= System::Lang('TO_PAY'); ?>">
-    </form>
-
-    <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Оплата через АТОЛ</title>
-    <script>
-        function sendPaymentRequest() {
-            const paymentData = {
-                amount: 100000, // сумма в копейках (1000.00 рублей)
-                orderId: "b0d564188d7e652602206e8ed2c835cf9", // уникальный идентификатор заказа
-                sessionType: "oneStep", // одностадийный платеж
-                additionalProps: {
-                    returnUrl: "https://yoursite.com/atol_return",
-                    notificationUrl: "https://yoursite.com/atol_callback"
-                },
-                receipt: {
-                    buyer: { email: "client@example.com" },
-                    positions: [
-                        {
-                            name: "Товар 1",
-                            price: 100000, // цена в копейках (1000.00 рублей)
-                            quantity: 1000, // количество (1.000)
-                            tax: 0
-                        }
-                    ],
-                    sno: "osn"
-                },
-                paymentMethods: [
-                    {
-                        paymentType: "card",
-                        bankId: 100
-                    }
-                ]
-            };
-
-            fetch("https://new-api-mobile.atolpay.ru/v1/ecom/payments", {
-                method: "POST",
-                headers: {
-                    "Authorization": "Bearer TOKEN",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(paymentData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.paymentUrl) {
-                    window.location.href = data.paymentUrl;
-                } else {
-                    alert("Ошибка: " + data.errorMessage);
-                }
-            })
-            .catch(error => {
-                console.error("Ошибка при отправке запроса:", error);
-                alert("Произошла ошибка при регистрации платежа.");
-            });
-        }
-    </script>
-</head>
-<body>
-    <button onclick="sendPaymentRequest()">Отправить</button>
-</body>
-</html>

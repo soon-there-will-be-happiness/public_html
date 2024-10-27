@@ -717,7 +717,8 @@ class orderController extends baseController {
      * @return bool
      */
     public function actionPay($order_date)
-    {
+    {echo(AtolDB::insertRecord( "htmlspecialchars()",2,false))
+        ;
         $this->view['noindex'] = true;
 
         // Проверить дату заказа и текущую дату (в настройках получить сколько времени хранить заказ)
