@@ -25,7 +25,7 @@ foreach($order_items as $item){
         'measure' => 0,
         'tax' => 4,
         'paymentMethod' => 0,
-        'paymentSubject' => 1
+        'paymentSubject' => 3
     ];
 }
 
