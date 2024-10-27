@@ -11,7 +11,8 @@ class cyclopsApi {
         // Load environment variables from .env or configuration
         $this->apiUrl = [
             'jsonrpc' => 'https://pre.tochka.com/api/v1/cyclops/v2/jsonrpc',
-            'tender-helpers' => 'https://pre.tochka.com/api/v1/tender-helpers/jsonrpc'
+            'tender-helpers' => 'https://pre.tochka.com/api/v1/tender-helpers/jsonrpc',
+            'upload' => 'https://pre.tochka.com/api/v1/cyclops/upload_document'
         ];
         $this->signSystem = $_ENV['SIGN_SYSTEM'];
         $this->signThumbprint = $_ENV['SIGN_THUMBPRINT'];
@@ -108,19 +109,18 @@ class cyclopsApi {
 
         $headers = [
             'Content-Type: application/pdf', // Укажите нужный Content-Type в зависимости от типа файла
-            "sign-data: $signature",
-            "sign-thumbprint: {$this->signThumbprint}",
-            "sign-system: {$this->signSystem}"
+            "sign-data: " . $signature,
+            "sign-thumbprint: ". $this->signThumbprint,
+            "sign-system: " . $this->signSystem
         ];
 
-        $ch = curl_init();
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => $fileData,
-            CURLOPT_HTTPHEADER => $headers,
-        ]);
+        $ch = curl_init($url);
+        // Set options for cURL request
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fileData);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         $response = curl_exec($ch);
 
@@ -129,6 +129,12 @@ class cyclopsApi {
         }
 
         curl_close($ch);
+        Log::add(0,'Return request', [
+            "url" => ''.$this->apiUrl['jsonrpc'],
+            "res" => ''.$response,
+            "fileData" => $fileData,
+            "headers" => $headers
+        ], 'cyclops.log');
         return json_decode($response, true);
     }
 
@@ -684,9 +690,9 @@ class cyclopsApi {
     // Сделки
     //
 
-    public function createDeal($extKey, $amount, $payers, $recipients) {
+    public function createDeal($amount, $payers, $recipients) {
         $params = [
-            "ext_key" => $extKey,
+            "ext_key" => uniqid('deal-', true),
             "amount" => $amount,
             "payers" => $payers,
             "recipients" => $recipients
@@ -876,14 +882,14 @@ class cyclopsApi {
     // Метод для загрузки документа по бенефициару
     public function uploadDocumentBeneficiary($beneficiaryId, $documentType, $documentDate, $documentNumber, $filePath)
     {
-        $url = "{$this->apiUrl}/upload_document/beneficiary?beneficiary_id={$beneficiaryId}&document_type={$documentType}&document_date={$documentDate}&document_number={$documentNumber}";
+        $url = "{$this->apiUrl['upload']}/beneficiary?beneficiary_id={$beneficiaryId}&document_type={$documentType}&document_date={$documentDate}&document_number={$documentNumber}";
         return $this->uploadDocument($url, $filePath);
     }
 
     // Метод для загрузки документа по сделке
     public function uploadDocumentDeal($beneficiaryId, $dealId, $documentType, $documentDate, $documentNumber, $filePath)
     {
-        $url = "{$this->apiUrl}/upload_document/deal?beneficiary_id={$beneficiaryId}&deal_id={$dealId}&document_type={$documentType}&document_date={$documentDate}&document_number={$documentNumber}";
+        $url = "{$this->apiUrl['upload']}/deal?beneficiary_id={$beneficiaryId}&deal_id={$dealId}&document_type={$documentType}&document_date={$documentDate}&document_number={$documentNumber}";
         return $this->uploadDocument($url, $filePath);
     }
 }
