@@ -18,13 +18,13 @@ if (isset($callback_data['orderId']) && isset($callback_data['status'])) {
     Log::add(5,'OK', ["order_id2" => $order_id],'return.log');
 
     if ($status =="success") {
-        Order::renderOrder($order_id);
-        Order::updateOrderStatus($order_id, 'paid');
+        Order::renderOrder($order);
+
         Log::add(5,'OK', ["order_id3" => $order_id],'return.log');
 
-        echo "OK$order_id";
+        echo "OK $order_id";
     } elseif ($status == 'fail') {
-        Order::updateOrderStatus($order_id, 'failed');
+    
         Log::add(5,'fail', ["Payment failed"=> $order_id],'return.log');
 
 
