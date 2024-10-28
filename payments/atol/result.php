@@ -21,7 +21,5 @@ if (isset($callback_data['orderId']) && isset($callback_data['status'])) {
     }
 } else {
     echo "Invalid callback data";
-
-
 }
 ?>
