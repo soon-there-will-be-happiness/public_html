@@ -31,7 +31,7 @@
                             <label for="inn">
                                 Дата рождения
                             </label>
-                            <input type="text" id="birthday" placeholder="Введите дату рождения 1990-01-24" minlength="8" maxlength="10" pattern="\d{8}|\d{10}" title="Не верная дата" name="req[<?=$req_key;?>][birthday]" value="<?=!empty($req) && isset($req[$req_key]['birthday']) && array_key_exists($req_key, $req) ? $req[$req_key]['birthday'] : '';?>"/>
+                            <input type="date" id="birthday" placeholder="Введите дату рождения 1990-01-24" minlength="8" maxlength="10" min="1950-01-01" max="2099-12-31" title="Не верная дата" name="req[<?=$req_key;?>][birthday]" value="<?=!empty($req) && isset($req[$req_key]['birthday']) && array_key_exists($req_key, $req) ? $req[$req_key]['birthday'] : '';?>"/>
 
                             <label for="org-name">
                                 Название организации
@@ -75,25 +75,25 @@
                             <label for="account-number">
                                 Серия и номер паспорта
                             </label>
-                            <input type="text" id="passport" placeholder="1234 123456" pattern="\d{10}" title="серия - 4 цифры, номер - 6 цифр," name="req[<?=$req_key;?>][passport]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['passport'] : ''?>"/>
+                            <input type="text" id="passport" pattern="\d{4}\s\d{6}" minlength="11" maxlength="11" placeholder="1234 123456" title="Введите через пробел: серия - 4 цифры, номер - 6 цифр" name="req[<?=$req_key;?>][passport]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['passport'] : ''?>"/>
 
                             <label for="bank-bik">
                                 Место рождения
                             </label>
-                            <input type="text" id="birth-place" placeholder="г. Свердловск" title="Введите место рождения" name="req[<?=$req_key;?>][birth-place]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['birth-place'] : '';?>"/>
+                            <input type="text" id="birth-place" pattern="[А-Яа-яЁё\s\.\-]+" minlength="3" maxlength="100" placeholder="г. Свердловск" title="Введите место рождения" name="req[<?=$req_key;?>][birth-place]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['birth-place'] : '';?>"/>
 
                             <label for="payment-org-name">
                                 Дата выдачи паспорта
                             </label>
-                            <input type="text" id="passport-date" placeholder="Введите дату выдачи 1990-01-24" name="req[<?=$req_key;?>][passport-date]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['passport-date'] : '';?>"/>
+                            <input type="date" id="passport-date" min="1950-01-01" max="2099-12-31" placeholder="Введите дату выдачи 1990-01-24" name="req[<?=$req_key;?>][passport-date]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['passport-date'] : '';?>"/>
 
                             <label for="corr-account">
                                 Адрес регистрации
                             </label>
                             <small class="important-info">
-                                *(Субъект РФ - Населённый пункт - улица - дом - квартира/офис (если есть, то обязательно))
+                                *Субъект РФ - Населённый пункт - улица - дом - квартира/офис (если есть, то обязательно)
                             </small>
-                            <input  type="text" id="passport-address" placeholder="683031, г. Петропавловск-Камчатский, пр-кт. Карла Маркса, д. 21/1, офис 305"  title="Введите адрес регистрации" name="req[<?=$req_key;?>][passport-address]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['passport-address'] : ''?>"/>
+                            <input  type="text" id="passport-address" pattern="\d{6},\s*[А-Яа-яЁё\s\.\-]+,\s*[А-Яа-яЁё\s\.\-]+,\s*д\.\s*\d+[\/\d]*,\s*(кв\.|офис\s*)?\d*" minlength="10" maxlength="200" placeholder="683031, г. Петропавловск-Камчатский, пр-кт. Карла Маркса, д. 21/1, офис 305"  title="Введите адрес регистрации" name="req[<?=$req_key;?>][passport-address]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['passport-address'] : ''?>"/>
 
                             <button type="submit" class="submit-btn button" value="Сохранить" name="save_req">Сохранить</button>
                         </div>

@@ -60,7 +60,11 @@ if(isset($_GET['success'])):
       border-radius: 8px;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
       width: 48%;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
+
     .form-section_two input[type="text"] {
       margin-bottom: 32px;
     }
