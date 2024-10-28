@@ -9,7 +9,7 @@ if($order_id!=null&&$order['status']==1):
     require_once "{$_SERVER['DOCUMENT_ROOT']}/index.php";
 };
 ?>
-<!--
+
 <html>
 <head>
 <title>Успешная оплата</title>
@@ -21,7 +21,7 @@ if($order_id!=null&&$order['status']==1):
 <p>Вернуться на <a href="/">главную страницу</a></a></p>
 </div>
 </body>
-</html>-->
+</html>
 <?php
 else:
 ?>
