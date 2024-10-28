@@ -88,6 +88,12 @@ class affController extends baseController {
                         $req[$key]['rs2'] = htmlentities($value['rs2']);
                         $req[$key]['name'] = htmlentities($value['name']);
                         $req[$key]['fio'] = htmlentities($value['fio']);
+
+                        $req[$key]['birthday'] = htmlentities($value['birthday']);
+                        $req[$key]['passport'] = htmlentities($value['passport']);
+                        $req[$key]['birth-place'] = htmlentities($value['birth-place']);
+                        $req[$key]['passport-date'] = htmlentities($value['passport-date']);
+                        $req[$key]['passport-address'] = htmlentities($value['passport-address']);
                     }
                 }
                 
@@ -287,6 +293,12 @@ class affController extends baseController {
                         $req[$key]['rs2'] = htmlentities($value['rs2']);
                         $req[$key]['name'] = htmlentities($value['name']);
                         $req[$key]['fio'] = htmlentities($value['fio']);
+
+                        $req[$key]['birthday'] = htmlentities($value['birthday']);
+                        $req[$key]['passport'] = htmlentities($value['passport']);
+                        $req[$key]['birth-place'] = htmlentities($value['birth-place']);
+                        $req[$key]['passport-date'] = htmlentities($value['passport-date']);
+                        $req[$key]['passport-address'] = htmlentities($value['passport-address']);
                     }
                 }
             }
