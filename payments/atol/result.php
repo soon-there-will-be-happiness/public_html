@@ -10,15 +10,17 @@ if (isset($callback_data['orderId']) && isset($callback_data['status'])) {
     $order_id = intval($callback_data['orderId']);
     $status = $callback_data['status'];
     Log::add(5, 'Curl status',  ["error" => $status],'return.log');
+    Log::add(5,'OK', ["order_id" => $order_id],'return.log');
+
 
     // Получение данных заказа
     $order = Order::getOrderDataByID($order_id,100);
+    Log::add(5,'OK', ["order_id2" => $order_id],'return.log');
 
-    if ($status == 'success') {
+    if ($status =="success") {
         Order::renderOrder($order_id);
         Order::updateOrderStatus($order_id, 'paid');
-        Log::add(5,'OK', ["order_id" => $order_id],'return.log');
-
+        Log::add(5,'OK', ["order_id3" => $order_id],'return.log');
 
         echo "OK$order_id";
     } elseif ($status == 'fail') {
@@ -35,7 +37,7 @@ if (isset($callback_data['orderId']) && isset($callback_data['status'])) {
     }
 } else {
     echo "Invalid callback data";
-    Log::add(0,'OK', ["Invalid callback data"=> $callback_data],'return.log');
+    Log::add(5,'OK', ["Invalid callback data"=> $callback_data],'return.log');
 
 }
 ?>
