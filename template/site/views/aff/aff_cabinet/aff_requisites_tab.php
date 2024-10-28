@@ -27,10 +27,12 @@
                             <input type="text" id="fio" placeholder="Введите ФИО как в документе" pattern="[А-Яа-яЁёA-Za-z\s]+" title="ФИО должно содержать только буквы"
                             name="req[<?=$req_key;?>][fio]"
                             value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['fio'] : '';?>"/>
+
                             <label for="inn">
-                                ИНН
+                                Дата рождения
                             </label>
-                            <input type="text" id="inn" placeholder="Введите ИНН" minlength="10" maxlength="12" pattern="\d{10}|\d{12}" title="ИНН юр. лиц должен содержать 10 цифр, ИП и самозанятые — 12 цифр" name="req[<?=$req_key;?>][inn]" value="<?=!empty($req) && isset($req[$req_key]['inn']) && array_key_exists($req_key, $req) ? $req[$req_key]['inn'] : '';?>"/>
+                            <input type="text" id="birthday" placeholder="Введите дату рождения 1990-01-24" minlength="8" maxlength="10" pattern="\d{8}|\d{10}" title="Не верная дата" name="req[<?=$req_key;?>][birthday]" value="<?=!empty($req) && isset($req[$req_key]['birthday']) && array_key_exists($req_key, $req) ? $req[$req_key]['birthday'] : '';?>"/>
+
                             <label for="org-name">
                                 Название организации
                             </label>
@@ -40,6 +42,11 @@
                             ООО "Ромашка". Для самозанятых ФИО полностью.
                             </small>
                             <input type="text" id="org-name"   placeholder="Введите название организации" pattern="[А-Яа-яЁёA-Za-z\s]+" title="Название должно содержать только буквы" name="req[<?=$req_key;?>][off_name]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['off_name'] : '';?>"/>
+
+                            <label for="inn">
+                                ИНН
+                            </label>
+                            <input type="text" id="inn" placeholder="Введите ИНН" minlength="10" maxlength="12" pattern="\d{10}|\d{12}" title="ИНН юр. лиц должен содержать 10 цифр, ИП и самозанятые — 12 цифр" name="req[<?=$req_key;?>][inn]" value="<?=!empty($req) && isset($req[$req_key]['inn']) && array_key_exists($req_key, $req) ? $req[$req_key]['inn'] : '';?>"/>
                         </div>
                         <div class="form-section">
                             <h2>Данные для выплат</h2>
@@ -54,7 +61,7 @@
                             <input type="text" id="bank-bik" placeholder="000 000 000" pattern="\d{9}" title="БИК должен содержать 9 цифр" name="req[<?=$req_key;?>][bik]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['bik'] : '';?>"/>
                             
                             <label for="payment-org-name">
-                                Название организации
+                                Название банка
                             </label>
                             <input type="text" id="payment-org-name" placeholder="Введите название организации" name="req[<?=$req_key;?>][name]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['name'] : '';?>"/>
                             
@@ -62,7 +69,32 @@
                                 Корреспондентский счет
                             </label>
                             <input  type="text" id="corr-account" placeholder="0000 0000 0000 0000 0000 0000" pattern="\d{20}" title="Корреспондентский счет должен содержать 20 цифр" name="req[rs][rs2]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['rs2'] : ''?>"/>
-                            
+                        </div>
+                        <div class="form-section">
+                            <h2>Паспортные данные</h2>
+                            <label for="account-number">
+                                Серия и номер паспорта
+                            </label>
+                            <input type="text" id="passport" placeholder="1234 123456" pattern="\d{10}" title="серия - 4 цифры, номер - 6 цифр," name="req[<?=$req_key;?>][passport]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['passport'] : ''?>"/>
+
+                            <label for="bank-bik">
+                                Место рождения
+                            </label>
+                            <input type="text" id="birth-place" placeholder="г. Свердловск" title="Введите место рождения" name="req[<?=$req_key;?>][birth-place]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['birth-place'] : '';?>"/>
+
+                            <label for="payment-org-name">
+                                Дата выдачи паспорта
+                            </label>
+                            <input type="text" id="passport-date" placeholder="Введите дату выдачи 1990-01-24" name="req[<?=$req_key;?>][passport-date]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['passport-date'] : '';?>"/>
+
+                            <label for="corr-account">
+                                Адрес регистрации
+                            </label>
+                            <small class="important-info">
+                                *(Субъект РФ - Населённый пункт - улица - дом - квартира/офис (если есть, то обязательно))
+                            </small>
+                            <input  type="text" id="passport-address" placeholder="683031, г. Петропавловск-Камчатский, пр-кт. Карла Маркса, д. 21/1, офис 305"  title="Введите адрес регистрации" name="req[<?=$req_key;?>][passport-address]" value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['passport-address'] : ''?>"/>
+
                             <button type="submit" class="submit-btn button" value="Сохранить" name="save_req">Сохранить</button>
                         </div>
                     </div>
