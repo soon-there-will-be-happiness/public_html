@@ -2,7 +2,7 @@
 $order_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $order = Order::getOrder($order_id);
 
-if($order['status']==1):
+if($order_id!=null&&$order['status']==1):
 
 ?>
 

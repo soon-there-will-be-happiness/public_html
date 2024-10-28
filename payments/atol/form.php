@@ -23,9 +23,9 @@ foreach($order_items as $item){
         'price' => intval($item['price'] . '00'),
         'sum' => intval($item['price'] . '00'),
         'measure' => 0,
-        'tax' => 4,
+        'tax' => 5,
         'paymentMethod' => 0,
-        'paymentSubject' => 3
+        'paymentSubject' => 10
     ];
 }
 
