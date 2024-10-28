@@ -15,6 +15,7 @@ if (isset($callback_data['orderId']) && isset($callback_data['status'])) {
     $order = Order::getOrderDataByID($order_id,100);
 
     if ($status == 'success') {
+        Order::renderOrder($order_id);
         Order::updateOrderStatus($order_id, 'paid');
         echo "OK$order_id";
     } elseif ($status == 'fail') {

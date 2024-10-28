@@ -36,7 +36,7 @@ $data = [
     'sessionType' => 'oneStep',
     'additionalProps' => [
         'returnUrl' =>$setting['script_url'] . '/payments/atol/success?id='.$order['order_id'],
-        'notificationUrl' => $setting['script_url'] . '/payments/atol/result.php',
+        'notificationUrl' => $setting['script_url'] . '/payments/atol/result',
     ],
     'receipt' => [
         'buyer' => [
