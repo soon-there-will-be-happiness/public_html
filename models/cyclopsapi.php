@@ -11,7 +11,6 @@ class Cyclops
                 $partner = AFF::getPartnerReq($order['partner_id']);
                 $transaction = AFF::getPartnerTransactionReq($order['partner_id'], $order['order_id']);
                 $serializedData = $partner['requsits'];
-                
                 // Десериализация данных
                 $data = unserialize($serializedData);
 
@@ -63,6 +62,7 @@ class Cyclops
 
                     $currentDate = date("Y-m-d");
                     $beneficiary_id = $response["result"]['beneficiary']['id'];
+
                     sleep(20);
                     $response = $api->uploadDocumentBeneficiary(
                         $beneficiary_id,
@@ -75,6 +75,7 @@ class Cyclops
                     $response = $api->getDocument($document_id);
                     $response = $api->create_virtual_account($beneficiary_id);
                     $virtual_account = $response["result"]['virtual_account'];
+
                     $response = $api->identifyPayment($paymentId, [
                         ['virtual_account' => $virtual_account, 'amount' => $order['summ']]
                     ]);
@@ -137,71 +138,78 @@ class Cyclops
         }
     }
 
-    public static function AddBeneficiaries($id, $name, $inn, $status)
+    public static function AddBeneficiaries($id, $user_id, $is_active, $is_added_to_ms, $legal_type)
     {
         $db = Db::getConnection();
-        $sql = 'INSERT INTO ' . PREFICS . 'beneficiaries(id, name, inn, status) VALUES (:id, :name, :inn, :status)';
+        $sql = 'INSERT INTO ' . PREFICS . 'beneficiaries(id, user_id, is_active, is_added_to_ms, legal_type) 
+                VALUES (:id, :user_id, :is_active, :is_added_to_ms, :legal_type)';
         $result = $db->prepare($sql);
         $result->bindParam(':id', $id, PDO::PARAM_STR);
-        $result->bindParam(':name', $name, PDO::PARAM_STR);
-        $result->bindParam(':inn', $inn, PDO::PARAM_STR);
-        $result->bindParam(':status', $status, PDO::PARAM_STR);
+        $result->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $result->bindParam(':is_active', $is_active, PDO::PARAM_INT);
+        $result->bindParam(':is_added_to_ms', $is_added_to_ms, PDO::PARAM_INT);
+        $result->bindParam(':legal_type', $legal_type, PDO::PARAM_STR);
         $result->execute();
         
-        $result = $db->query("SELECT * FROM " . PREFICS . "beneficiaries WHERE id = $id");
+        $result = $db->query("SELECT * FROM " . PREFICS . "beneficiaries WHERE id = '$id'");
         $data = $result->fetch(PDO::FETCH_ASSOC);
         return $data ?? false;
     }
 
-    public static function AddVirtualAccounts($id, $balance, $beneficiary_id, $type)
+    public static function AddVirtualAccounts($id, $balance, $beneficiary_id, $type = 'стандарт', $blocked_cash = null)
     {
         $db = Db::getConnection();
-        $sql = 'INSERT INTO ' . PREFICS . 'virtual_accounts(id, balance, beneficiary_id, type) 
-                VALUES (:id, :balance, :beneficiary_id, :type)';
+        $sql = 'INSERT INTO ' . PREFICS . 'virtual_accounts(id, balance, beneficiary_id, type, blocked_cash) 
+                VALUES (:id, :balance, :beneficiary_id, :type, :blocked_cash)';
         $result = $db->prepare($sql);
         $result->bindParam(':id', $id, PDO::PARAM_STR);
-        $result->bindParam(':beneficiary_id', $beneficiary_id, PDO::PARAM_STR);
         $result->bindParam(':balance', $balance, PDO::PARAM_STR);
+        $result->bindParam(':beneficiary_id', $beneficiary_id, PDO::PARAM_STR);
         $result->bindParam(':type', $type, PDO::PARAM_STR);
+        $result->bindParam(':blocked_cash', $blocked_cash, PDO::PARAM_STR);
         $result->execute();
         
-        $result = $db->query("SELECT * FROM " . PREFICS . "virtual_accounts WHERE id = $id");
+        $result = $db->query("SELECT * FROM " . PREFICS . "virtual_accounts WHERE id = '$id'");
         $data = $result->fetch(PDO::FETCH_ASSOC);
         return $data ?? false;
     }
 
-    public static function AddDeals($id, $status, $amount, $payer_id, $recipient_id)
+    public static function AddDeals($ext_key, $status, $amount, $payer_id, $recipient_id, $recipients)
     {
         $db = Db::getConnection();
-        $sql = 'INSERT INTO ' . PREFICS . 'deals(id, status, amount, payer_id, recipient_id) 
-                VALUES (:id, :status, :amount, :payer_id, :recipient_id)';
+        $sql = 'INSERT INTO ' . PREFICS . 'deals(ext_key, status, amount, payer_id, recipient_id, recipients) 
+                VALUES (:ext_key, :status, :amount, :payer_id, :recipient_id, :recipients)';
         $result = $db->prepare($sql);
-        $result->bindParam(':id', $id, PDO::PARAM_STR);
+        $result->bindParam(':ext_key', $ext_key, PDO::PARAM_STR);
         $result->bindParam(':status', $status, PDO::PARAM_STR);
         $result->bindParam(':amount', $amount, PDO::PARAM_STR);
         $result->bindParam(':payer_id', $payer_id, PDO::PARAM_STR);
         $result->bindParam(':recipient_id', $recipient_id, PDO::PARAM_STR);
+        $result->bindParam(':recipients', $recipients, PDO::PARAM_STR);
         $result->execute();
         
-        $result = $db->query("SELECT * FROM " . PREFICS . "deals WHERE id = $id");
+        $result = $db->query("SELECT * FROM " . PREFICS . "deals WHERE ext_key = '$ext_key'");
         $data = $result->fetch(PDO::FETCH_ASSOC);
         return $data ?? false;
     }
 
-    public static function AddDocuments($id, $type, $deal_id, $beneficiary_id, $date)
+    public static function AddDocuments($number, $type, $deal_id, $beneficiary_id, $date, $document_id, $binary_content, $success_added)
     {
         $db = Db::getConnection();
-        $sql = 'INSERT INTO ' . PREFICS . 'documents(id, type, deal_id, beneficiary_id, date) 
-                VALUES (:id, :type, :deal_id, :beneficiary_id, :date)';
+        $sql = 'INSERT INTO ' . PREFICS . 'documents(number, type, deal_id, beneficiary_id, date, document_id, binary_content, success_added) 
+                VALUES (:number, :type, :deal_id, :beneficiary_id, :date, :document_id, :binary_content, :success_added)';
         $result = $db->prepare($sql);
-        $result->bindParam(':id', $id, PDO::PARAM_STR);
+        $result->bindParam(':number', $number, PDO::PARAM_STR);
         $result->bindParam(':type', $type, PDO::PARAM_STR);
         $result->bindParam(':deal_id', $deal_id, PDO::PARAM_STR);
         $result->bindParam(':beneficiary_id', $beneficiary_id, PDO::PARAM_STR);
         $result->bindParam(':date', $date, PDO::PARAM_STR);
+        $result->bindParam(':document_id', $document_id, PDO::PARAM_STR);
+        $result->bindParam(':binary_content', $binary_content, PDO::PARAM_LOB);
+        $result->bindParam(':success_added', $success_added, PDO::PARAM_INT);
         $result->execute();
         
-        $result = $db->query("SELECT * FROM " . PREFICS . "documents WHERE id = $id");
+        $result = $db->query("SELECT * FROM " . PREFICS . "documents WHERE number = '$number'");
         $data = $result->fetch(PDO::FETCH_ASSOC);
         return $data ?? false;
     }
