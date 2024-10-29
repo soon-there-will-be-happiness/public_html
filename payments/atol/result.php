@@ -13,6 +13,9 @@ if (isset($callback_data['orderId']) && isset($callback_data['status'])) {
     $order = Order::getOrderDataByID($order_id,100);
     if ($status =="success") {
         Order::renderOrder($order);
+        $order = Order::getOrderDataByID($order_id,100);
+
+        Cyclops::Run($order);
         echo "OK $order_id";
     } elseif ($status == 'fail') {
         echo "Payment failed";
