@@ -49,7 +49,6 @@
                                 echo date("d.m.Y", $flow_data['start_flow']); echo ' - '.date("d.m.Y", $flow_data['end_flow']);
                             }?></p>
                             <?endif;?>
-                            
                             <?if($product['product_desc'] != null):?>
                                 <div class="cart-item-desc"><?=nl2br($product['product_desc']);?></div>
                             <?endif;?>
