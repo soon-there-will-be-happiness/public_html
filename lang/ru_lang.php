@@ -303,6 +303,7 @@ $lang = array(
 <br /><a href="[LINK]">Одобрить</a> / чтобы удалить кликните сюда: <a href="[DEL_LINK]">Удалить</a></p>
 <p>Содержание: <br />[TEXT]</p>',
 'ADMIN_NEW_MESS_SUBJ' => 'Новое сообщение в теме',
+'ADMIN_NEW_MESS_ERROR' => 'Новое сообщение о ошибке',
 'ADMIN_NEW_MESS_MESS' => '<p>Пользователь [USER] добавил новое сообщение в теме [TOPIC]</p><p>Содержание:<br />[TEXT]</p>',
 'ADMIN_NEW_MESS_MESS_LINK' => '<p>Пользователь [USER] добавил новое сообщение в теме [TOPIC]</p><p>Содержание:<br />[TEXT]</p>
 <p><a href="[LINK]">Опубликовать</a> или <a href="[DEL_LINK]">Удалить</a></p>',
