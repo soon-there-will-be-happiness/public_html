@@ -12,6 +12,7 @@
         "psr/container": "1.0.0",
         "illuminate/contracts": "^v5.8.36",
         "illuminate/support": "v5.8.36",
-      "ext-zip": "*"
+      "ext-zip": "*",
+        "vlucas/phpdotenv": "^5.6"
     }
 }
