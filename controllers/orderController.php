@@ -710,8 +710,21 @@ class orderController extends baseController {
         return true;
     }
 
+    public function actionAtolSuccess(){
+        $this->setViewParams('payments', 'payments/atol/success.php', null, null, 'order-pay-page');
 
+        require_once (ROOT . '/payments/atol/success.php');
+        return true;
+    }
+    
+    public function actionAtolResult(){
+        $this->setViewParams('payments', '/payments/atol/result.php', null, null, 'order-pay-page');
+        require_once (ROOT . '/payments/atol/result.php');
+
+        return true;
+    }
     /**
+     * 
      * ОПЛАТА
      * @param $order_date
      * @return bool

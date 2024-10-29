@@ -12,7 +12,7 @@ log/*
 .idea/vcs.xml
 .idea/inspectionProfiles/Project_Default.xml
 .idea/jsLinters/jshint.xml
-
+log/
 images/*
 load/avatars/*
 
