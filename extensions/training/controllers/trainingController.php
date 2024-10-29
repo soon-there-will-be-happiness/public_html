@@ -216,13 +216,13 @@ class trainingController extends trainingBaseController {
 
             System::redirectUrl("/lk/curator");
         }
-        if ($user['role']!="admin") {
+        if ($user['role']!="admin" && isset($_POST['filter'])) {
            $filter_user_data = isset($_POST['user_name']) ? explode(' ', htmlentities(trim($_POST['user_name']))) : null;
            $_SESSION['training']['answers_filter'] = [
                'training_id' => isset($_POST['training_id']) ? (int)$_POST['training_id'] : null,
-               'answer_type' => 'only_answers',
-               'comments_status' => 'unread',
-               'lesson_complete_status' => 'unchecked',
+               'answer_type' => isset($_POST['answer_type']) ? htmlentities($_POST['answer_type']) :'only_answers',
+               'comments_status' => isset($_POST['comments_status']) ? $_POST['comments_status'] : 'unread',
+               'lesson_complete_status' => isset($_POST['lesson_complete_status']) ? $_POST['lesson_complete_status'] : 'unchecked',
                'lesson_id' => isset($_POST['lesson_id']) ? (int)$_POST['lesson_id'] : null,
                'user_email' => htmlentities($_POST['user_email']),
                'user_name' => $filter_user_data && $filter_user_data[0] ? $filter_user_data[0] : null,
@@ -233,6 +233,7 @@ class trainingController extends trainingBaseController {
                'finish_date' => isset($_POST['finish_date']) && $_POST['finish_date'] ? strtotime($_POST['finish_date']) : null,
            ];
         } 
+        
         $filter = isset($_SESSION['training']['answers_filter']) ? $_SESSION['training']['answers_filter'] : null;
         $lesson_list = $filter && $filter['training_id'] ? TrainingLesson::getLessons($filter['training_id']) : null;
 
