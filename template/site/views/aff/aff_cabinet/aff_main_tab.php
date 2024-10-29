@@ -1,5 +1,4 @@
 <?defined('BILLINGMASTER') or die;?>
-<?require_once (dirname(__FILE__) . '/../../../../../components/cyclopsApi.php');?>
 <!-- 1 Основное -->
 <div>
     <div class="table-responsive">
