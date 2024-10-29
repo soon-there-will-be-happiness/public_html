@@ -76,7 +76,7 @@ if(isset($_GET['success'])):
     #birthday,
     #passport-date {
         width: 100%;
-        padding: 7.5px;
+        padding: 10px;
         border: 1px solid #a29595;
         border-radius: 10px;
         font-size: 14px;
@@ -97,9 +97,9 @@ if(isset($_GET['success'])):
         margin-bottom: 5px;
     }
     .important-info {
-        margin-top: 6px;
+        margin-top: 5px;
         color: red;
-        margin-bottom: 14px;
+        margin-bottom: 12px;
         font-size: 11px;
         line-height: 19px;
     }
@@ -144,6 +144,21 @@ if(isset($_GET['success'])):
     .submit-btn:hover {
         background-color: #2955b9;
     }
+    @media (max-width: 1200px) {
+        .important-info {
+            font-size: 8px;
+        }
+    }
+    @media (max-width: 904px) {
+        .form-section_three h2{
+            padding-right: 28px;
+            line-height: 23px;
+        }
+        .form-section_second h2 {
+            padding-right: 28px;
+            line-height: 24px;
+        }
+    }
     @media (max-width: 899px) {
         .important-info {
             margin-bottom: 15px;
@@ -163,6 +178,7 @@ if(isset($_GET['success'])):
             margin-top: 7px;
             margin-bottom: 12px;
             line-height: 18px;
+            font-size: 11px;
         }
     }
     @media (max-width: 350px) {

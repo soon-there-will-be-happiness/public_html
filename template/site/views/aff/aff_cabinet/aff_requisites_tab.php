@@ -121,7 +121,7 @@
                                     value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['rs2'] : ''?>"
                             />
                         </div>
-                        <div class="form-section">
+                        <div class="form-section form-section_three">
                             <h2>Паспортные данные</h2>
                             <label for="account-number"> Серия и номер паспорта </label>
                             <input
@@ -163,12 +163,13 @@
                             <label for="corr-account"> Адрес регистрации </label>
                             <small class="important-info">
                                 *Важная информация! <br />
-                                Субъект РФ - Населённый пункт - улица - дом - квартира/офис (если
-                                есть, то обязательно)
+                                Для ФЛ адрес прописки как в паспорте <br />
+                                Для ООО - юридический адрес
                             </small>
                             <input
                                     type="text"
                                     id="passport-address"
+                                    pattern="\d{6},\s*[А-Яа-яЁё\s\.\-]+,\s*[А-Яа-яЁё\s\.\-]+,\s*д\.\s*\d+[\/\d]*,\s*(кв\.|офис\s*)?\d*"
                                     minlength="10"
                                     maxlength="200"
                                     placeholder="683031, г. Петропавловск-Камчатский, пр-кт. Карла Маркса, д. 21/1, офис 305"
