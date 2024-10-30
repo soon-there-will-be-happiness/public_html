@@ -123,10 +123,18 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                                                             <?php if($req_item[0] != 'rs'):?>
                                                                 <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"];?>">
                                                             <?php else:?>
-                                                                <div class="mb-5">Счёт: <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['rs'];?>"></div>
-                                                                <div class="mb-5">Банк: <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['name'];?>"></div>
-                                                                <div class="mb-5">БИК : <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['bik'];?>"></div>
-                                                                <div class="mb-5">ИНН : <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['itn'];?>"></div>
+                                                                <div class="mb-5">ФИО : <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['fio'];?>"></div>
+                                                                <div class="mb-5">Дата рождения : <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['birthday'];?>"></div>
+                                                                <div class="mb-5">Название организации : <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['off_name'];?>"></div>
+                                                                <div class="mb-5">ИНН : <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['inn'];?>"></div>
+                                                                <div class="mb-5">Номер счёта : <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['rs'];?>"></div>
+                                                                <div class="mb-5">БИК банка: <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['bik'];?>"></div>
+                                                                <div class="mb-5">Название банк : <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['name'];?>"></div>
+                                                                <div class="mb-5">Корреспондентский счет : <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['rs2'];?>"></div>
+                                                                <div class="mb-5">Серия и номер паспорта: <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['passport'];?>"></div>
+                                                                <div class="mb-5">Место рождения : <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['birth-place'];?>"></div>
+                                                                <div class="mb-5">Дата выдачи паспорта : <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['passport-date'];?>"></div>
+                                                                <div class="mb-5">Адрес регистрации : <input type="text" value="<?php if(array_key_exists("$req_item[0]", $req)) echo $req["$req_item[0]"]['passport-address'];?>"></div>
                                                             <?php endif;?>
                                                         </div>
                                                     <?php endif; ?>
