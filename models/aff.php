@@ -658,7 +658,7 @@ class Aff {
 
         $result = $db->prepare($sql);
         $result->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-        $result->bindParam(':order_id', var: $order_id, PDO::PARAM_INT);
+        $result->bindParam(':order_id', $order_id, PDO::PARAM_INT);
         $result->bindParam(':product_id', $product_id, PDO::PARAM_INT);
         $result->bindParam(':summ', $sum, PDO::PARAM_STR);
         $result->bindParam(':pay', $pay, PDO::PARAM_INT);
