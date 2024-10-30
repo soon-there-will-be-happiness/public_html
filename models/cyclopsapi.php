@@ -141,7 +141,7 @@ class Cyclops
     public static function AddBeneficiaries($id, $user_id, $is_active, $is_added_to_ms, $legal_type)
     {
         $db = Db::getConnection();
-        $sql = 'INSERT INTO ' . PREFICS . 'beneficiaries(id, user_id, is_active, is_added_to_ms, legal_type) 
+        $sql = 'INSERT INTO ' . PREFICS . 'cyclop_beneficiaries(id, user_id, is_active, is_added_to_ms, legal_type) 
                 VALUES (:id, :user_id, :is_active, :is_added_to_ms, :legal_type)';
         $result = $db->prepare($sql);
         $result->bindParam(':id', $id, PDO::PARAM_STR);
@@ -151,7 +151,7 @@ class Cyclops
         $result->bindParam(':legal_type', $legal_type, PDO::PARAM_STR);
         $result->execute();
         
-        $result = $db->query("SELECT * FROM " . PREFICS . "beneficiaries WHERE id = '$id'");
+        $result = $db->query("SELECT * FROM " . PREFICS . "cyclop_beneficiaries WHERE id = '$id'");
         $data = $result->fetch(PDO::FETCH_ASSOC);
         return $data ?? false;
     }
@@ -159,7 +159,7 @@ class Cyclops
     public static function AddVirtualAccounts($id, $balance, $beneficiary_id, $type = 'стандарт', $blocked_cash = null)
     {
         $db = Db::getConnection();
-        $sql = 'INSERT INTO ' . PREFICS . 'virtual_accounts(id, balance, beneficiary_id, type, blocked_cash) 
+        $sql = 'INSERT INTO ' . PREFICS . 'cyclop_virtual_accounts(id, balance, beneficiary_id, type, blocked_cash) 
                 VALUES (:id, :balance, :beneficiary_id, :type, :blocked_cash)';
         $result = $db->prepare($sql);
         $result->bindParam(':id', $id, PDO::PARAM_STR);
@@ -169,7 +169,7 @@ class Cyclops
         $result->bindParam(':blocked_cash', $blocked_cash, PDO::PARAM_STR);
         $result->execute();
         
-        $result = $db->query("SELECT * FROM " . PREFICS . "virtual_accounts WHERE id = '$id'");
+        $result = $db->query("SELECT * FROM " . PREFICS . "cyclop_virtual_accounts WHERE id = '$id'");
         $data = $result->fetch(PDO::FETCH_ASSOC);
         return $data ?? false;
     }
@@ -177,7 +177,7 @@ class Cyclops
     public static function AddDeals($ext_key, $status, $amount, $payer_id, $recipient_id, $recipients)
     {
         $db = Db::getConnection();
-        $sql = 'INSERT INTO ' . PREFICS . 'deals(ext_key, status, amount, payer_id, recipient_id, recipients) 
+        $sql = 'INSERT INTO ' . PREFICS . 'cyclop_deals(ext_key, status, amount, payer_id, recipient_id, recipients) 
                 VALUES (:ext_key, :status, :amount, :payer_id, :recipient_id, :recipients)';
         $result = $db->prepare($sql);
         $result->bindParam(':ext_key', $ext_key, PDO::PARAM_STR);
@@ -188,7 +188,7 @@ class Cyclops
         $result->bindParam(':recipients', $recipients, PDO::PARAM_STR);
         $result->execute();
         
-        $result = $db->query("SELECT * FROM " . PREFICS . "deals WHERE ext_key = '$ext_key'");
+        $result = $db->query("SELECT * FROM " . PREFICS . "cyclop_deals WHERE ext_key = '$ext_key'");
         $data = $result->fetch(PDO::FETCH_ASSOC);
         return $data ?? false;
     }
@@ -196,7 +196,7 @@ class Cyclops
     public static function AddDocuments($number, $type, $deal_id, $beneficiary_id, $date, $document_id, $binary_content, $success_added)
     {
         $db = Db::getConnection();
-        $sql = 'INSERT INTO ' . PREFICS . 'documents(number, type, deal_id, beneficiary_id, date, document_id, binary_content, success_added) 
+        $sql = 'INSERT INTO ' . PREFICS . 'cyclop_documents(number, type, deal_id, beneficiary_id, date, document_id, binary_content, success_added) 
                 VALUES (:number, :type, :deal_id, :beneficiary_id, :date, :document_id, :binary_content, :success_added)';
         $result = $db->prepare($sql);
         $result->bindParam(':number', $number, PDO::PARAM_STR);
@@ -209,7 +209,7 @@ class Cyclops
         $result->bindParam(':success_added', $success_added, PDO::PARAM_INT);
         $result->execute();
         
-        $result = $db->query("SELECT * FROM " . PREFICS . "documents WHERE number = '$number'");
+        $result = $db->query("SELECT * FROM " . PREFICS . "cyclop_documents WHERE number = '$number'");
         $data = $result->fetch(PDO::FETCH_ASSOC);
         return $data ?? false;
     }

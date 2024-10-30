@@ -27,11 +27,8 @@ ALTER TABLE `[PREFIX]telegram_product`
 COMMIT;
 
 
-
-
-
-DROP TABLE IF EXISTS `dgq_beneficiaries`;
-CREATE TABLE `dgq_beneficiaries` (
+DROP TABLE IF EXISTS `dgq_cyclop_beneficiaries`;
+CREATE TABLE `dgq_cyclop_beneficiaries` (
   `id`varchar(255) NOT NULL,
   `user_id` int  DEFAULT NULL,
   `is_active` TINYINT(1) DEFAULT NULL,
@@ -40,8 +37,8 @@ CREATE TABLE `dgq_beneficiaries` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `dgq_virtual_accounts`;
-CREATE TABLE `dgq_virtual_accounts` (
+DROP TABLE IF EXISTS `dgq_cyclop_virtual_accounts`;
+CREATE TABLE `dgq_cyclop_virtual_accounts` (
   `id`varchar(255) NOT NULL,
   `balance` varchar(255) DEFAULT NULL,
   `beneficiary_id` varchar(255) DEFAULT NULL,
@@ -51,8 +48,8 @@ CREATE TABLE `dgq_virtual_accounts` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `dgq_deals`;
-CREATE TABLE `dgq_deals` (
+DROP TABLE IF EXISTS `dgq_cyclop_deals`;
+CREATE TABLE `dgq_cyclop_deals` (
   `id`varchar(255) NOT NULL,
   `status` varchar(255) DEFAULT NULL,
   `amount` varchar(255) DEFAULT NULL,
@@ -62,8 +59,8 @@ CREATE TABLE `dgq_deals` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-DROP TABLE IF EXISTS `dgq_documents`;
-CREATE TABLE `dgq_documents` (
+DROP TABLE IF EXISTS `dgq_cyclop_documents`;
+CREATE TABLE `dgq_cyclop_documents` (
   `id`varchar(255) NOT NULL,
   `type` varchar(255) DEFAULT NULL,
   `deal_id` varchar(255) DEFAULT NULL,
@@ -72,8 +69,8 @@ CREATE TABLE `dgq_documents` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `dgq_payments`;
-CREATE TABLE `dgq_documents` (
+DROP TABLE IF EXISTS `dgq_cyclop_payments`;
+CREATE TABLE `dgq_cyclop_documents` (
   `id`varchar(255) NOT NULL,
   `amount` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
@@ -81,4 +78,3 @@ CREATE TABLE `dgq_documents` (
   `deal_id`varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
