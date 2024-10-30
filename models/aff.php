@@ -658,7 +658,7 @@ class Aff {
 
         $result = $db->prepare($sql);
         $result->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-        $result->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        $result->bindParam(':order_id', var: $order_id, PDO::PARAM_INT);
         $result->bindParam(':product_id', $product_id, PDO::PARAM_INT);
         $result->bindParam(':summ', $sum, PDO::PARAM_STR);
         $result->bindParam(':pay', $pay, PDO::PARAM_INT);
@@ -813,6 +813,15 @@ class Aff {
     
     
     // ПОЛУЧИТЬ ДАННЫЕ ПАРТНЁРА
+    public static function getPartnerTransactionReq($user_id,$order_id)
+    {
+        $db = Db::getConnection();
+        $result = $db->query(" SELECT * FROM ".PREFICS."aff_transaction WHERE user_id = $user_id and order_id=$order_id");
+        $data = $result->fetch(PDO::FETCH_ASSOC);
+        if(isset($data) && !empty($data)) return $data;
+        else return false;
+    }
+    
     public static function getPartnerReq($user_id)
     {
         $db = Db::getConnection();
