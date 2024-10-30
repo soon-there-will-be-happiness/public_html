@@ -368,7 +368,13 @@ class Email {
 
         return self::sender($email, $subject, $text, $setting, $setting['sender_name'], $setting['sender_email']);
     }
-
+    public static function SendEmailAdminAboutProblem($email,$order_id,$type){
+        
+        $setting = System::getSetting();
+        $text="Произошла ошибка при оплате \n Тип ошибки:$type\n order id: $order_id";
+        $subject = System::Lang('ADMIN_NEW_MESS_ERROR');
+        return self::sender($email, $subject, $text, $setting, $setting['sender_name'], $setting['sender_email']);
+    }
 
     // ОПОВЕЩЕНИЕ АДМИНА / ТЕХПОДДЕРЖКИ О НОВОМ СООБЩЕНИИ В ТЕМЕ
     public static function SendEmailAdminAboutNewMess($email, $user, $message, $alias, $topic_id, $mess_id, $status)

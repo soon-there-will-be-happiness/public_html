@@ -68,9 +68,9 @@
         <h4><?=System::Lang('YOUR_ID');?> <?=$userId;?></h4>
         <?php
         $fill_req = Aff::checkAllPartnerReq($userId);
-        if ($fill_req): ?> 
+        if ($fill_req): ?>
             <h4>
-                <?= System::Lang('YOUR_OFERTA'); ?> 
+                <?= System::Lang('YOUR_OFERTA'); ?>
                 <a data-uk-lightbox data-lightbox-type="iframe" class="oferta" href="/oferta" target="_blank"> оферта</a>
             </h4>
         <?php endif; ?>
@@ -103,17 +103,18 @@
         <h4><?=System::Lang('STATISTICS');?></h4>
         <p><?=System::Lang('TOTAL_CLIKS');?> <?=$hits; ?></p>
         <p><?=System::Lang('ORDERS_PAID');?> <?=$total_orders;?></p>
-            <h4><?=System::Lang('EFFECTIVENES');?></h4>
+        <h4><?=System::Lang('EFFECTIVENES');?></h4>
         <p><?=System::Lang('CONVERTION');?> <?if($hits > 0) {
-            $conv = ($total_orders / $hits) *100; echo  round($conv, 2) . ' %';
+                $conv = ($total_orders / $hits) *100; echo  round($conv, 2) . ' %';
             } else echo 'нет данных';?>
         </p>
 
         <p><?=System::Lang('EACH_CLICK_BRINGS');?> <?if($hits > 0) {
-            $click = $total['SUM(summ)'] / $hits; echo round($click, 2). ' ' .$this->settings['currency'];
+                $click = $total['SUM(summ)'] / $hits; echo round($click, 2). ' ' .$this->settings['currency'];
             } else {
                 echo 'нет данных';
             }?>
         </p>
     </div>
 </div>
+

@@ -7,6 +7,13 @@ define('CURR_VER', '3.9.9');
 // Настройки
 require_once 'setting.php';
 
+require_once __DIR__ . '/vendor/autoload.php';
+use Dotenv\Dotenv;
+
+// Assuming the .env file is in the root directory
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 ini_set('display_errors', $setting['debug_mode']);
 error_reporting(E_ALL);
 

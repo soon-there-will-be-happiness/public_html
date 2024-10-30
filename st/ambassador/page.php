@@ -4,7 +4,7 @@
 $product = Product::getProductById(36);
 $price = Price::getFinalPrice(36);
 $setting = System::getSetting();
-$metriks = !empty($this->settings['yacounter']) || $this->settings['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
+$metriks = !empty($settings['yacounter']) || $settings['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
 $id=36;
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 ?>
