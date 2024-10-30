@@ -102,7 +102,7 @@
                                     value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['bik'] : '';?>"
                             />
 
-                            <label for="payment-org-name"> Название банка </label>
+                            <label for="name"> Название банка </label>
                             <input
                                     type="text"
                                     id="payment-org-name"
@@ -124,7 +124,7 @@
                         </div>
                         <div class="form-section form-section_three">
                             <h2>Паспортные данные</h2>
-                            <label for="account-number"> Серия и номер паспорта </label>
+                            <label for="passport"> Серия и номер паспорта </label>
                             <input
                                     type="text"
                                     id="passport"
@@ -137,7 +137,7 @@
                                     value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['passport'] : ''?>"
                             />
 
-                            <label for="bank-bik"> Место рождения </label>
+                            <label for="birth-place"> Место рождения </label>
                             <input
                                     type="text"
                                     id="birth-place"
@@ -150,7 +150,7 @@
                                     value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['birth-place'] : '';?>"
                             />
 
-                            <label for="payment-org-name"> Дата выдачи паспорта </label>
+                            <label for="passport-date"> Дата выдачи паспорта </label>
                             <input
                                     type="date"
                                     id="passport-date"
@@ -161,7 +161,7 @@
                                     value="<?=!empty($req) && array_key_exists($req_key, $req) ? $req[$req_key]['passport-date'] : '';?>"
                             />
 
-                            <label for="corr-account"> Адрес регистрации </label>
+                            <label for="passport-address"> Адрес регистрации </label>
                             <small class="important-info">
                                 *Важная информация! <br />
                                 Для ФЛ адрес прописки как в паспорте <br />
