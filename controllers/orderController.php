@@ -906,6 +906,8 @@ class orderController extends baseController {
             }
 
             // рендерим заказ
+            $orderDataByID=Order::getOrderDataByID($order['order_id'],0);
+            if($orderDataByID!=false)
             $render = Order::renderOrder($order);
             $redirect = false;
 
