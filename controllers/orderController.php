@@ -307,7 +307,7 @@ class orderController extends baseController {
                             $_SESSION["delivery_$date"] = 1;
                             System::redirectUrl("/delivery/$date");
                         } else {
-                            System::redirectUrl("/pay/$date");
+                            System::redirectUrl("/pay/$date");  return true;
                         }
                     }
                 }
@@ -906,8 +906,6 @@ class orderController extends baseController {
             }
 
             // рендерим заказ
-            $orderDataByID=Order::getOrderDataByID($order['order_id'],0);
-            if($orderDataByID!=false)
             $render = Order::renderOrder($order);
             $redirect = false;
 
@@ -1731,7 +1729,7 @@ class orderController extends baseController {
                                     }
                                 }
                             } else {
-                                System::redirectUrl("/pay/$date");
+                                System::redirectUrl("/pay/$date");  
                             }
                         }
                     }
