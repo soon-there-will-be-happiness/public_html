@@ -26,13 +26,13 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                 <div class="filter-1-3">
                     <div class="select-wrap">
 
-                        <select name="type">
+                        <select name="identify">
                             <option value="0">Тип</option>
                             <?php foreach ($identifies as $identify) { ?>
                                 <option
-                                    value="<?= $identify ?>"
+                                    value="<?= $identify? 'Идентифицирован':'Анонимный' ?>"
                                     <?= isset($_GET['identify']) && $_GET['identify'] === $identify ? "selected" : "" ?>
-                                ><?= $identify ?></option>
+                                ><?= $identify? 'Идентифицирован':'Анонимный' ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -40,10 +40,7 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
 
                 <div class="filter-1-3">
                     <div class="select-wrap">
-                        <select name="in_arhive">
-                            <option value="0">Сумма</option>
-                            <option value="1" <?= isset($_GET['amount']) &&  $_GET['amount'] ? "selected" : "" ?>>Сумма</option>
-                        </select>
+                        <input name="amount" placeholder="Сумма" value="<?= isset($_GET['amount']) &&  $_GET['amount'] ?? $_GET['amount'] ?>">
                     </div>
                 </div>
                 <div class="filter-bottom">
