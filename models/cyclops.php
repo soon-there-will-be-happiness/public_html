@@ -229,7 +229,7 @@ class Cyclops
     public static function getPayments($filters, $page = 1, $limit = 10, $select = "*") {
         $db = Db::getConnection();
         $offset = ($page - 1) * $limit;
-        $where = "WHERE `in_arhive` = ".$filters['in_arhive'];
+        $where = "";
         if ($filters['amount']) {
             $where .= " AND `amount` = '{$filters['amount']}'";
         }
