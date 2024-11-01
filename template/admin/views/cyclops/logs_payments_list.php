@@ -25,28 +25,14 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
             <div class="filter-row filter-flex-end">
                 <div class="filter-1-3">
                     <div class="select-wrap">
-                        <select name="level">
-                            <option value="null">Уровень критичности</option>
-                            <?php foreach ($levels as $level) { ?>
-                                <option
-                                    value="<?= $level ?>"
-                                    <?= isset($_GET['level']) &&  $_GET['level'] == "$level" ? "selected" : "" ?>
-                                ><?= $level." - ". Log::logLevelToText($level) ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="filter-1-3">
-                    <div class="select-wrap">
 
                         <select name="type">
                             <option value="0">Тип</option>
-                            <?php foreach ($types as $type) { ?>
+                            <?php foreach ($identifies as $identify) { ?>
                                 <option
-                                    value="<?= $type['type'] ?>"
-                                    <?= isset($_GET['type']) && $_GET['type'] === $type['type'] ? "selected" : "" ?>
-                                ><?= $type['type'] ?></option>
+                                    value="<?= $identify ?>"
+                                    <?= isset($_GET['identify']) && $_GET['identify'] === $identify ? "selected" : "" ?>
+                                ><?= $identify ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -55,8 +41,8 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                 <div class="filter-1-3">
                     <div class="select-wrap">
                         <select name="in_arhive">
-                            <option value="0">Статус</option>
-                            <option value="1" <?= isset($_GET['in_arhive']) &&  $_GET['in_arhive'] == 1 ? "selected" : "" ?>>В архиве</option>
+                            <option value="0">Сумма</option>
+                            <option value="1" <?= isset($_GET['amount']) &&  $_GET['amount'] ? "selected" : "" ?>>Сумма</option>
                         </select>
                     </div>
                 </div>

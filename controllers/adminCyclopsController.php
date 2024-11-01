@@ -8,14 +8,13 @@ class adminCyclopsController extends AdminBase {
         }
         $setting = System::getSetting();
         $filters = [
-            "in_arhive" => isset($_GET['in_arhive']) && $_GET['in_arhive'] != 0 ? 1 : 0,
-            "type" => isset($_GET['type']) && $_GET['type'] == 0 ? $_GET['type'] : false,
-            "level" => isset($_GET['level']) && $_GET['level'] != "null" ? $_GET['level'] : false,
+            "amount" => isset($_GET['amount']) && $_GET['amount'] != 0 ? 1 : 0,
+            "identify" => isset($_GET['identify']) && $_GET['identify'] == 0 ? $_GET['identify'] : false,
         ];
         $page = $_GET['page'] ?? 1;
 
-        $logs = Cyclops::getPayments();//::listPayments($filters, $page, $setting['show_items']);
-
+        $logs = Cyclops::getPayments($filters, $page, $setting['show_items']);//::listPayments($filters, $page, $setting['show_items']);
+        $identifies =[true,false];
         $totalPages = $logs['pages']['total'];
         $logs = $logs['logs'];
 

@@ -213,17 +213,30 @@ class Cyclops
         $data = $result->fetch(PDO::FETCH_ASSOC);
         return $data ?? false;
     }
+
+    public static function addPayment($id, $amount=null, $identify=false, $virtual_account_id = null, $deal_id = null) {
+        $db = Db::getConnection();
+        $sql = "INSERT INTO ".PREFICS."cyclop_payments(id, amount, identify, virtual_account_id, deal_id) VALUES(:id, :amount, :identify, :virtual_account_id, :deal_id)";
+        $result = $db->prepare($sql);
+        $result->bindParam(':id', $id, PDO::PARAM_STR);
+        $result->bindParam(':amount', $amount, PDO::PARAM_STR);
+        $result->bindParam(':identify', $identify, PDO::PARAM_BOOL);
+        $result->bindParam(':virtual_account_id', $virtual_account_id, PDO::PARAM_STR);
+        $result->bindParam(':deal_id', $deal_id, PDO::PARAM_STR);
+        $result->execute();
+    }
+
     public static function getPayments($filters, $page = 1, $limit = 10, $select = "*") {
         $db = Db::getConnection();
         $offset = ($page - 1) * $limit;
-        $where = '';//"WHERE `in_arhive` = ".$filters['in_arhive'];
-//        if ($filters['type']) {
-//            $where .= " AND `type` = '{$filters['type']}'";
-//        }
-//
-//        if ($filters['level'] !== false) {
-//            $where .= " AND `level` = '{$filters['level']}'";
-//        }
+        $where = "WHERE `in_arhive` = ".$filters['in_arhive'];
+        if ($filters['amount']) {
+            $where .= " AND `amount` = '{$filters['amount']}'";
+        }
+
+        if ($filters['identify'] !== false) {
+            $where .= " AND `identify` = '{$filters['identify']}'";
+        }
 
         $result = [];
         $result['logs'] = $db ->query("SELECT `id`, `amount`, `status` FROM `".PREFICS."cyclop_payments` $where ORDER BY `id` desc LIMIT $limit OFFSET $offset")->fetchAll(PDO::FETCH_ASSOC);
