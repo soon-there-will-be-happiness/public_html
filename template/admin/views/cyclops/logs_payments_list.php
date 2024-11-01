@@ -82,7 +82,7 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                         </a>
                     </td>
                     <td class="text-right">
-                        <?= $log['status'] ?>
+                        <?= $log['identify'] ?>
                     </td>
                 </tr>
 
