@@ -910,7 +910,7 @@ class orderController extends baseController {
 
         $total = Order::getOrderTotalSum($order['order_id']);
 
-        if($value)
+    
         if ($total == 0) {
             //Получаем настройки, включена ли функция автовхода при бесп.заказе
             $autoAuth = json_decode($this->settings['params'], true);
@@ -921,7 +921,7 @@ class orderController extends baseController {
             if ($autoAuth) {
                 $issetUser = User::getUserDataByEmail($order['client_email']);
             }
-
+            if($value)
             $render = Order::renderOrder($order);
             $redirect = false;
 
@@ -934,6 +934,7 @@ class orderController extends baseController {
                         $auth = User::Auth($createdUser['user_id'], $createdUser['user_name']);
                     }
                     if (isset($auth)) {
+                        if($value)
                         Remember::saveData($createdUser, true);
                     }
                 } elseif (!User::isAuth() && $issetUser) {//Уже существующий до этого пользователь
@@ -947,6 +948,7 @@ class orderController extends baseController {
                         if ($user_token_buy == $user_token['token']) {
                             $auth = User::Auth($userdata['user_id'], $userdata['user_name']);
                             if (isset($auth)) {
+                                if($value)
                                 Remember::saveData($userdata, true);
                             }
                         }
@@ -1004,12 +1006,12 @@ class orderController extends baseController {
             if (isset($_SESSION['cart'])) unset($_SESSION['cart']);
             if (isset($_SESSION['sale_id'])) unset($_SESSION['sale_id']);
 
-            if($value)
+          
             $upd = Order::UpdateOrderCustom($order_date, $payment_id);
 
             // Отправить письмо админу
             if ($upd) {
-                if($value)
+           
                 $send = Email::AdminCustomOrder($order_date, $this->settings['secret_key'], $this->settings['admin_email'], $order['client_email'], $gateway, $purse, $summ, $order['client_name'], $order['client_phone'], $this->settings['script_url'], $order['order_id']);
             }
 
