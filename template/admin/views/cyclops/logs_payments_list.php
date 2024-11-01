@@ -39,9 +39,9 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                 </div>
 
                 <div class="filter-1-3">
-                    <div class="select-wrap">
-                        <input name="amount" placeholder="Сумма" value="<?= isset($_GET['amount']) &&  $_GET['amount'] ?? $_GET['amount'] ?>">
-                    </div>
+                        <label>
+                            <input name="amount" placeholder="Сумма" value="<?= isset($_GET['amount']) &&  $_GET['amount'] ?? $_GET['amount'] ?>">
+                        </label>
                 </div>
                 <div class="filter-bottom">
                     <div>
@@ -79,7 +79,7 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                         </a>
                     </td>
                     <td class="text-right">
-                        <?= $log['identify'] ?>
+                        <?= $log['identify']? 'Идентифицирован':'Анонимный' ?>
                     </td>
                 </tr>
 
