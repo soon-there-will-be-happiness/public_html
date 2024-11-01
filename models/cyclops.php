@@ -229,13 +229,17 @@ class Cyclops
     public static function getPayments($filters, $page = 1, $limit = 10, $select = "*") {
         $db = Db::getConnection();
         $offset = ($page - 1) * $limit;
-        $where = "";
+        $where ='';
         if ($filters['amount']) {
-            $where .= " AND `amount` = '{$filters['amount']}'";
+            $where .= "WHERE `amount` = '{$filters['amount']}'";
         }
 
         if ($filters['identify'] !== false) {
-            $where .= " AND `identify` = '{$filters['identify']}'";
+            if(empty($where)) {
+                $where = " WHERE `identify` = '{$filters['identify']}'";
+            } else {
+                $where .= " AND `identify` = '{$filters['identify']}'";
+            }
         }
 
         $result = [];
