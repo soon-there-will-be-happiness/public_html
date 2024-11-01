@@ -21,7 +21,7 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
     <span id="notification_block"></span>
 
     <div class="filter admin_form">
-        <form action="/admin/payments/" method="get">
+        <form action="/admin/cyclops/payments/" method="get">
             <div class="filter-row filter-flex-end">
                 <div class="filter-1-3">
                     <div class="select-wrap">

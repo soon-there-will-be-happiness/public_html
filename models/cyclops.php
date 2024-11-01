@@ -239,7 +239,7 @@ class Cyclops
         }
 
         $result = [];
-        $result['logs'] = $db ->query("SELECT `id`, `amount`, `status` FROM `".PREFICS."cyclop_payments` $where ORDER BY `id` desc LIMIT $limit OFFSET $offset")->fetchAll(PDO::FETCH_ASSOC);
+        $result['logs'] = $db ->query("SELECT `id`, `amount`, `identify` FROM `".PREFICS."cyclop_payments` $where ORDER BY `id` desc LIMIT $limit OFFSET $offset")->fetchAll(PDO::FETCH_ASSOC);
         $result["pages"] = $db ->query("SELECT COUNT(*) as total FROM `".PREFICS."cyclop_payments` $where")->fetch();
 
         return $result ?? false;
