@@ -738,7 +738,6 @@ class orderController extends baseController {
      
         $this->view['noindex'] = true;
         if (isset($_COOKIE["cookie_name"])) {
-            $value = $_COOKIE["cookie_name"];
             setcookie("cookie_name", "", time() - 3600, "/");
             $value =true;
         }
