@@ -500,6 +500,7 @@ return [
     'admin/cmsupdate' => 'adminSetting/CMSUpdate',
 
     'admin/logs' => "adminLog/index",
+    'admin/cyclop/payments' => "adminCyclops/payments",
     'admin/logs/([0-9]+)' => "adminLog/showlog/$1",
     'admin/logs/changearhive/([0-9]+)' => "adminLog/ChangeArhive/$1",
     'admin/logs/delete/([0-9]+)' => "adminLog/DeleteLog/$1",

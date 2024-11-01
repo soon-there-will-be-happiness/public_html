@@ -213,5 +213,23 @@ class Cyclops
         $data = $result->fetch(PDO::FETCH_ASSOC);
         return $data ?? false;
     }
+    public static function getPayments($filters, $page = 1, $limit = 10, $select = "*") {
+        $db = Db::getConnection();
+        $offset = ($page - 1) * $limit;
+        $where = '';//"WHERE `in_arhive` = ".$filters['in_arhive'];
+//        if ($filters['type']) {
+//            $where .= " AND `type` = '{$filters['type']}'";
+//        }
+//
+//        if ($filters['level'] !== false) {
+//            $where .= " AND `level` = '{$filters['level']}'";
+//        }
+
+        $result = [];
+        $result['logs'] = $db ->query("SELECT `id`, `amount`, `status` FROM `".PREFICS."cyclop_payments` $where ORDER BY `id` desc LIMIT $limit OFFSET $offset")->fetchAll(PDO::FETCH_ASSOC);
+        $result["pages"] = $db ->query("SELECT COUNT(*) as total FROM `".PREFICS."cyclop_payments` $where")->fetch();
+
+        return $result ?? false;
+    }
 }
 ?>
