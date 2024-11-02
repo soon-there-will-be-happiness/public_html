@@ -307,6 +307,8 @@ class orderController extends baseController {
                             $_SESSION["delivery_$date"] = 1;
                             System::redirectUrl("/delivery/$date");
                         } else {
+                            setcookie("cookie_name", "cookie_value", time() + 3600, "/"); // Куки будет действовать 1 час
+
                             System::redirectUrl("/pay/$date");
                         }
                     }
@@ -710,23 +712,19 @@ class orderController extends baseController {
         return true;
     }
 
-
     public function actionAtolSuccess(){
         $this->setViewParams('payments', 'payments/atol/success.php', null, null, 'order-pay-page');
 
         require_once (ROOT . '/payments/atol/success.php');
         return true;
     }
-
-
+    
     public function actionAtolResult(){
         $this->setViewParams('payments', '/payments/atol/result.php', null, null, 'order-pay-page');
         require_once (ROOT . '/payments/atol/result.php');
 
         return true;
     }
-
-
     /**
      * 
      * ОПЛАТА
@@ -735,8 +733,22 @@ class orderController extends baseController {
      */
     public function actionPay($order_date)
     {
-        $this->view['noindex'] = true;
 
+        $value =false;
+
+        $this->view['noindex'] = true;
+        if (isset($_COOKIE["cookie_name"])) {
+            setcookie("cookie_name", "", time() - 3600, "/");
+            $value =true;
+        }
+
+        if (strpos($_SERVER['HTTP_USER_AGENT'], 'TelegramBot') !== false) {
+            $value =false;
+
+        }
+    if (strpos($_SERVER['HTTP_USER_AGENT'], '-') !== false) {
+        $value =false;
+        }
         // Проверить дату заказа и текущую дату (в настройках получить сколько времени хранить заказ)
         $now = time();
         $cookie = $this->settings['cookie'];
@@ -908,8 +920,7 @@ class orderController extends baseController {
             if ($autoAuth) {
                 $issetUser = User::getUserDataByEmail($order['client_email']);
             }
-
-            // рендерим заказ
+            if($value)
             $render = Order::renderOrder($order);
             $redirect = false;
 
@@ -922,6 +933,7 @@ class orderController extends baseController {
                         $auth = User::Auth($createdUser['user_id'], $createdUser['user_name']);
                     }
                     if (isset($auth)) {
+                        if($value)
                         Remember::saveData($createdUser, true);
                     }
                 } elseif (!User::isAuth() && $issetUser) {//Уже существующий до этого пользователь
@@ -935,6 +947,7 @@ class orderController extends baseController {
                         if ($user_token_buy == $user_token['token']) {
                             $auth = User::Auth($userdata['user_id'], $userdata['user_name']);
                             if (isset($auth)) {
+                                if($value)
                                 Remember::saveData($userdata, true);
                             }
                         }
@@ -997,6 +1010,7 @@ class orderController extends baseController {
 
             // Отправить письмо админу
             if ($upd) {
+
                 $send = Email::AdminCustomOrder($order_date, $this->settings['secret_key'], $this->settings['admin_email'], $order['client_email'], $gateway, $purse, $summ, $order['client_name'], $order['client_phone'], $this->settings['script_url'], $order['order_id']);
             }
 

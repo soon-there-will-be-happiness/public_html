@@ -26,59 +26,73 @@ ALTER TABLE `[PREFIX]telegram_product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
+USE th;
 
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
 
-
-
-DROP TABLE IF EXISTS `dgq_beneficiaries`;
-CREATE TABLE `dgq_beneficiaries` (
-  `id`varchar(255) NOT NULL,
-  `user_id` int  DEFAULT NULL,
+-- Обновляем таблицу бенефициаров
+DROP TABLE IF EXISTS `dgq_cyclop_beneficiaries`;
+CREATE TABLE `dgq_cyclop_beneficiaries` (
+  `id` varchar(255) NOT NULL,
+  `user_id` int DEFAULT NULL,
   `is_active` TINYINT(1) DEFAULT NULL,
-  `is_added_to_ms` TINYINT(1) DEFAULT NULL,
   `legal_type` varchar(255) DEFAULT NULL,
+  `is_added_to_ms` TINYINT(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `dgq_virtual_accounts`;
-CREATE TABLE `dgq_virtual_accounts` (
-  `id`varchar(255) NOT NULL,
+-- Обновляем таблицу виртуальных счетов
+DROP TABLE IF EXISTS `dgq_cyclop_virtual_accounts`;
+CREATE TABLE `dgq_cyclop_virtual_accounts` (
+  `id` varchar(255) NOT NULL,
   `balance` varchar(255) DEFAULT NULL,
   `beneficiary_id` varchar(255) DEFAULT NULL,
-  `type`varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT 'стандарт',
   `blocked_cash` varchar(255) DEFAULT NULL,
-  
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `dgq_deals`;
-CREATE TABLE `dgq_deals` (
-  `id`varchar(255) NOT NULL,
+-- Обновляем таблицу сделок
+DROP TABLE IF EXISTS `dgq_cyclop_deals`;
+CREATE TABLE `dgq_cyclop_deals` (
+  `id` varchar(255) NOT NULL,
+  `ext_key` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `amount` varchar(255) DEFAULT NULL,
-  `payer_id`varchar(255) DEFAULT NULL,
-  `recipient_id`varchar(255) DEFAULT NULL,
+  `payer_id` varchar(255) DEFAULT NULL,
+  `recipient_id` varchar(255) DEFAULT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `recipients` TEXT DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
-DROP TABLE IF EXISTS `dgq_documents`;
-CREATE TABLE `dgq_documents` (
-  `id`varchar(255) NOT NULL,
+-- Обновляем таблицу документов
+DROP TABLE IF EXISTS `dgq_cyclop_documents`;
+CREATE TABLE `dgq_cyclop_documents` (
+  `number` varchar(255) NOT NULL,
   `type` varchar(255) DEFAULT NULL,
   `deal_id` varchar(255) DEFAULT NULL,
-  `beneficiary_id`varchar(255) DEFAULT NULL,
-  `date`varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `beneficiary_id` varchar(255) DEFAULT NULL,
+  `date` varchar(255) DEFAULT NULL,
+  `file_data` BLOB DEFAULT NULL,
+  `document_id` varchar(255) DEFAULT NULL,
+  `success_added` TINYINT(1) DEFAULT NULL,
+  PRIMARY KEY (`number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `dgq_payments`;
-CREATE TABLE `dgq_documents` (
-  `id`varchar(255) NOT NULL,
+-- Таблица платежей
+DROP TABLE IF EXISTS `dgq_cyclop_payments`;
+CREATE TABLE `dgq_cyclop_payments` (
+  `id` varchar(255) NOT NULL,
   `amount` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
-  `virtual_account_id`varchar(255) DEFAULT NULL,
-  `deal_id`varchar(255) DEFAULT NULL,
+  `virtual_account_id` varchar(255) DEFAULT NULL,
+  `deal_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+COMMIT;
