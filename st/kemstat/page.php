@@ -3842,7 +3842,7 @@ if ($partner_id != null) {
                         <div id="popup" class="popup hidden">
                             <div class="popup-content">
                                 <span class="close-btn">&times;</span>
-                                <h4 class="pop_up_title">Форма для регистрации на платформе «Кем стать?»<br>Для получения доступа к услуге по профориентации заполните данные о себе</h4>
+                                <h4 class="pop_up_title">Форма для регистрации на платформе<br><strong>«Кем стать?»</strong><br>Для получения доступа к услуге по профориентации заполните данные о себе</h4>
                                 <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?></br>
                                     Стоимость: <?=$price['real_price']?> ₽</p>
 
@@ -3864,13 +3864,13 @@ if ($partner_id != null) {
                                     <span class="text-hint" onclick="toggleFields()">Вы также можете указать никнейм телеграм для оперативной связи</span>
 
                                     <label for="telegram" id="label_telegram" style="display: none;">Телеграм через @</label>
-                                        <input class="input-field" type="text" id="telegram" name="telegram" placeholder="@ваш_ник" style="display: none;">
-                                        <div class="not-me" style="display:none;">
-                                            <input type="checkbox" id="agreement" name="not-me" checked>
-                                            <label>
-                                                Курс буду проходить не я
-                                            </label>
-                                        </div>
+                                    <input class="input-field" type="text" id="telegram" name="telegram" placeholder="@ваш_ник" style="display: none;">
+                                    <div class="not-me" style="display:none;">
+                                        <input type="checkbox" id="agreement" name="not-me" checked>
+                                        <label>
+                                            Курс буду проходить не я
+                                        </label>
+                                    </div>
                                     <!-- <div style="margin-top:15px;" id="promo">
                                         <p><a class="promo-link" href="#">Есть промокод?</a></p>
                                         <div class="promo-block hidden">
@@ -3905,20 +3905,6 @@ if ($partner_id != null) {
                                 </form>
                             </div>
                         </div>
-                        <script>
-                            document.getElementById('buy').addEventListener('click', function() {
-                                const form = document.getElementById('form_order_buy');
-                                if (form.checkValidity()) {
-                                    <?php $telegram = TelegramProduct::searchByProductId($partner_id,$id);
-                                    if($telegram != false): ?>
-                                    window.open('<?php echo $telegram['telegram']?>', '_blank');
-                                    <?php endif; ?>
-                                } else {
-                                    //alert('Пожалуйста, заполните все обязательные поля.');
-                                    pass;
-                                }
-                            });
-                        </script>
                     </div>
                     <div class="t760__descr t-descr t-descr_xxs" field="descr">
                         <div style="font-size: 18px;" data-customstyle="yes">Получите доступ к программе, в которой
