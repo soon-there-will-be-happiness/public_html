@@ -21,8 +21,11 @@ $response = $api->listPayments(1,50,['identify' => false]);
 Log::add(1,'cron execute', ["response" => $response],'cyclops_cron');
 if (isset($response['result']['payments']) && !empty($response['result']['payments'])) {
     // Проходим по каждому платежу
+    $ids = Cyclops::getPayments([])['logs']['id'];
     foreach ($response['result']['payments'] as $paymentId) {
         // Вызов метода addPayment для каждого платежа
-        Cyclops::addPayment($paymentId);
+        if (in_array($paymentId,$ids)) {
+            Cyclops::addPayment($paymentId);
+        }
     }
 }
