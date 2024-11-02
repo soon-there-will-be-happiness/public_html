@@ -1,4 +1,5 @@
 /load/backups/*.zip
+load/hometask/*
 /tmp/*.zip
 /tmp/
 /config/config.php
