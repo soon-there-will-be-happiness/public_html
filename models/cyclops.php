@@ -240,5 +240,40 @@ class Cyclops
         
         return $result->fetch(PDO::FETCH_ASSOC) ?? false;
     }
+
+    public static function addPayment($id, $amount=null, $identify=false, $virtual_account_id = null, $deal_id = null) {
+        $db = Db::getConnection();
+        $sql = "INSERT INTO ".PREFICS."cyclop_payments(id, amount, identify, virtual_account_id, deal_id) VALUES(:id, :amount, :identify, :virtual_account_id, :deal_id)";
+        $result = $db->prepare($sql);
+        $result->bindParam(':id', $id, PDO::PARAM_STR);
+        $result->bindParam(':amount', $amount, PDO::PARAM_STR);
+        $result->bindParam(':identify', $identify, PDO::PARAM_BOOL);
+        $result->bindParam(':virtual_account_id', $virtual_account_id, PDO::PARAM_STR);
+        $result->bindParam(':deal_id', $deal_id, PDO::PARAM_STR);
+        $result->execute();
+    }
+
+    public static function getPayments($filters, $page = 1, $limit = 10, $select = "*") {
+        $db = Db::getConnection();
+        $offset = ($page - 1) * $limit;
+        $where ='';
+        if ($filters['amount']) {
+            $where .= "WHERE `amount` = '{$filters['amount']}'";
+        }
+
+        if ($filters['identify'] !== false) {
+            if(empty($where)) {
+                $where = " WHERE `identify` = '{$filters['identify']}'";
+            } else {
+                $where .= " AND `identify` = '{$filters['identify']}'";
+            }
+        }
+
+        $result = [];
+        $result['logs'] = $db ->query("SELECT `id`, `amount`, `identify` FROM `".PREFICS."cyclop_payments` $where ORDER BY `id` desc LIMIT $limit OFFSET $offset")->fetchAll(PDO::FETCH_ASSOC);
+        $result["pages"] = $db ->query("SELECT COUNT(*) as total FROM `".PREFICS."cyclop_payments` $where")->fetch();
+
+        return $result ?? false;
+    }
 }
 ?>

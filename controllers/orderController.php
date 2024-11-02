@@ -309,7 +309,7 @@ class orderController extends baseController {
                         } else {
                             setcookie("cookie_name", "cookie_value", time() + 3600, "/"); // Куки будет действовать 1 час
 
-                            System::redirectUrl("/pay/$date"); 
+                            System::redirectUrl("/pay/$date");
                         }
                     }
                 }
@@ -733,9 +733,9 @@ class orderController extends baseController {
      */
     public function actionPay($order_date)
     {
-        
+
         $value =false;
-     
+
         $this->view['noindex'] = true;
         if (isset($_COOKIE["cookie_name"])) {
             setcookie("cookie_name", "", time() - 3600, "/");
@@ -744,7 +744,7 @@ class orderController extends baseController {
 
         if (strpos($_SERVER['HTTP_USER_AGENT'], 'TelegramBot') !== false) {
             $value =false;
-    
+
         }
     if (strpos($_SERVER['HTTP_USER_AGENT'], '-') !== false) {
         $value =false;
@@ -909,7 +909,7 @@ class orderController extends baseController {
 
         $total = Order::getOrderTotalSum($order['order_id']);
 
-    
+        // ЕСЛИ ЗАКАЗ 0 рублей
         if ($total == 0) {
             //Получаем настройки, включена ли функция автовхода при бесп.заказе
             $autoAuth = json_decode($this->settings['params'], true);
@@ -1005,12 +1005,12 @@ class orderController extends baseController {
             if (isset($_SESSION['cart'])) unset($_SESSION['cart']);
             if (isset($_SESSION['sale_id'])) unset($_SESSION['sale_id']);
 
-          
+            // Обновить статус заказа
             $upd = Order::UpdateOrderCustom($order_date, $payment_id);
 
             // Отправить письмо админу
             if ($upd) {
-           
+
                 $send = Email::AdminCustomOrder($order_date, $this->settings['secret_key'], $this->settings['admin_email'], $order['client_email'], $gateway, $purse, $summ, $order['client_name'], $order['client_phone'], $this->settings['script_url'], $order['order_id']);
             }
 
@@ -1747,7 +1747,7 @@ class orderController extends baseController {
                                     }
                                 }
                             } else {
-                                System::redirectUrl("/pay/$date");  
+                                System::redirectUrl("/pay/$date");
                             }
                         }
                     }
