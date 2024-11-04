@@ -972,6 +972,11 @@ class orderController extends baseController {
                 $this->setSEOParams('Скачать');
                 $this->setViewParams('order', 'order/free_load.php');
             } else {
+                if(intval($order['product_id'])==31){
+                    System::redirectUrl("/lk/mytrainings");
+                    return true;
+                }
+                echo(intval($order['product_id']));
                 $this->setSEOParams('Спасибо!');
                 $this->setViewParams('order', 'order/thanks.php', null,
                     null, 'order-page'
