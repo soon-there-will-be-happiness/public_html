@@ -317,9 +317,6 @@ class orderController extends baseController {
         }
         
         $title_text = System::Lang('ORDER_REGISTRATION');
-        if(intval($order['product_id'])==31){
-            System::redirectUrl("/lk/mytrainings");
-        }
 
         $this->setSEOParams("$title_text {$product['product_title']}", $product['meta_desc'], $product['meta_keys']);
         $this->setViewParams('order', 'order/buy.php', null, null, 'order-by-page');
@@ -749,10 +746,6 @@ class orderController extends baseController {
             $value =false;
 
         }
-    if (strpos($_SERVER['HTTP_USER_AGENT'], '-') !== false) {
-        $value =false;
-        }
-        // Проверить дату заказа и текущую дату (в настройках получить сколько времени хранить заказ)
         $now = time();
         $cookie = $this->settings['cookie'];
         $jquery_head = 1;
@@ -1112,7 +1105,14 @@ class orderController extends baseController {
         if (isset($_SESSION["delivery_$order_date"])) {
             unset($_SESSION["delivery_$order_date"]);
         }
-        return true;
+        if(intval($order['product_id'])==31){
+            System::redirectUrl("/lk/mytrainings");  
+            return true;  
+        }
+        else{
+      
+        return true;  
+        }
     }
 
 
