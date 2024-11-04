@@ -172,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     innInput.addEventListener('input', () => {
         validateInn();
+        validateAccountAndInn();
     });
 
     accountNumberInput.addEventListener('input', () => {
@@ -186,4 +187,13 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
         }
     });
+
+    // Initial validation on page load if fields are filled
+    if (accountNumberInput.value) {
+        validateAccountAndInn();
+    }
+    if (innInput.value) {
+        validateInn();
+        validateAccountAndInn();
+    }
 });
