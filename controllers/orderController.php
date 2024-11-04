@@ -982,15 +982,9 @@ class orderController extends baseController {
                     null, 'order-page'
                 );
             }
-
+            
             require_once ("{$this->template_path}/main2.php");
-            if(intval($order['product_id'])==31){
-                System::redirectUrl("/lk/mytrainings");  
-                return true;
-            }
-            else{
             return true;
-            }
         } else {
             $products_ids = array_column($order_items, 'product_id');
             $installment_list = Installment::getInstallments2Products($products_ids, 0, $total);
