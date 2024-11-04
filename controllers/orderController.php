@@ -746,10 +746,6 @@ class orderController extends baseController {
             $value =false;
 
         }
-    if (strpos($_SERVER['HTTP_USER_AGENT'], '-') !== false) {
-        $value =false;
-        }
-        // Проверить дату заказа и текущую дату (в настройках получить сколько времени хранить заказ)
         $now = time();
         $cookie = $this->settings['cookie'];
         $jquery_head = 1;
@@ -976,12 +972,17 @@ class orderController extends baseController {
                 $this->setSEOParams('Скачать');
                 $this->setViewParams('order', 'order/free_load.php');
             } else {
+                if(intval($order['product_id'])==31){
+                    System::redirectUrl("/lk/mytrainings");
+                    return true;
+                }
+                echo(intval($order['product_id']));
                 $this->setSEOParams('Спасибо!');
                 $this->setViewParams('order', 'order/thanks.php', null,
                     null, 'order-page'
                 );
             }
-
+            
             require_once ("{$this->template_path}/main2.php");
             return true;
         } else {
@@ -1109,7 +1110,8 @@ class orderController extends baseController {
         if (isset($_SESSION["delivery_$order_date"])) {
             unset($_SESSION["delivery_$order_date"]);
         }
-        return true;
+        return true;  
+ 
     }
 
 
