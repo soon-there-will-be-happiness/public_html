@@ -10,9 +10,9 @@ class cyclopsApi {
     public function __construct($type) {
         // Load environment variables from .env or configuration
         $this->apiUrl = [
-            'jsonrpc' => 'https://{$type}.tochka.com/api/v1/cyclops/v2/jsonrpc',
-            'tender-helpers' => 'https://{$type}.tochka.com/api/v1/tender-helpers/jsonrpc',
-            'upload' => 'https://{$type}.tochka.com/api/v1/cyclops/upload_document'
+            'jsonrpc' => "https://{$type}.tochka.com/api/v1/cyclops/v2/jsonrpc",
+            'tender-helpers' => "https://{$type}.tochka.com/api/v1/tender-helpers/jsonrpc",
+            'upload' => "https://{$type}.tochka.com/api/v1/cyclops/upload_document"
         ];
         $this->signSystem = $_ENV['SIGN_SYSTEM'];
         $this->signThumbprint = $_ENV['SIGN_THUMBPRINT'];
