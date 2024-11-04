@@ -7,12 +7,12 @@ class cyclopsApi {
     private $signThumbprint;
     private $privateKeyPath;
 
-    public function __construct() {
+    public function __construct($type) {
         // Load environment variables from .env or configuration
         $this->apiUrl = [
-            'jsonrpc' => 'https://pre.tochka.com/api/v1/cyclops/v2/jsonrpc',
-            'tender-helpers' => 'https://pre.tochka.com/api/v1/tender-helpers/jsonrpc',
-            'upload' => 'https://pre.tochka.com/api/v1/cyclops/upload_document'
+            'jsonrpc' => 'https://{$type}.tochka.com/api/v1/cyclops/v2/jsonrpc',
+            'tender-helpers' => 'https://{$type}.tochka.com/api/v1/tender-helpers/jsonrpc',
+            'upload' => 'https://{$type}.tochka.com/api/v1/cyclops/upload_document'
         ];
         $this->signSystem = $_ENV['SIGN_SYSTEM'];
         $this->signThumbprint = $_ENV['SIGN_THUMBPRINT'];
@@ -22,7 +22,7 @@ class cyclopsApi {
     public static function getInstance()
     {
         if (self::$instance === null) {
-            self::$instance = new CyclopsApi();
+            self::$instance = new CyclopsApi('api');
         }
         return self::$instance;
     }
@@ -567,18 +567,18 @@ class cyclopsApi {
         $params = [
             "page" => $page,
             "per_page" => $perPage,
-            "filters" => $filters,
         ];
+
+        if ($filters !== null) $params["filters"] = $filters;
         return $this->makeRequest('jsonrpc','list_payments', $params);
     }
 
     public function listPaymentsV2($page = 1, $perPage = 50, $filters = []) {
         $params = [
             "page" => $page,
-            "per_page" => $perPage,
-            "filters" => $filters
+            "per_page" => $perPage
         ];
-
+        if ($filters !== null) $params["filters"] = $filters;
         $response = $this->makeRequest('list_payments_v2', $params);
 
         if (isset($response['result']['payments'])) {
@@ -726,10 +726,9 @@ class cyclopsApi {
         $params = [
             "page" => $page,
             "per_page" => $perPage,
-            "field_names" => $fieldNames,
-            "filters" => $filters
+            "field_names" => $fieldNames
         ];
-
+        if ($filters !== null) $params["filters"] = $filters;
         $response = $this->makeRequest('jsonrpc','list_deals', $params);
 
         if (isset($response['result']['deals'])) {
@@ -818,10 +817,10 @@ class cyclopsApi {
     public function listDocuments($page = 1, $perPage = 50, $filters = []) {
         $params = [
             "page" => $page,
-            "per_page" => $perPage,
-            "filters" => $filters
+            "per_page" => $perPage
         ];
 
+        if ($filters !== null) $params["filters"] = $filters;
         $response = $this->makeRequest('jsonrpc','list_documents', $params);
 
         if (isset($response['result']['documents'])) {
