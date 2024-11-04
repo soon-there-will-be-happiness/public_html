@@ -1778,7 +1778,7 @@ class User {
      *
      * @return string
      */
-    public static function replaceAuthLinkInText($text, $link) {
+    public static function replaceAuthLinkInText($text, $link,$addToRedirect=null) {
         $regexp = "/\[AUTH_LINK.+?(?=]).{1}/";
 
         preg_match_all($regexp, $text, $matches);
@@ -1787,9 +1787,11 @@ class User {
 
             $redirectUri = explode("[AUTH_LINK='", $find)[1];//сплит
             $redirectUri = substr($redirectUri, 0, -2);//получаем куда нужно произвести редирект
-
-            //формируем ссылку
+            if($addToRedirect==null)
             $link = $link.'&redirect='.$redirectUri .' ';
+            else{
+                $link = $link.'&redirect='.$redirectUri .$addToRedirect.' ';
+            }
 
             //заменяем
             $text = preg_replace($regexp, $link, $text, -1);

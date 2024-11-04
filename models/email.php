@@ -827,7 +827,7 @@ class Email {
 
         $text = strtr($letter, $replace);
         if($free)
-        $text = User::replaceAuthLinkInText($text, $prelink."mytrainings"); //Ссылка автологин с редиректом
+        $text = User::replaceAuthLinkInText($text, $prelink,"mytrainings"); //Ссылка автологин с редиректом
         else
         $text = User::replaceAuthLinkInText($text, $prelink); //Ссылка автологин с редиректом
 
