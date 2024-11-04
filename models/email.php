@@ -804,7 +804,7 @@ class Email {
 
 
     // ПИСЬМО КЛИЕНТУ О РЕГИСТРАЦИИ
-    public static function SendLogin($name, $email, $pass, $letter,$free=false)
+    public static function SendLogin($name, $email, $pass, $letter)
     {
         // Получаем настройки
         $setting = System::getSetting();
@@ -826,9 +826,6 @@ class Email {
         );
 
         $text = strtr($letter, $replace);
-        if($free)
-        $text = User::replaceAuthLinkInText($text, $prelink,"mytrainings"); //Ссылка автологин с редиректом
-        else
         $text = User::replaceAuthLinkInText($text, $prelink); //Ссылка автологин с редиректом
 
         $subject = System::Lang('SUBJECT_EMAIL_REGISTER');
