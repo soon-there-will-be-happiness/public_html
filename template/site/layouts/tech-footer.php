@@ -7,6 +7,7 @@
 
 <script src="/template/<?=$this->settings['template'];?>/js/libs.js"></script>
 <script src="/template/<?=$this->settings['template'];?>/js/scripts.js?v340"></script>
+<script src="/template/<?=$this->settings['template'];?>/js/data_check.js"></script>
 
 <script src="/extensions/connect/web/js/main.min.js?v<?=CURR_VER?>"></script>
 
