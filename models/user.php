@@ -12,7 +12,7 @@ class User {
     public static function AddNewClient($name, $email, $phone, $city, $address, $zip_code, $role, $is_client, $reg_date,
                                         $enter_method, $param, $status, $hash, $password, $send_login, $letter, $is_subs = 0,
                                         $login = null,  $from_id = null, $surname = null, $patronymic = null,
-                                        $nick_telegram = null, $nick_instagram = null, $order = null, $vk_id = null, $registeredHimself = null, $ok_id = 0,$free=false)
+                                        $nick_telegram = null, $nick_instagram = null, $order = null, $vk_id = null, $registeredHimself = null, $ok_id = 0)
     {
         $param = explode(";", $param);
         $reg_key = md5($reg_date);
@@ -39,7 +39,7 @@ class User {
 
         if ($user_id) {
             if ($send_login == 1 || $send_login == 2 && !$registeredHimself) {
-                Email::SendLogin($name, $email, $password,  $letter,$free);
+                Email::SendLogin($name, $email, $password,  $letter);
 
                 if ($phone) {
                     SMS::send2UserRegistration($phone, $name, $email, $password);
@@ -1778,7 +1778,7 @@ class User {
      *
      * @return string
      */
-    public static function replaceAuthLinkInText($text, $link,$addToRedirect=null) {
+    public static function replaceAuthLinkInText($text, $link) {
         $regexp = "/\[AUTH_LINK.+?(?=]).{1}/";
 
         preg_match_all($regexp, $text, $matches);
@@ -1787,11 +1787,7 @@ class User {
 
             $redirectUri = explode("[AUTH_LINK='", $find)[1];//сплит
             $redirectUri = substr($redirectUri, 0, -2);//получаем куда нужно произвести редирект
-            if($addToRedirect==null)
             $link = $link.'&redirect='.$redirectUri .' ';
-            else{
-                $link = $link.'&redirect='.$redirectUri .$addToRedirect.' ';
-            }
 
             //заменяем
             $text = preg_replace($regexp, $link, $text, -1);
