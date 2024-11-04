@@ -317,6 +317,9 @@ class orderController extends baseController {
         }
         
         $title_text = System::Lang('ORDER_REGISTRATION');
+        if(intval($order['product_id'])==31){
+            System::redirectUrl("/lk/mytrainings");
+        }
 
         $this->setSEOParams("$title_text {$product['product_title']}", $product['meta_desc'], $product['meta_keys']);
         $this->setViewParams('order', 'order/buy.php', null, null, 'order-by-page');
