@@ -12,7 +12,7 @@ class User {
     public static function AddNewClient($name, $email, $phone, $city, $address, $zip_code, $role, $is_client, $reg_date,
                                         $enter_method, $param, $status, $hash, $password, $send_login, $letter, $is_subs = 0,
                                         $login = null,  $from_id = null, $surname = null, $patronymic = null,
-                                        $nick_telegram = null, $nick_instagram = null, $order = null, $vk_id = null, $registeredHimself = null, $ok_id = 0)
+                                        $nick_telegram = null, $nick_instagram = null, $order = null, $vk_id = null, $registeredHimself = null, $ok_id = 0,$free=false)
     {
         $param = explode(";", $param);
         $reg_key = md5($reg_date);
@@ -39,7 +39,7 @@ class User {
 
         if ($user_id) {
             if ($send_login == 1 || $send_login == 2 && !$registeredHimself) {
-                Email::SendLogin($name, $email, $password,  $letter);
+                Email::SendLogin($name, $email, $password,  $letter,$free);
 
                 if ($phone) {
                     SMS::send2UserRegistration($phone, $name, $email, $password);

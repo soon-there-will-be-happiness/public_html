@@ -47,7 +47,7 @@ class Order {
                     $order['client_city'], $order['client_address'], $order['client_index'], 'user', $is_client,
                     $date, $enter_method, $order['visit_param'], 1, null, null, $send_pass,
                     $setting['register_letter'], 0, null, $order['partner_id'], $surname, $patronymic,
-                    $nick_telegram, $nick_instagram, $order, $vk_id, null, $ok_id
+                    $nick_telegram, $nick_instagram, $order, $vk_id, null, $ok_id,intval($order['product_id'])==31
                 );
                 sleep(2); //TODO SM-1351 это не очень правильно...
             } elseif ($client['is_client'] == 0 && $is_client == 1) {
