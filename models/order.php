@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php defined('BILLINGMASTER') or die;
 
 class Order {
