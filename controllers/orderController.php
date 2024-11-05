@@ -976,7 +976,6 @@ class orderController extends baseController {
                     System::redirectUrl("/lk/mytrainings");
                     return true;
                 }
-                echo(intval($order['product_id']));
                 $this->setSEOParams('Спасибо!');
                 $this->setViewParams('order', 'order/thanks.php', null,
                     null, 'order-page'
