@@ -159,9 +159,7 @@ class Order {
                         );
                     }
                 }
-
                 if ($order['partner_id']) {
-                    /*** >>> Новый Клиент письмо <<< ***/
                     Email::sendCustomLetterForPartner(System::Lang('NEW_CLIENT'),System::Lang('NEW_CLIENT_TEXT'),$order,$item);
                 }
 
@@ -194,7 +192,7 @@ class Order {
 
                 // Подписка на членство
                 $to_child=ToChild::searchByOrderId($order['order_id']);
-                if($to_child==false)
+                if( $to_child==false)
                 {
                     $membership = System::CheckExtensension('membership', 1);
                     if ($membership && $client && !empty($product['subscription_id']) && ($order['installment_map_id'] == 0 || $installment_map['pay_actions'] == null)) {
@@ -209,7 +207,6 @@ class Order {
                 // список продуктов для квитанции
                 $nds = Price::isolateNDS($item['price']);
                 $order_items .= '<tr><td style="text-align: left;">'.$product['product_name'].'</td><td> 1 шт </td> <td style="text-align: right">'.$item['price'].' '.$setting['currency'].'</td><td style="text-align: right">'.$nds.' '.$setting['currency'].'</td></tr>';
-
 
                 $product = Product::getProductDataForSendOrder($item['product_id']);
 
@@ -1513,6 +1510,7 @@ class Order {
         $order_items = self::getOrderItems($order['order_id']);
 
         foreach($order_items as $item) {
+
             $product = Product::getProductDataForSendOrder($item['product_id']);
             if ($product) {
 
