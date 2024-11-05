@@ -16,4 +16,5 @@ log/*
 log/
 images/*
 load/avatars/*
+.rsaprivkey.pem
 
