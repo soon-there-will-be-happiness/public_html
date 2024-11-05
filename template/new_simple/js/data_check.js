@@ -129,71 +129,83 @@ function getRecipientTypeByAccount(accountNumber) {
 }
 
 // DOM interaction to validate inputs and block form submission
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('form');
-    const accountNumberInput = document.getElementById('account-number');
-    const innInput = document.getElementById('inn');
-    const accountNumberError = document.createElement('span');
-    const innError = document.createElement('span');
+$(document).ready(function () {
+    const accountNumberInput = $('#account-number');
+    const innInput = $('#inn');
+    const accountNumberError = $('<span>').css('color', 'red');
+    const innError = $('<span>').css('color', 'red');
+    const submitButton = $('.submit-btn');
+    let disableAjaxForThisPage = false;
 
-    accountNumberError.style.color = 'red';
-    innError.style.color = 'red';
-
-    accountNumberInput.parentNode.insertBefore(accountNumberError, accountNumberInput.nextSibling);
-    innInput.parentNode.insertBefore(innError, innInput.nextSibling);
+    accountNumberInput.after(accountNumberError);
+    innInput.after(innError);
 
     function validateInn() {
-        const inn = innInput.value;
+        const inn = innInput.val();
         if (!checkInn10(inn) && !checkInn12(inn)) {
-            innError.textContent = 'ИНН неверный. Должно быть 10 или 12 цифр.';
+            innError.text('ИНН неверный. Должно быть 10 или 12 цифр.');
             return false;
         } else {
-            innError.textContent = '';
+            innError.text('');
             return true;
         }
     }
 
     function validateAccountAndInn() {
-        const accountNumber = accountNumberInput.value;
-        const inn = innInput.value;
+        const accountNumber = accountNumberInput.val();
+        const inn = innInput.val();
         try {
             if (!validateAccountInn(accountNumber, inn)) {
-                accountNumberError.textContent = 'ИНН не соответствует номеру счёта.';
+                accountNumberError.text('ИНН не соответствует номеру счёта.');
                 return false;
             } else {
-                accountNumberError.textContent = '';
+                accountNumberError.text('');
                 return true;
             }
         } catch (error) {
-            accountNumberError.textContent = error.message;
+            accountNumberError.text(error.message);
             return false;
         }
     }
 
-    innInput.addEventListener('input', () => {
+    function updateSubmitButtonState() {
+        const isInnValid = validateInn();
+        const isAccountValid = validateAccountAndInn();
+        submitButton.prop('disabled', !(isInnValid && isAccountValid));
+    }
+
+    innInput.on('input', function () {
         validateInn();
         validateAccountAndInn();
+        updateSubmitButtonState();
     });
 
-    accountNumberInput.addEventListener('input', () => {
+    accountNumberInput.on('input', function () {
         validateAccountAndInn();
+        updateSubmitButtonState();
     });
 
-    form.addEventListener('submit', (event) => {
+    $('form').on('submit', function (event) {
+        event.preventDefault(); // Prevent form submission by default
         const isInnValid = validateInn();
         const isAccountValid = validateAccountAndInn();
 
-        if (!isInnValid || !isAccountValid) {
-            event.preventDefault();
+        if (isInnValid && isAccountValid) {
+            global disableAjaxForThisPage;
+            disableAjaxForThisPage = true;
+        } else {
+            // Submit the form normally if AJAX is disabled for this page
+            this.submit();
         }
     });
 
     // Initial validation on page load if fields are filled
-    if (accountNumberInput.value) {
+    if (accountNumberInput.val()) {
         validateAccountAndInn();
     }
-    if (innInput.value) {
+    if (innInput.val()) {
         validateInn();
         validateAccountAndInn();
     }
+    updateSubmitButtonState(); // Ensure button state is updated on load
 });
