@@ -630,13 +630,13 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
         <span class="close-btn">&times;</span>
 
         <h4 class="pop_up_title">Форма регистрации на пробный урок на платформе. Для получения доступа к уроку заполните данные о себе.</h4>
-        <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?></br>
-           Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
-        
+        <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?>
+    </br>
+        Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
         <form class="form" action="<?=$setting['script_url']?>/buy/<?=$id?>" method="POST" <?=$metriks;?> id="form_order_buy">
                                     <label for="first_name" id="label_first_name">Имя<span style="color: red;">*</span></label>
-                                    <input class="input-field" type="text" id="first_name" name="name" value="<?= isset($name) ? $name : ''; ?>" placeholder="Введите ваше имя" required>
-
+                                    <input class="input-field" type="text" id="first_name" name="name" value="<?= isset($name) ? $name : ''; ?>"
+                                    placeholder="Введите ваше имя" required>
                                     <label for="email" id="label_email">Электронная почта<span style="color: red;">*</span></label>
                                     <?php if($this->settings['email_protection']):?>
                                     <script>document.write(window.atob("PGlucHV0IHR5cGU9ImVtYWlsIiBuYW1lPSJlbWFpbCI="));</script>
@@ -644,12 +644,9 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                     <?php else:?>
                                     <input class="input-field" type="email" id="email" name="email" value="" placeholder="Введите вашу почту" required>
                                     <?php endif;?>
-
                                     <label for="phone" id="label_phone">Телефон<span style="color: red;">*</span></label>
                                     <input class="input-field" type="tel" id="phone_inp" name="phone" maxlength="12" placeholder="912 333-33-33" required>
-                                    
                                     <span class="text-hint" onclick="toggleFields()">Вы также можете указать никнейм телеграм для оперативной связи</span>
-                                    
                                     <label for="telegram" id="label_telegram" style="display: none;">Телеграм через @</label>
                                     <input class="input-field" type="text" id="telegram" name="telegram" placeholder="@ваш_ник" style="display: none;">
                                     <label>
@@ -665,7 +662,6 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                     <?php if (isset($_REQUEST['pid'])): ?>
                                         <input type="hidden" name="pid" value="<?=$_REQUEST['pid'] ?? "" ?>">
                                     <?php endif; ?>
-
                                     <button id ="buy" class="pay" name="buy" type="submit">З А П И С А Т Ь С Я</button>
         </form>
     </div>
