@@ -153,12 +153,12 @@
 
                                 }
                                 if($link['product_id']==28)
-                                {   $order_url = $this->settings['script_url']."st/kemstat/page#pay?promo={$user['user_id']}";
-                                    $url= $this->settings['script_url']."st/kemstat/page?promo={$user['user_id']}";
+                                {   $order_url = $this->settings['script_url']."/st/kemstat/page#pay?promo={$user['user_id']}";
+                                    $url= $this->settings['script_url']."/st/kemstat/page?promo={$user['user_id']}";
                                 }
                                 if($link['product_id']==31)
-                                {$order_url = $this->settings['script_url']."st/free/page#pay?promo={$user['user_id']}";
-                                    $url = $this->settings['script_url']."st/free/page?promo={$user['user_id']}";
+                                {$order_url = $this->settings['script_url']."/st/free/page#pay?promo={$user['user_id']}";
+                                    $url = $this->settings['script_url']."/st/free/page?promo={$user['user_id']}";
                                 }
                             //print_r($user);
                             //print_r(User::getGroupByUser($user['user_id']));
@@ -272,12 +272,12 @@
                                             $url = $link['external_url'].'?'.$ender;
                                         }
                                         if($link['product_id']==28)
-                                        {   $order_url = $this->settings['script_url']."st/kemstat/page#pay?promo={$user['user_id']}";
-                                            $url= $this->settings['script_url']."st/kemstat/page?promo={$user['user_id']}";
+                                        {   $order_url = $this->settings['script_url']."/st/kemstat/page#pay?promo={$user['user_id']}";
+                                            $url= $this->settings['script_url']."/st/kemstat/page?promo={$user['user_id']}";
                                         }
                                         if($link['product_id']==31)
-                                        {$order_url = $this->settings['script_url']."st/free/page#pay?promo={$user['user_id']}";
-                                            $url = $this->settings['script_url']."st/free/page?promo={$user['user_id']}";
+                                        {$order_url = $this->settings['script_url']."/st/free/page#pay?promo={$user['user_id']}";
+                                            $url = $this->settings['script_url']."/st/free/page?promo={$user['user_id']}";
                                         }
                                         ?>
                                         <div class="table-form-line"><span class="text-right"><?=System::Lang('LENDING');?></span>
