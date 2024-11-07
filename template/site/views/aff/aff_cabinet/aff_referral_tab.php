@@ -24,7 +24,6 @@
                 
                 // Без особого режима партнёра
                 foreach($links as $link):
-                    
                     if (in_array(60, $user_groups) & $link['product_id']!=35) {
                         continue;
                     }
@@ -36,16 +35,11 @@
                         // внутренний лендинг
                         $url = $this->settings['script_url'].'/catalog/'.$link['product_alias'].'?pr='.$user['user_id'];
                     } else {
-                        
                         // внешний лендинг
                         if(isset($params['params']['get_params']) && $params['params']['get_params'] == 1 && $link['external_url'] != null){
-                            
                             $url = $link['external_url'].'?pr='.$user['user_id'];
-                            
                         } else $url = $this->settings['script_url'].'/ext/'.$link['product_id'].'/'.$user['user_id'];
                     }
-                    
-                    
                     if($product['product_text2']!=null && !empty($product['product_text2'])){
                         $url =$this->settings['script_url'].$product['product_text2'];
                         $short_link_id_tx2_url = Aff::isShortLinkByPartner($user['user_id'], $url);
@@ -86,6 +80,7 @@
                                 echo "Ошибка создания короткой ссылки.";
                                 $order_url = '-------';
                             }
+                       
                         }
                     } else {
                         $order_url = $this->settings['script_url'].'/buy/'.$link['product_id'];
@@ -133,7 +128,7 @@
                                         <?=$link['product_comiss'];?> %
                                     <?php endif; ?>
                                 </td>
-                            <?php else:?>                                                            
+                            <?php else:?>
                                 <td class="not-aff_links">
                                     <?=$params['params']['aff_1_level'] ? "1 уровень - {$params['params']['aff_1_level']}%<br>" : '';?>
                                     <?=$params['params']['aff_2_level'] ? "2 уровень - {$params['params']['aff_2_level']}%<br>" : '';?>
@@ -156,6 +151,14 @@
 
                                     $url = $link['external_url'].'?'.$ender;
 
+                                }
+                                if($link['product_id']==28)
+                                {   $order_url = $this->settings['script_url']."st/kemstat/page#pay?promo={$user['user_id']}";
+                                    $url= $this->settings['script_url']."st/kemstat/page?promo={$user['user_id']}";
+                                }
+                                if($link['product_id']==31)
+                                {$order_url = $this->settings['script_url']."st/free/page#pay?promo={$user['user_id']}";
+                                    $url = $this->settings['script_url']."st/free/page?promo={$user['user_id']}";
                                 }
                             //print_r($user);
                             //print_r(User::getGroupByUser($user['user_id']));
@@ -193,7 +196,7 @@
                             <?php } endif;?>
                         </td>
                         <?php if($link['ads'] != null):?><td class="not-aff_links"><a class="text-decoration-none" target="_blank" href="/load/ads/<?=$link['ads']?>"><i class="icon-attach-1"></i>&nbsp;<?=System::Lang('DOWNLOAD');?></a></td><?php endif;?>
-<!--                         <td class="tg_group"><div class="table-form-input"><input onclick="this.select()" type="text" value="<?=$order_url;?>" class="order_link_input tg_input"></div></td>-->                    
+<!--                         <td class="tg_group"><div class="table-form-input"><input onclick="this.select()" type="text" value="<?=$order_url;?>" class="order_link_input tg_input"></div></td>-->
 <!--                         <?php if($link['product_id']!=33):?>
     <td class="send_message">
 
@@ -212,14 +215,12 @@
                             if($link['external_landing'] == 0) {
                                 $url = $this->settings['script_url'].'/catalog/'.$link['product_alias'].'?pr='.$user['user_id'];
                             } else {
-                                
                                 if(isset($params['params']['get_params']) && $params['params']['get_params'] == 1 && $link['external_url'] != null){
-                            
+                             
                                     $url = $link['external_url'].'?pr='.$user['user_id'];
-                                    
+
                                 } else $url = $this->settings['script_url'].'/ext/'.$link['product_id'].'/'.$user['user_id'];
                             }
-                            
                             $product=Product::getMinProductById($link['product_id']);
                             if($product['product_text2']!=null){
                                 $url =$this->settings['script_url'].$product['product_text2'];
@@ -269,7 +270,16 @@
 
                                             $ender = strtr($params['params']['speclinks_url'], $replace);
                                             $url = $link['external_url'].'?'.$ender;
-                                        }?>
+                                        }
+                                        if($link['product_id']==28)
+                                        {   $order_url = $this->settings['script_url']."st/kemstat/page#pay?promo={$user['user_id']}";
+                                            $url= $this->settings['script_url']."st/kemstat/page?promo={$user['user_id']}";
+                                        }
+                                        if($link['product_id']==31)
+                                        {$order_url = $this->settings['script_url']."st/free/page#pay?promo={$user['user_id']}";
+                                            $url = $this->settings['script_url']."st/free/page?promo={$user['user_id']}";
+                                        }
+                                        ?>
                                         <div class="table-form-line"><span class="text-right"><?=System::Lang('LENDING');?></span>
                                             <div class="table-form-input">
                                                 <input readonly onclick="this.select()" type="text" value="<?=$url;?>" class="link_input">
