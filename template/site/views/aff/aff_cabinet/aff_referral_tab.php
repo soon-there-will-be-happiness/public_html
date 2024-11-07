@@ -320,26 +320,3 @@
     </div>
 </div>
 
-<!-- <script>
-document.getElementById('telegram').addEventListener('change', function() {
-    const telegram = document.getElementById('telegram').value;
-    const product_id = document.getElementById('product_id').value;
-    console.log('Telegram:', telegram, 'Product ID:', product_id);
-    document.getElementsByName('addlinktg')[0].click();
-    fetch('https://dev.xn--80ajojzgb4f.xn--p1ai/lk/aff', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `telegram=${encodeURIComponent(telegram)}&product_id=${product_id}`
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log('Успешно отправлено:', data);
-    })
-    .catch(error => {
-        console.error('Ошибка:', error);
-    });
-});
-</script> -->
-

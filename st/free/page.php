@@ -5,6 +5,7 @@
 defined('BILLINGMASTER') or die; 
 //require_once ("{$this->layouts_path}/head.php");
 $id=31;
+$promo=$_GET['promo'];
 $product = Product::getProductById($id);
 $price = Price::getFinalPrice($id);
 $setting = System::getSetting();
@@ -657,6 +658,7 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                         <?php endif;?>
                                     </label>
                                     <input type="hidden" name="time" value="<?=$date;?>">
+                                    <input type="hidden" name="promo" value=<?=$promo?>/>
                                     <input type="hidden" name="token" value="<?=md5($id.'s+m'.$date);?>">
                                     <input type="hidden" name="vk_id" value="<?=@$_REQUEST['vk_id'] ?>">
                                     <?php if (isset($_REQUEST['pid'])): ?>
