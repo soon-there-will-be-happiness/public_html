@@ -88,7 +88,6 @@ class orderController extends baseController {
         $cookie = $this->settings['cookie']; // Получаем имя для куки
         $related_products = Product::getRelatedProductsByID($id, 1); // Получить данные сопутствующих продуктов
 		$subs_id = isset($_GET['subs_id']) ? intval($_GET['subs_id']) : 0; // Продление мембершипа по map_id
-		
 		// Разделение фин.потока
         $org_id = Organization::getOrgByProduct($id); // получаем ID организации
 
@@ -107,10 +106,14 @@ class orderController extends baseController {
             }
         }
 
-
+       
         $price = Price::getFinalPrice($id);
 
-        $partner_id_promocode = $price['partner_id'];
+        $partner_id_promocode = $price['partner_id']; 
+        $id_promo=$_POST['promo'];
+        if( $id_promo!=null){
+            $partner_id_promocode = $id_promo;
+        }
         $use_partner = $price['usepartner'] ?? true;
         $nds_price = Price::getNDSPrice($price['real_price']);
 
