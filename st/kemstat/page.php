@@ -8,7 +8,9 @@ $price = Price::getFinalPrice($id);
 $date = time();
 $name = $email = $phone = $surname = $patronymic = null;
 $setting = System::getSetting();
-$promo=$_GET['promo'];
+$promo= null;
+if(isset( $_GET['promo']))
+$promo= $_GET['promo'];
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 if ($partner_id != null) {
 ?>
@@ -3895,7 +3897,7 @@ if ($partner_id != null) {
                                         <?endif;?>
                                     </label>
                                     <input type="hidden" name="not-me" value=true/>
-                                    <input type="hidden" name="promo" value=<?=$promo?>/>
+                                    <input type="hidden" name="promo" value="<?=$promo?>">
                                     <input type="hidden" name="time" value="<?=$date;?>">
                                     <input type="hidden" name="token" value="<?=md5($id.'s+m'.$date);?>">
                                     <input type="hidden" name="vk_id" value="<?=@$_REQUEST['vk_id'] ?>">
