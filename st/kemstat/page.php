@@ -9,8 +9,8 @@ $date = time();
 $name = $email = $phone = $surname = $patronymic = null;
 $setting = System::getSetting();
 $promo= null;
-if(isset( $_GET['promo']))
-$promo= $_GET['promo'];
+if(isset( $_GET['partner']))
+$promo= $_GET['partner'];
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 if ($partner_id != null) {
 ?>

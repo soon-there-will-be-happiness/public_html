@@ -109,7 +109,7 @@ class affController extends baseController {
         }
         
         if (isset($_POST['addlink']) && !empty($_POST['url'])) {
-            $url = filter_var($_POST['url'], FILTER_SANITIZE_STRING) ."?promo=".$userId;
+            $url = filter_var($_POST['url'], FILTER_SANITIZE_STRING) ."?partner=".$userId;
             $desc = htmlentities($_POST['desc']);
             
             $addlink = Aff::AddPartnerShortLink($userId, $url, $desc);

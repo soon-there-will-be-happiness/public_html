@@ -41,7 +41,7 @@
                         } else $url = $this->settings['script_url'].'/ext/'.$link['product_id'].'/'.$user['user_id'];
                     }
                     if($product['product_text2']!=null && !empty($product['product_text2'])){
-                        $url =$this->settings['script_url'].$product['product_text2']."?promo=".$user['user_id'];
+                        $url =$this->settings['script_url'].$product['product_text2']."?partner=".$user['user_id'];
                         $short_link_id_tx2_url = Aff::isShortLinkByPartner($user['user_id'], $url);
                         if ($short_link_id_tx2_url) {
                             // Если короткая ссылка найдена, подставляем ID в ссылку
@@ -61,7 +61,7 @@
                             }
                         }
                         
-                        $order_url = $this->settings['script_url'].$product['product_text2']."?promo=".$user['user_id'].'#pay';
+                        $order_url = $this->settings['script_url'].$product['product_text2']."?partner=".$user['user_id'].'#pay';
                         
                         $short_link_id_tx2_order = Aff::isShortLinkByPartner($user['user_id'], $order_url);
                         if ($short_link_id_tx2_order) {
@@ -90,7 +90,7 @@
                             $order_url = $this->settings['script_url'] . '/pr/' . $short_link_id;
                         } else {
                             // Если короткая ссылка не найдена, создаём новую
-                            $created = Aff::AddPartnerShortLink($user['user_id'], $order_url."?promo=".$user['user_id'], $product['product_title']);
+                            $created = Aff::AddPartnerShortLink($user['user_id'], $order_url."?partner=".$user['user_id'], $product['product_title']);
                             
                             if ($created) {
                                 // После создания, ищем созданную ссылку
@@ -153,17 +153,17 @@
 
                                 }
                                 if($link['product_id']==28)
-                                {   //$order_url = $this->settings['script_url']."/st/kemstat/page#pay?promo={$user['user_id']}";
-                                    //$url= $this->settings['script_url']."/st/kemstat/page?promo={$user['user_id']}";
-                                    //$url=$url."?promo={$user['user_id']}";
-                                    //$order_url=$order_url."?promo={$user['user_id']}";
+                                {   //$order_url = $this->settings['script_url']."/st/kemstat/page#pay?partner={$user['user_id']}";
+                                    //$url= $this->settings['script_url']."/st/kemstat/page?partner={$user['user_id']}";
+                                    //$url=$url."?partner={$user['user_id']}";
+                                    //$order_url=$order_url."?partner={$user['user_id']}";
                                 }
                                 if($link['product_id']==31)
                                 {
-                                    //$order_url = $this->settings['script_url']."/st/free/page#pay?promo={$user['user_id']}";
-                                    //$url = $this->settings['script_url']."/st/free/page?promo={$user['user_id']}";
-                                    //$url=$url."?promo={$user['user_id']}";
-                                    //$order_url=$order_url."?promo={$user['user_id']}";
+                                    //$order_url = $this->settings['script_url']."/st/free/page#pay?partner={$user['user_id']}";
+                                    //$url = $this->settings['script_url']."/st/free/page?partner={$user['user_id']}";
+                                    //$url=$url."?partner={$user['user_id']}";
+                                    //$order_url=$order_url."?partner={$user['user_id']}";
                                 }
                             //print_r($user);
                             //print_r(User::getGroupByUser($user['user_id']));
@@ -225,8 +225,8 @@
                             }
                             $product=Product::getMinProductById($link['product_id']);
                             if($product['product_text2']!=null){
-                                $url =$this->settings['script_url'].$product['product_text2']."?promo=".$user['user_id'];
-                                $order_url = $this->settings['script_url'].$product['product_text2']."?promo=".$user['user_id'];
+                                $url =$this->settings['script_url'].$product['product_text2']."?partner=".$user['user_id'];
+                                $order_url = $this->settings['script_url'].$product['product_text2']."?partner=".$user['user_id'];
                             } else {
                                 $order_url = $this->settings['script_url'].'/buy/'.$link['product_id'].'?pr='.$user['user_id'];  
                             }
@@ -274,16 +274,16 @@
                                             $url = $link['external_url'].'?'.$ender;
                                         }
                                         if($link['product_id']==28)
-                                        {   //$order_url = $this->settings['script_url']."/st/kemstat/page#pay?promo={$user['user_id']}";
-                                            //$url= $this->settings['script_url']."/st/kemstat/page?promo={$user['user_id']}";
-                                            //$url=$url."?promo={$user['user_id']}";
-                                            //$order_url=$order_url."?promo={$user['user_id']}";
+                                        {   //$order_url = $this->settings['script_url']."/st/kemstat/page#pay?partner={$user['user_id']}";
+                                            //$url= $this->settings['script_url']."/st/kemstat/page?partner={$user['user_id']}";
+                                            //$url=$url."?partner={$user['user_id']}";
+                                            //$order_url=$order_url."?partner={$user['user_id']}";
                                         }
                                         if($link['product_id']==31)
-                                        {   //$order_url = $this->settings['script_url']."/st/free/page#pay?promo={$user['user_id']}";
-                                            //$url = $this->settings['script_url']."/st/free/page?promo={$user['user_id']}";
-                                            //$url=$url."?promo={$user['user_id']}";
-                                            //$order_url=$order_url."?promo={$user['user_id']}";
+                                        {   //$order_url = $this->settings['script_url']."/st/free/page#pay?partner={$user['user_id']}";
+                                            //$url = $this->settings['script_url']."/st/free/page?partner={$user['user_id']}";
+                                            //$url=$url."?partner={$user['user_id']}";
+                                            //$order_url=$order_url."?partner={$user['user_id']}";
                                         }
                                         ?>
                                         <div class="table-form-line"><span class="text-right"><?=System::Lang('LENDING');?></span>

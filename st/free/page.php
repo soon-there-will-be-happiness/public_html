@@ -7,8 +7,8 @@ defined('BILLINGMASTER') or die;
 //require_once ("{$this->layouts_path}/head.php");
 $id=31;
 $promo= null;
-if(isset( $_GET['promo']))
-$promo= $_GET['promo'];
+if(isset( $_GET['partner']))
+$promo= $_GET['partner'];
 $product = Product::getProductById($id);
 $price = Price::getFinalPrice($id);
 $setting = System::getSetting();
