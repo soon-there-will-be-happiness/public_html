@@ -153,12 +153,17 @@
 
                                 }
                                 if($link['product_id']==28)
-                                {   $order_url = $this->settings['script_url']."/st/kemstat/page#pay?promo={$user['user_id']}";
-                                    $url= $this->settings['script_url']."/st/kemstat/page?promo={$user['user_id']}";
+                                {   //$order_url = $this->settings['script_url']."/st/kemstat/page#pay?promo={$user['user_id']}";
+                                    //$url= $this->settings['script_url']."/st/kemstat/page?promo={$user['user_id']}";
+                                    $url=$url."?promo={$user['user_id']}";
+                                    $order_url=$order_url."?promo={$user['user_id']}";
                                 }
                                 if($link['product_id']==31)
-                                {$order_url = $this->settings['script_url']."/st/free/page#pay?promo={$user['user_id']}";
-                                    $url = $this->settings['script_url']."/st/free/page?promo={$user['user_id']}";
+                                {
+                                    //$order_url = $this->settings['script_url']."/st/free/page#pay?promo={$user['user_id']}";
+                                    //$url = $this->settings['script_url']."/st/free/page?promo={$user['user_id']}";
+                                    $url=$url."?promo={$user['user_id']}";
+                                    $order_url=$order_url."?promo={$user['user_id']}";
                                 }
                             //print_r($user);
                             //print_r(User::getGroupByUser($user['user_id']));
@@ -170,7 +175,6 @@
                                     </div>
                                     <div class="table-form-line">
                                         <span class="text-right"><?=System::Lang('TG_GROUP');?></span>
-                                       
                                         <form class="table-form-input" action="" method="POST">
                                             <?php $telegram=TelegramProduct::searchByProductId($user['user_id'],$link['product_id']);
 
@@ -183,10 +187,8 @@
                                             <input style="display:none;" type="hidden" name="user_id" id="user_id" value="<?=$user['user_id']?>">
                                             <button style="display:none;" type="submit"  name="addlinktg">Отправить</button>
                                         </form>
-                                       
                                     </div>
-                            
-                                <?php 
+                                <?php
                             }?>
                             <div class="table-form-line">
                                 <span class="text-right"><?=System::Lang('ORDER');?></span><div class="table-form-input"><input readonly onclick="this.select()" type="text" value="<?=$order_url;?>" class="order_link_input"></div>
@@ -272,12 +274,16 @@
                                             $url = $link['external_url'].'?'.$ender;
                                         }
                                         if($link['product_id']==28)
-                                        {   $order_url = $this->settings['script_url']."/st/kemstat/page#pay?promo={$user['user_id']}";
-                                            $url= $this->settings['script_url']."/st/kemstat/page?promo={$user['user_id']}";
+                                        {   //$order_url = $this->settings['script_url']."/st/kemstat/page#pay?promo={$user['user_id']}";
+                                            //$url= $this->settings['script_url']."/st/kemstat/page?promo={$user['user_id']}";
+                                            $url=$url."?promo={$user['user_id']}";
+                                            $order_url=$order_url."?promo={$user['user_id']}";
                                         }
                                         if($link['product_id']==31)
-                                        {$order_url = $this->settings['script_url']."/st/free/page#pay?promo={$user['user_id']}";
-                                            $url = $this->settings['script_url']."/st/free/page?promo={$user['user_id']}";
+                                        {   //$order_url = $this->settings['script_url']."/st/free/page#pay?promo={$user['user_id']}";
+                                            //$url = $this->settings['script_url']."/st/free/page?promo={$user['user_id']}";
+                                            $url=$url."?promo={$user['user_id']}";
+                                            $order_url=$order_url."?promo={$user['user_id']}";
                                         }
                                         ?>
                                         <div class="table-form-line"><span class="text-right"><?=System::Lang('LENDING');?></span>
