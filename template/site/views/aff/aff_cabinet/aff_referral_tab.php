@@ -41,14 +41,14 @@
                         } else $url = $this->settings['script_url'].'/ext/'.$link['product_id'].'/'.$user['user_id'];
                     }
                     if($product['product_text2']!=null && !empty($product['product_text2'])){
-                        $url =$this->settings['script_url'].$product['product_text2'];
+                        $url =$this->settings['script_url'].$product['product_text2']."?promo=".$user['user_id'];
                         $short_link_id_tx2_url = Aff::isShortLinkByPartner($user['user_id'], $url);
                         if ($short_link_id_tx2_url) {
                             // Если короткая ссылка найдена, подставляем ID в ссылку
                             $url = $this->settings['script_url'] . '/pr/' . $short_link_id_tx2_url;
                         } else {
                             // Если короткая ссылка не найдена, создаём новую
-                            $created = Aff::AddPartnerShortLink($user['user_id'], $url."?promo=".$user['user_id'], $product['product_title']);
+                            $created = Aff::AddPartnerShortLink($user['user_id'], $url, $product['product_title']);
                             
                             if ($created) {
                                 // После создания, ищем созданную ссылку
@@ -61,7 +61,7 @@
                             }
                         }
                         
-                        $order_url = $this->settings['script_url'].$product['product_text2'].'#pay';
+                        $order_url = $this->settings['script_url'].$product['product_text2']."?promo=".$user['user_id'].'#pay';
                         
                         $short_link_id_tx2_order = Aff::isShortLinkByPartner($user['user_id'], $order_url);
                         if ($short_link_id_tx2_order) {
@@ -69,7 +69,7 @@
                             $order_url = $this->settings['script_url'] . '/pr/' . $short_link_id_tx2_order;
                         } else {
                             // Если короткая ссылка не найдена, создаём новую
-                            $created = Aff::AddPartnerShortLink($user['user_id'], $order_url."?promo=".$user['user_id'], $product['product_title']);
+                            $created = Aff::AddPartnerShortLink($user['user_id'], $order_url, $product['product_title']);
                             
                             if ($created) {
                                 // После создания, ищем созданную ссылку
@@ -225,8 +225,8 @@
                             }
                             $product=Product::getMinProductById($link['product_id']);
                             if($product['product_text2']!=null){
-                                $url =$this->settings['script_url'].$product['product_text2'];
-                                $order_url = $this->settings['script_url'].$product['product_text2'];
+                                $url =$this->settings['script_url'].$product['product_text2']."?promo=".$user['user_id'];
+                                $order_url = $this->settings['script_url'].$product['product_text2']."?promo=".$user['user_id'];
                             } else {
                                 $order_url = $this->settings['script_url'].'/buy/'.$link['product_id'].'?pr='.$user['user_id'];  
                             }
