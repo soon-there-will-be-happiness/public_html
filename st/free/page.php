@@ -669,6 +669,8 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                     <?php if (isset($_REQUEST['pid'])): ?>
                                         <input type="hidden" name="pid" value="<?=$_REQUEST['pid'] ?? "" ?>">
                                     <?php endif; ?>
+
+                                    
                                     <button id ="buy" class="pay" name="buy" type="submit">З А П И С А Т Ь С Я</button>
         </form>
     </div>
