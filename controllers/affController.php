@@ -476,11 +476,7 @@ class affController extends baseController {
         $id = intval($id);
        
         $url = Aff::getAffRedirect($id);
-        if(isset( $_GET['promo']))
-        {
-            $promo=intval( $_GET['promo']);
-            $url['url'] =   $url['url']."?promo=". $promo;
-        }
+
         $aff_set = unserialize(System::getExtensionSetting('partnership'));
         $aff_life = intval($aff_set['params']['aff_life']);
         

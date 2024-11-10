@@ -1,10 +1,9 @@
-
+<?require_once ("{$this->layouts_path}/head.php");?>
 
 <!DOCTYPE html>
 <html>
 <?php  
 defined('BILLINGMASTER') or die; 
-//require_once ("{$this->layouts_path}/head.php");
 $id=31;
 $promo= null;
 if(isset( $_GET['partner']))
