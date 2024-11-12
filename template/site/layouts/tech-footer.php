@@ -8,7 +8,7 @@
 <script src="/template/<?=$this->settings['template'];?>/js/libs.js"></script>
 <script src="/template/<?=$this->settings['template'];?>/js/scripts.js?v340"></script>
 
-<?php if ($_SERVER['REQUEST URI'] === "/lk/aff"): ?>
+<?php if ($_SERVER['REQUEST_URI'] === "/lk/aff"): ?>
     <script src="/template/<?=$this->settings ['template'];?>/js/data_check.js" defer></script>
 <?php endif; ?>
 
