@@ -128,7 +128,6 @@ function getRecipientTypeByAccount(accountNumber) {
 //  ==========================================================================
 
 let root = 'https://dev.кемстать.рф/'
-
 let addSuccesMessage = (text)=>{
     let container = document.getElementsByClassName("maincol")[0]
     const successMessage = document.createElement('div');
@@ -159,7 +158,17 @@ let getFormData = () => {
     })
     return transformedData
 }
+let deleteSpan = () =>{
+    const elem = document.querySelector(".form-section_two > span")
+    const elem2 = document.querySelector(".form-section_second > span")
+    console.log(elem)
+    if(elem)
+        elem.remove()
+    if(elem2)
+        elem2.remove()
+}
 let validator = ()=>{
+    deleteSpan()
     const accountNumberInput = $('#account-number');
     const innInput = $('#inn');
     const accountNumberError = $('<span>').css('color', 'red');
@@ -211,15 +220,6 @@ let checkInput = (btn)=>{
     }   
 }
 let addInput = (btn) =>{
-    let deleteSpan = () =>{
-        const elem = document.querySelector(".form-section_two > span")
-        const elem2 = document.querySelector(".form-section_second > span")
-        if(elem)
-            elem.remove()
-        if(elem2)
-            elem2.remove()
-    }
-    deleteSpan()
     checkInput(btn)
     const inputs = document.querySelectorAll('input');
     inputs.forEach(input => {
