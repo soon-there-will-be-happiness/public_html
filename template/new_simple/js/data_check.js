@@ -21,7 +21,6 @@ function checkInn10(inn) {
     // Compare control number with 10th character of INN
     return controlNumber == inn[9];
 }
-
 function checkInn12(inn) {
     if (inn.length !== 12 || !/^\d+$/.test(inn)) {
         return false;
@@ -60,7 +59,6 @@ function checkInn12(inn) {
     // Check control number 1 with 11th character and control number 2 with 12th character
     return controlNumber1 == inn[10] && controlNumber2 == inn[11];
 }
-
 function validateAccountInn(accountNumber, inn) {
     // Determine recipient type based on account number
     const recipientType = getRecipientTypeByAccount(accountNumber);
@@ -85,7 +83,6 @@ function validateAccountInn(accountNumber, inn) {
             throw new Error("Invalid account type for verification.");
     }
 }
-
 function getRecipientTypeByAccount(accountNumber) {
     // Ensure account number contains only digits
     if (!/^\d+$/.test(accountNumber)) {
@@ -128,15 +125,46 @@ function getRecipientTypeByAccount(accountNumber) {
     }
 }
 
-// DOM interaction to validate inputs and block form submission
-$(document).ready(function () {
+//  ==========================================================================
+
+let root = 'https://dev.кемстать.рф/'
+
+let addSuccesMessage = (text)=>{
+    let container = document.getElementsByClassName("maincol")[0]
+    const successMessage = document.createElement('div');
+    successMessage.className = 'success_message';
+    successMessage.innerHTML = `${text}!`
+
+    container.insertBefore(successMessage, container.children[1]);
+    setTimeout(() => {
+        successMessage.style.transition = 'opacity 0.2s ease';
+        successMessage.style.opacity = '0';
+        setTimeout(() => {
+            successMessage.remove();
+        }, 200);
+    }, 4000);
+}
+let getFormData = () => {
+    const form = document.querySelector(".requisites > form")
+    const formData = new FormData(form)
+    const transformedData = { save_req: "save_req", req: {} }
+    formData.forEach((value, key) => {
+        if (key.includes("req[rs]")) {
+            const subKey = key.match(/\[rs\]\[([^\]]+)\]/)[1]
+            transformedData.req.rs = transformedData.req.rs || {}
+            transformedData.req.rs[subKey] = value
+        } else {
+            transformedData.req[key] = value
+        }
+    })
+    return transformedData
+}
+let validator = ()=>{
     const accountNumberInput = $('#account-number');
     const innInput = $('#inn');
     const accountNumberError = $('<span>').css('color', 'red');
     const innError = $('<span>').css('color', 'red');
     const submitButton = $('.submit-btn');
-    let disableAjaxForThisPage = false;
-
     accountNumberInput.after(accountNumberError);
     innInput.after(innError);
 
@@ -150,7 +178,6 @@ $(document).ready(function () {
             return true;
         }
     }
-
     function validateAccountAndInn() {
         const accountNumber = accountNumberInput.val();
         const inn = innInput.val();
@@ -168,44 +195,99 @@ $(document).ready(function () {
         }
     }
 
-    function updateSubmitButtonState() {
-        const isInnValid = validateInn();
-        const isAccountValid = validateAccountAndInn();
-        submitButton.prop('disabled', !(isInnValid && isAccountValid));
+    return (validateInn() && validateAccountAndInn())
+}
+let checkInput = (btn)=>{
+    if (validator()) {
+        btn.style.backgroundColor = '#3250ea';  
+        btn.style.color = '#fff';            
+        btn.style.cursor = 'pointer';   
+        btn.disabled = false; 
+    } else {
+        btn.style.backgroundColor = '#ccc';  
+        btn.style.color = '#666';            
+        btn.style.cursor = 'not-allowed'
+        btn.disabled = true;
+    }   
+}
+let addInput = (btn) =>{
+    let deleteSpan = () =>{
+        const elem = document.querySelector(".form-section_two > span")
+        const elem2 = document.querySelector(".form-section_second > span")
+        if(elem)
+            elem.remove()
+        if(elem2)
+            elem2.remove()
     }
-
-    innInput.on('input', function () {
-        validateInn();
-        validateAccountAndInn();
-        updateSubmitButtonState();
+    deleteSpan()
+    checkInput(btn)
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.addEventListener('input', (event) => {
+            checkInput(btn)
+        });
     });
-
-    accountNumberInput.on('input', function () {
-        validateAccountAndInn();
-        updateSubmitButtonState();
+}
+let addBtnEvent = (btn) => {
+    btn.removeAttribute('type');
+    btn.addEventListener('click', e => {
+        e.preventDefault()
+        formDataObject = getFormData()
+        $.ajax({
+            url: root + "lk/aff",
+            type: 'POST',
+            data: formDataObject,
+            dataType: 'text',
+            success: function (response) {
+                if (response.includes('success')) {
+                    addSuccesMessage("Сохранено")
+                } else {
+                    addSuccesMessage("Ошибка")
+                }
+            },
+            error: function (xhr, status, error) {
+                addSuccesMessage("Ошибка")
+                console.log(status)
+                console.log(error)
+            }
+        });
+    })
+}
+let findLink = () =>{
+    let links = document.querySelectorAll('.table-responsive a');
+    links.forEach(link => {
+        link.addEventListener('click',(e)=>{
+            e.preventDefault()
+            $.ajax({
+                url: e.target.href,
+                type: 'GET',
+                data: null,
+                dataType: 'text',
+                success: function (response) {
+                    const container = document.evaluate('//*[@id="lk"]/div/div/div/div/div[3]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    const doc = document.implementation.createHTMLDocument('New Document'); // Создаем новый HTML-документ
+                    doc.documentElement.innerHTML = response;
+                    let containerNew = doc.evaluate('//*[@id="lk"]/div/div/div/div/div[3]', doc, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    container.innerHTML = containerNew.innerHTML
+                    findLink()
+                },
+                error: function (xhr, status, error) {
+                    addSuccesMessage("Ошибка")
+                    console.log(status)
+                    console.log(error)
+                }
+            });
+        })
     });
+}
+document.addEventListener('DOMContentLoaded', ()=> {
+    let btn = document.getElementsByName('save_req')[0];
+    addInput(btn)
+    addBtnEvent(btn)
+    findLink()
+})
 
-    $('form').on('submit', function (event) {
-        event.preventDefault(); // Prevent form submission by default
-        const isInnValid = validateInn();
-        const isAccountValid = validateAccountAndInn();
 
-        if (isInnValid && isAccountValid) {
-            global disableAjaxForThisPage;
-            disableAjaxForThisPage = true;
-        } else {
-            // Submit the form normally if AJAX is disabled for this page
-            this.submit();
-        }
-    });
 
-    // Initial validation on page load if fields are filled
-    if (accountNumberInput.val()) {
-        validateAccountAndInn();
-    }
-    if (innInput.val()) {
-        validateInn();
-        validateAccountAndInn();
-    }
-    updateSubmitButtonState(); // Ensure button state is updated on load
-});
+// <div class="success_message" style="display: block;">Сохранено!</div>
+
