@@ -4,7 +4,7 @@ $inv_id = $order['order_id'];
 
 
 $params = unserialize(base64_decode($payment['params']));
-$record = AtolDB::findRecordByOrderId(id: $inv_id);
+$record = AtolDB::findRecordByOrderId( $inv_id);
 
 $inv_id='0'.$inv_id;
 if (!$record) {
@@ -70,6 +70,7 @@ curl_close($ch);
 
 $error_data = json_decode($response, true);
 $error_id = $error_data['error']['error_id'] ?? 'Неизвестная ошибка';
+
 if(intval($error_id)==11){
             $token=$AutoToke::CheckToken($token,$login,$pass);
             if( $token!=false){
@@ -86,6 +87,7 @@ if(intval($error_id)==11){
                 $response = curl_exec($ch);
                 $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 curl_close($ch);
+           
             }
 
         }
