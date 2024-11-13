@@ -474,7 +474,6 @@ class affController extends baseController {
     public function actionRedirect($id)
     {
         $id = intval($id);
-       
         $url = Aff::getAffRedirect($id);
 
         $aff_set = unserialize(System::getExtensionSetting('partnership'));
