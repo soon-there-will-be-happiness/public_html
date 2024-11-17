@@ -202,8 +202,9 @@ let validator = ()=>{
             return false;
         }
     }
-
-    return (validateInn() && validateAccountAndInn())
+    let r1 = validateInn()
+    let r2 = validateAccountAndInn()
+    return (r1 && r2)
 }
 let checkInput = (btn)=>{
     if (validator()) {
