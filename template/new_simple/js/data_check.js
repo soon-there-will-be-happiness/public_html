@@ -161,7 +161,6 @@ let getFormData = () => {
 let deleteSpan = () =>{
     const elem = document.querySelector(".form-section_two > span")
     const elem2 = document.querySelector(".form-section_second > span")
-    console.log(elem)
     if(elem)
         elem.remove()
     if(elem2)
@@ -280,14 +279,58 @@ let findLink = () =>{
         })
     });
 }
+let refLinks = () => {
+    let getFormDataForRef = (form) =>{
+        const formData = new FormData(form)
+        const data = {}
+        formData.forEach((value, key) => { data[key] = value })
+        return {...data, addlinktg:'addlinktg'}
+    }
+    let setSuccesEvent = (element, color) =>{
+        element.style.boxSizing = 'border-box';
+        element.style.transition = 'all 1s ease';
+        element.style.border = `2px solid ${color}`;
+        element.style.boxShadow = '0 0 10px green';
+        setTimeout(() => {
+            element.style.border = '';
+            element.style.boxShadow = '';
+        }, 4000);
+    }
+    
+    document.querySelectorAll('[name="telegram"]').forEach(e=>{
+        e.addEventListener('keydown', (event)=>{
+            if (event.key === 'Enter') {
+                event.preventDefault()
+                e.blur();
+            }
+        })
+        e.addEventListener('blur', (event)=>{
+            const dataForm = getFormDataForRef(e.parentElement)
+            $.ajax({
+                url: root + "lk/aff",
+                type: 'POST',
+                data: dataForm,
+                dataType: 'text',
+                success: function (response) {
+                    setSuccesEvent(e, "green")
+                },
+                error: function (xhr, status, error) {
+                    setSuccesEvent(e, "red")
+                    console.log(status)
+                    console.log(error)
+                }
+            });
+        })
+    })
+}
 document.addEventListener('DOMContentLoaded', ()=> {
     let btn = document.getElementsByName('save_req')[0];
     addInput(btn)
     addBtnEvent(btn)
     findLink()
+    refLinks()
 })
 
+document.addEventListener('myCustomEvent', () => {});
 
-
-// <div class="success_message" style="display: block;">Сохранено!</div>
 
