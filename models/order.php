@@ -2765,6 +2765,16 @@ class Order {
         $result->bindParam(':params', $params, PDO::PARAM_STR);
         return $result->execute();
     }
+      public static function EditPaymentsParams($id,    $params)
+    {
+        $db = Db::getConnection();
+        $sql = 'UPDATE '.PREFICS.'payments SET params = :params
+                WHERE payment_id = '.$id;
+        $result = $db->prepare($sql);
+
+        $result->bindParam(':params', $params, PDO::PARAM_STR);
+        return $result->execute();
+    }
     
     // ПОЛУЧИТЬ НАСТРОЙКИ МОДУЛЯ РУЧНОЙ ОПЛАТЫ
     public static function getDataCustomModule($name = null)

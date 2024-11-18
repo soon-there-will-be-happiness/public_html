@@ -5,7 +5,10 @@ $inv_id = $order['order_id'];
 
 $params = unserialize(base64_decode($payment['params']));
 $record = AtolDB::findRecordByOrderId( $inv_id);
-
+$token = $params['token'];
+$api_url = $params['url'];
+$login= $params['login'];
+$pass=$params['password'];
 $inv_id='0'.$inv_id;
 if (!$record) {
 
@@ -72,7 +75,7 @@ $error_data = json_decode($response, true);
 $error_id = $error_data['error']['error_id'] ?? 'Неизвестная ошибка';
 
 if(intval($error_id)==11){
-            $token=$AutoToke::CheckToken($token,$login,$pass);
+            $token=AutoToken::CheckToken($token,$login,$pass);
             if( $token!=false){
                 $headers = [
                     "Authorization: Bearer $token",
@@ -124,4 +127,84 @@ else{
 }
 
 
+
+
+/*
+
+
+// Данные чека
+$data = [
+    'timestamp' => "14.11.2024 23:14:00",
+    'external_id' => '892924433234522515',
+
+    'receipt'=>[
+        'client'=>[
+            'email'=>'karsakovkirilo@gmail.com',
+            'phone'=>'+7999999999'
+        ],
+        'company'=>[
+            'email'=>'thecareer36@gmail.com',
+            'sno'=>'usn_income',
+            'inn'=>'3664246543',
+            'payment_address'=>'394018, г Воронеж, ул Платонова, д 25, помещ 512',
+        ],
+        'items'=>[
+            'name'=>'Test',
+            'price'=>100,
+            'quantity'=>1,
+            'measure'=>0,
+            'sum'=>100,
+            'payment_method'=>'full_prepaymen',
+            'payment_object'=>'1',
+            'type'=>1,
+            'vat'=>['type'=>'none']
+        ],
+        ],
+       
+        'payments'=>["type"=>1,'sum'=>100],
+        'total'=>100,
+    
+];
+$token=AutoToken::CheckToken($login,$pass);
+
+echo $token;
+// Отправка запроса
+$headers = [
+    "Content-Type: application/json, charset=utf-8",
+    "Token: $token",
+];
+
+$ch = curl_init("URL");
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$response = curl_exec($ch);//
+$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+curl_close($ch);
+
+$payment_data = json_decode($response, true);
+// Проверка на массив
+if (is_array($payment_data['error'])) {
+    $payment_url = json_encode($payment_data['error']); // Преобразуем массив в строку
+} else {
+    $payment_url = $payment_data['error'] ?? ''; // Если это не массив, оставляем как есть
+}
+
+echo $http_code;
+echo $payment_url;
+
+echo $token;*/
+
+
+
+
+
+
+
+
 ?>
+
+
