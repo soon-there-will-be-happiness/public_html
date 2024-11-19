@@ -6,10 +6,11 @@ $id=28;
 $product = Product::getProductById($id);
 $price = Price::getFinalPrice($id);
 $date = time();
+$setting = System::getSetting();
 $name = $email = $phone = $surname = $patronymic = null;
 $metriks = !empty($setting['yacounter']) || $setting['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
 
-$setting = System::getSetting();
+
 $promo= null;
 if(isset( $_GET['partner']))
 $promo= $_GET['partner'];

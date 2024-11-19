@@ -7,8 +7,8 @@ class AutoToken{
         $payment = Order::getPaymentDataForAdmin(25);
 
         $params = unserialize(base64_decode($payment['params']));
-
-        $api_url = 'https://online.atol.ru/possystem/v5/getToken';
+        $api_url = $params['url2'];
+        $api_url =    $api_url .'/getToken';
         $data = [
             'login' => $login,
             'pass' => $password
@@ -31,10 +31,10 @@ class AutoToken{
             $error = $data['error'] ?? '';
             if($error==null||$error==''){
 
-                $params['token2']=$data['token2'];
+                $params['token2']=$data['token'];
                 $params = base64_encode(serialize( $params));
                 $edit = Order::EditPaymentsParams(25, $params);
-                return $data['token2'] ;
+                return $data['token'] ;
             }
             else
             {
