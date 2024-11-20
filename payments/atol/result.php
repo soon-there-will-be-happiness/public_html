@@ -2,7 +2,6 @@
 $params = unserialize(base64_decode($payment['params']));
 
 
-// Чтение и декодирование данных callback
 $callback_data = json_decode(file_get_contents('php://input'), true);
 Log::add(0,'Curl error', ["error" => $callback_data],'return.log');
 
@@ -91,24 +90,8 @@ if (isset($callback_data['orderId']) && isset($callback_data['status'])) {
             } else {
                 echo "Unknown status";
             }
-        } else {
-            echo "Invalid callback data";
-        }
-        
-
-      
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
+    } else {
+        echo "Invalid callback data";
+    }
+    System::redirectUrl($setting['script_url'] . '/payments/atol/result');
 ?>

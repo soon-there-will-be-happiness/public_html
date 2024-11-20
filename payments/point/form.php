@@ -16,28 +16,12 @@ if (!$record) {
 
     $customerCode = $params['customerCode'];
 
-    $out_summ =$order['summ']; 
-    $items_string= '"Items": [';
+    $out_summ =$order['summ'];
     $order_items = Order::getOrderItems($order['order_id']);
-    foreach($order_items as $item){
-        $items_string.='
-          {
-                "vatType": "",
-                "name": '.$item['product_name'].',
-                "amount": '. intval($item['price'] . '00').',
-                "quantity": 1,
-                "paymentMethod": "0",
-                "paymentObject": "10",
-                "measure": "0"
-            }
-        ';
-    }
-     $items_string.='   ]';
-
-
+    
     $curl = curl_init();
     curl_setopt_array($curl, array(
-        CURLOPT_URL =>  $api_url.'/payments_with_receipt',
+        CURLOPT_URL =>  $api_url.'/payments',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -50,17 +34,8 @@ if (!$record) {
             "customerCode": '.$customerCode.',
             "amount": '.intval($out_summ).',
             "purpose": "Оплата за курс",
-            "redirectUrl": '.$setting['script_url'] . '/payments/atol/success?id='.$order['order_id'].',
-            "failRedirectUrl": '.$setting['script_url'] . '/payments/point/success?id='.$order['order_id'].',
             "paymentMode": ["sbp","card"],
-            "merchantId": "",
-            "taxSystemCode": "",
-            "Client": {
-            "name":  '.$order['client_name'].',
-            "email":'.$order['client_email'].',
-            "phone": '.$order['client_phone'].'
-        },
-        ' .$items_string.'
+            "redirectUrl": "'.$setting['script_url'] . '/payments/atol/result'.'"
             }
         }',
         CURLOPT_HTTPHEADER => array(
@@ -69,9 +44,22 @@ if (!$record) {
     ));
 
 $response = curl_exec($curl);
-
+$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($curl);
-echo $response;
+
+if ($http_code == 200) {
+    $payment_data = json_decode($response, true);
+
+    $payment_url = $payment_data['Data']['paymentLink'] ?? '';
+    if (!empty($payment_url)) {
+        PointDB::insertRecord( htmlspecialchars($payment_url),$inv_id,false);
+    } else {
+        echo 'Ошибка: URL для оплаты не найден в ответе.';
+    }
+}
+else{
+    LogEmail:: PaymentError( json_encode( $response['Errors']['message']),place: "point/result.php","sell");
+}
 }
 $record = PointDB::findRecordByOrderId($inv_id);
 if($record){
