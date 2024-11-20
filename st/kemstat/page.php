@@ -8,11 +8,9 @@ $price = Price::getFinalPrice($id);
 $date = time();
 $name = $email = $phone = $surname = $patronymic = null;
 $setting = System::getSetting();
-$promo= null;
-if(isset( $_GET['partner']))
-$promo= $_GET['partner'];
+$promo= $_GET['partner'] ?? null;
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
-if ($partner_id != null) {
+if ($partner_id != null || $promo != null) {
 ?>
 <head>
     <meta charset="utf-8" />

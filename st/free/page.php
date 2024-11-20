@@ -5,9 +5,7 @@
 <?php  
 defined('BILLINGMASTER') or die; 
 $id=31;
-$promo= null;
-if(isset( $_GET['partner']))
-$promo= $_GET['partner'];
+$promo= $_GET['partner'] ?? null;
 $product = Product::getProductById($id);
 $price = Price::getFinalPrice($id);
 $setting = System::getSetting();
@@ -17,6 +15,7 @@ $date = time();
 
 $name = $email = $phone = $surname = $patronymic = null;
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
+if ($partner_id != null || $promo != null) {
 ?>
 <head>
 <meta charset="utf-8" />
@@ -874,4 +873,29 @@ document.getElementById('buy').addEventListener('click', function() {
         }
     });
 </script>
+<?php } else {?>
+<head>
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/style.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/style1.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/style2.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/style3.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/normalize.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/mobile.css">
+    <!-- <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/main_no_compress.css"> -->
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/jquery.datetimepicker.min.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/intlTellInput-11.0.14.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/gallery.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/font-aweasome.min.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/filters.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/ckeditor.style.css">
+
+
+    <?php require_once ("{$this->layouts_path}/head.php");?>
+</head>
+<body>
+<?php
+ErrorPage::returnError("<b>Не верный код партнёра. Свяжитесь с партнером, который вас пригласил</b>");
+require_once ("{$this->layouts_path}/tech-footer.php");
+}?>
+</body>
 </html>
