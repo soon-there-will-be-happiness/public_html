@@ -43,9 +43,7 @@ if (!$record) {
     $response = curl_exec($curl);
     $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     $payment_data = json_decode($response, true);
-    echo $http_code;   
-    echo $response;
-   
+
     curl_close($curl);
     if ($http_code == 200) {
         $payment_data = json_decode($response, true);

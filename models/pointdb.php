@@ -42,4 +42,11 @@ class PointDB {
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+     public static function updateUUID($id,$uuid) {
+        $db = Db::getConnection();
+        $sql = 'UPDATE '.PREFICS.'point SET uuid = "'.$uuid.'"  WHERE order_id = :id';
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 }

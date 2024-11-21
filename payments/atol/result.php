@@ -3,7 +3,7 @@ $params = unserialize(base64_decode($payment['params']));
 
 
 $callback_data = json_decode(file_get_contents('php://input'), true);
-Log::add(0,'Curl error', ["error" => $callback_data],'return.log');
+
 
 if (isset($callback_data['orderId']) && isset($callback_data['status'])) {
     $order_id = intval($callback_data['orderId']);

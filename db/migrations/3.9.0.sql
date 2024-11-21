@@ -99,6 +99,6 @@ CREATE TABLE `th`.`dgq_point` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `order_id` INT NOT NULL,
   `status` TINYINT NOT NULL,
-  `operationId` VARCHAR(80) NOT NULL,
+  `operationId` VARCHAR(80) NOT NULL,'uuid' VARCHAR(80) NOT NULL,
    `url` VARCHAR(100) NULL AFTER `operationId`;
   PRIMARY KEY (`id`));
