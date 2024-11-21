@@ -18,7 +18,6 @@ if (!$record) {
 
     $out_summ =$order['summ'];
     $order_items = Order::getOrderItems($order['order_id']);
-    
     $curl = curl_init();
     curl_setopt_array($curl, array(
         CURLOPT_URL =>  $api_url.'/payments',
@@ -32,34 +31,31 @@ if (!$record) {
         CURLOPT_POSTFIELDS =>'{
         "Data": {
             "customerCode": '.$customerCode.',
-            "amount": '.intval($out_summ).',
+            "amount": '.floatval($out_summ).',
             "purpose": "Оплата за курс",
             "paymentMode": ["sbp","card"],
-            "redirectUrl": "'.$setting['script_url'] . '/payments/atol/result'.'"
+            "redirectUrl": "'.$setting['script_url'] . '/payments/point/result?id='.$order['order_id'].'"
             }
         }',
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',"Authorization: Bearer $token",
         ),
     ));
-
-$response = curl_exec($curl);
-$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($curl);
-
-if ($http_code == 200) {
-    $payment_data = json_decode($response, true);
-
-    $payment_url = $payment_data['Data']['paymentLink'] ?? '';
-    if (!empty($payment_url)) {
-        PointDB::insertRecord( htmlspecialchars($payment_url),$inv_id,false);
-    } else {
-        echo 'Ошибка: URL для оплаты не найден в ответе.';
+    $response = curl_exec($curl);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+    if ($http_code == 200) {
+        $payment_data = json_decode($response, true);
+        $payment_url = $payment_data['Data']['paymentLink'] ?? '';
+        if (!empty($payment_url)) {
+            PointDB::insertRecord( htmlspecialchars($payment_url),$inv_id,false,$payment_data['Data']['operationId'] );
+        } else {
+            echo 'Ошибка: URL для оплаты не найден в ответе.';
+        }
     }
-}
-else{
-    LogEmail:: PaymentError( json_encode( $response['Errors']['message']),place: "point/result.php","sell");
-}
+    else{
+        LogEmail:: PaymentError( json_encode( $response['Errors']['message']), "point/result.php","sell");
+    }
 }
 $record = PointDB::findRecordByOrderId($inv_id);
 if($record){
