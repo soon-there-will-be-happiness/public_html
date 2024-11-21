@@ -100,4 +100,5 @@ CREATE TABLE `th`.`dgq_point` (
   `order_id` INT NOT NULL,
   `status` TINYINT NOT NULL,
   `operationId` VARCHAR(80) NOT NULL,
+   `url` VARCHAR(100) NULL AFTER `operationId`;
   PRIMARY KEY (`id`));

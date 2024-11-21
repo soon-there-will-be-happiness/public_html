@@ -21,7 +21,7 @@ class LogEmail{
             $setting['admin_email'],
              $error_type ,
              $error_message);*/
-        Log::add(3,$message,["place"=>$place,"type"=>$type],type: "payment");
+        Log::add(3,$message,["place"=>$place,"type"=>$type], "payment");
     }
     public static function NetworkError($error_message,$place, $error_type){
         $setting = System::getSetting();
@@ -33,7 +33,7 @@ class LogEmail{
         Log::add(5,$error_message,
         ["place"=>$place,
         "type"=>$error_type]
-        ,type: "network");
+        , "network");
     }
     public static function TokenForUpdate($message,$place, $type){
         $setting = System::getSetting();
@@ -42,7 +42,7 @@ class LogEmail{
             $setting['admin_email'],
              $error_type ,
              $error_message);*/
-        Log::add(2,$message,["place"=>$place,"type"=>$type],type: "payment");
+        Log::add(2,$message,["place"=>$place,"type"=>$type], "payment");
     }
 
 }

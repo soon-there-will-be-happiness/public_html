@@ -14,7 +14,7 @@ array('/index.html', 'payments/point/index.html'),
 array('/params.php', 'payments/point/params.php'),
 array('/result.php', 'payments/point/result.php'),
 array('/success.php', 'payments/point/success.php'),
-array('/atol.png', 'payments/point/image.png')
+array('/point.png', 'payments/point/point.png')
 
 );
 

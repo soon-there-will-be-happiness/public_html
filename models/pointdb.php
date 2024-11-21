@@ -22,9 +22,8 @@ class PointDB {
     // Вставка новой записи
     public static function insertRecord($url, $order_id, $status,$operationId) {
         $db = Db::getConnection();
-        $sql = 'INSERT INTO '.PREFICS.'point (url, order_id, status,operationId) VALUES ("'.$url.'", '.$order_id.',false,'.$operationId.')';
+        $sql = 'INSERT INTO '.PREFICS.'point (url, order_id, status, operationId) VALUES ("'.$url.'", '.$order_id.',false,"'.$operationId.'")';
         $stmt = $db->prepare($sql);
-
         return $stmt->execute();
     }
 

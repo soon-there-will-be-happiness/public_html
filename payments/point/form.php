@@ -7,8 +7,7 @@ $params = unserialize(base64_decode($payment['params']));
 $record = PointDB::findRecordByOrderId( $inv_id);
 $token = $params['token'];
 $api_url = $params['url'];
-$login= $params['login'];
-$pass=$params['password'];
+
 $inv_id='0'.$inv_id;
 if (!$record) {
     $token = $params['token'];
@@ -34,7 +33,7 @@ if (!$record) {
             "amount": '.floatval($out_summ).',
             "purpose": "Оплата за курс",
             "paymentMode": ["sbp","card"],
-            "redirectUrl": "'.$setting['script_url'] . '/payments/point/result?id='.$order['order_id'].'"
+            "redirectUrl": "'.$setting['script_url'].'/payments/point/result?id='.$order['order_id'].'"
             }
         }',
         CURLOPT_HTTPHEADER => array(
@@ -42,7 +41,11 @@ if (!$record) {
         ),
     ));
     $response = curl_exec($curl);
-    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    $payment_data = json_decode($response, true);
+    echo $http_code;   
+    echo $response;
+   
     curl_close($curl);
     if ($http_code == 200) {
         $payment_data = json_decode($response, true);
@@ -54,7 +57,7 @@ if (!$record) {
         }
     }
     else{
-        LogEmail:: PaymentError( json_encode( $response['Errors']['message']), "point/result.php","sell");
+        LogEmail:: PaymentError(json_decode( $response), "point/result.php","sell");
     }
 }
 $record = PointDB::findRecordByOrderId($inv_id);
