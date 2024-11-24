@@ -86,7 +86,7 @@
            <?$total_summ_orders = 0;
             if($orders):
                 foreach($orders as $transact):?>
-                   <?$total_summ_orders = $total_summ_orders + $transact['summ']*0.972;
+                   <?$total_summ_orders = $total_summ_orders + $transact['summ'];
                 endforeach;
             endif;?>
         </table>
