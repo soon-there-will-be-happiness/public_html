@@ -37,7 +37,7 @@ class PointDB {
     }
      public static function updateStatusToTrue($id) {
         $db = Db::getConnection();
-        $sql = 'UPDATE '.PREFICS.'point SET status = 1  WHERE order_id = :id AND status = 0';
+        $sql = 'UPDATE '.PREFICS.'point SET status = 1, Payment_date = NOW()   WHERE order_id = :id AND status = 0';
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();

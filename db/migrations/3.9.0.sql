@@ -102,3 +102,6 @@ CREATE TABLE `th`.`dgq_point` (
   `operationId` VARCHAR(80) NOT NULL,'uuid' VARCHAR(80) NOT NULL,
    `url` VARCHAR(100) NULL AFTER `operationId`;
   PRIMARY KEY (`id`));
+
+  ALTER TABLE `th`.`dgq_point`
+ADD COLUMN `Payment_date` DATETIME NULL;
