@@ -61,7 +61,7 @@ if (!$record) {
 $record = PointDB::findRecordByOrderId($inv_id);
 if($record){
  
-    echo '<a type="submit" class="payment_btn" value="' . System::Lang('TO_PAY') . ' href="' . $record['url'] . '"">' . System::Lang('TO_PAY') . '</a>';
+    echo '<a type="submit" class="payment_btn" value="' . System::Lang('TO_PAY') . ' href='."'" . $record['url'] ."'" . '>' . System::Lang('TO_PAY') . '</a>';
 
 }
 else{
