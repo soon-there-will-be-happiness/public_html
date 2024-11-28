@@ -60,7 +60,7 @@ if (!$record) {
 }
 $record = PointDB::findRecordByOrderId($inv_id);
 if($record){
-    echo '<form action="' . $record['url'] . '" method="POST">';
+    echo '<form action="' . $record['url'] . '" method="GET">';
     echo '<input type="submit" class="payment_btn" value="' . System::Lang('TO_PAY') . '"/>';
     echo '</form>';
 }
