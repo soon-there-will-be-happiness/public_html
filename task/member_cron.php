@@ -56,9 +56,9 @@ if($plane_list){
                         $user = User::getUserById($item['user_id']);
                         $partner_id=Order::getPayedOrderDataByClientAndProduct($user['email'],$product['product_id'])['partner_id'];
                         if($product['product_id'] == 30) {
-                            $linkToEmail = "$link?partner=$partner_id";
+                            $linkToEmail = "{$link}?partner={$partner_id}#pay";
                         } else {
-                            $linkToEmail="$link?subs_id={$item['id']}";
+                            $linkToEmail="{$link}?subs_id={$item['id']}";
                         }
                         if(!$user){
                             $text = "Для подписки мембершип с ID ".$item['id']. 'не найден пользователь, проверьте.';
