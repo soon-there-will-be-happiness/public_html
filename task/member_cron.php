@@ -54,11 +54,11 @@ if($plane_list){
                     foreach($search_list as $item) {
                         // Получить данные юзера
                         $user = User::getUserById($item['user_id']);
-                        $partner_id=Order::getPayedOrderDataByClientAndProduct($user['email'],$product['id'])['partner_id'];
-                        if($product['id'] == 28) {
-                            $link = "$link?partner=$partner_id";
+                        $partner_id=Order::getPayedOrderDataByClientAndProduct($user['email'],$product['product_id'])['partner_id'];
+                        if($product['product_id'] == 30) {
+                            $linkToEmail = "$link?partner=$partner_id";
                         } else {
-                            $link="$link?subs_id={$item['id']}";
+                            $linkToEmail="$link?subs_id={$item['id']}";
                         }
                         if(!$user){
                             $text = "Для подписки мембершип с ID ".$item['id']. 'не найден пользователь, проверьте.';
@@ -68,13 +68,13 @@ if($plane_list){
 
                         if ($plane[$letter_status_key]) { // Отправить письмо клиенту
                             $send = Email::SendExpirationMessageByClient($user['email'], $user['user_name'],
-                                $plane[$letter_subj_key], $plane[$letter_text_key], $link
+                                $plane[$letter_subj_key], $plane[$letter_text_key], $linkToEmail
                             );
                         }
 
 
                         if ($plane[$sms_status_key] && $user['phone']) {
-                            SMS::sendNotice2ExpireSubs($user['user_name'], $link,
+                            SMS::sendNotice2ExpireSubs($user['user_name'], $linkToEmail,
                                 $user['phone'], $plane[$sms_text_key]
                             );
                         }
