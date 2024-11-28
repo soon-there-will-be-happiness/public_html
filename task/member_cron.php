@@ -24,8 +24,8 @@ $plane_list = Member::getPlanes(1);
 
 if($plane_list){
 	foreach($plane_list as $plane) {
+        $product = Product::getProductById($plane['renewal_product']);
 		if ($plane['renewal_type'] != 3) {
-			$product = Product::getProductById($plane['renewal_product']);
 			if(!$product) continue;
 			
 			if ($plane['renewal_type'] == 1) {
@@ -54,6 +54,12 @@ if($plane_list){
                     foreach($search_list as $item) {
                         // Получить данные юзера
                         $user = User::getUserById($item['user_id']);
+                        $partner_id=Order::getPayedOrderDataByClientAndProduct($user['email'],$product['id'])['partner_id'];
+                        if($product['id'] == 28) {
+                            $link = "$link?partner=$partner_id";
+                        } else {
+                            $link="$link?subs_id={$item['id']}";
+                        }
                         if(!$user){
                             $text = "Для подписки мембершип с ID ".$item['id']. 'не найден пользователь, проверьте.';
                             AdminNotice::addNotice($text);
@@ -62,13 +68,13 @@ if($plane_list){
 
                         if ($plane[$letter_status_key]) { // Отправить письмо клиенту
                             $send = Email::SendExpirationMessageByClient($user['email'], $user['user_name'],
-                                $plane[$letter_subj_key], $plane[$letter_text_key],"$link?subs_id={$item['id']}"
+                                $plane[$letter_subj_key], $plane[$letter_text_key], $link
                             );
                         }
 
 
                         if ($plane[$sms_status_key] && $user['phone']) {
-                            SMS::sendNotice2ExpireSubs($user['user_name'], "$link?subs_id={$item['id']}",
+                            SMS::sendNotice2ExpireSubs($user['user_name'], $link,
                                 $user['phone'], $plane[$sms_text_key]
                             );
                         }

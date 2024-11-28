@@ -2096,6 +2096,20 @@ class Order {
     }
 
 
+    // ДАННЫЕ ЗАКАЗА ПО order_id ДЛЯ ПОКУПАТЕЛЯ
+    public static function getPayedOrderDataByClientAndProduct($client_email, $product_id)
+    {
+        $client_email = intval($client_email);
+        $product_id = intval($product_id);
+        $sql = "SELECT * FROM " . PREFICS . "orders WHERE client_email = $client_email AND product_id =$product_id AND status = 1";
+        $db = Db::getConnection();
+        $result = $db->query($sql);
+        $data = $result->fetch(PDO::FETCH_ASSOC);
+
+        return !empty($data) ? $data : false;
+    }
+
+
     /**
      * ПОЛУЧИТЬ ДАННЫЕ ЗАКАЗА
      * @param $id
