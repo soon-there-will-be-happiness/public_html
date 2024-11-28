@@ -334,4 +334,16 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 document.addEventListener('myCustomEvent', () => {});
 
+let inputTypeData = () =>{
+    document.querySelectorAll('input[type="date"]').forEach(e=>{
+        e.addEventListener("click", (event)=>{
+            event.preventDefault()
+            e.showPicker()
+        })
+        e.addEventListener("mousedown", (event)=>{
+            event.preventDefault()
+        })
+    })
+}
+inputTypeData()
 
