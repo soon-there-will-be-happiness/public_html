@@ -2099,12 +2099,14 @@ class Order {
     // ДАННЫЕ ЗАКАЗА ПО order_id ДЛЯ ПОКУПАТЕЛЯ
     public static function getPayedOrderDataByClientAndProduct($client_email, $product_id)
     {
-        $client_email = intval($client_email);
         $product_id = intval($product_id);
-        $sql = "SELECT * FROM " . PREFICS . "orders WHERE client_email = $client_email AND product_id =$product_id AND status = 1";
+        $sql = "SELECT * FROM " . PREFICS . "orders WHERE client_email = :client_email AND product_id = :product_id AND status = 1";
         $db = Db::getConnection();
-        $result = $db->query($sql);
-        $data = $result->fetch(PDO::FETCH_ASSOC);
+        $stmt=$db->prepare($sql);
+        $stmt->bindParam(':client_email', $client_email, PDO::PARAM_STR);
+        $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return !empty($data) ? $data : false;
     }

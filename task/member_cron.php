@@ -60,11 +60,13 @@ if($plane_list){
                         } else {
                             $linkToEmail="{$link}?subs_id={$item['id']}";
                         }
-                        if(!$user){
+                        if(!$user or !$partner_id){
                             $text = "Для подписки мембершип с ID ".$item['id']. 'не найден пользователь, проверьте.';
                             AdminNotice::addNotice($text);
                             Email::SendMessageToBlank($setting['admin_email'], 'SM', 'Не найден пользователь SM', $text);
+                            continue;
                         }
+
 
                         if ($plane[$letter_status_key]) { // Отправить письмо клиенту
                             $send = Email::SendExpirationMessageByClient($user['email'], $user['user_name'],
