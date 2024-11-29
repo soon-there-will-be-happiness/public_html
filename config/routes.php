@@ -5,6 +5,7 @@ return [
     // FRONT - END ---------------------------------
     //////////////\\
     'payments/atol/result'=>'order/atolresult',
+    'payments/point/result'=>'order/pointresult',
     'payments/atol/success'=>'order/atolsuccess',
     'ext/([0-9]+)/([0-9]+)' => 'aff/extland/$1/$2',
     'buy/([0-9]+)' => 'order/buy/$1',

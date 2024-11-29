@@ -721,10 +721,17 @@ class orderController extends baseController {
         require_once (ROOT . '/payments/atol/success.php');
         return true;
     }
-    
+
     public function actionAtolResult(){
         $this->setViewParams('payments', '/payments/atol/result.php', null, null, 'order-pay-page');
         require_once (ROOT . '/payments/atol/result.php');
+
+        return true;
+    }
+
+    public function actionPointResult(){
+        $this->setViewParams('payments', '/payments/point/result.php', null, null, 'order-pay-page');
+        require_once (ROOT . '/payments/point/result.php');
 
         return true;
     }
