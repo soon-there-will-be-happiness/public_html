@@ -31,11 +31,11 @@ if($point['status']!=true)
     curl_close($curl);
     if ($http_code == 200&&$payment_data['Data']['Operation'][0]['status']=='APPROVED')
     {
-        $order = Order::getOrderDataByID($order_id,100)[0];
-        Order::renderOrder($order);
-        $order_items = Order::getOrderItems($order['order_id']);
+        $order = Order::getOrderDataByID($order_id,100);
+        Order::renderOrder($order[0]);
+        $order_items = Order::getOrderItems($order[0]['order_id']);
         PointDB::updateStatusToTrue($order_id);
-        AutoToken::SendCheck( $order);
+        AutoToken::SendCheck( $order[0]);
     }
 }
 System::redirectUrl($setting['script_url'] . '/payments/point/success');
