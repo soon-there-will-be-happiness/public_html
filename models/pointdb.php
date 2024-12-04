@@ -49,4 +49,37 @@ class PointDB {
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+    public static function findRecordByOperationId($id) {
+        $db = Db::getConnection();
+        $sql = 'SELECT * FROM '.PREFICS.'point WHERE operationId = :id';
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public static function getRecordsWithStatus() {
+        $db = Db::getConnection();
+        $sql = '
+            SELECT 
+                dp.id AS point_id,
+                dp.order_id,
+                dp.status,
+                dp.operationId,
+                dp.url,
+                do.product_id,
+                do.order_date,
+                do.payment_date,
+                do.summ
+            FROM 
+                '.PREFICS.'point dp
+            JOIN 
+                '.PREFICS.'orders do
+            ON 
+                dp.order_id = do.order_id
+            WHERE 
+                dp.status = 1';
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

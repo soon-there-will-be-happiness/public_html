@@ -1,4 +1,5 @@
 <?php defined('BILLINGMASTER') or die;
+
 $params = unserialize(base64_decode($payment['params']));
 
 
