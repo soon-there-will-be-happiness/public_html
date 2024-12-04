@@ -11,7 +11,7 @@ $params = unserialize(base64_decode($payment['params']));
             <input type="text" name="params[url]" value="<?php echo $params['url']; ?>"></p>
     </div>
     <div class="col-1-2">
-        <h4 class="h4-border">Параметры АТОЛ Цека</h4>
+        <h4 class="h4-border">Параметры АТОЛ Чека</h4>
         <p><label>URL шлюза:</label>
         <input type="text" name="params[url2]" value="<?php echo $params['url2']; ?>"></p>
         <p><label>Групповой код:</label>
