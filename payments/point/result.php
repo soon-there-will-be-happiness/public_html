@@ -31,7 +31,7 @@ if($point['status']!=true)
     curl_close($curl);
     if ($http_code == 200&&$payment_data['Data']['Operation'][0]['status']=='APPROVED')
     {
-        $order = Order::getOrderDataByID($order_id,100);
+        $order = Order::getOrder($order_id);
         Order::renderOrder($order[0]);
         $order_items = Order::getOrderItems($order[0]['order_id']);
         PointDB::updateStatusToTrue($order_id);
