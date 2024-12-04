@@ -25,7 +25,7 @@ if($point['status']!=true)
         ),
     ));
     $response = curl_exec($curl);
-    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     $payment_data = json_decode($response, true);
 
     curl_close($curl);
