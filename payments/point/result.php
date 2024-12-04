@@ -4,9 +4,12 @@ $params = unserialize(base64_decode($payment['params']));
 $order_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $order = Order::getOrder($order_id);
 $point=PointDB::findRecordByOrderId($order_id );
+
 if($point['status']!=true)
 {
     $api_url = $params['url'];
+    $token = $params['token'];
+
     $curl = curl_init();
     curl_setopt_array($curl, array(
         CURLOPT_URL => 'https://enter.tochka.com/uapi/acquiring/v1.0/payments/'.$point['operationId'],
