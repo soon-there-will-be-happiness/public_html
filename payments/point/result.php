@@ -32,10 +32,10 @@ if($point['status']!=true)
     if ($http_code == 200&&$payment_data['Data']['Operation'][0]['status']=='APPROVED')
     {
         $order = Order::getOrder($order_id);
-        Order::renderOrder($order[0]);
-        $order_items = Order::getOrderItems($order[0]['order_id']);
+        Order::renderOrder($order);
+        $order_items = Order::getOrderItems($order['order_id']);
         PointDB::updateStatusToTrue($order_id);
-        AutoToken::SendCheck( $order[0]);
+        AutoToken::SendCheck( $order);
     }
 }
 System::redirectUrl($setting['script_url'] . '/payments/point/success');
