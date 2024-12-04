@@ -29,7 +29,7 @@ if($point['status']!=true)
     $payment_data = json_decode($response, true);
 
     curl_close($curl);
-    if ($http_code == 200&&$payment_data ['Data']['Operation']['status']=='APPROVED')
+    if ($http_code == 200&&$payment_data['Data']['Operation'][0]['status']=='APPROVED')
     {
         $order = Order::getOrderDataByID($order_id,100);
         Order::renderOrder($order);
