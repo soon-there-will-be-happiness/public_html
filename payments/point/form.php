@@ -29,7 +29,7 @@ if (!$record) {
         CURLOPT_CUSTOMREQUEST => 'POST',
         CURLOPT_POSTFIELDS =>'{
         "Data": {
-            "customerCode": '.$customerCode.',
+            "customerCode": "'.$customerCode.'",
             "amount": '.floatval($out_summ).',
             "purpose": "Оплата за курс",
             "paymentMode": ["sbp","card"],
