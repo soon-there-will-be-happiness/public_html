@@ -127,7 +127,7 @@ function getRecipientTypeByAccount(accountNumber) {
 
 //  ==========================================================================
 
-let root = 'https://dev.кемстать.рф/'
+const root = `${window.location.protocol}//${window.location.host}/`;
 let addSuccesMessage = (text)=>{
     let container = document.getElementsByClassName("maincol")[0]
     const successMessage = document.createElement('div');
