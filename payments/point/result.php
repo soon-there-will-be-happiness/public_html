@@ -38,5 +38,5 @@ if($point['status']!=true)
         AutoToken::SendCheck( $order);
     }
 }
-System::redirectUrl($setting['script_url'] . '/payments/point/success');
+System::redirectUrl($setting['script_url'] . '/payments/point/success?id='.$order_id);
 ?>
