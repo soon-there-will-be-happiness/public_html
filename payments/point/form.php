@@ -55,7 +55,8 @@ if (!$record) {
         }
     }
     else{
-        LogEmail:: PaymentError( print_r($response, return: true), "point/result.php","sell");
+        $error_message=print_r($response,  true);
+        LogEmail:: PaymentError( $error_message, "point/result.php","sell");
     }
 }
 $record = PointDB::findRecordByOrderId($inv_id);
