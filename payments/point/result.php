@@ -4,7 +4,7 @@ $params = unserialize(base64_decode($payment['params']));
 $order_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $order = Order::getOrder($order_id);
 $point=PointDB::findRecordByOrderId($order_id );
-
+$setting = System::getSetting(true);
 if($point['status']!=true)
 {
     $api_url = $params['url'];
