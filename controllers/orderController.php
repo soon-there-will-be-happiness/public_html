@@ -1802,7 +1802,14 @@ class orderController extends baseController {
             ErrorPage::return404();
         }
     }
-
+    public function pointSuccess($payment) {
+        if (file_exists(ROOT."/payments/$payment/success.php")) {
+            require (ROOT."/payments/$payment/success.php");
+            require_once (ROOT.'/payments/success.php');
+        } else {
+            ErrorPage::return404();
+        }
+    }
 
     public function actionFail($payment) {
         if (file_exists(ROOT."/payments/$payment/fail.php")) {
