@@ -36,5 +36,11 @@ if($element['params']['element_type'] == 1): //infoprotector?>
     <div class="video-responsive">
         <iframe src="<?=System::getRutubeUrl2Iframe($element['params']['url']);?>" frameborder="0" modestbranding="1" showinfo="0" rel="0" enablejsapi="1" allowfullscreen></iframe>
     </div>
+<?php elseif($element['params']['element_type'] == 8): //PeerTube video?>
+    <div class="video-responsive">
+        <div style="position: relative; padding-top: 93.28%;">
+            <iframe title="Тестовое видео" width="100%" height="100%" src="<?=$element['params']['url'];?>" frameborder="0" allowfullscreen="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms" style="position: absolute; inset: 0px;"></iframe>
+        </div>
+    </div>
 <?php endif;?>
 

@@ -58,6 +58,7 @@
                                         <option value="4" data-show_off="add_pl_item_cover_box">Youtube / vimeo</option>
                                         <option value="6" data-show_on="add_pl_watermark_param">Кинескоп (kinescope.io)</option>
                                         <option value="7">Rutube</option>
+                                        <option value="8">PeerTube</option>
                                     </select>
                                 </div>
                             </div>
