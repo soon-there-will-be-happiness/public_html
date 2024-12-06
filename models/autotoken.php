@@ -66,10 +66,10 @@ class AutoToken{
         $token = $params['token2'];
         foreach($order_items as $item){
             $items[] = [
-                "sum" => $order['summ'],
+                "sum" => intval($order['summ']),
                 "vat" => ["type" => "none"],
                 "name" => $item['product_name'],
-                "price" => $item['price'],
+                "price" => intval($item['price']),
                 "measure" => 0,
                 "quantity" => 1,
                 "payment_method" => "full_prepayment",
@@ -79,7 +79,7 @@ class AutoToken{
         $data = [
             "receipt" => [
                 "items" => $items,
-                "total" => $order['summ'],
+                "total" => intval($order['summ']),
                 "client" => [
                     "email" => $order['client_email'],
                     "phone" =>  $order['client_phone'],
@@ -92,7 +92,7 @@ class AutoToken{
                 ],
                 "payments" => [
                     [
-                        "sum" => $order['summ'],
+                        "sum" => intval($order['summ']),
                         "type" => 1
                     ]
                 ]
