@@ -48,9 +48,7 @@ $playlist2player = [];?>
 
                 <?php elseif($element['params']['element_type'] == 8): //PeerTube video work??? ?>
                     <div class="video-responsive">
-                        <div style="position: relative; padding-top: 93.28%;">
-                            <iframe title="Тестовое видео" width="100%" height="100%" src="<?=$element['params']['url'];?>" frameborder="0" allowfullscreen="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms" style="position: absolute; inset: 0px;"></iframe>
-                        </div>
+                        <iframe width="560" height="315" src="$element['params']['url']" frameborder="0" allowfullscreen="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
                     </div>
                 <?php elseif($playlist_item['params']['type'] == 5): //изображение?>
                     <a href="<?=$playlist_item['params']['cover'];?>" data-uk-lightbox="{group:'group2'}" data-lightbox-width="900" <?php if($key > 0) echo ' style="display: none;"';?>>

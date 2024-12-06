@@ -38,9 +38,7 @@ if($element['params']['element_type'] == 1): //infoprotector?>
     </div>
 <?php elseif($element['params']['element_type'] == 8): //PeerTube video?>
     <div class="video-responsive">
-        <div style="position: relative; padding-top: 93.28%;">
-            <iframe title="Тестовое видео" width="100%" height="100%" src="<?=$element['params']['url'];?>" frameborder="0" allowfullscreen="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms" style="position: absolute; inset: 0px;"></iframe>
-        </div>
+        <iframe width="560" height="315" src="$element['params']['url']" frameborder="0" allowfullscreen="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
     </div>
 <?php endif;?>
 
