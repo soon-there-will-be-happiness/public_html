@@ -2119,10 +2119,13 @@ class Order {
      */
     public static function getOrder($id)
     {
+        $id = intval($id);
+        $sql = "SELECT * FROM ".PREFICS."orders WHERE order_id = :id";
         $db = Db::getConnection();
-        $result = $db->query('SELECT * FROM '.PREFICS."orders WHERE order_id = $id");
-        $data = $result->fetch(PDO::FETCH_ASSOC);
-
+        $stmt=$db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
         return !empty($data) ? $data : false;
     }
 
@@ -2133,6 +2136,7 @@ class Order {
      * @return array|bool
      */
     public static function getOrderItems($order_id) {
+        $order_id=intval($order_id);
         $db = Db::getConnection();
         $stmt = $db->prepare('SELECT * FROM '.PREFICS.'order_items WHERE order_id = :order_id ORDER BY order_item_id ASC');
         $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
@@ -2153,9 +2157,13 @@ class Order {
      * @return array|bool
      */
     public static function getOrderItem($order_item_id) {
+        $order_item_id=intval($order_item_id);
+        $sql = "SELECT * FROM ".PREFICS."order_items WHERE order_item_id = :order_item_id";
         $db = Db::getConnection();
-        $result = $db->query('SELECT * FROM '.PREFICS."order_items WHERE order_item_id = $order_item_id");
-        $data = $result->fetch(PDO::FETCH_ASSOC);
+        $stmt=$db->prepare($sql);
+        $stmt->bindParam(':order_item_id', $order_item_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return !empty($data) ? $data : false;
     }
@@ -2238,10 +2246,15 @@ class Order {
     // ОБНОВИТЬ ЗАКАЗ ПОСЛЕ АПСЕЛЛА
     public static function UpdateOrderAfterUpsell($order_date, $prod_id, $price, $nds, $type_id, $product_name)
     {
-        $db = Db::getConnection();
+
         // Получить ID заказа по дате
-        $result = $db->query(" SELECT order_id FROM ".PREFICS."orders WHERE order_date = $order_date AND status != 1");
-        $data = $result->fetch(PDO::FETCH_ASSOC);
+
+        $sql = " SELECT order_id FROM ".PREFICS."orders WHERE order_date = :order_date AND status != 1";
+        $db = Db::getConnection();
+        $stmt=$db->prepare($sql);
+        $stmt->bindParam(':order_date', $order_date, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if(!$data) return false;
 
@@ -2267,13 +2280,13 @@ class Order {
         $data2 = $result->execute();
 
         if ($data2) {
-            $order_id = $data['order_id'];
+            $order_id = intval($data['order_id']);
             $total = Order::getOrderTotalSum($order_id);
-            $sql = 'UPDATE '.PREFICS."orders SET summ = :total WHERE order_id = $order_id";
+            $sql = 'UPDATE '.PREFICS."orders SET summ = :total WHERE order_id = :order_id";
             $result = $db->prepare($sql);
+            $result->bindParam(':order_id', $order_id, PDO::PARAM_INT);
             $result->bindParam(':total', $total, PDO::PARAM_INT);
-            $result = $result->execute();
-            return $result;
+            return $result->execute();
         }
     }
 
