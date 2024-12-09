@@ -64,6 +64,12 @@ class AutoToken{
         $payment_address=$params['payment_address'];
         $token=AutoToken::CheckToken($login, $pass);
         $token = $params['token2'];
+        if($order['partner_id']!=0){
+            $partner = Aff::getPartnerReq($order['partner_id']);
+            $serializedData = $partner['requsits'];
+            $data = unserialize($serializedData);
+            $inn = $data['rs']['inn'] ?? $inn;
+        }
         foreach($order_items as $item){
             $items[] = [
                 "sum" => intval($order['summ']),
