@@ -97,7 +97,7 @@ class AutoToken{
             $supplier_info="";
             if($order['partner_id']!=0){
                 $partner = Aff::getPartnerReq($order['partner_id']);
-                $user=User::getUserById( $partner['user_id'])[0];
+                $user=User::getUserById( $partner['user_id']);
                 $serializedData = $partner['requsits'];
                 $data = unserialize($serializedData);
                 $supplier_info=[
