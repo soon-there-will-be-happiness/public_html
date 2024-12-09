@@ -32,15 +32,18 @@ class AutoToken{
             if($error==null||$error==''){
 
                 $params['token2']=$data['token'];
+                $params['token_date'] = date('Y-m-d');
                 $params = base64_encode(serialize( $params));
                 $edit = Order::EditPaymentsParams(25, $params);
                 return $data['token'] ;
             }
             else
             {
+                LogEmail:: PaymentError( json_encode($response['error']), "atol/token.php","update token");
                 return false;
             }
         } else {
+            LogEmail:: PaymentError( $http_code, "atol/token.php","crytical");
             return false;
         }
     }
@@ -62,13 +65,31 @@ class AutoToken{
         $email=$params['email'];
         $group_code=$params['group_code'];
         $payment_address=$params['payment_address'];
+        $currentDate = new DateTime();
+        $isTokenExpired = true;
+        if (!empty($params['token_date'])) {
+            try {
+                $tokenDate = new DateTime($params['token_date']);
+                $dateDiff = $currentDate->diff($tokenDate)->days;
+                if ($dateDiff <= 1 && $tokenDate <= $currentDate) {
+                    $isTokenExpired = false;
+                }
+            }
+            catch (Exception $e) {
+                $isTokenExpired = true;
+            }
+        } else {
+            $isTokenExpired = true;
+        }
+        if ($isTokenExpired) {
+            $token=AutoToken::CheckToken($login, $pass);
+        }
         $token=AutoToken::CheckToken($login, $pass);
         $token = $params['token2'];
         if($order['partner_id']!=0){
             $partner = Aff::getPartnerReq($order['partner_id']);
             $serializedData = $partner['requsits'];
             $data = unserialize($serializedData);
-            $inn = $data['rs']['inn'] ?? $inn;
         }
         foreach($order_items as $item){
             $items[] = [

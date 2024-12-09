@@ -30,5 +30,7 @@ $params = unserialize(base64_decode($payment['params']));
             <input type="text" name="params[email]" value="<?php echo $params['email']; ?>"></p>
         <p><label>Адресс компании:</label>
             <input type="text" name="params[payment_address]" value="<?php echo $params['payment_address']; ?>"></p>
+        <p><label>Время обновления токена:</label>
+            <input type="date" name="params[token_date]" value="<?php echo $params['token_date']; ?>"></p>
     </div>
 </div>

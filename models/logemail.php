@@ -7,8 +7,8 @@ class LogEmail{
 
         Email::SendEmailAdminAboutError(
             $setting['admin_email'],
-             $error_type ,
-             $error_message);
+            $error_type ,
+            $error_message);
         Log::add(5,$error_message,
         "$place $error_type",
         "payment");
