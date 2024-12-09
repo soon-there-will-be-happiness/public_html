@@ -92,6 +92,21 @@ class AutoToken{
             $data = unserialize($serializedData);
         }
         foreach($order_items as $item){
+
+
+            $supplier_info="";
+            if($order['partner_id']!=0){
+                $partner = Aff::getPartnerReq($order['partner_id']);
+                $user=User::getUserById( $partner['user_id'])[0];
+                $serializedData = $partner['requsits'];
+                $data = unserialize($serializedData);
+                $supplier_info=[
+                    "supplier_info" =>[
+                        "phones"=>["".$user['phone']],
+                        "name"=> "".$data['rs']['off_name']."",
+                        "inn"=> "".$data['rs']['inn']."",
+                ]];
+            }
             $items[] = [
                 "sum" => intval($order['summ']),
                 "vat" => ["type" => "none"],
@@ -100,7 +115,8 @@ class AutoToken{
                 "measure" => 0,
                 "quantity" => 1,
                 "payment_method" => "full_prepayment",
-                "payment_object" => 1
+                "payment_object" => 1,
+                $supplier_info
             ];
         }
         $data = [
