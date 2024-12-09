@@ -1,5 +1,7 @@
 <?php
 define('BILLINGMASTER', 1);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 require_once (dirname(__FILE__) . '/cyclopsApi.php');
 require_once (dirname(__FILE__) . '/../components/db.php');
 require_once (dirname(__FILE__) . '/../config/config.php');
@@ -29,7 +31,9 @@ if (isset($response['result']['payment']) && !empty($response['result']['payment
     $paymentDate = DateTime::createFromFormat('Y-m-d', $payment['document_date']);
     $paymentAmount = $payment['amount'];
     $paymentId = $payment['id'];  // ID платежа из API
-
+    foreach ($response['result']['payments'] as $payment) { 
+        $api->refundPayment($payment);
+    }
     // Проходим по всем записям из базы данных
     foreach ($records as $record) {
         // Преобразуем дату заказа из базы данных в объект DateTime
