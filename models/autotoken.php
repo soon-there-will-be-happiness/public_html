@@ -100,12 +100,13 @@ class AutoToken{
                 $user=User::getUserById( $partner['user_id']);
                 $serializedData = $partner['requsits'];
                 $data = unserialize($serializedData);
-                $supplier_info=[
-                    "supplier_info" =>[
-                        "phones"=>["".$user['phone']],
-                        "name"=> "".$data['rs']['off_name']."",
-                        "inn"=> "".$data['rs']['inn']."",
-                ]];
+                $supplier_info = [
+                    "supplier_info" => [
+                        "phones" => [(string)$user['phone']],
+                        "name" => $data['rs']['off_name'],
+                        "inn" => (string)$data['rs']['inn'],
+                    ]
+                ];
             }
             $items[] = [
                 "sum" => intval($order['summ']),
@@ -162,7 +163,8 @@ class AutoToken{
         $payment_data = json_decode($response, true);
 
         if (is_array($payment_data['error'])) {
-            LogEmail:: PaymentError( json_encode($payment_data['error']),"atol/result.php","sell");
+            
+            LogEmail:: PaymentError( json_encode($payment_data['error'])."\n".json_encode($data),"atol/result.php","sell");
         }else{
             PointDB::updateUUID($order['order_id'],$payment_data['uuid']);
         }
