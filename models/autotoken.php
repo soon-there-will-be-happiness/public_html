@@ -92,7 +92,17 @@ class AutoToken{
             $data = unserialize($serializedData);
         }
         foreach($order_items as $item){
-
+    $items[] = [
+                "sum" => intval($order['summ']),
+                "vat" => ["type" => "none"],
+                "name" => $item['product_name'],
+                "price" => intval($item['price']),
+                "measure" => 0,
+                "quantity" => 1,
+                "payment_method" => "full_prepayment",
+                "payment_object" => 1,
+               
+            ];
 
             $supplier_info="";
             if($order['partner_id']!=0){
@@ -100,8 +110,16 @@ class AutoToken{
                 $user=User::getUserById( $partner['user_id']);
                 $serializedData = $partner['requsits'];
                 $data = unserialize($serializedData);
-                $supplier_info = [
-                    "agent_info"=>[
+                   $items[] = [
+                "sum" => intval($order['summ']),
+                "vat" => ["type" => "none"],
+                "name" => $item['product_name'],
+                "price" => intval($item['price']),
+                "measure" => 0,
+                "quantity" => 1,
+                "payment_method" => "full_prepayment",
+                "payment_object" => 1,
+               "agent_info"=>[
                         "type"=> "another",
                         "paying_agent"=>
                         [ 
@@ -117,20 +135,12 @@ class AutoToken{
                         "phones" => [(string)$user['phone']],
                         "name" => $data['rs']['off_name'],
                         "inn" => (string)$data['rs']['inn'],
-                        ]
-                ];
-            }
-            $items[] = [
-                "sum" => intval($order['summ']),
-                "vat" => ["type" => "none"],
-                "name" => $item['product_name'],
-                "price" => intval($item['price']),
-                "measure" => 0,
-                "quantity" => 1,
-                "payment_method" => "full_prepayment",
-                "payment_object" => 1,
-                $supplier_info
+                    ],
+                    
             ];
+
+            }
+        
         }
         $data = [
             "receipt" => [
