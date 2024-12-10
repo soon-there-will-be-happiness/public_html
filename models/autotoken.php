@@ -90,9 +90,9 @@ class AutoToken{
             $partner = Aff::getPartnerReq($order['partner_id']);
             $serializedData = $partner['requsits'];
             $data = unserialize($serializedData);
-        }
+        }/*
         foreach($order_items as $item){
-    $items[] = [
+            $items[] = [
                 "sum" => intval($order['summ']),
                 "vat" => ["type" => "none"],
                 "name" => $item['product_name'],
@@ -101,7 +101,6 @@ class AutoToken{
                 "quantity" => 1,
                 "payment_method" => "full_prepayment",
                 "payment_object" => 1,
-               
             ];
             if($order['partner_id']!=0){
                 $partner = Aff::getPartnerReq($order['partner_id']);
@@ -134,15 +133,42 @@ class AutoToken{
                         "name" => $data['rs']['off_name'],
                         "inn" => (string)$data['rs']['inn'],
                     ],
-                    
-            ];
-
-            }
-        
-        }
+                    ]
+                    ;}
+                }*/
+                $partner = Aff::getPartnerReq($order['partner_id']);
+                $user=User::getUserById( $partner['user_id']);
+                $serializedData = $partner['requsits'];
+                $data = unserialize($serializedData);
         $data = [
             "receipt" => [
-                "items" => $items,
+                "items" => [
+                    "sum" => intval($order['summ']),
+                    "vat" => ["type" => "none"],
+                    "name" => $$order_items[0]['product_name'],
+                    "price" => intval($order['summ']),
+                    "measure" => 0,
+                    "quantity" => 1,
+                    "payment_method" => "full_prepayment",
+                    "payment_object" => 1,
+                    "agent_info"=>[
+                        "type"=> "another",
+                        "paying_agent"=>
+                        [
+                            "operation"=> "Партнер",
+                            "phones"=>[(string)$user['phone']],],
+                            "receive_payments_operator"=>
+                            [
+                                "phones"=> [(string)$user['phone'],
+                            ],
+                        ],
+                    ],
+                    "supplier_info" => [
+                        "phones" => [(string)$user['phone']],
+                        "name" => $data['rs']['off_name'],
+                        "inn" => (string)$data['rs']['inn'],
+                    ],
+                    ],
                 "total" => intval($order['summ']),
                 "client" => [
                     "email" => $order['client_email'],
