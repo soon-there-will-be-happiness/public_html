@@ -103,23 +103,21 @@ class AutoToken{
                 "payment_object" => 1,
                
             ];
-
-            $supplier_info="";
             if($order['partner_id']!=0){
                 $partner = Aff::getPartnerReq($order['partner_id']);
                 $user=User::getUserById( $partner['user_id']);
                 $serializedData = $partner['requsits'];
                 $data = unserialize($serializedData);
-                   $items[] = [
-                "sum" => intval($order['summ']),
-                "vat" => ["type" => "none"],
-                "name" => $item['product_name'],
-                "price" => intval($item['price']),
-                "measure" => 0,
-                "quantity" => 1,
-                "payment_method" => "full_prepayment",
-                "payment_object" => 1,
-               "agent_info"=>[
+                $items[] = [
+                    "sum" => intval($order['summ']),
+                    "vat" => ["type" => "none"],
+                    "name" => $item['product_name'],
+                    "price" => intval($order['summ']),
+                    "measure" => 0,
+                    "quantity" => 1,
+                    "payment_method" => "full_prepayment",
+                    "payment_object" => 1,
+                    "agent_info"=>[
                         "type"=> "another",
                         "paying_agent"=>
                         [ 
