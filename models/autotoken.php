@@ -101,11 +101,11 @@ class AutoToken{
                 $serializedData = $partner['requsits'];
                 $data = unserialize($serializedData);
                 $supplier_info = [
-                   
+                    "supplier_info" => [
                         "phones" => [(string)$user['phone']],
                         "name" => $data['rs']['off_name'],
                         "inn" => (string)$data['rs']['inn'],
-                    
+                    ]
                 ];
             }
             $items[] = [
