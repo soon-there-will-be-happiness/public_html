@@ -129,7 +129,7 @@ class AutoToken{
                 "quantity" => 1,
                 "payment_method" => "full_prepayment",
                 "payment_object" => 1,
-              //  $supplier_info
+                $supplier_info
             ];
         }
         $data = [
