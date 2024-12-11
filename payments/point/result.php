@@ -1,4 +1,4 @@
-<?php defined('BILLINGMASTER') or die;
+<?php defined(constant_name: 'BILLINGMASTER') or die;
 $payment = Order::getPaymentSetting('point');
 $params = unserialize(base64_decode($payment['params']));
 $order_id = isset($_GET['id']) ? intval($_GET['id']) : 0;

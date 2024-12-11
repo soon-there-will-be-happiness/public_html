@@ -1,6 +1,4 @@
-<?php
-
-declared('BILLINGMASTER') or die;
+<?php defined(constant_name: 'BILLINGMASTER') or die;
 
 class AutoToken {
 
