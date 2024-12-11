@@ -145,7 +145,7 @@ class AutoToken{
                 "items" => [
                     "sum" => intval($order['summ']),
                     "vat" => ["type" => "none"],
-                    "name" => $$order_items['product_name'],
+                    "name" => "Buy courses",//$$order_items['product_name'],
                     "price" => intval($order['summ']),
                     "measure" => 0,
                     "quantity" => 1,
