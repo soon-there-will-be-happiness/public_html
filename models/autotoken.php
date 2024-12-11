@@ -1,131 +1,178 @@
-<?php defined('BILLINGMASTER') or die;
+<?php
 
-class AutoToken{
+declared('BILLINGMASTER') or die;
 
-    
-    public static function CheckToken( string $login,string $password) {
+class AutoToken {
+
+    /**
+     * Выполняет cURL-запрос
+     */
+    private static function sendCurlRequest(string $url, array $headers, array $data = [], string $method = 'POST'): array {
+        $ch = curl_init($url);
+
+        if ($method === 'POST') {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        } elseif ($method === 'GET') {
+            curl_setopt($ch, CURLOPT_HTTPGET, true);
+        }
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        return ['response' => $response, 'httpCode' => $httpCode];
+    }
+
+    /**
+     * Проверяет и обновляет токен
+     */
+    public static function checkToken(string $login, string $password): ?string {
         $payment = Order::getPaymentDataForAdmin(25);
-
         $params = unserialize(base64_decode($payment['params']));
-        $api_url = $params['url2'];
-        $api_url =    $api_url .'/getToken';
+        $apiUrl = rtrim($params['url2'], '/') . '/getToken';
+
         $data = [
             'login' => $login,
             'pass' => $password
         ];
-        $headers = [
-            "Content-Type: application/json"
-        ];
-        $ch = curl_init($api_url);
-        curl_setopt($ch, CURLOPT_HTTPGET, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    
-        curl_close($ch);
-        if ($http_code == 200) {
-            $data = json_decode($response, true);
+        $headers = ["Content-Type: application/json"];
 
-            $error = $data['error'] ?? '';
-            if($error==null||$error==''){
+        $result = self::sendCurlRequest($apiUrl, $headers, $data);
 
-                $params['token2']=$data['token'];
+        if ($result['httpCode'] === 200) {
+            $response = json_decode($result['response'], true);
+            if (empty($response['error'])) {
+                $params['token2'] = $response['token'];
                 $params['token_date'] = date('Y-m-d');
-                $params = base64_encode(serialize( $params));
-                $edit = Order::EditPaymentsParams(25, $params);
-                return $data['token'] ;
-            }
-            else
-            {
-                LogEmail:: PaymentError( json_encode($response['error']), "atol/token.php","update token");
-                return false;
+                Order::EditPaymentsParams(25, base64_encode(serialize($params)));
+                return $response['token'];
+            } else {
+                LogEmail::PaymentError(json_encode($response['error']), "atol/token.php", "update token");
             }
         } else {
-            LogEmail:: PaymentError( $http_code, "atol/token.php","crytical");
-            return false;
+            LogEmail::PaymentError($result['httpCode'], "atol/token.php", "crytical");
+        }
+
+        return null;
+    }
+
+    /**
+     * Проверяет, истек ли токен
+     */
+    private static function isTokenExpired(?string $tokenDate): bool {
+        if (empty($tokenDate)) {
+            return true;
+        }
+
+        try {
+            $currentDate = new DateTime();
+            $tokenDateTime = new DateTime($tokenDate);
+            return $currentDate->diff($tokenDateTime)->days > 1 || $tokenDateTime > $currentDate;
+        } catch (Exception $e) {
+            return true;
         }
     }
 
-
-    public static function SendCheck($order){
+    /**
+     * Отправляет чек
+     */
+    public static function sendCheck(array $order): void {
         $payment = Order::getPaymentDataForAdmin(25);
-
         $params = unserialize(base64_decode($payment['params']));
-        $items = array();
-        $token = $params['token'];
-        $api_url = $params['url2'];
-        $login= $params['login'];
-        $pass=$params['password'];
-        $order_items = Order::getOrderItems($order['order_id']);
 
-        $inn=$params['inn'];
-        $sno=$params['sno'];
-        $email=$params['email'];
-        $group_code=$params['group_code'];
-        $payment_address=$params['payment_address'];
-        $currentDate = new DateTime();
-        $isTokenExpired = true;
-        if (!empty($params['token_date'])) {
-            try {
-                $tokenDate = new DateTime($params['token_date']);
-                $dateDiff = $currentDate->diff($tokenDate)->days;
-                if ($dateDiff <= 1 && $tokenDate <= $currentDate) {
-                    $isTokenExpired = false;
-                }
-            }
-            catch (Exception $e) {
-                $isTokenExpired = true;
-            }
+        if (self::isTokenExpired($params['token_date'])) {
+            $params['token2'] = self::checkToken($params['login'], $params['password']);
+        }
+
+        $orderItems = Order::getOrderItems($order['order_id']);
+        $items = self::prepareItems($orderItems, $order['partner_id']);
+
+        $data = [
+            "receipt" => [
+                "items" => $items,
+                "total" => intval($order['summ']),
+                "client" => [
+                    "email" => $order['client_email'],
+                    "phone" => $order['client_phone'],
+                ],
+                "company" => [
+                    "inn" => $params['inn'],
+                    "sno" => $params['sno'],
+                    "email" => $params['email'],
+                    "payment_address" => $params['payment_address'],
+                ],
+                "payments" => [[
+                    "sum" => intval($order['summ']),
+                    "type" => 1,
+                ]],
+            ],
+            "timestamp" => date("d.m.Y H:i:s"),
+            "external_id" => $order['order_date'],
+        ];
+
+        $headers = [
+            "Content-Type: application/json",
+            "Token: {$params['token2']}",
+        ];
+
+        $result = self::sendCurlRequest(
+            rtrim($params['url2'], '/') . "/{$params['group_code']}/sell",
+            $headers,
+            $data
+        );
+
+        $paymentData = json_decode($result['response'], true);
+
+        if (!empty($paymentData['error'])) {
+            LogEmail::PaymentError(json_encode($paymentData['error']) . "\n" . json_encode($data), "atol/result.php", "sell");
         } else {
-            $isTokenExpired = true;
+            PointDB::updateUUID($order['order_id'], $paymentData['uuid']);
         }
-        if ($isTokenExpired) {
-            $token=AutoToken::CheckToken($login, $pass);
-        }
-        $token=AutoToken::CheckToken($login, $pass);
-        $token = $params['token2'];
-        if($order['partner_id']!=0){
-            $partner = Aff::getPartnerReq($order['partner_id']);
-            $serializedData = $partner['requsits'];
-            $data = unserialize($serializedData);
-        }/*
-        foreach($order_items as $item){
+    }
+
+    /**
+     * Подготавливает список товаров
+     */
+    private static function prepareItems(array $orderItems, int $partnerId): array {
+        $items = [];
+
+        foreach ($orderItems as $item) {
             $items[] = [
-                "sum" => intval($order['summ']),
+                "sum" => intval($item['price'] * $item['quantity']),
                 "vat" => ["type" => "none"],
                 "name" => $item['product_name'],
                 "price" => intval($item['price']),
                 "measure" => 0,
-                "quantity" => 1,
+                "quantity" => intval($item['quantity']),
                 "payment_method" => "full_prepayment",
                 "payment_object" => 1,
             ];
-            if($order['partner_id']!=0){
-                $partner = Aff::getPartnerReq($order['partner_id']);
-                $user=User::getUserById( $partner['user_id']);
-                $serializedData = $partner['requsits'];
-                $data = unserialize($serializedData);
+
+            if ($partnerId !== 0) {
+                $partner = Aff::getPartnerReq($partnerId);
+                $user = User::getUserById($partner['user_id']);
+                $data = unserialize($partner['requsits']);
                 $items[] = [
-                    "sum" => intval($order['summ']),
+                    "sum" => intval($item['price'] * $item['quantity']),
                     "vat" => ["type" => "none"],
                     "name" => $item['product_name'],
-                    "price" => intval($order['summ']),
+                    "price" => intval($item['price']),
                     "measure" => 0,
-                    "quantity" => 1,
+                    "quantity" => intval($item['quantity']),
                     "payment_method" => "full_prepayment",
                     "payment_object" => 1,
-                    "agent_info"=>[
-                        "type"=> "another",
-                        "paying_agent"=>
-                        [ 
-                            "operation"=> "Партнер", 
-                            "phones"=>[(string)$user['phone']],],
-                            "receive_payments_operator"=> 
-                            [ 
-                                "phones"=> [(string)$user['phone'],
-                            ],
+                    "agent_info" => [
+                        "type" => "another",
+                        "paying_agent" => [
+                            "operation" => "Партнер",
+                            "phones" => [(string)$user['phone']],
+                        ],
+                        "receive_payments_operator" => [
+                            "phones" => [(string)$user['phone']],
                         ],
                     ],
                     "supplier_info" => [
@@ -133,88 +180,10 @@ class AutoToken{
                         "name" => $data['rs']['off_name'],
                         "inn" => (string)$data['rs']['inn'],
                     ],
-                    ]
-                    ;}
-                }*/
-                $partner = Aff::getPartnerReq($order['partner_id']);
-                $user=User::getUserById( $partner['user_id']);
-                $serializedData = $partner['requsits'];
-                $data = unserialize($serializedData);
-        $data = [
-            "receipt" => [
-                "items" => [
-                    [
-                    "sum" => intval($order['summ']),
-                    "vat" => ["type" => "none"],
-                    "name" => "Buy courses",//$$order_items['product_name'],
-                    "price" => intval($order['summ']),
-                    "measure" => 0,
-                    "quantity" => 1,
-                    "payment_method" => "full_prepayment",
-                    "payment_object" => 1,
-                    "agent_info"=>[
-                        "type"=> "another",
-                        "paying_agent"=>
-                        [
-                            "operation"=> "Партнер",
-                            "phones"=>[(string)$user['phone']],],
-                            "receive_payments_operator"=>
-                            [
-                                "phones"=> [(string)$user['phone'],
-                            ],
-                        ],
-                    ],
-                    "supplier_info" => [
-                        "phones" => [(string)$user['phone']],
-                        "name" => $data['rs']['off_name'],
-                        "inn" => (string)$data['rs']['inn'],
-                    ],
-                    ],
-                ],
-                "total" => intval($order['summ']),
-                "client" => [
-                    "email" => $order['client_email'],
-                    "phone" =>  $order['client_phone'],
-                ],
-                "company" => [
-                    "inn" => $inn,
-                    "sno" =>  $sno,
-                    "email" => $email,
-                    "payment_address" => $payment_address
-                ],
-                "payments" => [
-                    [
-                        "sum" => intval($order['summ']),
-                        "type" => 1
-                    ]
-                ]
-            ],
-            "timestamp" => date("d.m.Y H:i:s"),
-            "external_id" =>$order['order_date'],
-        ];
-        $headers = [
-            "Content-Type: application/json, charset=utf-8",
-            "Token: $token",
-        ];
-        $ch = curl_init( $api_url."/".$group_code ."/sell");
-
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        $response = curl_exec($ch);
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        
-        curl_close($ch);
-        
-        $payment_data = json_decode($response, true);
-
-        if (is_array($payment_data['error'])) {
-            
-            LogEmail:: PaymentError( json_encode($payment_data['error'])."\n".json_encode($data),"atol/result.php","sell");
-        }else{
-            PointDB::updateUUID($order['order_id'],$payment_data['uuid']);
+                ];
+            }
         }
+
+        return $items;
     }
-}?>
+}

@@ -74,7 +74,7 @@ $error_data = json_decode($response, true);
 $error_id = $error_data['error']['error_id'] ?? 'Неизвестная ошибка';
 
 if(intval($error_id)==11){
-        $token=AutoToken::CheckToken($token,$login,$pass);
+        $token=AutoToken::checkToken($token,$login,$pass);
         if( $token!=false){
                 $headers = [
                     "Authorization: Bearer $token",

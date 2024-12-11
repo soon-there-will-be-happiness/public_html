@@ -35,7 +35,7 @@ if($point['status']!=true)
         Order::renderOrder($order);
         $order_items = Order::getOrderItems($order['order_id']);
         PointDB::updateStatusToTrue($order_id);
-        AutoToken::SendCheck( $order);
+        AutoToken::sendCheck( $order);
     }
     
 }
