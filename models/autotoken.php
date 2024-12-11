@@ -139,6 +139,7 @@ class AutoToken {
      */
     private static function prepareItems(array $orderItems, int $partnerId): array {
         $items = [];
+        $setting = System::getSetting();
 
         foreach ($orderItems as $item) {
             $items[] = [
@@ -169,10 +170,10 @@ class AutoToken {
                         "type" => "another",
                         "paying_agent" => [
                             "operation" => "Партнер",
-                            "phones" => [(string)$user['phone']],
+                            "phones" => [(string)$setting['phone'],],
                         ],
                         "receive_payments_operator" => [
-                            "phones" => [(string)$user['phone']],
+                            "phones" => [(string)$setting['phone'],],
                         ],
                     ],
                     "supplier_info" => [
