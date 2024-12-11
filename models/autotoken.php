@@ -143,6 +143,7 @@ class AutoToken{
         $data = [
             "receipt" => [
                 "items" => [
+                    [
                     "sum" => intval($order['summ']),
                     "vat" => ["type" => "none"],
                     "name" => "Buy courses",//$$order_items['product_name'],
@@ -169,6 +170,7 @@ class AutoToken{
                         "inn" => (string)$data['rs']['inn'],
                     ],
                     ],
+                ],
                 "total" => intval($order['summ']),
                 "client" => [
                     "email" => $order['client_email'],
