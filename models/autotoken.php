@@ -146,7 +146,7 @@ class AutoToken {
                 "name" => $item['product_name'],
                 "price" => intval($summ),
                 "measure" => 0,
-                "quantity" => intval($item['quantity']),
+                "quantity" =>  1,
                 "payment_method" => "full_prepayment",
                 "payment_object" => 1,
             ];
@@ -161,7 +161,7 @@ class AutoToken {
                     "name" => $item['product_name'],
                     "price" => intval($summ),
                     "measure" => 0,
-                    "quantity" => intval($item['quantity']),
+                    "quantity" =>  1,
                     "payment_method" => "full_prepayment",
                     "payment_object" => 1,
                     "agent_info" => [
