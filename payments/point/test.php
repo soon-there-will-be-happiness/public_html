@@ -13,4 +13,3 @@ $setting = System::getSetting(true);
     //PointDB::updateStatusToTrue($order_id);
     AutoToken::sendCheck( $order);
 }
-System::redirectUrl($setting['script_url'] . '/payments/point/success?id='.$order_id);

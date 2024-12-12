@@ -141,7 +141,6 @@ class AutoToken {
         foreach ($orderItems as $item) {
             if ($partnerId !== 0) {
                 $partner = Aff::getPartnerReq($partnerId);
-                echo($partner['user_id']);
                 $user = User::getUserById($partner['user_id']);
                 $data = unserialize($partner['requsits']);
                 $phone = preg_replace('/\s+/', '', $user['phone']);
