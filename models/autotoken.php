@@ -92,7 +92,7 @@ class AutoToken {
         $data = [
             "receipt" => [
                 "items" => $items,
-                "total" => intval($order['summ']),
+                "total" => intval(1),
                 "client" => [
                     "email" => $order['client_email'],
                     "phone" => $order['client_phone'],
@@ -104,7 +104,7 @@ class AutoToken {
                     "payment_address" => $params['payment_address'],
                 ],
                 "payments" => [[
-                    "sum" => intval($order['summ']),
+                    "sum" => intval(1),
                     "type" => 1,
                 ]],
             ],
@@ -141,10 +141,10 @@ class AutoToken {
 
         foreach ($orderItems as $item) {
             $items[] = [
-                "sum" => intval($summ),
+                "sum" => intval(1),
                 "vat" => ["type" => "none"],
                 "name" => $item['product_name'],
-                "price" => intval($summ),
+                "price" => intval(1),
                 "measure" => 0,
                 "quantity" =>  1,
                 "payment_method" => "full_prepayment",
@@ -156,10 +156,10 @@ class AutoToken {
                 $user = User::getUserById($partner['user_id']);
                 $data = unserialize($partner['requsits']);
                 $items[] = [
-                    "sum" => intval($summ),
+                    "sum" =>intval(1),
                     "vat" => ["type" => "none"],
                     "name" => $item['product_name'],
-                    "price" => intval($summ),
+                    "price" => intval(1),
                     "measure" => 0,
                     "quantity" =>  1,
                     "payment_method" => "full_prepayment",
