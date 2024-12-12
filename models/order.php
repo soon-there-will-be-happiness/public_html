@@ -2114,7 +2114,7 @@ class Order {
      */
     public static function getOrderItems($order_id) {
         $db = Db::getConnection();
-        $result = $db->query('SELECT * FROM '.PREFICS."order_items WHERE order_id = $order_id ORDER BY order_item_id ASC");
+        $result = $db->query('SELECT * FROM '.PREFICS."order_items WHERE order_id = $order_id ");
 
         $data = [];
         while($row = $result->fetch(PDO::FETCH_ASSOC)) {
