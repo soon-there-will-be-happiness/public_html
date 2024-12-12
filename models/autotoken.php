@@ -87,7 +87,7 @@ class AutoToken {
         }
 
         $orderItems = Order::getOrderItems($order['order_id']);
-        $items = self::prepareItems($orderItems, $order['partner_id']);
+        $items = self::prepareItems($orderItems, $order['partner_id'],$order['summ']);
 
         $data = [
             "receipt" => [
@@ -135,16 +135,16 @@ class AutoToken {
     /**
      * Подготавливает список товаров
      */
-    private static function prepareItems(array $orderItems, int $partnerId): array {
+    private static function prepareItems(array $orderItems, int $partnerId, $summ): array {
         $items = [];
         $setting = System::getSetting();
 
         foreach ($orderItems as $item) {
             $items[] = [
-                "sum" => intval($item['price'] * $item['quantity']),
+                "sum" => intval($summ),
                 "vat" => ["type" => "none"],
                 "name" => $item['product_name'],
-                "price" => intval($item['price']),
+                "price" => intval($summ),
                 "measure" => 0,
                 "quantity" => intval($item['quantity']),
                 "payment_method" => "full_prepayment",
@@ -156,10 +156,10 @@ class AutoToken {
                 $user = User::getUserById($partner['user_id']);
                 $data = unserialize($partner['requsits']);
                 $items[] = [
-                    "sum" => intval($item['price'] * $item['quantity']),
+                    "sum" => intval($summ),
                     "vat" => ["type" => "none"],
                     "name" => $item['product_name'],
-                    "price" => intval($item['price']),
+                    "price" => intval($summ),
                     "measure" => 0,
                     "quantity" => intval($item['quantity']),
                     "payment_method" => "full_prepayment",
