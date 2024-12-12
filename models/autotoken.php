@@ -140,21 +140,12 @@ class AutoToken {
         $setting = System::getSetting();
 
         foreach ($orderItems as $item) {
-            $items[] = [
-                "sum" => intval(1),
-                "vat" => ["type" => "none"],
-                "name" => $item['product_name'],
-                "price" => intval(1),
-                "measure" => 0,
-                "quantity" =>  1,
-                "payment_method" => "full_prepayment",
-                "payment_object" => 1,
-            ];
-
+    
             if ($partnerId !== 0) {
                 $partner = Aff::getPartnerReq($partnerId);
                 $user = User::getUserById($partner['user_id']);
                 $data = unserialize($partner['requsits']);
+                $phone = preg_replace('/\s+/', '', $user['phone']);
                 $items[] = [
                     "sum" =>intval(1),
                     "vat" => ["type" => "none"],
@@ -168,7 +159,7 @@ class AutoToken {
                         "type" => "another",
                     ],
                     "supplier_info" => [
-                        "phones" => [(string)$user['phone']],
+                        "phones" => [(string) $phone,
                         "name" => $data['rs']['off_name'],
                         "inn" => (string)$data['rs']['inn'],
                     ],
