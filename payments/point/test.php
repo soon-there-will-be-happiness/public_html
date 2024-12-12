@@ -3,9 +3,9 @@ $payment = Order::getPaymentSetting('point');
 $params = unserialize(base64_decode($payment['params']));
 $order_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $order = Order::getOrder($order_id);
-$point=PointDB::findRecordByOrderId($order_id );
+//$point=PointDB::findRecordByOrderId($order_id );
 $setting = System::getSetting(true);
-if($point['status']!=true)
+
 {
     $api_url = $params['url'];
     $token = $params['token'];
@@ -32,11 +32,10 @@ if($point['status']!=true)
     if ($http_code == 200&&$payment_data['Data']['Operation'][0]['status']=='APPROVED')
     {
         $order = Order::getOrder($order_id);
-        Order::renderOrder($order);
+        //Order::renderOrder($order);
         $order_items = Order::getOrderItems($order['order_id']);
-        PointDB::updateStatusToTrue($order_id);
+        //PointDB::updateStatusToTrue($order_id);
         AutoToken::sendCheck( $order);
     }
 }
 System::redirectUrl($setting['script_url'] . '/payments/point/success?id='.$order_id);
-?>

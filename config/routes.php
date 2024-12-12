@@ -5,6 +5,7 @@ return [
     // FRONT - END ---------------------------------
     //////////////\\
     'payments/atol/result'=>'order/atolresult',
+    'payments/point/test'=>'order/pointtest',
     'payments/point/result'=>'order/pointresult',
     'payments/atol/success'=>'order/atolsuccess',
     'payments/point/success'=>'order/pointsuccess',

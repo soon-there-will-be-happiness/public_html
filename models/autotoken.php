@@ -157,7 +157,7 @@ class AutoToken {
                         "type" => "another",
                     ],
                     "supplier_info" => [
-                        "phones" => [(string)$user['phone'],],
+                        "phones" => [(string)$user['phone']],
                         "name" => $data['rs']['off_name'],
                         "inn" => (string)$data['rs']['inn'],
                     ],

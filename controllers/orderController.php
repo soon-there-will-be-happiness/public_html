@@ -1802,13 +1802,19 @@ class orderController extends baseController {
             ErrorPage::return404();
         }
     }
+    //pointtest
     public function actionPointSuccess() {
         $this->setViewParams('payments', 'payments/point/success.php', null, null, 'order-pay-page');
 
         require_once (ROOT . '/payments/point/success.php');
         return true;
     }
+    public function actionPointTest() {
+        $this->setViewParams('payments', 'payments/point/pointtest.php', null, null, 'order-pay-page');
 
+        require_once (ROOT . '/payments/point/pointtest.php');
+        return true;
+    }
     public function actionFail($payment) {
         if (file_exists(ROOT."/payments/$payment/fail.php")) {
             require (ROOT."/payments/$payment/fail.php");
