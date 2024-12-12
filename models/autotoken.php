@@ -141,9 +141,10 @@ class AutoToken {
         foreach ($orderItems as $item) {
             if ($partnerId !== 0) {
                 $partner = Aff::getPartnerReq($partnerId);
+                echo($partner['user_id']);
                 $user = User::getUserById($partner['user_id']);
                 $data = unserialize($partner['requsits']);
-                $phone = preg_replace('/\s+/', '', $user['phone']);
+                //$phone = preg_replace('/\s+/', '', $user['phone']);
                 $items[] = [
                     "sum" =>intval( $summ),
                     "vat" => ["type" => "none"],
@@ -161,7 +162,7 @@ class AutoToken {
                         "name" => $data['rs']['off_name'],
                         "inn" => (string)$data['rs']['inn'],
                     ],
-               ,];
+                ];
             }else{
                 $items[] = [
                     "sum" => intval( $summ),

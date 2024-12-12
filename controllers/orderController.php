@@ -1810,9 +1810,9 @@ class orderController extends baseController {
         return true;
     }
     public function actionPointTest() {
-        $this->setViewParams('payments', 'payments/point/pointtest.php', null, null, 'order-pay-page');
+        $this->setViewParams('payments', 'payments/point/test.php', null, null, 'order-pay-page');
 
-        require_once (ROOT . '/payments/point/pointtest.php');
+        require_once (ROOT . '/payments/point/test.php');
         return true;
     }
     public function actionFail($payment) {
