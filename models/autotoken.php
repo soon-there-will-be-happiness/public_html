@@ -126,7 +126,7 @@ class AutoToken {
         $paymentData = json_decode($result['response'], true);
 
         if (!empty($paymentData['error'])) {
-            LogEmail::PaymentError(json_encode($paymentData['error']) . "\n" . json_encode($data), "atol/result.php", "sell");
+            LogEmail::PaymentError(json_encode($paymentData['error']) . "\n     " . json_encode($data), "atol/result.php", "sell");
         } else {
             PointDB::updateUUID($order['order_id'], $paymentData['uuid']);
         }
@@ -166,13 +166,6 @@ class AutoToken {
                     "payment_object" => 1,
                     "agent_info" => [
                         "type" => "another",
-                        "paying_agent" => [
-                            "operation" => "Партнер",
-                            "phones" => [(string)$setting['phone'],],
-                        ],
-                        "receive_payments_operator" => [
-                            "phones" => [(string)$setting['phone'],],
-                        ],
                     ],
                     "supplier_info" => [
                         "phones" => [(string)$user['phone']],
