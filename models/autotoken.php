@@ -159,11 +159,11 @@ class AutoToken {
                         "type" => "another",
                     ],
                     "supplier_info" => [
-                        "phones" => [(string) $phone,
+                        "phones" => [(string) $phone, ],
                         "name" => $data['rs']['off_name'],
                         "inn" => (string)$data['rs']['inn'],
                     ],
-                ];
+               ,];
             }
         }
 
