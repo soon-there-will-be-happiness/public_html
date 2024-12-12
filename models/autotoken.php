@@ -92,7 +92,7 @@ class AutoToken {
         $data = [
             "receipt" => [
                 "items" => $items,
-                "total" => intval(1),
+                "total" => intval($order['summ']),
                 "client" => [
                     "email" => $order['client_email'],
                     "phone" => $order['client_phone'],
@@ -104,7 +104,7 @@ class AutoToken {
                     "payment_address" => $params['payment_address'],
                 ],
                 "payments" => [[
-                    "sum" => intval(1),
+                    "sum" => intval($order['summ']),
                     "type" => 1,
                 ]],
             ],
@@ -126,7 +126,8 @@ class AutoToken {
         $paymentData = json_decode($result['response'], true);
 
         if (!empty($paymentData['error'])) {
-            LogEmail::PaymentError(json_encode($paymentData['error']) . "\n     " . json_encode($data), "atol/result.php", "sell");
+            LogEmail::PaymentError(json_encode($paymentData['error']) , "atol/result.php", "sell");
+            LogEmail::PaymentError( json_encode($data), "atol/result.php", "data for recwest");
         } else {
             PointDB::updateUUID($order['order_id'], $paymentData['uuid']);
         }
@@ -137,20 +138,17 @@ class AutoToken {
      */
     private static function prepareItems(array $orderItems, int $partnerId, $summ): array {
         $items = [];
-        $setting = System::getSetting();
-
         foreach ($orderItems as $item) {
-    
             if ($partnerId !== 0) {
                 $partner = Aff::getPartnerReq($partnerId);
                 $user = User::getUserById($partner['user_id']);
                 $data = unserialize($partner['requsits']);
                 $phone = preg_replace('/\s+/', '', $user['phone']);
                 $items[] = [
-                    "sum" =>intval(1),
+                    "sum" =>intval( $summ),
                     "vat" => ["type" => "none"],
                     "name" => $item['product_name'],
-                    "price" => intval(1),
+                    "price" => intval($summ),
                     "measure" => 0,
                     "quantity" =>  1,
                     "payment_method" => "full_prepayment",
@@ -159,11 +157,22 @@ class AutoToken {
                         "type" => "another",
                     ],
                     "supplier_info" => [
-                        "phones" => [(string) $phone, ],
+                        "phones" => [(string) $phone,],
                         "name" => $data['rs']['off_name'],
                         "inn" => (string)$data['rs']['inn'],
                     ],
                ,];
+            }else{
+                $items[] = [
+                    "sum" => intval( $summ),
+                    "vat" => ["type" => "none"],
+                    "name" => $item['product_name'],
+                    "price" => intval($summ),
+                    "measure" => 0,
+                    "quantity" =>  1,
+                    "payment_method" => "full_prepayment",
+                    "payment_object" => 1,
+                ];
             }
         }
 
