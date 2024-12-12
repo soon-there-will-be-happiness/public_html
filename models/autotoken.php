@@ -138,6 +138,7 @@ class AutoToken {
      */
     private static function prepareItems(array $orderItems, int $partnerId, $summ): array {
         $items = [];
+        $setting = System::getSetting();
         foreach ($orderItems as $item) {
             if ($partnerId !== 0) {
                 $partner = Aff::getPartnerReq($partnerId);
@@ -155,6 +156,13 @@ class AutoToken {
                     "payment_object" => 1,
                     "agent_info" => [
                         "type" => "another",
+                        "paying_agent" => [
+                            "operation" => "Партнер",
+                            "phones" => [(string)$setting['phone'],],
+                        ],
+                        "receive_payments_operator" => [
+                            "phones" => [(string)$setting['phone'],],
+                        ],
                     ],
                     "supplier_info" => [
                         "phones" => [$phone],
