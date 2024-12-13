@@ -21,6 +21,7 @@ $dotenv->load();
 $api = CyclopsApi::getInstance();
 $response = $api->listPayments(1,50,['identify' => false]);
 Log::add(1,'cron execute', ["response" => $response],'cyclops_cron');
+
 $records = PointDB::getRecordsWithStatus();
 
 // Проход по каждому платежу, полученному из API
@@ -61,6 +62,7 @@ if (isset($response['result']['payment']) && !empty($response['result']['payment
                 'order_id' => $orderId,
                 'payment_id' => $paymentId
             ], 'cyclops_match');
+
         }
     }
 }
