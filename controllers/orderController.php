@@ -721,10 +721,17 @@ class orderController extends baseController {
         require_once (ROOT . '/payments/atol/success.php');
         return true;
     }
-    
+
     public function actionAtolResult(){
         $this->setViewParams('payments', '/payments/atol/result.php', null, null, 'order-pay-page');
         require_once (ROOT . '/payments/atol/result.php');
+
+        return true;
+    }
+
+    public function actionPointResult(){
+        $this->setViewParams('payments', '/payments/point/result.php', null, null, 'order-pay-page');
+        require_once (ROOT . '/payments/point/result.php');
 
         return true;
     }
@@ -979,7 +986,7 @@ class orderController extends baseController {
                     System::redirectUrl("/lk/mytrainings");
                     return true;
                 }
-                
+
                 $this->setSEOParams('Спасибо!');
                 $this->setViewParams('order', 'order/thanks.php', null,
                     null, 'order-page'
@@ -1795,8 +1802,19 @@ class orderController extends baseController {
             ErrorPage::return404();
         }
     }
+    //pointtest
+    public function actionPointSuccess() {
+        $this->setViewParams('payments', 'payments/point/success.php', null, null, 'order-pay-page');
 
+        require_once (ROOT . '/payments/point/success.php');
+        return true;
+    }
+    public function actionPointTest() {
+        $this->setViewParams('payments', 'payments/point/test.php', null, null, 'order-pay-page');
 
+        require_once (ROOT . '/payments/point/test.php');
+        return true;
+    }
     public function actionFail($payment) {
         if (file_exists(ROOT."/payments/$payment/fail.php")) {
             require (ROOT."/payments/$payment/fail.php");

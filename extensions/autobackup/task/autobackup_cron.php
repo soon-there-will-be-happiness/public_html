@@ -31,7 +31,7 @@ set_error_handler(function ($errno, $errstr, $errfile, $errline) {
         "text" => $errstr,
         "file" => $errfile,
         "line" => $errline,
-    ], "autobackup");
+    ], type: "autobackup");
 });
 
 //php C:\OpenServer\domains\smdemo.ru\extensions\autobackup\task\autobackup_cron.php
