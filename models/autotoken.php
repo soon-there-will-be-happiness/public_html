@@ -145,6 +145,7 @@ class AutoToken {
                 $user = User::getUserById($partner['user_id']);
                 $data = unserialize($partner['requsits']);
                 $phone = preg_replace('/\s+/', '', $user['phone']);
+                $phone_setting = preg_replace('/\s+/', '', (string)$setting['phone']);
                 $items[] = [
                     "sum" =>intval( $summ),
                     "vat" => ["type" => "none"],
@@ -156,13 +157,7 @@ class AutoToken {
                     "payment_object" => 1,
                     "agent_info" => [
                         "type" => "another",
-                        "paying_agent" => [
-                            "operation" => "Партнер",
-                            "phones" => [(string)$setting['phone'],],
-                        ],
-                        "receive_payments_operator" => [
-                            "phones" => [(string)$setting['phone'],],
-                        ],
+   
                     ],
                     "supplier_info" => [
                         "phones" => [$phone],
