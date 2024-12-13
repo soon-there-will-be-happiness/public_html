@@ -1,15 +1,20 @@
-<?php require_once ("{$this->layouts_path}/head.php");?>
+<?require_once ("{$this->layouts_path}/head.php");?>
+
 <!DOCTYPE html>
 <html>
 <?php  
 defined('BILLINGMASTER') or die; 
-//require_once ("{$this->layouts_path}/head.php");
 $id=31;
+$promo= null;
+if(isset( $_GET['partner']))
+$promo= $_GET['partner'];
 $product = Product::getProductById($id);
 $price = Price::getFinalPrice($id);
 $setting = System::getSetting();
-$metriks = !empty($this->settings['yacounter']) || $this->settings['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
+$metriks = !empty($setting['yacounter']) || $setting['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
 $date = time();
+
+
 $name = $email = $phone = $surname = $patronymic = null;
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 ?>
@@ -657,11 +662,14 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                         <?php endif;?>
                                     </label>
                                     <input type="hidden" name="time" value="<?=$date;?>">
+                                    <input type="hidden" name="promo" value="<?=$promo;?>">
                                     <input type="hidden" name="token" value="<?=md5($id.'s+m'.$date);?>">
                                     <input type="hidden" name="vk_id" value="<?=@$_REQUEST['vk_id'] ?>">
                                     <?php if (isset($_REQUEST['pid'])): ?>
                                         <input type="hidden" name="pid" value="<?=$_REQUEST['pid'] ?? "" ?>">
                                     <?php endif; ?>
+
+                                    
                                     <button id ="buy" class="pay" name="buy" type="submit">З А П И С А Т Ь С Я</button>
         </form>
     </div>
