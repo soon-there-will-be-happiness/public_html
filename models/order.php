@@ -2136,17 +2136,10 @@ class Order {
     public static function getOrderItems($order_id) {
         $order_id=intval($order_id);
         $db = Db::getConnection();
-<<<<<<< HEAD
-        $stmt = $db->prepare('SELECT * FROM '.PREFICS.'order_items WHERE order_id = :order_id ORDER BY order_item_id ASC');
-        $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
-        $stmt->execute();
-=======
-
         $stmt = $db->prepare('SELECT * FROM '.PREFICS.'order_items WHERE order_id = :order_id ORDER BY order_item_id ASC');
         $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
         $stmt->execute();
 
->>>>>>> b6caa63615c8e1e0500a91fae3ba1de71e55fb6e
 
         $data = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
