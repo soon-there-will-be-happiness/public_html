@@ -24,7 +24,9 @@ if (isset($response['result']['payments']) && !empty($response['result']['paymen
     $ids = Cyclops::getPayments([])['logs']['id'];
     foreach ($response['result']['payments'] as $paymentId) {
         // Вызов метода addPayment для каждого платежа
-        if (in_array($paymentId,$ids)) {
+        print_r($ids);
+        print_r($paymentId);
+        if (!in_array($paymentId,$ids)) {
             Cyclops::addPayment($paymentId);
         }
     }

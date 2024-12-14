@@ -119,7 +119,11 @@ class orderController extends baseController {
         // Если нажата кнопка оформить заказ
         if (isset($_POST['buy']) && !empty($_POST['email']) && isset($_POST['time']) && isset($_POST['token'])) {
             $sign = md5($id.'s+m'.$_POST['time']);
-
+            $id_promo=$_POST['promo'];
+            
+            if( $id_promo!=null){
+                 $partner_id_promocode = $id_promo;
+            }
             if ($date - intval($_POST['time']) < 2) {
                 ErrorPage::returnError('Error 913');
             }
@@ -976,7 +980,6 @@ class orderController extends baseController {
                     System::redirectUrl("/lk/mytrainings");
                     return true;
                 }
-                echo(intval($order['product_id']));
                 $this->setSEOParams('Спасибо!');
                 $this->setViewParams('order', 'order/thanks.php', null,
                     null, 'order-page'

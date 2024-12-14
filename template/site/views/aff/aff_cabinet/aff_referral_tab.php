@@ -47,7 +47,7 @@
                     
                     
                     if($product['product_text2']!=null && !empty($product['product_text2'])){
-                        $url =$this->settings['script_url'].$product['product_text2'];
+                        $url =$this->settings['script_url'].$product['product_text2'] . '?partner=' . $user['user_id'];
                         $short_link_id_tx2_url = Aff::isShortLinkByPartner($user['user_id'], $url);
                         if ($short_link_id_tx2_url) {
                             // Если короткая ссылка найдена, подставляем ID в ссылку
@@ -67,7 +67,7 @@
                             }
                         }
                         
-                        $order_url = $this->settings['script_url'].$product['product_text2'].'#pay';
+                        $order_url = $this->settings['script_url'].$product['product_text2'] . '?partner=' . $user['user_id'] . '#pay';
                         
                         $short_link_id_tx2_order = Aff::isShortLinkByPartner($user['user_id'], $order_url);
                         if ($short_link_id_tx2_order) {

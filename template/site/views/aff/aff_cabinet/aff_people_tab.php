@@ -16,7 +16,7 @@
                     <tr>
                         <td><?=$client['user_name'];?></td>
                         <td><?=$params['params']['hidden_email'] == 1 ? System::hideEmail($client['email']) : $client['email']; ?><br />
-                        <?=$params['params']['hidden_phone'] == 1 ? ($client['phone']) : null ;?>
+                        <?=$params['params']['hidden_phone'] == 1 ? null : ($client['phone']) ;?>
                         </td>
                         <td><?=date("d.m.Y H:i:s", $client['reg_date']);?></td>
                     </tr>

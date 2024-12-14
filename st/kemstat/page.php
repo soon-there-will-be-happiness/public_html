@@ -3,6 +3,8 @@
 <html>
 <?php  defined('BILLINGMASTER') or die;
 $id=28;
+$promo= null;
+if(isset( $_GET['partner'])) $promo= $_GET['partner'];
 $product = Product::getProductById($id);
 $price = Price::getFinalPrice($id);
 $date = time();
@@ -3895,6 +3897,7 @@ if ($partner_id != null) {
                                     </label>
                                     <input type="hidden" name="not-me" value=true/>
                                     <input type="hidden" name="time" value="<?=$date;?>">
+                                    <input type="hidden" name="promo" value="<?=$promo?>">
                                     <input type="hidden" name="token" value="<?=md5($id.'s+m'.$date);?>">
                                     <input type="hidden" name="vk_id" value="<?=@$_REQUEST['vk_id'] ?>">
                                     <?php if (isset($_REQUEST['pid'])): ?>

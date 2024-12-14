@@ -2093,6 +2093,22 @@ class Order {
     }
 
 
+    // ДАННЫЕ ЗАКАЗА ПО order_id ДЛЯ ПОКУПАТЕЛЯ
+    public static function getPayedOrderDataByClientAndProduct($client_email, $product_id)
+    {
+        $product_id = intval($product_id);
+        $sql = "SELECT * FROM " . PREFICS . "orders WHERE client_email = :client_email AND product_id = :product_id AND status = 1";
+        $db = Db::getConnection();
+        $stmt=$db->prepare($sql);
+        $stmt->bindParam(':client_email', $client_email, PDO::PARAM_STR);
+        $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return !empty($data) ? $data : false;
+    }
+    
+    
     /**
      * ПОЛУЧИТЬ ДАННЫЕ ЗАКАЗА
      * @param $id
@@ -2114,10 +2130,12 @@ class Order {
      */
     public static function getOrderItems($order_id) {
         $db = Db::getConnection();
-        $result = $db->query('SELECT * FROM '.PREFICS."order_items WHERE order_id = $order_id ORDER BY order_item_id ASC");
+        $stmt = $db->prepare('SELECT * FROM '.PREFICS.'order_items WHERE order_id = :order_id ORDER BY order_item_id ASC');
+        $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        $stmt->execute();
 
         $data = [];
-        while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $data[] = $row;
         }
 
