@@ -2114,7 +2114,7 @@ class Order {
      */
     public static function getOrderItems($order_id) {
         $db = Db::getConnection();
-        $result = $db->query('SELECT * FROM '.PREFICS."order_items WHERE order_id = $order_id ");
+        $result = $db->query('SELECT * FROM '.PREFICS."order_items WHERE order_id = $order_id ORDER BY order_item_id ASC");
 
         $data = [];
         while($row = $result->fetch(PDO::FETCH_ASSOC)) {
@@ -2762,16 +2762,6 @@ class Order {
         $result->bindParam(':public_title', $public_title, PDO::PARAM_STR);
         $result->bindParam(':status', $status, PDO::PARAM_INT);
         $result->bindParam(':sort', $sort, PDO::PARAM_INT);
-        $result->bindParam(':params', $params, PDO::PARAM_STR);
-        return $result->execute();
-    }
-      public static function EditPaymentsParams($id,    $params)
-    {
-        $db = Db::getConnection();
-        $sql = 'UPDATE '.PREFICS.'payments SET params = :params
-                WHERE payment_id = '.$id;
-        $result = $db->prepare($sql);
-
         $result->bindParam(':params', $params, PDO::PARAM_STR);
         return $result->execute();
     }

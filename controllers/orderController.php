@@ -88,6 +88,7 @@ class orderController extends baseController {
         $cookie = $this->settings['cookie']; // Получаем имя для куки
         $related_products = Product::getRelatedProductsByID($id, 1); // Получить данные сопутствующих продуктов
 		$subs_id = isset($_GET['subs_id']) ? intval($_GET['subs_id']) : 0; // Продление мембершипа по map_id
+		
 		// Разделение фин.потока
         $org_id = Organization::getOrgByProduct($id); // получаем ID организации
 
@@ -106,11 +107,10 @@ class orderController extends baseController {
             }
         }
 
-       
+
         $price = Price::getFinalPrice($id);
 
-        $partner_id_promocode = $price['partner_id']; 
-    
+        $partner_id_promocode = $price['partner_id'];
         $use_partner = $price['usepartner'] ?? true;
         $nds_price = Price::getNDSPrice($price['real_price']);
 
@@ -119,10 +119,7 @@ class orderController extends baseController {
         // Если нажата кнопка оформить заказ
         if (isset($_POST['buy']) && !empty($_POST['email']) && isset($_POST['time']) && isset($_POST['token'])) {
             $sign = md5($id.'s+m'.$_POST['time']);
-           $id_promo=$_POST['promo'];
-           if( $id_promo!=null){
-                $partner_id_promocode = $id_promo;
-           }
+
             if ($date - intval($_POST['time']) < 2) {
                 ErrorPage::returnError('Error 913');
             }
@@ -721,17 +718,10 @@ class orderController extends baseController {
         require_once (ROOT . '/payments/atol/success.php');
         return true;
     }
-
+    
     public function actionAtolResult(){
         $this->setViewParams('payments', '/payments/atol/result.php', null, null, 'order-pay-page');
         require_once (ROOT . '/payments/atol/result.php');
-
-        return true;
-    }
-
-    public function actionPointResult(){
-        $this->setViewParams('payments', '/payments/point/result.php', null, null, 'order-pay-page');
-        require_once (ROOT . '/payments/point/result.php');
 
         return true;
     }
@@ -986,7 +976,7 @@ class orderController extends baseController {
                     System::redirectUrl("/lk/mytrainings");
                     return true;
                 }
-
+                echo(intval($order['product_id']));
                 $this->setSEOParams('Спасибо!');
                 $this->setViewParams('order', 'order/thanks.php', null,
                     null, 'order-page'
@@ -1802,19 +1792,8 @@ class orderController extends baseController {
             ErrorPage::return404();
         }
     }
-    //pointtest
-    public function actionPointSuccess() {
-        $this->setViewParams('payments', 'payments/point/success.php', null, null, 'order-pay-page');
 
-        require_once (ROOT . '/payments/point/success.php');
-        return true;
-    }
-    public function actionPointTest() {
-        $this->setViewParams('payments', 'payments/point/test.php', null, null, 'order-pay-page');
 
-        require_once (ROOT . '/payments/point/test.php');
-        return true;
-    }
     public function actionFail($payment) {
         if (file_exists(ROOT."/payments/$payment/fail.php")) {
             require (ROOT."/payments/$payment/fail.php");

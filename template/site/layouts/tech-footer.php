@@ -8,10 +8,6 @@
 <script src="/template/<?=$this->settings['template'];?>/js/libs.js"></script>
 <script src="/template/<?=$this->settings['template'];?>/js/scripts.js?v340"></script>
 
-<?php if ($_SERVER['REQUEST_URI'] === "/lk/aff"): ?>
-    <script src="/template/<?=$this->settings ['template'];?>/js/data_check.js" defer></script>
-<?php endif; ?>
-
 <script src="/extensions/connect/web/js/main.min.js?v<?=CURR_VER?>"></script>
 
 <link rel="stylesheet" type="text/css" href="/template/<?=$this->settings['template']?>/css/jquery.datetimepicker.min.css">
@@ -112,14 +108,14 @@ jQuery(function() {
                     <form action="/cart" method="POST" class="widget-cart-add-prod">
                         <input type="submit" class="button btn-blue" name="checkout" value="<?=System::Lang('CHECKOUT');?>">
                     </form>`;
-                    $(".widget-cart-items").after(total);
+                    $(".widget-cart-items").after(total);  
                 } else {
                   Object.keys(cart_data['id']).forEach((element) => {
                     if (element !== id) {
                       var prod = document.querySelector('.widget-cart-item__price[data-id="'+element+'"]');
                       if (prod !== null) {
                         if (prod.querySelector('.widget-cart-item__price-old') !== null ) {
-                          prod.querySelector('.widget-cart-item__price-old').textContent = cart_data['id'][element]['price']+` `+currency;
+                          prod.querySelector('.widget-cart-item__price-old').textContent = cart_data['id'][element]['price']+` `+currency; 
                         } else {
                           if (cart_data['id'][element]['price']>cart_data['id'][element]['real_price']) {
                             let old_price = document.createElement('div');
@@ -150,7 +146,7 @@ jQuery(function() {
           });
         });
     </script>
-<?endif;
+<?endif; 
 
 echo $this->settings['counters'];?>
 
@@ -257,7 +253,7 @@ echo $this->settings['counters'];?>
 
         var input_phone = $('input[name=phone]');
 
-        input_phone.each(function (){
+        input_phone.each(function (){ 
            $(this).attr("value", "7");
 
         });
@@ -370,7 +366,7 @@ echo $this->settings['counters'];?>
     <script src="/lib/trumbowyg/dist/plugins/upload/trumbowyg.pasteimage.js"></script>
     <script src="/lib/trumbowyg/dist/langs/ru.js"></script>
     <script src="/lib/trumbowyg/dist/plugins/fontsize/trumbowyg.fontsize.js"></script>
-
+    
     <script type="text/javascript">
       editor_transfiguration = function($el) {
         if ($el.length > 0) {
@@ -456,7 +452,7 @@ echo $this->settings['counters'];?>
 <script src="/lib/select2/js/select2.js"></script>
 <link href="/lib/select2/css/select2.css" rel="stylesheet" type="text/css" />
 
-<?if(System::CheckExtensension('training', 1)):
+<?if(System::CheckExtensension('training', 1)): 
    if(isset($training_filter_enabled) && $training_filter_enabled):?>
       <link rel="stylesheet" href="/extensions/training/web/frontend/style/style.css?v=<?=CURR_VER;?>" type="text/css" />
       <script src="/extensions/training/web/frontend/js/main.js?v=<?=CURR_VER;?>"></script>
