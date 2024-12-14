@@ -29,6 +29,7 @@
                             <option value="2"<?if($element['params']['element_type'] == 2) echo ' selected="selected"';?>>Видеофайл</option>
                             <option value="4"<?if($element['params']['element_type'] == 4) echo ' selected="selected"';?> data-show_off="edit_playlist_cover_box">Youtube / vimeo</option>
                             <option value="7"<?if($element['params']['element_type'] == 7) echo ' selected="selected"';?>>Rutube</option>
+                            <option value="8"<?if($element['params']['element_type'] == 8) echo ' selected="selected"';?>>PeerTube</option>
                             <option value="6"<?if($element['params']['element_type'] == 6) echo ' selected="selected"';?> data-show_on="edit_watermark_param">Кинескоп (kinescope.io)</option>
                             <option value="3"<?if($element['params']['element_type'] == 3) echo ' selected="selected"';?> data-show_off="edit_playlist_cover_box">Аудио</option>
                             <option value="5"<?if($element['params']['element_type'] == 5) echo ' selected="selected"';?> data-show_on="add_playlist_item_file">Изображение</option>
