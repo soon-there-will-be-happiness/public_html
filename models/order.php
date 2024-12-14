@@ -159,9 +159,7 @@ class Order {
                         );
                     }
                 }
-
                 if ($order['partner_id']) {
-                    /*** >>> Новый Клиент письмо <<< ***/
                     Email::sendCustomLetterForPartner(System::Lang('NEW_CLIENT'),System::Lang('NEW_CLIENT_TEXT'),$order,$item);
                 }
 
@@ -194,7 +192,7 @@ class Order {
 
                 // Подписка на членство
                 $to_child=ToChild::searchByOrderId($order['order_id']);
-                if($to_child==false)
+                if( $to_child==false)
                 {
                     $membership = System::CheckExtensension('membership', 1);
                     if ($membership && $client && !empty($product['subscription_id']) && ($order['installment_map_id'] == 0 || $installment_map['pay_actions'] == null)) {
@@ -209,7 +207,6 @@ class Order {
                 // список продуктов для квитанции
                 $nds = Price::isolateNDS($item['price']);
                 $order_items .= '<tr><td style="text-align: left;">'.$product['product_name'].'</td><td> 1 шт </td> <td style="text-align: right">'.$item['price'].' '.$setting['currency'].'</td><td style="text-align: right">'.$nds.' '.$setting['currency'].'</td></tr>';
-
 
                 $product = Product::getProductDataForSendOrder($item['product_id']);
 
@@ -1514,6 +1511,7 @@ class Order {
         $order_items = self::getOrderItems($order['order_id']);
 
         foreach($order_items as $item) {
+
             $product = Product::getProductDataForSendOrder($item['product_id']);
             if ($product) {
 
@@ -2138,9 +2136,11 @@ class Order {
     public static function getOrderItems($order_id) {
         $order_id=intval($order_id);
         $db = Db::getConnection();
+
         $stmt = $db->prepare('SELECT * FROM '.PREFICS.'order_items WHERE order_id = :order_id ORDER BY order_item_id ASC');
         $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
         $stmt->execute();
+
 
         $data = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -2797,6 +2797,16 @@ class Order {
         $result->bindParam(':public_title', $public_title, PDO::PARAM_STR);
         $result->bindParam(':status', $status, PDO::PARAM_INT);
         $result->bindParam(':sort', $sort, PDO::PARAM_INT);
+        $result->bindParam(':params', $params, PDO::PARAM_STR);
+        return $result->execute();
+    }
+      public static function EditPaymentsParams($id,    $params)
+    {
+        $db = Db::getConnection();
+        $sql = 'UPDATE '.PREFICS.'payments SET params = :params
+                WHERE payment_id = '.$id;
+        $result = $db->prepare($sql);
+
         $result->bindParam(':params', $params, PDO::PARAM_STR);
         return $result->execute();
     }

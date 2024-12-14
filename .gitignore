@@ -1,4 +1,5 @@
 /load/backups/*.zip
+load/hometask/*
 /tmp/*.zip
 /tmp/
 /config/config.php
@@ -15,4 +16,5 @@ log/*
 log/
 images/*
 load/avatars/*
+.rsaprivkey.pem
 

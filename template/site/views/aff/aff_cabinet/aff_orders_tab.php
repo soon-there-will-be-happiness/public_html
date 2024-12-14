@@ -93,6 +93,8 @@
             endif;?>
         </table>
 
-        <p class="text-right"><?='Оборот: '.$total_summ_orders;?> <?=$this->settings['currency'];?></p>
+
+<!--        <p class="text-right">--><?php //='Оборот: '.$total_summ_orders;?><!-- --><?php //=$this->settings['currency'];?><!--</p>-->
+
     </div>
 </div>

@@ -422,7 +422,7 @@ class Aff {
         else $result = $db->query("SELECT SUM(summ), SUM(pay) FROM ".PREFICS.$role."_transaction WHERE user_id = $user_id AND date < $date");
         $data = $result->fetch(PDO::FETCH_ASSOC);
         if(isset($data) && !empty($data)) return $data;
-        else return false;				  
+        else return false;
     }
     
     
@@ -464,7 +464,7 @@ class Aff {
     
     
     
-    // ПОЛУЧИТЬ ИСТОРИЮ ВЫПЛАТ                                     
+    // ПОЛУЧИТЬ ИСТОРИЮ ВЫПЛАТ
     public static function getHistoryTransaction($user_id, $type, $role, $summ = null)
     {
         $db = Db::getConnection();
@@ -778,7 +778,7 @@ class Aff {
     
     
     // ДОБАВИТЬ СТРОКУ ДЛЯ ДАННЫХ НОВОГО ПАРТНЁРА
-    public static function AddStatRow ($user_id, $partner_id) 
+    public static function AddStatRow($user_id, $partner_id) 
     {
         $db = Db::getConnection();
         

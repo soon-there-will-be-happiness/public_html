@@ -21,7 +21,6 @@ function checkInn10(inn) {
     // Compare control number with 10th character of INN
     return controlNumber == inn[9];
 }
-
 function checkInn12(inn) {
     if (inn.length !== 12 || !/^\d+$/.test(inn)) {
         return false;
@@ -60,7 +59,6 @@ function checkInn12(inn) {
     // Check control number 1 with 11th character and control number 2 with 12th character
     return controlNumber1 == inn[10] && controlNumber2 == inn[11];
 }
-
 function validateAccountInn(accountNumber, inn) {
     // Determine recipient type based on account number
     const recipientType = getRecipientTypeByAccount(accountNumber);
@@ -85,7 +83,6 @@ function validateAccountInn(accountNumber, inn) {
             throw new Error("Invalid account type for verification.");
     }
 }
-
 function getRecipientTypeByAccount(accountNumber) {
     // Ensure account number contains only digits
     if (!/^\d+$/.test(accountNumber)) {
@@ -128,72 +125,225 @@ function getRecipientTypeByAccount(accountNumber) {
     }
 }
 
-// DOM interaction to validate inputs and block form submission
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('form');
-    const accountNumberInput = document.getElementById('account-number');
-    const innInput = document.getElementById('inn');
-    const accountNumberError = document.createElement('span');
-    const innError = document.createElement('span');
+//  ==========================================================================
 
-    accountNumberError.style.color = 'red';
-    innError.style.color = 'red';
+const root = `${window.location.protocol}//${window.location.host}/`;
+let addSuccesMessage = (text)=>{
+    let container = document.getElementsByClassName("maincol")[0]
+    const successMessage = document.createElement('div');
+    successMessage.className = 'success_message';
+    successMessage.innerHTML = `${text}!`
 
-    accountNumberInput.parentNode.insertBefore(accountNumberError, accountNumberInput.nextSibling);
-    innInput.parentNode.insertBefore(innError, innInput.nextSibling);
+    container.insertBefore(successMessage, container.children[1]);
+    setTimeout(() => {
+        successMessage.style.transition = 'opacity 0.2s ease';
+        successMessage.style.opacity = '0';
+        setTimeout(() => {
+            successMessage.remove();
+        }, 200);
+    }, 4000);
+}
+let getFormData = () => {
+    const form = document.querySelector(".requisites > form")
+    const formData = new FormData(form)
+    const transformedData = { save_req: "save_req", req: {} }
+    formData.forEach((value, key) => {
+        if (key.includes("req[rs]")) {
+            const subKey = key.match(/\[rs\]\[([^\]]+)\]/)[1]
+            transformedData.req.rs = transformedData.req.rs || {}
+            transformedData.req.rs[subKey] = value
+        } else {
+            transformedData.req[key] = value
+        }
+    })
+    return transformedData
+}
+let deleteSpan = () =>{
+    const elem = document.querySelector(".form-section_two > span")
+    const elem2 = document.querySelector(".form-section_second > span")
+    if(elem)
+        elem.remove()
+    if(elem2)
+        elem2.remove()
+}
+let validator = ()=>{
+    deleteSpan()
+    const accountNumberInput = $('#account-number');
+    const innInput = $('#inn');
+    const accountNumberError = $('<span>').css('color', 'red');
+    const innError = $('<span>').css('color', 'red');
+    const submitButton = $('.submit-btn');
+    accountNumberInput.after(accountNumberError);
+    innInput.after(innError);
 
     function validateInn() {
-        const inn = innInput.value;
+        const inn = innInput.val();
         if (!checkInn10(inn) && !checkInn12(inn)) {
-            innError.textContent = 'ИНН неверный. Должно быть 10 или 12 цифр.';
+            innError.text('ИНН неверный. Должно быть 10 или 12 цифр.');
             return false;
         } else {
-            innError.textContent = '';
+            innError.text('');
             return true;
         }
     }
-
     function validateAccountAndInn() {
-        const accountNumber = accountNumberInput.value;
-        const inn = innInput.value;
+        const accountNumber = accountNumberInput.val();
+        const inn = innInput.val();
         try {
             if (!validateAccountInn(accountNumber, inn)) {
-                accountNumberError.textContent = 'ИНН не соответствует номеру счёта.';
+                accountNumberError.text('ИНН не соответствует номеру счёта.');
                 return false;
             } else {
-                accountNumberError.textContent = '';
+                accountNumberError.text('');
                 return true;
             }
         } catch (error) {
-            accountNumberError.textContent = error.message;
+            accountNumberError.text(error.message);
             return false;
         }
     }
-
-    innInput.addEventListener('input', () => {
-        validateInn();
-        validateAccountAndInn();
+    let r1 = validateInn()
+    let r2 = validateAccountAndInn()
+    return (r1 && r2)
+}
+let checkInput = (btn)=>{
+    if (validator()) {
+        btn.style.backgroundColor = '#3250ea';  
+        btn.style.color = '#fff';            
+        btn.style.cursor = 'pointer';   
+        btn.disabled = false; 
+    } else {
+        btn.style.backgroundColor = '#ccc';  
+        btn.style.color = '#666';            
+        btn.style.cursor = 'not-allowed'
+        btn.disabled = true;
+    }   
+}
+let addInput = (btn) =>{
+    checkInput(btn)
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.addEventListener('input', (event) => {
+            checkInput(btn)
+        });
     });
-
-    accountNumberInput.addEventListener('input', () => {
-        validateAccountAndInn();
+}
+let addBtnEvent = (btn) => {
+    btn.removeAttribute('type');
+    btn.addEventListener('click', e => {
+        e.preventDefault()
+        formDataObject = getFormData()
+        $.ajax({
+            url: root + "lk/aff",
+            type: 'POST',
+            data: formDataObject,
+            dataType: 'text',
+            success: function (response) {
+                if (response.includes('success')) {
+                    addSuccesMessage("Сохранено")
+                } else {
+                    addSuccesMessage("Ошибка")
+                }
+            },
+            error: function (xhr, status, error) {
+                addSuccesMessage("Ошибка")
+                console.log(status)
+                console.log(error)
+            }
+        });
+    })
+}
+let findLink = () =>{
+    let links = document.querySelectorAll('.table-responsive a');
+    links.forEach(link => {
+        link.addEventListener('click',(e)=>{
+            e.preventDefault()
+            $.ajax({
+                url: e.target.href,
+                type: 'GET',
+                data: null,
+                dataType: 'text',
+                success: function (response) {
+                    const container = document.evaluate('//*[@id="lk"]/div/div/div/div/div[3]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    const doc = document.implementation.createHTMLDocument('New Document'); // Создаем новый HTML-документ
+                    doc.documentElement.innerHTML = response;
+                    let containerNew = doc.evaluate('//*[@id="lk"]/div/div/div/div/div[3]', doc, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    container.innerHTML = containerNew.innerHTML
+                    findLink()
+                },
+                error: function (xhr, status, error) {
+                    addSuccesMessage("Ошибка")
+                    console.log(status)
+                    console.log(error)
+                }
+            });
+        })
     });
-
-    form.addEventListener('submit', (event) => {
-        const isInnValid = validateInn();
-        const isAccountValid = validateAccountAndInn();
-
-        if (!isInnValid || !isAccountValid) {
-            event.preventDefault();
-        }
-    });
-
-    // Initial validation on page load if fields are filled
-    if (accountNumberInput.value) {
-        validateAccountAndInn();
+}
+let refLinks = () => {
+    let getFormDataForRef = (form) =>{
+        const formData = new FormData(form)
+        const data = {}
+        formData.forEach((value, key) => { data[key] = value })
+        return {...data, addlinktg:'addlinktg'}
     }
-    if (innInput.value) {
-        validateInn();
-        validateAccountAndInn();
+    let setSuccesEvent = (element, color) =>{
+        element.style.boxSizing = 'border-box';
+        element.style.transition = 'all 1s ease';
+        element.style.border = `2px solid ${color}`;
+        element.style.boxShadow = '0 0 10px green';
+        setTimeout(() => {
+            element.style.border = '';
+            element.style.boxShadow = '';
+        }, 4000);
     }
-});
+    
+    document.querySelectorAll('[name="telegram"]').forEach(e=>{
+        e.addEventListener('keydown', (event)=>{
+            if (event.key === 'Enter') {
+                event.preventDefault()
+                e.blur();
+            }
+        })
+        e.addEventListener('blur', (event)=>{
+            const dataForm = getFormDataForRef(e.parentElement)
+            $.ajax({
+                url: root + "lk/aff",
+                type: 'POST',
+                data: dataForm,
+                dataType: 'text',
+                success: function (response) {
+                    setSuccesEvent(e, "green")
+                },
+                error: function (xhr, status, error) {
+                    setSuccesEvent(e, "red")
+                    console.log(status)
+                    console.log(error)
+                }
+            });
+        })
+    })
+}
+document.addEventListener('DOMContentLoaded', ()=> {
+    let btn = document.getElementsByName('save_req')[0];
+    addInput(btn)
+    addBtnEvent(btn)
+    findLink()
+    refLinks()
+})
+
+document.addEventListener('myCustomEvent', () => {});
+
+let inputTypeData = () =>{
+    document.querySelectorAll('input[type="date"]').forEach(e=>{
+        e.addEventListener("click", (event)=>{
+            event.preventDefault()
+            e.showPicker()
+        })
+        e.addEventListener("mousedown", (event)=>{
+            event.preventDefault()
+        })
+    })
+}
+inputTypeData()
+
