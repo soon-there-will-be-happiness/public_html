@@ -8,10 +8,16 @@ if(isset( $_GET['partner'])) $promo= $_GET['partner'];
 $product = Product::getProductById($id);
 $price = Price::getFinalPrice($id);
 $date = time();
-$name = $email = $phone = $surname = $patronymic = null;
 $setting = System::getSetting();
+
+$name = $email = $phone = $surname = $patronymic = null;
+$metriks = !empty($setting['yacounter']) || $setting['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
+
+
+$promo= $_GET['partner'] ?? null;
+
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
-if ($partner_id != null) {
+if ($partner_id != null || $promo != null) {
 ?>
 <head>
     <meta charset="utf-8" />
@@ -3896,6 +3902,7 @@ if ($partner_id != null) {
                                         <?endif;?>
                                     </label>
                                     <input type="hidden" name="not-me" value=true/>
+                                    <input type="hidden" name="promo" value="<?=$promo?>">
                                     <input type="hidden" name="time" value="<?=$date;?>">
                                     <input type="hidden" name="promo" value="<?=$promo?>">
                                     <input type="hidden" name="token" value="<?=md5($id.'s+m'.$date);?>">

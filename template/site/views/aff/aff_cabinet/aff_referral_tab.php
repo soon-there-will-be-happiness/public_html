@@ -24,7 +24,6 @@
                 
                 // Без особого режима партнёра
                 foreach($links as $link):
-                    
                     if (in_array(60, $user_groups) & $link['product_id']!=35) {
                         continue;
                     }
@@ -36,16 +35,11 @@
                         // внутренний лендинг
                         $url = $this->settings['script_url'].'/catalog/'.$link['product_alias'].'?pr='.$user['user_id'];
                     } else {
-                        
                         // внешний лендинг
                         if(isset($params['params']['get_params']) && $params['params']['get_params'] == 1 && $link['external_url'] != null){
-                            
                             $url = $link['external_url'].'?pr='.$user['user_id'];
-                            
                         } else $url = $this->settings['script_url'].'/ext/'.$link['product_id'].'/'.$user['user_id'];
                     }
-                    
-                    
                     if($product['product_text2']!=null && !empty($product['product_text2'])){
                         $url =$this->settings['script_url'].$product['product_text2'] . '?partner=' . $user['user_id'];
                         $short_link_id_tx2_url = Aff::isShortLinkByPartner($user['user_id'], $url);
@@ -67,7 +61,7 @@
                             }
                         }
                         
-                        $order_url = $this->settings['script_url'].$product['product_text2'] . '?partner=' . $user['user_id'] . '#pay';
+                        $order_url = $this->settings['script_url'].$product['product_text2']."?partner=".$user['user_id'].'#pay';
                         
                         $short_link_id_tx2_order = Aff::isShortLinkByPartner($user['user_id'], $order_url);
                         if ($short_link_id_tx2_order) {
@@ -86,6 +80,7 @@
                                 echo "Ошибка создания короткой ссылки.";
                                 $order_url = '-------';
                             }
+                       
                         }
                     } else {
                         $order_url = $this->settings['script_url'].'/buy/'.$link['product_id'];
@@ -95,7 +90,7 @@
                             $order_url = $this->settings['script_url'] . '/pr/' . $short_link_id;
                         } else {
                             // Если короткая ссылка не найдена, создаём новую
-                            $created = Aff::AddPartnerShortLink($user['user_id'], $order_url, $product['product_title']);
+                            $created = Aff::AddPartnerShortLink($user['user_id'], $order_url."?partner=".$user['user_id'], $product['product_title']);
                             
                             if ($created) {
                                 // После создания, ищем созданную ссылку
@@ -133,7 +128,7 @@
                                         <?=$link['product_comiss'];?> %
                                     <?php endif; ?>
                                 </td>
-                            <?php else:?>                                                            
+                            <?php else:?>
                                 <td class="not-aff_links">
                                     <?=$params['params']['aff_1_level'] ? "1 уровень - {$params['params']['aff_1_level']}%<br>" : '';?>
                                     <?=$params['params']['aff_2_level'] ? "2 уровень - {$params['params']['aff_2_level']}%<br>" : '';?>
@@ -157,8 +152,7 @@
                                     $url = $link['external_url'].'?'.$ender;
 
                                 }
-                            //print_r($user);
-                            //print_r(User::getGroupByUser($user['user_id']));
+                              
                             $fill_req = Aff::checkAllPartnerReq($user['user_id']);
                             if($fill_req || $link['product_id']==33) {
                                 if($link['product_id']!=33 & $link['product_id']!=35) { ?>
@@ -167,7 +161,6 @@
                                     </div>
                                     <div class="table-form-line">
                                         <span class="text-right"><?=System::Lang('TG_GROUP');?></span>
-                                       
                                         <form class="table-form-input" action="" method="POST">
                                             <?php $telegram=TelegramProduct::searchByProductId($user['user_id'],$link['product_id']);
 
@@ -180,10 +173,8 @@
                                             <input style="display:none;" type="hidden" name="user_id" id="user_id" value="<?=$user['user_id']?>">
                                             <button style="display:none;" type="submit"  name="addlinktg">Отправить</button>
                                         </form>
-                                       
                                     </div>
-                            
-                                <?php 
+                                <?php
                             }?>
                             <div class="table-form-line">
                                 <span class="text-right"><?=System::Lang('ORDER');?></span><div class="table-form-input"><input readonly onclick="this.select()" type="text" value="<?=$order_url;?>" class="order_link_input"></div>
@@ -193,7 +184,7 @@
                             <?php } endif;?>
                         </td>
                         <?php if($link['ads'] != null):?><td class="not-aff_links"><a class="text-decoration-none" target="_blank" href="/load/ads/<?=$link['ads']?>"><i class="icon-attach-1"></i>&nbsp;<?=System::Lang('DOWNLOAD');?></a></td><?php endif;?>
-<!--                         <td class="tg_group"><div class="table-form-input"><input onclick="this.select()" type="text" value="<?=$order_url;?>" class="order_link_input tg_input"></div></td>-->                    
+<!--                         <td class="tg_group"><div class="table-form-input"><input onclick="this.select()" type="text" value="<?=$order_url;?>" class="order_link_input tg_input"></div></td>-->
 <!--                         <?php if($link['product_id']!=33):?>
     <td class="send_message">
 
@@ -212,18 +203,16 @@
                             if($link['external_landing'] == 0) {
                                 $url = $this->settings['script_url'].'/catalog/'.$link['product_alias'].'?pr='.$user['user_id'];
                             } else {
-                                
                                 if(isset($params['params']['get_params']) && $params['params']['get_params'] == 1 && $link['external_url'] != null){
-                            
+                             
                                     $url = $link['external_url'].'?pr='.$user['user_id'];
-                                    
+
                                 } else $url = $this->settings['script_url'].'/ext/'.$link['product_id'].'/'.$user['user_id'];
                             }
-                            
                             $product=Product::getMinProductById($link['product_id']);
                             if($product['product_text2']!=null){
-                                $url =$this->settings['script_url'].$product['product_text2'];
-                                $order_url = $this->settings['script_url'].$product['product_text2'];
+                                $url =$this->settings['script_url'].$product['product_text2']."?partner=".$user['user_id'];
+                                $order_url = $this->settings['script_url'].$product['product_text2']."?partner=".$user['user_id'];
                             } else {
                                 $order_url = $this->settings['script_url'].'/buy/'.$link['product_id'].'?pr='.$user['user_id'];  
                             }
@@ -269,7 +258,9 @@
 
                                             $ender = strtr($params['params']['speclinks_url'], $replace);
                                             $url = $link['external_url'].'?'.$ender;
-                                        }?>
+                                        }
+                                      
+                                        ?>
                                         <div class="table-form-line"><span class="text-right"><?=System::Lang('LENDING');?></span>
                                             <div class="table-form-input">
                                                 <input readonly onclick="this.select()" type="text" value="<?=$url;?>" class="link_input">
@@ -309,27 +300,4 @@
         </table>
     </div>
 </div>
-
-<!-- <script>
-document.getElementById('telegram').addEventListener('change', function() {
-    const telegram = document.getElementById('telegram').value;
-    const product_id = document.getElementById('product_id').value;
-    console.log('Telegram:', telegram, 'Product ID:', product_id);
-    document.getElementsByName('addlinktg')[0].click();
-    fetch('https://dev.xn--80ajojzgb4f.xn--p1ai/lk/aff', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `telegram=${encodeURIComponent(telegram)}&product_id=${product_id}`
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log('Успешно отправлено:', data);
-    })
-    .catch(error => {
-        console.error('Ошибка:', error);
-    });
-});
-</script> -->
 

@@ -80,7 +80,7 @@ class cyclopsApi {
 
         // Check for errors
         if ($response === false) {
-            Log::add(5,'Curl error', ["error" => curl_error($ch)],'cyclops.log');
+            Log::add(5,'Curl error', ["error" => curl_error($ch), "URL" => $this->apiUrl[$api]],'cyclops.log');
             throw new Exception('Curl error: ' . curl_error($ch));
         }
 

@@ -1,5 +1,7 @@
 <?php
 define('BILLINGMASTER', 1);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 require_once (dirname(__FILE__) . '/cyclopsApi.php');
 require_once (dirname(__FILE__) . '/../components/db.php');
 require_once (dirname(__FILE__) . '/../config/config.php');
@@ -19,15 +21,52 @@ $dotenv->load();
 $api = CyclopsApi::getInstance();
 $response = $api->listPayments(1,50,['identify' => false]);
 Log::add(1,'cron execute', ["response" => $response],'cyclops_cron');
-if (isset($response['result']['payments']) && !empty($response['result']['payments'])) {
-    // Проходим по каждому платежу
-    $ids = Cyclops::getPayments([])['logs']['id'];
-    foreach ($response['result']['payments'] as $paymentId) {
-        // Вызов метода addPayment для каждого платежа
-        print_r($ids);
-        print_r($paymentId);
-        if (!in_array($paymentId,$ids)) {
-            Cyclops::addPayment($paymentId);
+
+
+
+
+$records = PointDB::getRecordsWithStatus();
+
+// Проход по каждому платежу, полученному из API
+if (isset($response['result']['payment']) && !empty($response['result']['payment'])) {
+    $payment = $response['result']['payment'];
+
+    // Преобразуем дату из API в объект DateTime
+    $paymentDate = DateTime::createFromFormat('Y-m-d', $payment['document_date']);
+    $paymentAmount = $payment['amount'];
+    $paymentId = $payment['id'];  // ID платежа из API
+    foreach ($response['result']['payments'] as $payment) { 
+        $api->refundPayment($payment);
+    }
+    // Проходим по всем записям из базы данных
+    foreach ($records as $record) {
+        // Преобразуем дату заказа из базы данных в объект DateTime
+        $orderDate = DateTime::createFromFormat('Y-m-d', $record['order_date']);
+        $orderAmount = $record['summ'];  // Сумма из базы данных
+        $orderId = $record['order_id'];  // Order ID из базы данных
+        $pointId = $record['point_id'];  // Point ID из базы данных
+
+        // Проверка: дата платежа позже даты заказа и сумма совпадает
+        if ($paymentDate > $orderDate && abs($paymentAmount - $orderAmount) < 0.0001) {
+            // Если совпадение по времени и сумме, добавляем платеж
+           /* Cyclops::addPayment([
+                'point_id' => $pointId,
+                'order_id' => $orderId,
+                'payment_id' => $paymentId,
+                'amount' => $paymentAmount,
+                'status' => $payment['status'],
+                'url' => $record['url'],  // Добавляем URL из базы данных
+                'operationId' => $record['operationId'],  // Добавляем operationId из базы данных
+            ]);*/
+
+            // Логируем успешное сопоставление
+            Log::add(1, 'payment match', [
+                'point_id' => $pointId,
+                'order_id' => $orderId,
+                'payment_id' => $paymentId
+            ], 'cyclops_match');
+
+
         }
     }
 }
