@@ -1,17 +1,21 @@
-<?php require_once ("{$this->layouts_path}/head.php");?>
+<?require_once ("{$this->layouts_path}/head.php");?>
+
 <!DOCTYPE html>
 <html>
 <?php  
 defined('BILLINGMASTER') or die; 
-//require_once ("{$this->layouts_path}/head.php");
 $id=31;
+$promo= $_GET['partner'] ?? null;
 $product = Product::getProductById($id);
 $price = Price::getFinalPrice($id);
 $setting = System::getSetting();
-$metriks = !empty($this->settings['yacounter']) || $this->settings['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
+$metriks = !empty($setting['yacounter']) || $setting['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
 $date = time();
+
+
 $name = $email = $phone = $surname = $patronymic = null;
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
+if ($partner_id != null || $promo != null) {
 ?>
 <head>
 <meta charset="utf-8" />
@@ -630,13 +634,13 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
         <span class="close-btn">&times;</span>
 
         <h4 class="pop_up_title">Форма регистрации на пробный урок на платформе. Для получения доступа к уроку заполните данные о себе.</h4>
-        <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?></br>
-           Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
-        
+        <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?>
+    </br>
+        Стоимость: <s><?=$price['real_price']?> ₽</s> бесценно </p>
         <form class="form" action="<?=$setting['script_url']?>/buy/<?=$id?>" method="POST" <?=$metriks;?> id="form_order_buy">
                                     <label for="first_name" id="label_first_name">Имя<span style="color: red;">*</span></label>
-                                    <input class="input-field" type="text" id="first_name" name="name" value="<?= isset($name) ? $name : ''; ?>" placeholder="Введите ваше имя" required>
-
+                                    <input class="input-field" type="text" id="first_name" name="name" value="<?= isset($name) ? $name : ''; ?>"
+                                    placeholder="Введите ваше имя" required>
                                     <label for="email" id="label_email">Электронная почта<span style="color: red;">*</span></label>
                                     <?php if($this->settings['email_protection']):?>
                                     <script>document.write(window.atob("PGlucHV0IHR5cGU9ImVtYWlsIiBuYW1lPSJlbWFpbCI="));</script>
@@ -644,12 +648,9 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                     <?php else:?>
                                     <input class="input-field" type="email" id="email" name="email" value="" placeholder="Введите вашу почту" required>
                                     <?php endif;?>
-
                                     <label for="phone" id="label_phone">Телефон<span style="color: red;">*</span></label>
                                     <input class="input-field" type="tel" id="phone_inp" name="phone" maxlength="12" placeholder="912 333-33-33" required>
-                                    
                                     <span class="text-hint" onclick="toggleFields()">Вы также можете указать никнейм телеграм для оперативной связи</span>
-                                    
                                     <label for="telegram" id="label_telegram" style="display: none;">Телеграм через @</label>
                                     <input class="input-field" type="text" id="telegram" name="telegram" placeholder="@ваш_ник" style="display: none;">
                                     <label>
@@ -660,12 +661,14 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
                                         <?php endif;?>
                                     </label>
                                     <input type="hidden" name="time" value="<?=$date;?>">
+                                    <input type="hidden" name="promo" value="<?=$promo;?>">
                                     <input type="hidden" name="token" value="<?=md5($id.'s+m'.$date);?>">
                                     <input type="hidden" name="vk_id" value="<?=@$_REQUEST['vk_id'] ?>">
                                     <?php if (isset($_REQUEST['pid'])): ?>
                                         <input type="hidden" name="pid" value="<?=$_REQUEST['pid'] ?? "" ?>">
                                     <?php endif; ?>
 
+                                    
                                     <button id ="buy" class="pay" name="buy" type="submit">З А П И С А Т Ь С Я</button>
         </form>
     </div>
@@ -870,4 +873,29 @@ document.getElementById('buy').addEventListener('click', function() {
         }
     });
 </script>
+<?php } else {?>
+<head>
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/style.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/style1.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/style2.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/style3.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/normalize.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/mobile.css">
+    <!-- <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/main_no_compress.css"> -->
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/jquery.datetimepicker.min.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/intlTellInput-11.0.14.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/gallery.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/font-aweasome.min.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/filters.css">
+    <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/ckeditor.style.css">
+
+
+    <?php require_once ("{$this->layouts_path}/head.php");?>
+</head>
+<body>
+<?php
+ErrorPage::returnError("<b>Не верный код партнёра. Свяжитесь с партнером, который вас пригласил</b>");
+require_once ("{$this->layouts_path}/tech-footer.php");
+}?>
+</body>
 </html>

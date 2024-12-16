@@ -112,16 +112,20 @@ class Aff {
     // ПОСЧИТАТЬ КОМИССИЮ ПАРТНЁРУ
     public static function getPartnerComiss($partner, $product, $item, $aff_params)
     {
+        $price = $item['price']*0.973;
         if ($partner && $partner['custom_comiss'] != 0) { // если есть партнёр и у него индивид. комиссия
-            $comiss = round(($item['price'] / 100) * $partner['custom_comiss'], 2);
+
+            $comiss = round(($price / 100) * $partner['custom_comiss'], 2);
+
         } elseif ($partner && $product['product_comiss'] > 0) { // Если комисиия указана у продукта
             if ($product['product_comiss'] > 100) {
                 $comiss = $product['product_comiss'];
             } else {
-                $comiss = round(($item['price'] / 100) * $product['product_comiss'], 2);
+                $comiss = round(($price / 100) * $product['product_comiss'], 2);
             }
         } elseif($aff_params['params']['aff_1_level'] > 0) { // если есть партнёр и комисиия из настроек партнёрки
-            $comiss = round(($item['price'] / 100) * $aff_params['params']['aff_1_level'], 2);
+            $comiss = round(($price / 100) * $aff_params['params']['aff_1_level'], 2);
+
         } else $comiss = false;
         
         return $comiss;
@@ -421,7 +425,7 @@ class Aff {
         else $result = $db->query("SELECT SUM(summ), SUM(pay) FROM ".PREFICS.$role."_transaction WHERE user_id = $user_id AND date < $date");
         $data = $result->fetch(PDO::FETCH_ASSOC);
         if(isset($data) && !empty($data)) return $data;
-        else return false;				  
+        else return false;
     }
     
     
@@ -463,7 +467,7 @@ class Aff {
     
     
     
-    // ПОЛУЧИТЬ ИСТОРИЮ ВЫПЛАТ                                     
+    // ПОЛУЧИТЬ ИСТОРИЮ ВЫПЛАТ
     public static function getHistoryTransaction($user_id, $type, $role, $summ = null)
     {
         $db = Db::getConnection();
@@ -777,7 +781,7 @@ class Aff {
     
     
     // ДОБАВИТЬ СТРОКУ ДЛЯ ДАННЫХ НОВОГО ПАРТНЁРА
-    public static function AddStatRow ($user_id, $partner_id) 
+    public static function AddStatRow($user_id, $partner_id) 
     {
         $db = Db::getConnection();
         

@@ -42,6 +42,7 @@ $playlist_items = TrainingLesson::getPlaylistItems($element['id']);?>
 							<option value="1">Infoprotector</option>
                             <option value="6" data-show_on="edit_pl_watermark_param">Кинескоп (kinescope.io)</option>
                             <option value="7">Rutube</option>
+                            <option value="8">PeerTube</option>
                         </select>
                     </div>
                 </div>

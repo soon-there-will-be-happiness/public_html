@@ -34,6 +34,7 @@
                                         <option value="2">Видеофайл</option>
                                         <option value="4" data-show_off="add_media_cover_box">Youtube / vimeo</option>
                                         <option value="7">Rutube</option>
+                                        <option value="8">PeerTube</option>
                                         <option value="6" data-show_on="add_watermark_param">Кинескоп (kinescope.io)</option>
                                         <option value="3" data-show_off="add_media_cover_box">Аудио</option>
                                         <option value="5" data-show_on="add_media_file">Изображение</option>

@@ -233,6 +233,7 @@ class trainingController extends trainingBaseController {
                'finish_date' => isset($_POST['finish_date']) && $_POST['finish_date'] ? strtotime($_POST['finish_date']) : null,
            ];
         } 
+        
         $filter = isset($_SESSION['training']['answers_filter']) ? $_SESSION['training']['answers_filter'] : null;
         $lesson_list = $filter && $filter['training_id'] ? TrainingLesson::getLessons($filter['training_id']) : null;
 
