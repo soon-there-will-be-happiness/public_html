@@ -38,6 +38,7 @@
                             <option value="4"<?if($playlist_item['params']['type'] == 4) echo ' selected="selected"';?> data-show_off="adit_pl_item_cover_box">Youtube / vimeo</option>
                             <option value="6"<?if($playlist_item['params']['type'] == 6) echo ' selected="selected"';?> data-show_on="edit_pl_item_watermark_param">Кинескоп (kinescope.io)</option>
                             <option value="7"<?if($playlist_item['params']['type'] == 7) echo ' selected="selected"';?>>Rutube</option>
+                            <option value="8"<?if($playlist_item['params']['type'] == 8) echo ' selected="selected"';?>>PeerTube</option>
                         </select>
                     </div>
                 </div>

@@ -88,7 +88,6 @@ class orderController extends baseController {
         $cookie = $this->settings['cookie']; // Получаем имя для куки
         $related_products = Product::getRelatedProductsByID($id, 1); // Получить данные сопутствующих продуктов
 		$subs_id = isset($_GET['subs_id']) ? intval($_GET['subs_id']) : 0; // Продление мембершипа по map_id
-		
 		// Разделение фин.потока
         $org_id = Organization::getOrgByProduct($id); // получаем ID организации
 
@@ -107,10 +106,11 @@ class orderController extends baseController {
             }
         }
 
-
+       
         $price = Price::getFinalPrice($id);
 
-        $partner_id_promocode = $price['partner_id'];
+        $partner_id_promocode = $price['partner_id']; 
+    
         $use_partner = $price['usepartner'] ?? true;
         $nds_price = Price::getNDSPrice($price['real_price']);
 
@@ -119,7 +119,10 @@ class orderController extends baseController {
         // Если нажата кнопка оформить заказ
         if (isset($_POST['buy']) && !empty($_POST['email']) && isset($_POST['time']) && isset($_POST['token'])) {
             $sign = md5($id.'s+m'.$_POST['time']);
-
+           $id_promo=$_POST['promo'];
+           if( $id_promo!=null){
+                $partner_id_promocode = $id_promo;
+           }
             if ($date - intval($_POST['time']) < 2) {
                 ErrorPage::returnError('Error 913');
             }
@@ -718,10 +721,17 @@ class orderController extends baseController {
         require_once (ROOT . '/payments/atol/success.php');
         return true;
     }
-    
+
     public function actionAtolResult(){
         $this->setViewParams('payments', '/payments/atol/result.php', null, null, 'order-pay-page');
         require_once (ROOT . '/payments/atol/result.php');
+
+        return true;
+    }
+
+    public function actionPointResult(){
+        $this->setViewParams('payments', '/payments/point/result.php', null, null, 'order-pay-page');
+        require_once (ROOT . '/payments/point/result.php');
 
         return true;
     }
@@ -746,10 +756,6 @@ class orderController extends baseController {
             $value =false;
 
         }
-    if (strpos($_SERVER['HTTP_USER_AGENT'], '-') !== false) {
-        $value =false;
-        }
-        // Проверить дату заказа и текущую дату (в настройках получить сколько времени хранить заказ)
         $now = time();
         $cookie = $this->settings['cookie'];
         $jquery_head = 1;
@@ -976,12 +982,17 @@ class orderController extends baseController {
                 $this->setSEOParams('Скачать');
                 $this->setViewParams('order', 'order/free_load.php');
             } else {
+                if(intval($order['product_id'])==31){
+                    System::redirectUrl("/lk/mytrainings");
+                    return true;
+                }
+
                 $this->setSEOParams('Спасибо!');
                 $this->setViewParams('order', 'order/thanks.php', null,
                     null, 'order-page'
                 );
             }
-
+            
             require_once ("{$this->template_path}/main2.php");
             return true;
         } else {
@@ -1109,7 +1120,8 @@ class orderController extends baseController {
         if (isset($_SESSION["delivery_$order_date"])) {
             unset($_SESSION["delivery_$order_date"]);
         }
-        return true;
+        return true;  
+ 
     }
 
 
@@ -1790,8 +1802,19 @@ class orderController extends baseController {
             ErrorPage::return404();
         }
     }
+    //pointtest
+    public function actionPointSuccess() {
+        $this->setViewParams('payments', 'payments/point/success.php', null, null, 'order-pay-page');
 
+        require_once (ROOT . '/payments/point/success.php');
+        return true;
+    }
+    public function actionPointTest() {
+        $this->setViewParams('payments', 'payments/point/test.php', null, null, 'order-pay-page');
 
+        require_once (ROOT . '/payments/point/test.php');
+        return true;
+    }
     public function actionFail($payment) {
         if (file_exists(ROOT."/payments/$payment/fail.php")) {
             require (ROOT."/payments/$payment/fail.php");

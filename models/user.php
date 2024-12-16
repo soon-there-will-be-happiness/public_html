@@ -1787,8 +1787,6 @@ class User {
 
             $redirectUri = explode("[AUTH_LINK='", $find)[1];//сплит
             $redirectUri = substr($redirectUri, 0, -2);//получаем куда нужно произвести редирект
-
-            //формируем ссылку
             $link = $link.'&redirect='.$redirectUri .' ';
 
             //заменяем

@@ -85,12 +85,16 @@
 
            <?$total_summ_orders = 0;
             if($orders):
-                foreach($orders as $transact):?>
-                   <?$total_summ_orders = $total_summ_orders + $transact['summ'];
+                foreach($orders as $transact):
+                    if ($transact['product_id']!=33):?>
+                        <?$total_summ_orders = $total_summ_orders + $transact['summ'];
+                    endif;
                 endforeach;
             endif;?>
         </table>
 
-        <p class="text-right"><?='Итого: '.$total_summ_orders;?> <?=$this->settings['currency'];?></p>
+
+<!--        <p class="text-right">--><?php //='Оборот: '.$total_summ_orders;?><!-- --><?php //=$this->settings['currency'];?><!--</p>-->
+
     </div>
 </div>
