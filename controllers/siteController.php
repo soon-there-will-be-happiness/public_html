@@ -187,7 +187,6 @@ class siteController extends baseController {
         $params['params']['commenthead'] = null;
         $page['in_head'] = '<style>#page {padding:5%}</style>';
         $page['in_body']= null;
-        
         if($partner_data)
         {
             $setting_main = System::getSettingMainpageBySecondId();
