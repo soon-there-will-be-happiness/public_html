@@ -1810,6 +1810,80 @@ class orderController extends baseController {
         return true;
     }
     public function actionPointTest() {
+        $message = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Действие добавления платежа в payments_tochka
+    if (isset($_POST['action']) && $_POST['action'] === 'add_payment_tochka') {
+        $payment_id = $_POST['payment_id'];
+        $amount = $_POST['amount'];
+        $payment_date = $_POST['payment_date'];
+        $description = $_POST['description'];
+        $status = $_POST['status'];
+
+        if (Payments::addPaymentTochka($payment_id, $amount, $payment_date, $description, $status)) {
+            $message = 'Платеж успешно добавлен в payments_tochka!';
+        } else {
+            $message = 'Ошибка добавления платежа!';
+        }
+    }
+
+    // Действие получения всех платежей из payments_tochka
+    if (isset($_POST['action']) && $_POST['action'] === 'get_all_payments_tochka') {
+        $payments = Payments::getAllPaymentsTochka($_POST['filter_status'] ?? null);
+    }
+
+    // Действие добавления сопоставленного платежа в matched_payments
+    if (isset($_POST['action']) && $_POST['action'] === 'add_matched_payment') {
+        $payment_id = $_POST['payment_id'];
+        $system_record_id = $_POST['system_record_id'];
+        $amount = $_POST['amount'];
+
+        if (Payments::addMatchedPayment($payment_id, $system_record_id, $amount)) {
+            $message = 'Сопоставленный платеж успешно добавлен!';
+        } else {
+            $message = 'Ошибка добавления сопоставленного платежа!';
+        }
+    }
+
+    // Действие получения всех сопоставленных платежей
+    if (isset($_POST['action']) && $_POST['action'] === 'get_all_matched_payments') {
+        $matchedPayments = Payments::getAllMatchedPayments();
+    }
+
+    // Действие обновления статуса в payments_tochka
+    if (isset($_POST['action']) && $_POST['action'] === 'update_payment_status') {
+        $id = $_POST['payment_id'];
+        $status = $_POST['new_status'];
+
+        if (Payments::updatePaymentStatus($id, $status)) {
+            $message = 'Статус успешно обновлен!';
+        } else {
+            $message = 'Ошибка обновления статуса!';
+        }
+    }
+
+    // Действие удаления платежа из payments_tochka
+    if (isset($_POST['action']) && $_POST['action'] === 'delete_payment') {
+        $id = $_POST['payment_id'];
+
+        if (Payments::deletePaymentTochka($id)) {
+            $message = 'Платеж успешно удален!';
+        } else {
+            $message = 'Ошибка удаления платежа!';
+        }
+    }
+
+    // Действие удаления сопоставленного платежа из matched_payments
+    if (isset($_POST['action']) && $_POST['action'] === 'delete_matched_payment') {
+        $id = $_POST['payment_id'];
+
+        if (Payments::deleteMatchedPayment($id)) {
+            $message = 'Сопоставленный платеж успешно удален!';
+        } else {
+            $message = 'Ошибка удаления сопоставленного платежа!';
+        }
+    }
+}
         $this->setViewParams('payments', 'payments/point/test.php', null, null, 'order-pay-page');
 
         require_once (ROOT . '/payments/point/test.php');
