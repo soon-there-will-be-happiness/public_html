@@ -31,7 +31,10 @@ if (isset($response['result']['payment']) && !empty($response['result']['payment
     // Преобразуем дату из API в объект DateTime
     $paymentDate = DateTime::createFromFormat('Y-m-d', $payment['document_date']);
     $paymentAmount = $payment['amount'];
-    $paymentId = $payment['id'];  // ID платежа из API
+    $paymentId = $payment['id'];
+    if(Payments::getPaymentTochkaByPaymentId( $paymentId )==null){
+        Payments::addPaymentTochka($payment_id,   $paymentAmount,  $paymentDate,json_decode($payment));
+    }
     foreach ($response['result']['payments'] as $payment) { 
         $api->refundPayment($payment);
     }
