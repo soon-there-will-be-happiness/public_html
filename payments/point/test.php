@@ -1,6 +1,6 @@
 <?php defined('BILLINGMASTER') or die;
 $matched_payments=Payments::getJoinedOrdersAndPayments();
-$payments_tochkas=Payments::getAllPaymentsTochka(status: 'unmatched');
+$payments_tochkas=Payments::getAllPaymentsTochka('unmatched');
 foreach ($payments_tochkas as $payments_tochka) {
     $i=0;
     $amount=floatval($payments_tochka["amount"]);

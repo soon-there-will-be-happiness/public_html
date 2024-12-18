@@ -71,7 +71,7 @@ if (isset($response['result']['payment']) && !empty($response['result']['payment
 }
 
 $matched_payments=Payments::getJoinedOrdersAndPayments();
-$payments_tochkas=Payments::getAllPaymentsTochka(status: 'unmatched');
+$payments_tochkas=Payments::getAllPaymentsTochka('unmatched');
 foreach ($payments_tochkas as $payments_tochka) {
     $i=0;
     $amount=floatval($payments_tochka["amount"]);
