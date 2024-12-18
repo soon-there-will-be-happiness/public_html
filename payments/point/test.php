@@ -1,4 +1,29 @@
 <?php defined('BILLINGMASTER') or die;
+$matched_payments=Payments::getJoinedOrdersAndPayments();
+$payments_tochkas=Payments::getAllPaymentsTochka(status: 'unmatched');
+foreach ($payments_tochkas as $payments_tochka) {
+    $i=0;
+    $amount=floatval($payments_tochka["amount"]);
+    foreach($matched_payments as $matched_payment){
+        if( $amount<=0){
+            break;
+        }else{
+            $amount-=floatval($matched_payment["amount"]);
+        }
+    }
+    if($i>0){
+        Payments::updatePaymentStatus($payments_tochka['id'],'matched');
+        for($j=0;$j<$i;$j++){
+            Payments::updatePaymentId($matched_payments[$j]['id'],$payments_tochka['id']);
+        }
+    }
+    else{
+        Log::add(1, 'unmatched pay', [
+            'payments_tochka' => $payments_tochka['id'],
+            ], 'cyclops_match');
+    }
+}
+
 
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
