@@ -15,7 +15,8 @@ foreach ($payments_tochkas as $payments_tochka) {
     if($i>0){
         Payments::updatePaymentStatus($payments_tochka['id'],'matched');
         for($j=0;$j<$i;$j++){
-            Payments::updatePaymentId($matched_payments[$j]['id'],$payments_tochka['id']);
+            $matched_payment=$matched_payments[$j];
+            Payments::updatePaymentId($matched_payment['id'],$payments_tochka['id']);
         }
     }
     else{
