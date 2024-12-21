@@ -6,7 +6,8 @@ foreach ($payments_tochkas as $payments_tochka) {
     $matched_payments=Payments::getJoinedOrdersAndPayments();
     $amount=floatval($payments_tochka["amount"]);
     foreach($matched_payments as $matched_payment){
-        if( $amount<=0){
+        $summ=($matched_payment["amount"]-$matched_payment["amount"]*0.1);
+        if($amount<=0&&($amount/$summ)>1){
             break;
         }else{
             $i++;
