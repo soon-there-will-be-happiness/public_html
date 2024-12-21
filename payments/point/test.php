@@ -8,6 +8,11 @@ foreach ($payments_tochkas as $payments_tochka) {
     foreach($matched_payments as $matched_payment){
         $summ=($matched_payment["amount"]-$matched_payment["amount"]*0.1);
         if($amount<=0&&($amount/$summ)>1){
+            if(($amount/$summ)>1)
+            {
+                Log::add(5, 'This amount is not suitable for the product', [
+                    'amount' => $$amount,], 'cyclops_match');
+                }
             break;
         }else{
             $i++;
