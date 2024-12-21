@@ -8,6 +8,7 @@ foreach ($payments_tochkas as $payments_tochka) {
         if( $amount<=0){
             break;
         }else{
+            $i++;
             $amount-=floatval($matched_payment["amount"]);
         }
     }
