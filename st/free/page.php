@@ -699,7 +699,8 @@ document.getElementById('buy').addEventListener('click', function() {
 </div>
 </div>
 </div>
-<script src="../kemstat/js/script.js"></script>
+<script src="js/script.js?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/st/free/js/script.js'); ?>" defer></script>
+
 <!-- <script>
     // Выполнение функции updateLabels после загрузки внешнего скрипта
     window.onload = function() {
