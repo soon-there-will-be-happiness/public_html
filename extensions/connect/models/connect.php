@@ -256,7 +256,7 @@ class Connect {
         $text = preg_replace("#<a\s*[^>]*href=\"(.*)\".*>(?:\s*\\1)</a>#i", "\\1", $text);
         $text = preg_replace("#<a\s*[^>]*href=\"(.*)\".*>(.*)</a>#i", "\\2 (\\1)", $text);
 
-        $text = strip_tags($text, "<br>");
+        $text = strip_tags($text, "<br><b><i></i>");
         $text = str_replace(['<br>', '<br/>', '<br />', '</br>'], "\n", $text);
         $text = htmlspecialchars_decode($text);
         $text = html_entity_decode($text);
