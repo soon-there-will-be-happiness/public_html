@@ -19,6 +19,15 @@ class Payments {
         return $stmt->execute();
     }
 
+    // Метод для получения платежа из payments_tochka по ID
+    public static function getPaymentTochkaByPaymentId($payment_id) {
+        $sql = "SELECT * FROM " . PREFICS . "payments_tochka WHERE payment_id = :payment_id";
+        $db = Db::getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':payment_id', $payment_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
     // Метод для получения всех платежей из таблицы payments_tochka
     public static function getAllPaymentsTochka($status = null) {
         $sql = "SELECT * FROM " . PREFICS . "payments_tochka";
@@ -33,7 +42,39 @@ class Payments {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public static function getJoinedOrdersAndPayments()
+    {
+        
+        $sql = "SELECT 
+                    orders.order_id,
+                    orders.product_id,
+                    orders.order_date,
+                    orders.payment_date,
+                    orders.summ,
+                    matched_payments.id AS matched_payment_id,
+                    matched_payments.payment_id,
+                    matched_payments.system_record_id,
+                    matched_payments.amount,
+                    matched_payments.match_date
+                FROM 
+                   " . PREFICS . "orders AS orders
+                JOIN 
+                   " . PREFICS . "matched_payments AS matched_payments
+                ON 
+                    matched_payments.system_record_id = orders.order_id
+                WHERE 
+                    matched_payments.payment_id = 0";
 
+        // Подключение к базе данных
+        $db = Db::getConnection(); // Метод для получения соединения с БД
+        $stmt = $db->prepare($sql);
+
+        // Выполнение запроса
+        $stmt->execute();
+
+        // Возвращаем результат в виде ассоциативного массива
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     // Метод для добавления записи в таблицу matched_payments
     public static function addMatchedPayment($payment_id, $system_record_id, $amount) {
         $sql = "INSERT INTO " . PREFICS . "matched_payments (payment_id, system_record_id, amount)
@@ -46,7 +87,15 @@ class Payments {
 
         return $stmt->execute();
     }
+    public static function updatePaymentId($id, $payment_id) {
+        $sql = "UPDATE " . PREFICS . "matched_payments SET payment_id = :payment_id WHERE id = :id";
+        $db = Db::getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':payment_id', $payment_id, PDO::PARAM_STR);
 
+        return $stmt->execute();
+    }
     // Метод для получения всех сопоставленных платежей
     public static function getAllMatchedPayments() {
         $sql = "SELECT * FROM " . PREFICS . "matched_payments";

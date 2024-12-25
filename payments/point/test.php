@@ -1,5 +1,39 @@
 <?php defined('BILLINGMASTER') or die;
 
+$payments_tochkas=Payments::getAllPaymentsTochka('unmatched');
+foreach ($payments_tochkas as $payments_tochka) {
+    $i=0;
+    $matched_payments=Payments::getJoinedOrdersAndPayments();
+    $amount=floatval($payments_tochka["amount"]);
+    foreach($matched_payments as $matched_payment){
+        $summ=($matched_payment["amount"]-$matched_payment["amount"]*0.1);
+        if($amount<=0&&($amount/$summ)>1){
+            if(($amount/$summ)>1)
+            {
+                Log::add(5, 'This amount is not suitable for the product', [
+                    'amount' => $$amount,], 'cyclops_match');
+                }
+            break;
+        }else{
+            $i++;
+            $amount-=floatval($matched_payment["amount"]);
+        }
+    }
+    if($i>0){
+        Payments::updatePaymentStatus($payments_tochka['id'],'matched');
+        for($j=0;$j<$i;$j++){
+            $matched_payment=$matched_payments[$j];
+            Payments::updatePaymentId($matched_payment['matched_payment_id'],$payments_tochka['id']);
+        }
+    }
+    else{
+        Log::add(1, 'unmatched pay', [
+            'payments_tochka' => $payments_tochka['id'],
+            ], 'cyclops_match');
+    }
+}
+
+
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Действие добавления платежа в payments_tochka
