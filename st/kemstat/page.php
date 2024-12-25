@@ -5185,7 +5185,8 @@ if ($partner_id != null || $promo != null) {
 <!-- End FB Pixel code (noscript) -->
 <!-- VK Pixel code (noscript) --><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-974419-2ZkvK"
                                                 style="position:fixed; left:-999px;" alt="" /></noscript><!-- End VK Pixel code (noscript) -->
-<script src="js/script.js"></script>
+<script src="js/script.js?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/st/kemstat/js/script.js'); ?>" defer></script>
+
 </body>
 <?require_once ("{$this->layouts_path}/tech-footer.php");?>
 <script>
