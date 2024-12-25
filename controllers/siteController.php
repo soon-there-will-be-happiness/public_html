@@ -171,15 +171,25 @@ class siteController extends baseController {
     // +KEMSTAT-8
     public function actionOferta()
     {
-        $partner_id = isset($_COOKIE['aff_billingmaster']) ? $_COOKIE['aff_billingmaster'] : null;//isset($_GET['id']) ? intval($_GET['id']) : null;
+        $partner_id = null;
+
+        // Проверяем GET-параметр
+        if (isset($_GET['partner_id']) && ctype_digit($_GET['partner_id'])) {
+            $partner_id = intval($_GET['partner_id']);
+        }
+
+        // Проверяем cookie, если GET-параметр отсутствует
+        elseif (isset($_COOKIE['aff_billingmaster']) && ctype_digit($_COOKIE['aff_billingmaster'])) {
+            $partner_id = intval($_COOKIE['aff_billingmaster']);
+        }
+
+        $partner_data = Aff::getPartnerReq($partner_id);
         $params['params']['commenthead'] = null;
         $page['in_head'] = '<style>#page {padding:5%}</style>';
         $page['in_body']= null;
-        
-        if($partner_id!=null)
+        if($partner_data)
         {
             $setting_main = System::getSettingMainpageBySecondId();
-            $partner_data = Aff::getPartnerReq($partner_id);
             $partner_req = $partner_data['requsits'];
             $data = unserialize($partner_req);
             // Извлечение fio и inn

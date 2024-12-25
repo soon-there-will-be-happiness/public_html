@@ -397,7 +397,6 @@ class Order {
                                         $client_data, &$partner_id, &$partner2_id, &$partner3_id)
     {
         $commission_1 = $commission_2 = $commission_3 = 0;
-
         if ($product['run_aff'] == 1) { // если партнёрка включена для этого продукта
             if ($order['partner_id'] != null) { // Если в заказе партнёр есть, то РАСЧЁТ партнёрских
                 $partner_id = $order['partner_id'];
