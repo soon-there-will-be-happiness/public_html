@@ -114,7 +114,9 @@ class Aff {
     {
         $price = $item['price']*0.973;
         if ($partner && $partner['custom_comiss'] != 0) { // если есть партнёр и у него индивид. комиссия
+
             $comiss = round(($price / 100) * $partner['custom_comiss'], 2);
+
         } elseif ($partner && $product['product_comiss'] > 0) { // Если комисиия указана у продукта
             if ($product['product_comiss'] > 100) {
                 $comiss = $product['product_comiss'];
@@ -123,6 +125,7 @@ class Aff {
             }
         } elseif($aff_params['params']['aff_1_level'] > 0) { // если есть партнёр и комисиия из настроек партнёрки
             $comiss = round(($price / 100) * $aff_params['params']['aff_1_level'], 2);
+
         } else $comiss = false;
         
         return $comiss;
