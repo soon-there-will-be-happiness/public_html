@@ -1322,6 +1322,7 @@ class Email {
 
     public static function contains_html($text) {
         // Удаляем теги и сравниваем
+        //Log::add(1,'Contains_html?',['after'=>strip_tags($text, '<p><br><\/p><br \/><a>'),'before'=>$text, 'result'=>strip_tags($text, '<p><br><\/p><br \/>') !== $text],'test_mail.log');
         return strip_tags($text, '<p><br><\/p><br \/><a>') !== $text;
     }
 
@@ -1344,7 +1345,7 @@ class Email {
         }
 
 
-        $res = Connect::sendMessagesByEmail($email, '<b>'.$subject.'</b>\n' . $text, [
+        $res = Connect::sendMessagesByEmail($email, '<b>'.$subject . "</b>\n" . $text, [
             'caller' => $caller,
             'email' => $email,
             'subject' => $subject,
