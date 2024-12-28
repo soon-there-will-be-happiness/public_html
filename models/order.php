@@ -49,7 +49,7 @@ class Order {
                     $setting['register_letter'], 0, null, $order['partner_id'], $surname, $patronymic,
                     $nick_telegram, $nick_instagram, $order, $vk_id, null, $ok_id
                 );
-                sleep(2); //TODO SM-1351 это не очень правильно...
+                sleep(2);
             } elseif ($client['is_client'] == 0 && $is_client == 1) {
                 $result = User::updateClientStatus($client['user_id'], $is_client);
             }
@@ -119,12 +119,10 @@ class Order {
                 if ($item['split_var'] != null) {
                     $write = self::WriteConversion($item['product_id'], $item['split_var'], $order['order_id']);
                 }
-                
                 // Добавление потока
                 if($flows && $item['flow_id'] > 0) {
                     Flows::addFlowInMap($item['flow_id'], $client['user_id'], $item['order_item_id']);
                 }
-
                 // Создание купона на скидку
                 $promo = Product::getAutoPromoByID($item['product_id'], 1); // Получили данные купона
                 if ($promo && $promo['products'] && $promo['products'] != 'N;') {
@@ -213,7 +211,7 @@ class Order {
                 // Удаление групп для пользователя
                 if ($product['del_group_id']) {
                     User::deleteUserGroupsFromList($client['user_id'], $product['del_group_id']);
-                } 
+                }
                  // Добавление групп для пользователя при рассрчоке и БЕЗ
                 if( $to_child==false){
                     if ($product['group_id'] != 0 && ($order['installment_map_id'] == 0 || $product['installment_addgroups'] == 0)) {
@@ -265,6 +263,7 @@ class Order {
             // Отправить письмо админу (№ заказа, имя клиента, сумма, партнёр и т.д)
             $notify_admin_free = isset(json_decode($setting['params'])->disable_notify_admin_to_free_orders) ? json_decode($setting['params'])->disable_notify_admin_to_free_orders : 0;
             if ($total_sum > 0) {
+                Payments::addMatchedPayment(0,$order['order_id'],$total_sum);
                 $adm = Email::SendOrderToAdmin($order['order_date'], $order['client_name'], $order['client_email'], $total_sum,
                     $order['partner_id'], $order['order_id'], $payment_id, $surname, $order['client_phone']);
             } else {
