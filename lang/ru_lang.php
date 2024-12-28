@@ -807,7 +807,574 @@ Email: [EMAIL]</p><p>Перейдите в админку School-Master и об�
 'LINK_FOR_PARTNERS' => 'Ссылка для привлечения партнёров:',
 
 // +KEMSTAT-8
-'ACCOUNT_STATEMENT_NOTIFY_EMAIL' => "ФИО: [CLIENT_NAME] [CLIENT_SURNAME]<br>ID заказа: [ORDER_ID]<br>ID товара: [PRODUCT_ID]<br>Наименование товара: [PRODUCT_NAME]<br>Email клиента: [CLIENT_EMAIL]<br>Телефон клиента: [CLIENT_PHONE]<br>Сумма: [SUMM]<br><a href='[LINK]'>Ссылка на оплату заказа</a><br>[LINK]<br>ФИО Партнёра: [P_FIO]<br>Связаться с партнёром: [P_LINK_TG]",
+'ACCOUNT_STATEMENT_NOTIFY_EMAIL' => <<<EMAIL
+<p><!-- [if (mso 16)]>
+      <style type="text/css">
+         a {text-decoration: none;}
+      </style>
+      <![endif]--><!-- [if gte mso 9]>
+      <style>sup { font-size: 100% !important; }</style>
+      <![endif]--><!-- [if gte mso 9]>
+      <noscript>
+         <xml>
+           <o:OfficeDocumentSettings>
+           <o:AllowPNG></o:AllowPNG>
+           <o:PixelsPerInch>96</o:PixelsPerInch>
+           </o:OfficeDocumentSettings>
+         </xml>
+      </noscript>
+      <![endif]--><!-- [if mso]><xml>
+    <w:WordDocument xmlns:w="urn:schemas-microsoft-com:office:word">
+      <w:DontUseAdvancedTypographyReadingMail/>
+    </w:WordDocument>
+    </xml><![endif]--></p>
+<div class="es-wrapper-color" dir="ltr" lang="ru" style="background-color: #f6f6f6;"><!-- [if gte mso 9]>
+         <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
+            <v:fill type="tile" color="#f6f6f6"></v:fill>
+         </v:background>
+         <![endif]-->
+<table class="es-wrapper" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; padding: 0; margin: 0; width: 100%; height: 100%; background-repeat: repeat; background-position: center top; background-color: #f6f6f6;" role="none" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0;" valign="top">
+<table class="es-header" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; width: 100%; table-layout: fixed !important; background-color: transparent; background-repeat: repeat; background-position: center top;" role="none" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0;" align="center">
+<table class="es-header-body" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; background-color: #ffffff; width: 600px;" role="none" cellspacing="0" cellpadding="0" align="center" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td class="es-m-p0t es-m-p0b" style="padding: 0; margin: 0; padding-top: 20px; padding-right: 20px; padding-left: 20px;" align="left">
+<table class="es-left" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; float: left;" role="none" cellspacing="0" cellpadding="0" align="left">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0; width: 560px;" align="center" valign="top">
+<table style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px;" role="presentation" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0; font-size: 0;" align="center"><img class="img-6085" style="display: block; font-size: 14px; border: 0; outline: none; text-decoration: none;" src="https://dev.xn--80ajojzgb4f.xn--p1ai/images/photo_2022-12-05%2018-09-20.jpeg" alt="" width="248" height="165" /></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="es-content" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; width: 100%; table-layout: fixed !important;" role="none" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0;" align="center">
+<table class="es-content-body" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; background-color: #ffffff; width: 600px;" role="none" cellspacing="0" cellpadding="0" align="center" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td class="es-m-p0t es-m-p0b" style="padding: 0; margin: 0; padding-right: 20px; padding-left: 20px;" align="left">
+<table style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px;" role="none" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0; width: 560px;" align="center" valign="top">
+<table style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px;" role="presentation" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="es-text-7439 es-m-p0t es-m-p20l es-m-p20r es-m-p10b" style="padding: 0; margin: 0; padding-top: 20px;" align="center">
+<h5 class="es-m-txt-c es-text-mobile-size-18 es-override-size" style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; mso-line-height-rule: exactly; letter-spacing: 0; font-size: 20px; font-style: normal; font-weight: normal; line-height: 30px !important; color: #333333;"><strong>Благодарим Вас!</strong></h5>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td class="es-m-p0b es-m-p40l es-m-p40r" style="padding: 0; margin: 0; padding-top: 20px; padding-right: 20px; padding-left: 20px;" align="left">
+<table class="esdev-mso-table" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; width: 560px;" role="none" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="esdev-mso-td" style="padding: 0; margin: 0;" valign="top">
+<table class="es-left" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; float: left;" role="none" cellspacing="0" cellpadding="0" align="left">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0; width: 270px;" align="left">
+<table style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px;" role="presentation" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="es-m-p0l" style="padding: 0; margin: 0; padding-left: 40px;" align="left">
+<p class="es-m-txt-l" style="margin: 0; mso-line-height-rule: exactly; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; line-height: 21px; letter-spacing: 0; color: #ff7b01; font-size: 14px;"><strong>ФИО:&nbsp;</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td class="es-m-w0 es-m-p20r" style="padding: 0; margin: 0; width: 20px;">&nbsp;</td>
+<td class="esdev-mso-td" style="padding: 0; margin: 0;" valign="top">
+<table class="es-right" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; float: right;" role="none" cellspacing="0" cellpadding="0" align="right">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0; width: 270px;" align="left">
+<table style="border-collapse: collapse; border-spacing: 0px; height: 21px;" role="presentation" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr style="height: 21px;">
+<td style="padding: 0px; margin: 0px; height: 21px;" align="left">
+<p class="es-m-txt-r" style="margin: 0; mso-line-height-rule: exactly; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; line-height: 21px; letter-spacing: 0; color: #333333; font-size: 14px;"> [CLIENT_NAME] [CLIENT_SURNAME]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+             <tr>
+              <td align="left" class="es-m-p0b es-m-p40l es-m-p40r" style="padding:0;Margin:0;padding-top:20px;padding-right:20px;padding-left:20px">
+               <table cellpadding="0" cellspacing="0" class="esdev-mso-table" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:560px">
+                 <tr>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="left" class="es-left" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" class="es-m-p0l" style="padding:0;Margin:0;padding-left:40px"><p class="es-m-txt-l" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#ff7b01;font-size:14px"><strong>ID заказа:&nbsp;</strong></p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                  <td class="es-m-w0 es-m-p20r" style="padding:0;Margin:0;width:20px"></td>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="right" class="es-right" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" style="padding:0;Margin:0"><p class="es-m-txt-r" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#333333;font-size:14px">[ORDER_ID]</p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                 </tr>
+               </table></td>
+             </tr>
+             
+
+             <tr>
+              <td align="left" class="es-m-p0b es-m-p40l es-m-p40r" style="padding:0;Margin:0;padding-top:20px;padding-right:20px;padding-left:20px">
+               <table cellpadding="0" cellspacing="0" class="esdev-mso-table" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:560px">
+                 <tr>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="left" class="es-left" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" class="es-m-p0l" style="padding:0;Margin:0;padding-left:40px"><p class="es-m-txt-l" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#ff7b01;font-size:14px"><strong>ID товара:&nbsp;</strong></p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                  <td class="es-m-w0 es-m-p20r" style="padding:0;Margin:0;width:20px"></td>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="right" class="es-right" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" style="padding:0;Margin:0"><p class="es-m-txt-r" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#333333;font-size:14px">[PRODUCT_ID]</p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                 </tr>
+               </table></td>
+             </tr>
+             
+
+             <tr>
+              <td align="left" class="es-m-p0b es-m-p40l es-m-p40r" style="padding:0;Margin:0;padding-top:20px;padding-right:20px;padding-left:20px">
+               <table cellpadding="0" cellspacing="0" class="esdev-mso-table" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:560px">
+                 <tr>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="left" class="es-left" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" class="es-m-p0l" style="padding:0;Margin:0;padding-left:40px"><p class="es-m-txt-l" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#ff7b01;font-size:14px"><strong>Наименование товара:&nbsp;</strong></p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                  <td class="es-m-w0 es-m-p20r" style="padding:0;Margin:0;width:20px"></td>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="right" class="es-right" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" style="padding:0;Margin:0"><p class="es-m-txt-r" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#333333;font-size:14px">[PRODUCT_NAME]</p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                 </tr>
+               </table></td>
+             </tr>
+             
+
+             <tr>
+              <td align="left" class="es-m-p0b es-m-p40l es-m-p40r" style="padding:0;Margin:0;padding-top:20px;padding-right:20px;padding-left:20px">
+               <table cellpadding="0" cellspacing="0" class="esdev-mso-table" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:560px">
+                 <tr>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="left" class="es-left" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" class="es-m-p0l" style="padding:0;Margin:0;padding-left:40px"><p class="es-m-txt-l" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#ff7b01;font-size:14px"><strong>Email клиента:&nbsp;</strong></p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                  <td class="es-m-w0 es-m-p20r" style="padding:0;Margin:0;width:20px"></td>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="right" class="es-right" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" style="padding:0;Margin:0"><p class="es-m-txt-r" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#333333;font-size:14px">[CLIENT_EMAIL]</p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                 </tr>
+               </table></td>
+             </tr>
+             
+
+             <tr>
+              <td align="left" class="es-m-p0b es-m-p40l es-m-p40r" style="padding:0;Margin:0;padding-top:20px;padding-right:20px;padding-left:20px">
+               <table cellpadding="0" cellspacing="0" class="esdev-mso-table" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:560px">
+                 <tr>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="left" class="es-left" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" class="es-m-p0l" style="padding:0;Margin:0;padding-left:40px"><p class="es-m-txt-l" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#ff7b01;font-size:14px"><strong>Телефон клиента:&nbsp;</strong></p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                  <td class="es-m-w0 es-m-p20r" style="padding:0;Margin:0;width:20px"></td>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="right" class="es-right" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" style="padding:0;Margin:0"><p class="es-m-txt-r" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#333333;font-size:14px">[CLIENT_PHONE]</p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                 </tr>
+               </table></td>
+             </tr>
+             
+
+             <tr>
+              <td align="left" class="es-m-p0b es-m-p40l es-m-p40r" style="padding:0;Margin:0;padding-top:20px;padding-right:20px;padding-left:20px">
+               <table cellpadding="0" cellspacing="0" class="esdev-mso-table" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:560px">
+                 <tr>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="left" class="es-left" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" class="es-m-p0l" style="padding:0;Margin:0;padding-left:40px"><p class="es-m-txt-l" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#ff7b01;font-size:14px"><strong>Сумма:&nbsp;</strong></p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                  <td class="es-m-w0 es-m-p20r" style="padding:0;Margin:0;width:20px"></td>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="right" class="es-right" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" style="padding:0;Margin:0"><p class="es-m-txt-r" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#333333;font-size:14px">[SUMM]</p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                 </tr>
+               </table></td>
+             </tr>
+             
+
+             <tr>
+              <td align="left" class="es-m-p0b es-m-p40l es-m-p40r" style="padding:0;Margin:0;padding-top:20px;padding-right:20px;padding-left:20px">
+               <table cellpadding="0" cellspacing="0" class="esdev-mso-table" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:560px">
+                 <tr>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="left" class="es-left" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" class="es-m-p0l" style="padding:0;Margin:0;padding-left:40px"><p class="es-m-txt-l" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#ff7b01;font-size:14px"><strong>Ссылка на оплату заказа:&nbsp;</strong></p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                  <td class="es-m-w0 es-m-p20r" style="padding:0;Margin:0;width:20px"></td>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="right" class="es-right" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" style="padding:0;Margin:0"><p class="es-m-txt-r" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#333333;font-size:14px">[LINK]</p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                 </tr>
+               </table></td>
+             </tr>
+             
+
+             <tr>
+              <td align="left" class="es-m-p0b es-m-p40l es-m-p40r" style="padding:0;Margin:0;padding-top:20px;padding-right:20px;padding-left:20px">
+               <table cellpadding="0" cellspacing="0" class="esdev-mso-table" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:560px">
+                 <tr>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="left" class="es-left" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" class="es-m-p0l" style="padding:0;Margin:0;padding-left:40px"><p class="es-m-txt-l" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#ff7b01;font-size:14px"><strong>ФИО Партнёра:&nbsp;</strong></p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                  <td class="es-m-w0 es-m-p20r" style="padding:0;Margin:0;width:20px"></td>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="right" class="es-right" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" style="padding:0;Margin:0"><p class="es-m-txt-r" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#333333;font-size:14px">[P_FIO]</p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                 </tr>
+               </table></td>
+             </tr>
+             
+
+             <tr>
+              <td align="left" class="es-m-p0b es-m-p40l es-m-p40r" style="padding:0;Margin:0;padding-top:20px;padding-right:20px;padding-left:20px">
+               <table cellpadding="0" cellspacing="0" class="esdev-mso-table" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:560px">
+                 <tr>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="left" class="es-left" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" class="es-m-p0l" style="padding:0;Margin:0;padding-left:40px"><p class="es-m-txt-l" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#ff7b01;font-size:14px"><strong>Связаться с партнёром:&nbsp;</strong></p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                  <td class="es-m-w0 es-m-p20r" style="padding:0;Margin:0;width:20px"></td>
+                  <td valign="top" class="esdev-mso-td" style="padding:0;Margin:0">
+                   <table cellpadding="0" cellspacing="0" align="right" class="es-right" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
+                     <tr>
+                      <td align="left" style="padding:0;Margin:0;width:270px">
+                       <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                         <tr>
+                          <td align="left" style="padding:0;Margin:0"><p class="es-m-txt-r" style="Margin:0;mso-line-height-rule:exactly;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:21px;letter-spacing:0;color:#333333;font-size:14px">[P_LINK_TG]</p></td>
+                         </tr>
+                       </table></td>
+                     </tr>
+                   </table></td>
+                 </tr>
+               </table></td>
+             </tr>
+             
+<tr>
+<td class="es-m-p40l es-m-p40r" style="padding: 0; margin: 0; padding-top: 20px; padding-right: 20px; padding-left: 20px;" align="left">
+<table class="esdev-mso-table" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; width: 560px;" role="none" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="esdev-mso-td" style="padding: 0; margin: 0;" valign="top">
+<table class="es-left" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; float: left;" role="none" cellspacing="0" cellpadding="0" align="left">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0; width: 270px;" align="left">
+<table style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px;" role="presentation" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="es-m-p0l" style="padding: 0; margin: 0; padding-left: 40px;" align="left">
+<p style="margin: 0; mso-line-height-rule: exactly; font-family: arial, 'helvetica neue', helvetica, sans-serif; line-height: 21px; letter-spacing: 0; color: #ff7b01; font-size: 14px;"><strong>ID заказа:&nbsp;</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td class="es-m-w0 es-m-p20r" style="padding: 0; margin: 0; width: 20px;">&nbsp;</td>
+<td class="esdev-mso-td" style="padding: 0; margin: 0;" valign="top">
+<table class="es-right" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; float: right;" role="none" cellspacing="0" cellpadding="0" align="right">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0; width: 270px;" align="left">
+<table style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px;" role="presentation" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0;" align="left">
+<p class="es-m-txt-r" style="margin: 0; mso-line-height-rule: exactly; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; line-height: 21px; letter-spacing: 0; color: #333333; font-size: 14px;">[ORDER_ID]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td class="es-m-p40l es-m-p40r" style="padding: 0; margin: 0; padding-top: 20px; padding-right: 20px; padding-left: 20px;" align="left">
+<table class="esdev-mso-table" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; width: 560px;" role="none" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="esdev-mso-td" style="padding: 0; margin: 0;" valign="top">
+<table class="es-left" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; float: left;" role="none" cellspacing="0" cellpadding="0" align="left">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0; width: 270px;" align="left">
+<table style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px;" role="presentation" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="es-m-p0l" style="padding: 0; margin: 0; padding-left: 40px;" align="left">
+<p style="margin: 0; mso-line-height-rule: exactly; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; line-height: 21px; letter-spacing: 0; color: #ff7b01; font-size: 14px;"><strong>ID товара:</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td class="es-m-w0 es-m-p20r" style="padding: 0; margin: 0; width: 20px;">&nbsp;</td>
+<td class="esdev-mso-td" style="padding: 0; margin: 0;" valign="top">
+<table class="es-right" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; float: right;" role="none" cellspacing="0" cellpadding="0" align="right">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0; width: 270px;" align="left">
+<table style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px;" role="presentation" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0;" align="left">
+<p class="es-m-txt-r" style="margin: 0; mso-line-height-rule: exactly; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; line-height: 21px; letter-spacing: 0; color: #333333; font-size: 14px;">[PRODUCT_ID]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="es-footer" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; width: 100%; table-layout: fixed !important; background-color: transparent; background-repeat: repeat; background-position: center top;" role="none" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0;" align="center">
+<table class="es-footer-body" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px; background-color: #ffffff; width: 600px;" role="none" cellspacing="0" cellpadding="0" align="center" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0; padding-top: 20px; padding-right: 20px; padding-left: 20px;" align="left">
+<table style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px;" role="none" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding: 0; margin: 0; width: 560px;" align="left">
+<table style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; border-spacing: 0px;" role="presentation" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="es-text-1644" style="padding: 0; margin: 0; padding-bottom: 15px;" align="center">
+<p class="es-text-mobile-size-14" style="margin: 0; mso-line-height-rule: exactly; font-family: arial, 'helvetica neue', helvetica, sans-serif; line-height: 21px !important; letter-spacing: 0; color: #777; font-size: 14px;">С уважением,<br />Служба поддержки проекта "Кем стать?"</p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+EMAIL,
+'ACCOUNT_STATEMENT_NOTIFY_EMAIL1' => "ФИО: [CLIENT_NAME] [CLIENT_SURNAME]<br>ID заказа: [ORDER_ID]<br>ID товара: [PRODUCT_ID]<br>Наименование товара: [PRODUCT_NAME]<br>Email клиента: [CLIENT_EMAIL]<br>Телефон клиента: [CLIENT_PHONE]<br>Сумма: [SUMM]<br><a href='[LINK]'>Ссылка на оплату заказа</a><br>[LINK]<br>ФИО Партнёра: [P_FIO]<br>Связаться с партнёром: [P_LINK_TG]",
 // -KEMSTAT-8
 
 // ВИДЖЕТЫ
