@@ -119,6 +119,7 @@ class orderController extends baseController {
         // Если нажата кнопка оформить заказ
         if (isset($_POST['buy']) && !empty($_POST['email']) && isset($_POST['time']) && isset($_POST['token'])) {
             $sign = md5($id.'s+m'.$_POST['time']);
+
            $id_promo=$_POST['promo'];
            if( $id_promo!=null){
                 $partner_id_promocode = $id_promo;

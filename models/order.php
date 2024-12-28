@@ -2134,7 +2134,6 @@ class Order {
     public static function getOrderItems($order_id) {
         $order_id=intval($order_id);
         $db = Db::getConnection();
-
         $stmt = $db->prepare('SELECT * FROM '.PREFICS.'order_items WHERE order_id = :order_id ORDER BY order_item_id ASC');
         $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
         $stmt->execute();

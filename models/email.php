@@ -468,7 +468,6 @@ class Email {
             '[CLIENT_NAME]' => $name,
             '[LINK]' => $link
         );
-
         $text = strtr($letter, $replace);
 
         return self::sender($email, $subject, $text, $setting, $setting['sender_name'], $setting['sender_email']);
@@ -1356,13 +1355,13 @@ class Email {
             'addit_data' => $addit_data
         ]);
 
+
         if ($setting['use_smtp'] == 1) { // Отправляем через SMTP
             $send = self::SMTPSingleSender($email, $subject, $text, $setting, $from_name, $is_testLetter, $reply_to);
 
         } else { // Отправляем через Mail()
             $send = self::mailSender($email, $subject, $text, $from_name, $from);
         }
-
         return $send ? true: false;
     }
 
