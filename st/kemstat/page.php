@@ -3872,7 +3872,7 @@ if ($partner_id != null || $promo != null) {
                                     <label for="telegram" id="label_telegram" style="display: none;">Телеграм через @</label>
                                     <input class="input-field" type="text" id="telegram" name="telegram" placeholder="@ваш_ник" style="display: none;">
                                     <div class="not-me" style="display:none;">
-                                        <input type="checkbox" id="agreement" name="not-me" checked>
+                                        <input type="checkbox" id="agreement" name="not-me" unchecked>
                                         <label>
                                             Курс буду проходить не я
                                         </label>

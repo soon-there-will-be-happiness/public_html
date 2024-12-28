@@ -157,7 +157,6 @@ class AutoToken {
                     "payment_object" => 1,
                     "agent_info" => [
                         "type" => "another",
-   
                     ],
                     "supplier_info" => [
                         "phones" => [$phone],
