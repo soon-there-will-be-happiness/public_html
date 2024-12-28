@@ -7,15 +7,15 @@ $product = Product::getProductById($id);
 $price = Price::getFinalPrice($id);
 $date = time();
 $setting = System::getSetting();
+
 $name = $email = $phone = $surname = $patronymic = null;
 $metriks = !empty($setting['yacounter']) || $setting['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
 
 
-$promo= null;
-if(isset( $_GET['partner']))
-$promo= $_GET['partner'];
+$promo= $_GET['partner'] ?? null;
+
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
-if ($partner_id != null) {
+if ($partner_id != null || $promo != null) {
 ?>
 <head>
     <meta charset="utf-8" />
@@ -5185,7 +5185,8 @@ if ($partner_id != null) {
 <!-- End FB Pixel code (noscript) -->
 <!-- VK Pixel code (noscript) --><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-974419-2ZkvK"
                                                 style="position:fixed; left:-999px;" alt="" /></noscript><!-- End VK Pixel code (noscript) -->
-<script src="js/script.js"></script>
+<script src="js/script.js?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/st/kemstat/js/script.js'); ?>" defer></script>
+
 </body>
 <?require_once ("{$this->layouts_path}/tech-footer.php");?>
 <script>

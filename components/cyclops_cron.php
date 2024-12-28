@@ -24,7 +24,10 @@ $api = CyclopsApi::getInstance();
 $response = $api->listPayments(1,50,['identify' => false]);
 Log::add(1,'cron execute', ["response" => $response],'cyclops_cron');
 
+
+
 //$records = PointDB::getRecordsWithStatus();
+
 
 // Проход по каждому платежу, полученному из API
 if (isset($response['result']['payments']) && !empty($response['result']['payments'])) {
@@ -62,11 +65,13 @@ foreach ($payments_tochkas as $payments_tochka) { // 7765
             // Обновляем сопоставление платежа с продуктом
             Payments::updatePaymentId($matched_payment['matched_payment_id'], $payments_tochka['id']);
 
+
             // Уменьшаем сумму текущего платежа с учетом комиссии
             $payments_tochka["amount"] -= $matched_payment["amount"] * (1 - ($com_per + $luft) / 100); // 1043,26
 
             // Добавляем в общую комиссию
             $total_commission += $matched_payment["amount"] * ($com_per + $luft) / 100; // 258,26
+
         }
     }
 

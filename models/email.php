@@ -1299,6 +1299,32 @@ class Email {
         return self::sender($email, 'School-Master - отладка', $message, $setting, 'BillingMaster', $email);
     }
 
+    public static function clean_text($text) {
+        $text = strip_tags($text, '<p><br>');
+
+        // Ищем текст между тегами <p>
+        preg_match_all('/<p[^>]*>(.*?)<\/p>/s', $text, $matches);
+
+        // Объединяем найденный текст с двумя переносами между абзацами
+        $result = implode("\n\n", array_map('trim', $matches[1]));
+        $result = preg_replace('/<\/?br[^>]*>/', "\n", $result);
+        $result = str_replace('&nbsp;', '', $result);
+        // Удаляем перенос строки после символа ":"
+        $result = preg_replace('/:\s*[\n\n]+/', ': ', $result);
+        //$result = preg_replace('/:\s*[\n\n]+/', ': ', $result);
+
+
+        // Удаляем параметры из ссылок и оставляем чистые адреса
+        $result = preg_replace('/\?.*?["\' >]/', '', $result);
+
+        return $result;
+    }
+
+    public static function contains_html($text) {
+        // Удаляем теги и сравниваем
+        //Log::add(1,'Contains_html?',['after'=>strip_tags($text, '<p><br><\/p><br \/><a>'),'before'=>$text, 'result'=>strip_tags($text, '<p><br><\/p><br \/>') !== $text],'test_mail.log');
+        return strip_tags($text, '<p><br><\/p><br \/><a>') !== $text;
+    }
 
     /**
      * ОТПРАВИТЬ ПИСЬМО
@@ -1312,8 +1338,14 @@ class Email {
      */
     public static function sender($email, $subject, $text, $setting, $from_name, $from, $is_testLetter = false, $reply_to = false, array $addit_data = []) {
         $caller = System::get_caller(__FUNCTION__);
-        $text_tg = self::builder($text,true);
-        $res = Connect::sendMessagesByEmail($email, $subject . "\n\n" . $text_tg, [
+
+        $text_tg = $text;
+        if (Email::contains_html($text)) {
+            $text_tg = Email::clean_text($text);
+        }
+
+
+        $res = Connect::sendMessagesByEmail($email, '<b>'.$subject . "</b>\n" . $text_tg, [
             'caller' => $caller,
             'email' => $email,
             'subject' => $subject,
@@ -1324,7 +1356,6 @@ class Email {
             'addit_data' => $addit_data
         ]);
 
-        $text = self::builder($text);
         if ($setting['use_smtp'] == 1) { // Отправляем через SMTP
             $send = self::SMTPSingleSender($email, $subject, $text, $setting, $from_name, $is_testLetter, $reply_to);
 

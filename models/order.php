@@ -176,7 +176,7 @@ class Order {
                     }
                 }
 
-                $total_aff = $item['price'];
+                $total_aff = $item['price']*0.973;
                 if ($aff_extension && $useAff) {
                     self::affProcessing($order, $item, $product, $aff_params,$total_aff,$partners_payouts,
                         $client_data, $partner_id, $partner2_id, $partner3_id
@@ -396,7 +396,6 @@ class Order {
                                         $client_data, &$partner_id, &$partner2_id, &$partner3_id)
     {
         $commission_1 = $commission_2 = $commission_3 = 0;
-
         if ($product['run_aff'] == 1) { // если партнёрка включена для этого продукта
             if ($order['partner_id'] != null) { // Если в заказе партнёр есть, то РАСЧЁТ партнёрских
                 $partner_id = $order['partner_id'];
@@ -448,7 +447,7 @@ class Order {
                                 return false;
                             }
 
-                            $commission_2 = round(($item['price'] / 100) * $aff_params['params']['aff_2_level']); // комиссия для партнёра 2 ур.
+                            $commission_2 = round(($item['price']*0.973 / 100) * $aff_params['params']['aff_2_level']); // комиссия для партнёра 2 ур.
                             $total_aff = $total_aff - $commission_2; // остаток суммы с вычтенной комиссией партнёров 1 и 2 ур.
 
                             $aff_transact2 = Aff::PartnerTransaction($partner2_id, $order['order_id'], $item['product_id'],
@@ -470,7 +469,7 @@ class Order {
                                         return false;
                                     }
 
-                                    $commission_3 = round(($item['price'] / 100) * $aff_params['params']['aff_3_level']); // комисси ядля партнёра 3 ур.
+                                    $commission_3 = round(($item['price']*0.973 / 100) * $aff_params['params']['aff_3_level']); // комисси ядля партнёра 3 ур.
                                     $total_aff = $total_aff - $commission_3; // остаток суммы с вычтенной комиссией партнёров 1,2 и 3 ур.
 
                                     Aff::PartnerTransaction($data2['ref_id'], $order['order_id'],
@@ -488,7 +487,8 @@ class Order {
                         }
                     }
                 }
-            } elseif ($client_data && $client_data['from_id'] != null) { // Проверить наличие from_id у клиента, если он существует
+            }
+            elseif ($client_data && $client_data['from_id'] != null) { // Проверить наличие from_id у клиента, если он существует
                 $partner_id = $client_data['from_id'];
 
                 if ($product['price'] > 0) {
@@ -527,7 +527,7 @@ class Order {
                         $data = Aff::getPartnerReq($partner_id);
 
                         if ($data['ref_id'] != 0) {
-                            $commission_2 = round(($item['price'] / 100) * $aff_params['params']['aff_2_level']); // комиссия для партнёра 2 ур.
+                            $commission_2 = round(($item['price']*0.973 / 100) * $aff_params['params']['aff_2_level']); // комиссия для партнёра 2 ур.
                             $total_aff = $total_aff - $commission_2; // остаток суммы с вычтенной комиссией партнёров 1 и 2 ур.
 
                             $aff_transact2 = Aff::PartnerTransaction($data['ref_id'], $order['order_id'],
@@ -545,7 +545,7 @@ class Order {
 
                                 if ($data2['ref_id'] != 0) {
                                     $partner3_id = $data2['ref_id'];
-                                    $commission_3 = round(($item['price'] / 100) * $aff_params['params']['aff_3_level']); // комисси ядля партнёра 3 ур.
+                                    $commission_3 = round(($item['price']*0.973 / 100) * $aff_params['params']['aff_3_level']); // комисси ядля партнёра 3 ур.
                                     $total_aff = $total_aff - $commission_3; // остаток суммы с вычтенной комиссией партнёров 1,2 и 3 ур.
 
                                     Aff::PartnerTransaction($partner3_id, $order['order_id'], $item['product_id'],
@@ -2092,6 +2092,22 @@ class Order {
     }
 
 
+    // ДАННЫЕ ЗАКАЗА ПО order_id ДЛЯ ПОКУПАТЕЛЯ
+    public static function getPayedOrderDataByClientAndProduct($client_email, $product_id)
+    {
+        $product_id = intval($product_id);
+        $sql = "SELECT * FROM " . PREFICS . "orders WHERE client_email = :client_email AND product_id = :product_id AND status = 1";
+        $db = Db::getConnection();
+        $stmt=$db->prepare($sql);
+        $stmt->bindParam(':client_email', $client_email, PDO::PARAM_STR);
+        $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return !empty($data) ? $data : false;
+    }
+
+
     /**
      * ПОЛУЧИТЬ ДАННЫЕ ЗАКАЗА
      * @param $id
@@ -2099,12 +2115,16 @@ class Order {
      */
     public static function getOrder($id)
     {
+        $id = intval($id);
+        $sql = "SELECT * FROM ".PREFICS."orders WHERE order_id = :id";
         $db = Db::getConnection();
-        $result = $db->query('SELECT * FROM '.PREFICS."orders WHERE order_id = $id");
-        $data = $result->fetch(PDO::FETCH_ASSOC);
-
+        $stmt=$db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
         return !empty($data) ? $data : false;
     }
+
 
     /**
      * ПРОДУКТЫ В ЗАКАЗЕ
@@ -2112,11 +2132,16 @@ class Order {
      * @return array|bool
      */
     public static function getOrderItems($order_id) {
+        $order_id=intval($order_id);
         $db = Db::getConnection();
-        $result = $db->query('SELECT * FROM '.PREFICS."order_items WHERE order_id = $order_id ");
+
+        $stmt = $db->prepare('SELECT * FROM '.PREFICS.'order_items WHERE order_id = :order_id ORDER BY order_item_id ASC');
+        $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        $stmt->execute();
+
 
         $data = [];
-        while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $data[] = $row;
         }
 
@@ -2130,9 +2155,13 @@ class Order {
      * @return array|bool
      */
     public static function getOrderItem($order_item_id) {
+        $order_item_id=intval($order_item_id);
+        $sql = "SELECT * FROM ".PREFICS."order_items WHERE order_item_id = :order_item_id";
         $db = Db::getConnection();
-        $result = $db->query('SELECT * FROM '.PREFICS."order_items WHERE order_item_id = $order_item_id");
-        $data = $result->fetch(PDO::FETCH_ASSOC);
+        $stmt=$db->prepare($sql);
+        $stmt->bindParam(':order_item_id', $order_item_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return !empty($data) ? $data : false;
     }
@@ -2215,10 +2244,15 @@ class Order {
     // ОБНОВИТЬ ЗАКАЗ ПОСЛЕ АПСЕЛЛА
     public static function UpdateOrderAfterUpsell($order_date, $prod_id, $price, $nds, $type_id, $product_name)
     {
-        $db = Db::getConnection();
+
         // Получить ID заказа по дате
-        $result = $db->query(" SELECT order_id FROM ".PREFICS."orders WHERE order_date = $order_date AND status != 1");
-        $data = $result->fetch(PDO::FETCH_ASSOC);
+
+        $sql = " SELECT order_id FROM ".PREFICS."orders WHERE order_date = :order_date AND status != 1";
+        $db = Db::getConnection();
+        $stmt=$db->prepare($sql);
+        $stmt->bindParam(':order_date', $order_date, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if(!$data) return false;
 
@@ -2244,13 +2278,13 @@ class Order {
         $data2 = $result->execute();
 
         if ($data2) {
-            $order_id = $data['order_id'];
+            $order_id = intval($data['order_id']);
             $total = Order::getOrderTotalSum($order_id);
-            $sql = 'UPDATE '.PREFICS."orders SET summ = :total WHERE order_id = $order_id";
+            $sql = 'UPDATE '.PREFICS."orders SET summ = :total WHERE order_id = :order_id";
             $result = $db->prepare($sql);
+            $result->bindParam(':order_id', $order_id, PDO::PARAM_INT);
             $result->bindParam(':total', $total, PDO::PARAM_INT);
-            $result = $result->execute();
-            return $result;
+            return $result->execute();
         }
     }
 
