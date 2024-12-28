@@ -183,7 +183,7 @@ class orderController extends baseController {
             $param = isset($_COOKIE["$cookie"]) ? htmlentities($_COOKIE["$cookie"]) : htmlentities($_SESSION["$cookie"]);
             $ip = System::getUserIp();
             $flow = isset($_POST['flows']) ? intval($_POST['flows']) : 0;
-            $not_me = isset($_POST['not-me']) ? htmlspecialchars($_POST['not-me']) : false;
+            $not_me =/* isset($_POST['not-me']) ? htmlspecialchars($_POST['not-me']) :*/ false;
 
           
             // ПАРТНЁРКА ПРИ ЗАКАЗЕ
@@ -1811,6 +1811,7 @@ class orderController extends baseController {
         return true;
     }
     public function actionPointTest() {
+        
         $this->setViewParams('payments', 'payments/point/test.php', null, null, 'order-pay-page');
 
         require_once (ROOT . '/payments/point/test.php');
