@@ -211,6 +211,13 @@ class Order {
                 // Удаление групп для пользователя
                 if ($product['del_group_id']) {
                     User::deleteUserGroupsFromList($client['user_id'], $product['del_group_id']);
+                } 
+                
+                $flow_groups = json_decode(Flows::getFlowByID($item['flow_id'])['groups'], true);
+                Log::add(1,'group_ad',['flow_groups'=>$flow_groups,'user'=>$client['user_id']],'group_ad');
+                foreach ($flow_groups as $group) {
+                    $res= User::WriteUserGroup($client['user_id'], $group);
+                    Log::add(1,'group_ad',['gr'=>$group,'user'=>$client['user_id'],'res'=>$res],'group_ad');
                 }
                  // Добавление групп для пользователя при рассрчоке и БЕЗ
                 if( $to_child==false){

@@ -102,3 +102,10 @@ document.addEventListener('DOMContentLoaded', function() {
     console.error(e.message);
   }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  let elem = document.getElementsByClassName('open-menu')[0]
+  if (elem){
+    elem.style.display = 'none';
+  }
+});

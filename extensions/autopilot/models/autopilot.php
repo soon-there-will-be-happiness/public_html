@@ -197,6 +197,39 @@ class Autopilot extends User {
         else return array();
     }
 
+
+public static function getGroupsByNamesTitle($names) {
+    // Генерируем параметры для IN
+    $group_keys = array_map(function($key) {
+        return ':var_' . $key;
+    }, array_keys($names));
+
+    // Подключение к базе
+    $db = Db::getConnection();
+
+    // Создаем SQL-запрос с именованными параметрами
+    $sql = 'SELECT group_id, group_title FROM ' . PREFICS . 'user_groups WHERE group_title IN (' . implode(',', $group_keys) . ')';
+
+    // Подготавливаем запрос
+    $result = $db->prepare($sql);
+
+    // Привязываем параметры
+    foreach ($names as $group_key => $group_name) {
+        $result->bindValue(':var_' . $group_key, $group_name);
+    }
+
+    // Выполняем запрос
+    $result->execute();
+
+    // Извлекаем данные как ассоциативный массив
+    $data = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    // Возвращаем результат
+    return !empty($data) ? $data : [];
+}
+
+    
+    
     public static function prepareVkUrl($vk_url) {
         $vk_url = trim($vk_url);
         $screen_name = '';

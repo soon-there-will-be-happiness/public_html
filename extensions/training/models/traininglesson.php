@@ -334,6 +334,26 @@ class TrainingLesson {
 
 
     /**
+     * ПОЛУЧИТЬ НАЗВАНИЯ УРОКОВ ПО ТРЕНИНГУ
+     * @param $tr_id
+     * @param int $status
+     * @return array
+     */
+    public static function getLessonsNameByTraining($tr_id, $status = 1)
+    {
+        $db = Db::getConnection();
+        $sql = "SELECT name FROM ".PREFICS.'training_lessons WHERE training_id = :training_id';
+        $sql .= ($status !== null ? " AND status = $status" : '');
+        $result = $db->prepare($sql);
+        $result->bindParam(':training_id', $tr_id, PDO::PARAM_INT);
+        $result->execute();
+        $data = $result->fetchall(PDO::FETCH_ASSOC);
+
+        return !empty($data) ? $data : false;
+    }
+    
+    
+    /**
      * ПОЛУЧИТЬ УРОК ПО ЗНАЧЕНИЮ СОРТИРОВКИ
      * @param $tr_id
      * @param $sort
