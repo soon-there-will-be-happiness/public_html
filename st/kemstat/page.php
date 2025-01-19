@@ -10,6 +10,9 @@ $price = Price::getFinalPrice($id);
 $date = time();
 $setting = System::getSetting();
 
+$flow_ids = Flows::getFlowForProduct($id);
+$flows = Flows::getActualFlowByIDs($flow_ids, $date);
+
 $name = $email = $phone = $surname = $patronymic = null;
 $metriks = !empty($setting['yacounter']) || $setting['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
 

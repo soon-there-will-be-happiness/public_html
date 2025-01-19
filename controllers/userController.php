@@ -273,7 +273,7 @@ class userController extends baseController {
             $phone = htmlentities($_POST['phone']);
             $pass = htmlentities($_POST['pass']);
             $confirm_pass = htmlentities($_POST['confirm_pass']);
-            $order_id=  htmlentities($_POST['order_id']);
+            $order_id=  null;//htmlentities($_POST['order_id']);
             if ($email && $name && $phone && $pass && $confirm_pass) {
                 if ($pass == $confirm_pass) {
                     if (strlen($pass) >= 6) {
