@@ -217,7 +217,9 @@ class adminTrainingController extends AdminBase {
                     $data['sertificate'] = json_encode($sertjson);
                 }
 
-
+                if (isset($data['lessonsData'])) {
+                    Flows::AddMuliplyFlows($data['lessonsData'], json_decode($training['big_button'], true)['product_order']);
+                }
                 $edit = Training::editTraining($id, $data);
                 System::redirectUrl("/admin/training/edit/$id", $edit);
             }

@@ -41,11 +41,14 @@ class orderController extends baseController {
         
         // ПОТОКИ для продукта
         $flows_ext = System::CheckExtensension('learning_flows', 1);
+        Log::add(1,'$flows_ext',['$flows_ext'=>$flows_ext],'Flows.log');
         if($flows_ext) {
             $params = json_decode(System::getExtensionSetting('learning_flows'), true);
             $flow_ids = Flows::getFlowForProduct($id);
+            Log::add(1,'$flow_ids',['$flow_ids'=>$flow_ids],'Flows.log');
             if($flow_ids){
                 $flows = Flows::getActualFlowByIDs($flow_ids, $date);
+                Log::add(1,'$flows',['$flows'=>$flows],'Flows.log');
                 
                 // Если нет актуальных потоков для продукта
                 if(!$flows) {

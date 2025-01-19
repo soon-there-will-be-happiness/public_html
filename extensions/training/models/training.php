@@ -147,11 +147,13 @@ class Training {
             ],
             'json' => [
                 'start_lessons', 'finish_lessons', 'access_task_groups', 'access_task_planes', 'big_button', 'small_button', 'authors',
-                'by_button_curator_hw','by_button_autocheck_hw','by_button_self_hw', 'full_cover_param', 'sertificate', 'params'
+                'by_button_curator_hw','by_button_autocheck_hw','by_button_self_hw', 'full_cover_param', 'sertificate', 'params','lessonsData',
             ],
         ];
-
+        Log::add(1,'Тренинг ПОСТ',['defore data'=>$data],'Traning.log');
+        //var_dump($data['lessonsData']);
         $data = self::beforeSaveData2Admin($fields, $data);
+        Log::add(1,'Тренинг ПОСТ',['data'=>$data],'Traning.log');
         $data['alias'] = $data['alias'] ?: System::Translit($data['name']);
         if (System::searchDuplicateAliases($data['alias'], 'training', $training_id, 'training_id')) {
             $data['alias'] .= '-1';

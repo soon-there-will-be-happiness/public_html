@@ -289,6 +289,47 @@ class Flows {
     }
     
     
+    public static function getFlowsDataForProduct($product_id)
+    {
+        // Подключаемся к базе данных
+        $db = Db::getConnection();
+
+        // Выполняем SQL-запрос с JOIN для получения данных о потоках
+        $query = "
+        SELECT 
+            fp.product_id AS flow_product_id,
+            f.flow_id,
+            f.flow_name,
+            f.flow_title,
+            f.start_flow,
+            f.end_flow,
+            f.show_period,
+            f.public_start,
+            f.public_end,
+            f.status,
+            f.groups,
+            f.planes,
+            f.letter,
+            f.del_groups,
+            f.limit_users,
+            f.is_default
+        FROM " . PREFICS . "flows_products fp
+        INNER JOIN " . PREFICS . "flows f ON fp.flow_id = f.flow_id
+        WHERE fp.product_id = :product_id
+    ";
+
+        // Подготавливаем и выполняем запрос
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Извлекаем данные
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Возвращаем результат
+        return !empty($data) ? $data : false;
+    }
+
     
     // ПОЛУЧИТЬ ИМЯ ПОТОКА
     public static function getFlowName($flow_id)
@@ -366,6 +407,135 @@ class Flows {
         return $result;
     }
     
+    
+    
+    public static function AddMuliplyFlows($data, $product_id)
+    {
+
+        // Убираем лишние слэши, но не повреждаем Unicode
+        $data = preg_replace('/\\\\(?!u[0-9a-fA-F]{4})/', '', $data);
+
+        // Удаляем лишние кавычки, если они есть
+        $data = trim($data, '"');
+
+        // Получаем данные о потоках для данного продукта
+        $flows_data = self::getFlowsDataForProduct($product_id);
+        $product_name = Product::getProductById($product_id)['product_title'];
+
+        // Декодируем JSON-строку в массив
+        $decoded_data = json_decode($data, true);
+        if (!$decoded_data || !is_array($decoded_data)) {
+            return ;
+            throw new Exception('Некорректные или пустые данные JSON.');
+        }
+        
+        // Создаем список имен потоков из новых данных
+        $new_flow_names = array_map(function ($lesson) {
+            return $lesson['value'] . ' с ' . $lesson['date'];
+        }, $decoded_data);
+    
+        // Удаляем потоки, которые отсутствуют в новых данных
+        foreach ($flows_data as $flow_data) {
+            if (!in_array($flow_data['flow_name'], $new_flow_names) && $flow_data['flow_product_id'] == $product_id) {
+                self::delFlow($flow_data['flow_id']); // Удаляем поток
+            }
+        }
+            
+        // Извлекаем значения "value" из массива
+        $group_names = array_combine(
+        array_keys($decoded_data),                      
+        // Ключи из $decoded_data (порядковые индексы)
+        array_map(function ($lesson) {
+            return $lesson['value'];
+        }, $decoded_data)                              
+        // Значения "value" из $decoded_data
+        );
+
+        if (empty($group_names)) {
+            throw new Exception('Массив имен групп пуст.');
+        }
+        
+        $group_data = Autopilot::getGroupsByNamesTitle($group_names);
+
+        if (empty($group_data)) {
+            throw new Exception('Не удалось найти группы по именам.');
+        }
+
+        $group_map = [];
+        foreach ($group_data as $group) {
+            $group_map[$group['group_title']] = $group['group_id'];
+        }
+        
+        // Сопоставляем group_ids в том же порядке, что и group_names
+        $group_ids = [];
+        foreach ($group_names as $name) {
+            if (isset($group_map[$name])) {
+                $group_ids[] = $group_map[$name];
+            } else {
+                throw new Exception("Группа с именем '{$name}' не найдена.");
+            }
+        }
+        
+        // Создаем массив с ключами для быстрого поиска
+        $existing_flows = [];
+        foreach ($flows_data as $flow_data) {
+            $existing_flows[$flow_data['flow_name']] = true;
+        }
+
+        // Перебираем переданные данные ($decoded_data)
+        foreach ($decoded_data as $index => $lesson) {
+            $flow_name = $lesson['value'] . ' с ' . $lesson['date'];
+            // Если значение уже существует, пропускаем итерацию
+            if (isset($existing_flows[$flow_name])) {
+                continue;
+            }
+
+            $flow_title = $product_name . ' с ' . $lesson['date'];
+            $dateTime = DateTime::createFromFormat('d.m.y', $lesson['date']);
+
+            $start_flow = $dateTime->getTimestamp();
+            $oneDay=24*60*60;
+            $start_flow= intval(floor($start_flow/$oneDay)*$oneDay-3*60*60);
+
+            // Добавляем 28 дней (в секундах)
+            $end_flow = $start_flow + (28 * 24 * 60 * 60) - 1;
+            $public_start = $start_flow - (6 * 24 * 60 * 60);
+            $public_end = $start_flow + (24 * 60 * 60) - 1;
+
+            // Формируем $add_group_arr с кольцевым добавлением
+            $add_group_arr = [];
+            $total_groups = count($group_ids);
+
+            for ($i = 0; $i < 4; $i++) {
+                $add_group_arr[] = $group_ids[($index + $i) % $total_groups];
+            }
+            if($product_id==28){
+                $add_group_arr[] = 24;
+            }
+            $add_group_arr = array_map('strval', $add_group_arr);
+
+            // Преобразуем в JSON-строку
+            $add_group_arr = json_encode($add_group_arr);
+            // Если значения нет, вызываем функцию addFlow
+            $res=self::addFlow(
+                $flow_name,
+                $flow_title,
+                1,
+                $start_flow,
+                $end_flow,
+                0,
+                $public_start,
+                $public_end,
+                $add_group_arr,
+                null,
+                null,
+                null,
+                [$product_id],
+                -1,
+                0
+            );
+        }
+    }
     
     
     // РЕДАКТИРОВАТЬ ПОТОК
