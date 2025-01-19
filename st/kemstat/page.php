@@ -10,6 +10,9 @@ $price = Price::getFinalPrice($id);
 $date = time();
 $setting = System::getSetting();
 
+$flow_ids = Flows::getFlowForProduct($id);
+$flows = Flows::getActualFlowByIDs($flow_ids, $date);
+
 $name = $email = $phone = $surname = $patronymic = null;
 $metriks = !empty($setting['yacounter']) || $setting['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
 
@@ -3901,6 +3904,11 @@ if ($partner_id != null || $promo != null) {
                                             <span class="politics"><?=System::Lang('LINK_CONFIRMED');?></span>
                                         <?endif;?>
                                     </label>
+                                    <li style="display:none" class="cart-form-input flows">
+                                        <select name="flows">
+                                        <option value="<?=$flows[0]['flow_id'];?>" data-limit="" checked ></option>
+                                        </select>
+                                    </li>
                                     <input type="hidden" name="not-me" value=true/>
                                     <input type="hidden" name="promo" value="<?=$promo?>">
                                     <input type="hidden" name="time" value="<?=$date;?>">
