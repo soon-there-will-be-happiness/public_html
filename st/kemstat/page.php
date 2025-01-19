@@ -17,6 +17,10 @@ $name = $email = $phone = $surname = $patronymic = null;
 $metriks = !empty($setting['yacounter']) || $setting['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
 
 
+$flow_ids = Flows::getFlowForProduct($id);
+$flows = Flows::getActualFlowByIDs($flow_ids, $date);
+var_dump($flows);
+Log::add('1','log',['flows'=>$flows[0]['flow_id']],'flows.log');
 $promo= $_GET['partner'] ?? null;
 
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
@@ -3869,7 +3873,7 @@ if ($partner_id != null || $promo != null) {
                                     <input class="input-field" type="email" id="email" name="email" value="" placeholder="Введите вашу почту" required>
                                     <?endif;?>
 
-                                    <label for="phone" id="label_phone">Телефон<span style="color: red;">*</span></label>
+                                    <label for="phone" id="label_phone">Телефон <?$flows?><span style="color: red;">*</span></label>
                                     <input class="input-field" type="tel" id="phone_inp" name="phone" maxlength="12" placeholder="912 333-33-33" required>
 
                                     <span class="text-hint" onclick="toggleFields()">Вы также можете указать никнейм телеграм для оперативной связи</span>
@@ -3906,7 +3910,7 @@ if ($partner_id != null || $promo != null) {
                                     </label>
                                     <li style="display:none" class="cart-form-input flows">
                                         <select name="flows">
-                                        <option value="<?=$flows[0]['flow_id'];?>" data-limit="" checked ></option>
+                                        <option value="<?php echo $flows[0]['flow_id']?>" data-limit="" checked ></option>
                                         </select>
                                     </li>
                                     <input type="hidden" name="not-me" value=true/>

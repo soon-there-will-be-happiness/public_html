@@ -9,8 +9,51 @@ $planes = Member::getPlanes();
 $lesson_list = TrainingLesson::getLessons2Training($id);
 $product_list = Product::getProductListOnlySelect();
 //TODO Временно пока для экспериментов
-$access_task_global = json_decode($training["access_task_global"]);?>
+$access_task_global = json_decode($training["access_task_global"]);
 
+$lessons = array_column(TrainingLesson::getLessonsNameByTraining($training['training_id'][0]), 'name');
+$flowsData = Flows::getFlowsDataForProduct(json_decode($training['big_button'], true)['product_order']);
+$savedData = [];
+$currentTime = time();
+$counter=1;
+if (!empty($flowsData) && is_array($flowsData)) {
+    foreach ($flowsData as $flow) {
+        $endFlow = (int)$flow['end_flow'];
+        if ($endFlow > $currentTime) {
+            // Извлекаем часть 'flow_name' до " с" (без последнего пробела)
+            $name = mb_substr($flow['flow_name'], 0, mb_strrpos($flow['flow_name'], ' с'));
+            
+            // Преобразуем дату из Unix в формат "дд.мм.гг"
+            $date = date('d.m.y', $flow['start_flow']);
+            
+            // Формируем результат
+            $savedData[] = [
+                'name' => 'lessons[' . $counter . ']', // Используем счетчик
+                'value' => $name,
+                'date' => $date
+            ];
+            
+            $counter++; // Увеличиваем счетчик
+        }
+    }
+} else {
+    // Обработка случая, когда $flowsData пустое или не массив
+    echo "Нет потоков для текущего продукта.";
+}
+$weekCount = !empty($savedData) ? sizeof($savedData):40;
+?>
+<script>
+    let saveData = <?php echo json_encode($savedData, JSON_UNESCAPED_UNICODE); ?>;
+    console.log(saveData);
+    let lessons = <?php echo json_encode($lessons); ?>;
+    console.log(lessons);
+    let weekCount = <?php echo json_encode($weekCount); ?>;
+    console.log(weekCount);
+    if (!Array.isArray(saveData))
+        saveData = Object.values(saveData);
+    if (!Array.isArray(lessons))
+        lessons = Object.values(lessons);
+</script>
 <div class="main">
     <div class="top-wrap">
         <h1>Редактировать тренинг (ID: <?=$training['training_id'];?>)</h1>
@@ -44,6 +87,7 @@ $access_task_global = json_decode($training["access_task_global"]);?>
         <div class="tabs">
             <ul class="overflow-container tabs-ul">
                 <li>Основное</li>
+                <li>График</li>
                 <li>Доступ</li>
                 <li>Кнопки</li>
                 <li>Внешний вид</li>
@@ -313,6 +357,38 @@ $access_task_global = json_decode($training["access_task_global"]);?>
                         </div>
                     </div>
                 </div>
+
+
+<div>
+<?php
+/*if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
+    $savedData = isset($_POST['lessonsTable']) && !empty($_POST['lessonsTable'])  
+    ? json_decode($_POST['lessonsTable'], true)  
+    : []; 
+    $weekCount = sizeof($savedData); 
+    echo '<p style="text-align: center; color: green;">Данные успешно сохранены!</p>'; 
+}
+print_r($_POST)*/
+?>
+
+
+<div class="container">
+    <fieldset>
+        <table>
+            <thead>
+            <tr>
+                <th>Неделя</th>
+                <th>Урок</th>
+            </tr>
+            </thead>
+            <tbody id="week-table-body"></tbody>
+        </table>
+        <span class="add-btn" style="font-weight: bold; font-size: 30px; color: green; cursor: pointer;" onclick="addWeek(lessons)">+</span>
+        <br>
+    </fieldset>
+</div>
+</div>
+
 
                 <!-- ДОСТУП -->
                 <div>
