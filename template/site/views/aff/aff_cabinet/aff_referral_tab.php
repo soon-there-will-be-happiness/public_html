@@ -41,7 +41,7 @@
                         } else $url = $this->settings['script_url'].'/ext/'.$link['product_id'].'/'.$user['user_id'];
                     }
                     if($product['product_text2']!=null && !empty($product['product_text2'])){
-                        $url =$this->settings['script_url'].$product['product_text2']."?partner=".$user['user_id'];
+                        $url =$this->settings['script_url'].$product['product_text2'] . '?partner=' . $user['user_id'];
                         $short_link_id_tx2_url = Aff::isShortLinkByPartner($user['user_id'], $url);
                         if ($short_link_id_tx2_url) {
                             // Если короткая ссылка найдена, подставляем ID в ссылку

@@ -19,52 +19,73 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__."/../");
 $dotenv->load();
 $api = CyclopsApi::getInstance();
+
+
 $response = $api->listPayments(1,50,['identify' => false]);
 Log::add(1,'cron execute', ["response" => $response],'cyclops_cron');
 
 
-$records = PointDB::getRecordsWithStatus();
+
+
+//$records = PointDB::getRecordsWithStatus();
+
 
 // Проход по каждому платежу, полученному из API
-if (isset($response['result']['payment']) && !empty($response['result']['payment'])) {
-    $payment = $response['result']['payment'];
+if (isset($response['result']['payments']) && !empty($response['result']['payments'])) {
+    $payments = $response['result']['payments'];
+    foreach ($payments as $payment) {
 
-    // Преобразуем дату из API в объект DateTime
-    $paymentDate = DateTime::createFromFormat('Y-m-d', $payment['document_date']);
-    $paymentAmount = $payment['amount'];
-    $paymentId = $payment['id'];  // ID платежа из API
-    foreach ($response['result']['payments'] as $payment) { 
-        $api->refundPayment($payment);
-    }
-    // Проходим по всем записям из базы данных
-    foreach ($records as $record) {
-        // Преобразуем дату заказа из базы данных в объект DateTime
-        $orderDate = DateTime::createFromFormat('Y-m-d', $record['order_date']);
-        $orderAmount = $record['summ'];  // Сумма из базы данных
-        $orderId = $record['order_id'];  // Order ID из базы данных
-        $pointId = $record['point_id'];  // Point ID из базы данных
-
-        // Проверка: дата платежа позже даты заказа и сумма совпадает
-        if ($paymentDate > $orderDate && abs($paymentAmount - $orderAmount) < 0.0001) {
-            // Если совпадение по времени и сумме, добавляем платеж
-           /* Cyclops::addPayment([
-                'point_id' => $pointId,
-                'order_id' => $orderId,
-                'payment_id' => $paymentId,
-                'amount' => $paymentAmount,
-                'status' => $payment['status'],
-                'url' => $record['url'],  // Добавляем URL из базы данных
-                'operationId' => $record['operationId'],  // Добавляем operationId из базы данных
-            ]);*/
-
-            // Логируем успешное сопоставление
-            Log::add(1, 'payment match', [
-                'point_id' => $pointId,
-                'order_id' => $orderId,
-                'payment_id' => $paymentId
-            ], 'cyclops_match');
-
-
+        $response = $api->getPayment($payment);
+        $paymentDate = $response['result']['payment']['document_date'];
+        $paymentAmount = $response['result']['payment']['amount'];
+        if(Payments::getPaymentTochkaByPaymentId( $payment )==null){
+            Payments::addPaymentTochka($payment,   $paymentAmount,  $paymentDate,json_decode($payment));
         }
     }
 }
+
+$com_per = 2.7; // Комиссия
+$luft = 1; // Погрешность
+$payments_tochkas = Payments::getAllPaymentsTochka('unmatched'); // Список платежей из Точки
+
+foreach ($payments_tochkas as $payments_tochka) { // 7765
+    $matched_payments = Payments::getJoinedOrdersAndPayments(); // Список продуктов 2990 2990/ 1000 2990 1000
+    $total_commission = 0; // Общая комиссия для текущего платежа 258,26
+
+    foreach ($matched_payments as $matched_payment) {
+        // Порог для сопоставления с учетом комиссии и погрешности
+        $threshold = $matched_payment["amount"] * (1 - ($com_per + $luft) / 100); // 2879,37 // 963
+        Log::add(1, 'matched_payment', [
+            'matched_payment' => $matched_payment,
+            'if' => $payments_tochka["amount"] >= $threshold,
+            'tocka'=>  $payments_tochka["amount"],
+            'threshold' => $threshold,
+        ], 'cyclops_match');
+        // Проверяем, можно ли сопоставить текущий платеж
+        if ($payments_tochka["amount"] >= $threshold) { // 1043,26 >= 2879,37 // 963
+            // Обновляем сопоставление платежа с продуктом
+            Payments::updatePaymentId($matched_payment['matched_payment_id'], $payments_tochka['id']);
+
+
+            // Уменьшаем сумму текущего платежа с учетом комиссии
+            $payments_tochka["amount"] -= $matched_payment["amount"] * (1 - ($com_per + $luft) / 100); // 1043,26
+
+            // Добавляем в общую комиссию
+            $total_commission += $matched_payment["amount"] * ($com_per + $luft) / 100; // 258,26
+
+        }
+    }
+
+    // Платеж полностью сопоставлен
+    Payments::updatePaymentStatus($payments_tochka['id'], 'matched');
+    // Проверяем результат цикла
+    if ($payments_tochka["amount"] >= $total_commission) {
+        // Логируем оставшийся остаток
+        Log::add(1, 'unmatched pay', [
+            'payment_id' => $payments_tochka['id'],
+            'remaining_amount' => $payments_tochka["amount"],
+            'total_commission' => $total_commission,
+        ], 'cyclops_match');
+    }
+}
+

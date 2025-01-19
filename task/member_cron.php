@@ -1,5 +1,6 @@
 <?php define('BILLINGMASTER', 1); 
-
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
 // 1 раз в час - норм.
 
 // Настройки системы
@@ -54,26 +55,25 @@ if($plane_list){
                     foreach($search_list as $item) {
                         // Получить данные юзера
                         $user = User::getUserById($item['user_id']);
-                        $partner_id=Order::getPayedOrderDataByClientAndProduct($user['email'],$product['product_id'])['partner_id'];
-                        if($product['product_id'] == 30) {
-                            $linkToEmail = "{$link}?partner={$partner_id}#pay";
+                        echo '\nemail: '.$user['email'];
+                        $partner_id=Order::getPayedOrderDataByClientAndProduct($user['email'],$product['product_id']);
+                        echo 'partner_id: '.$partner_id;
+                        if($product['product_id'] == 28) {
+                            $linkToEmail = "{$link}?partner={$partner_id['partner_id']}#pay";
                         } else {
                             $linkToEmail="{$link}?subs_id={$item['id']}";
                         }
-                        if(!$user or !$partner_id){
+                        if(!$user){
                             $text = "Для подписки мембершип с ID ".$item['id']. 'не найден пользователь, проверьте.';
                             AdminNotice::addNotice($text);
                             Email::SendMessageToBlank($setting['admin_email'], 'SM', 'Не найден пользователь SM', $text);
                             continue;
                         }
-
-
                         if ($plane[$letter_status_key]) { // Отправить письмо клиенту
                             $send = Email::SendExpirationMessageByClient($user['email'], $user['user_name'],
                                 $plane[$letter_subj_key], $plane[$letter_text_key], $linkToEmail
                             );
                         }
-
 
                         if ($plane[$sms_status_key] && $user['phone']) {
                             SMS::sendNotice2ExpireSubs($user['user_name'], $linkToEmail,
@@ -131,4 +131,5 @@ $result->execute();
 
 //TODO В дальнейшем, все записи и отправки почты в 
 //кронзадачах обернуть в try catch и в случае не удачи 
+
 //писать ошибки в лог в таблицу cron_logs позже добавим там колонку error

@@ -122,6 +122,7 @@ class orderController extends baseController {
         // Если нажата кнопка оформить заказ
         if (isset($_POST['buy']) && !empty($_POST['email']) && isset($_POST['time']) && isset($_POST['token'])) {
             $sign = md5($id.'s+m'.$_POST['time']);
+
            $id_promo=$_POST['promo'];
            if( $id_promo!=null){
                 $partner_id_promocode = $id_promo;
@@ -185,7 +186,7 @@ class orderController extends baseController {
             $param = isset($_COOKIE["$cookie"]) ? htmlentities($_COOKIE["$cookie"]) : htmlentities($_SESSION["$cookie"]);
             $ip = System::getUserIp();
             $flow = isset($_POST['flows']) ? intval($_POST['flows']) : 0;
-            $not_me = isset($_POST['not-me']) ? htmlspecialchars($_POST['not-me']) : false;
+            $not_me =/* isset($_POST['not-me']) ? htmlspecialchars($_POST['not-me']) :*/ false;
 
           
             // ПАРТНЁРКА ПРИ ЗАКАЗЕ
@@ -1813,6 +1814,7 @@ class orderController extends baseController {
         return true;
     }
     public function actionPointTest() {
+        
         $this->setViewParams('payments', 'payments/point/test.php', null, null, 'order-pay-page');
 
         require_once (ROOT . '/payments/point/test.php');

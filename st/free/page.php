@@ -664,6 +664,7 @@ if ($partner_id != null || $promo != null) {
                                     <input type="hidden" name="promo" value="<?=$promo;?>">
                                     <input type="hidden" name="token" value="<?=md5($id.'s+m'.$date);?>">
                                     <input type="hidden" name="vk_id" value="<?=@$_REQUEST['vk_id'] ?>">
+                                    <input type="hidden" name="promo" value="<?=$promo;?>">
                                     <?php if (isset($_REQUEST['pid'])): ?>
                                         <input type="hidden" name="pid" value="<?=$_REQUEST['pid'] ?? "" ?>">
                                     <?php endif; ?>

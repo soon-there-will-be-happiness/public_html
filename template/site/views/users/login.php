@@ -55,9 +55,9 @@ $explr = System::generateStr(3);
 
     <div class="modal-form-forgot-wrap">
         <?if ($this->settings['enable_registration']):?>
-            <div class="modal-form-reg">
+            <!-- <div class="modal-form-reg">
                 <a href="/lk/registration"><?=System::Lang('REGISTRATION');?></a>
-            </div>
+            </div> -->
         <?endif;?>
 
         <div class="modal-form-forgot">
