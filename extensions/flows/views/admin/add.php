@@ -51,8 +51,14 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                 <h4 class="h4-border">Основные настройки</h4>
                 <div class="row-line">
                     <div class="col-1-2">
-                        <p class="width-100"><label>Название</label><input type="text" name="flow_name" placeholder="Название потока" required="required"></p>
-                        <p class="width-100"><label>Название для учеников: </label><input type="text" name="flow_title" placeholder="Название потока" required="required"></p>
+<p class="width-100">
+    <label>Название</label>
+    <input type="text" id="flow_name" name="flow_name" placeholder="Название потока" required="required">
+</p>
+<p class="width-100">
+    <label>Название для учеников: </label>
+    <input type="text" id="flow_title" name="flow_title" placeholder="Название потока" required="required">
+</p>
                         <input type="hidden" name="token" value="<?php echo $_SESSION['admin_token'];?>">
                         
                         <div class="width-100"><label>Статус</label>
@@ -72,7 +78,7 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                     <div class="col-1-2">
                         <div class="width-100">
                             <label>Действует на товары</label>
-                            <select class="multiple-select" name="products[]" multiple="multiple" size="10" required="required">
+                            <select class="multiple-select" name="products[]" id="product_select"  multiple="multiple" size="10" required="required">
                                 <?$product_list = Product::getProductListOnlySelect();
                                 foreach ($product_list as $product):?>
                                     <option value="<?=$product['product_id'];?>"><?=$product['product_name'];?></option>
@@ -89,15 +95,20 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                 
                 <h4 class="h4-border">Период</h4>
                 <div class="row-line">
-                    <div class="col-1-2">
-                        <p><label>Дата начала потока</label><input type="text" class="datetimepicker" name="start_flow" autocomplete="off" placeholder="От"></p>
-                        
-                    </div>
-                    
-                    <div class="col-1-2">
-                        <p><label>Дата завершения потока</label><input type="text" required="required" class="datetimepicker" name="end_flow" autocomplete="off" placeholder="До"></p>
-                    </div>
-                    
+                <div class="col-1-2">
+    <p>
+        <label>Дата начала потока</label>
+        <input type="text" id="start_flow" class="datetimepicker" name="start_flow" autocomplete="off" placeholder="От" onblur="forDateTimePickerAction()" change="forDateTimePickerAction()" >
+    </p>
+</div>
+<div class="col-1-2">
+    <p>
+        <label>Дата завершения потока</label>
+        <input type="text" id="end_flow" class="datetimepicker" name="end_flow" autocomplete="off" placeholder="До" required="required">
+    </p>
+</div>
+<input name="show_period" type="radio" value="0" class="hidden" checked="checked">
+                    <!--
                     <div class="col-1-1">
                         <div class="width-100"><label>Показывать даты потока</label>
                             <span class="custom-radio-wrap">
@@ -106,14 +117,19 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                             </span>
                         </div>
                     </div>
-                    
+                                    -->
                     <div class="col-1-2">
-                        <p><label>Дата начала продаж</label><input type="text" class="datetimepicker" name="public_start" autocomplete="off" placeholder="От"></p>
-                    </div>
-                    
-                    <div class="col-1-2">
-                        <p><label>Дата завершения продаж</label><input type="text" class="datetimepicker" required="required" name="public_end" autocomplete="off" placeholder="До"></p>
-                    </div>
+    <p>
+        <label>Дата начала продаж</label>
+        <input type="text" id="public_start" class="datetimepicker" name="public_start" autocomplete="off" placeholder="От" >
+    </p>
+</div>
+<div class="col-1-2">
+    <p>
+        <label>Дата завершения продаж</label>
+        <input type="text" id="public_end" class="datetimepicker" name="public_end" autocomplete="off" placeholder="До" required="required">
+    </p>
+</div>
                 </div>
                 </div>
                     
@@ -237,5 +253,121 @@ format:'d.m.Y H:i',
 lang:'ru'
 });
 </script>
+<script>
+    // Функция для форматирования даты в формат DD.MM.YYYY HH:mm
+    function formatDate(date) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Месяцы начинаются с 0
+        const year = date.getFullYear();
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${day}.${month}.${year} ${hours}:${minutes}`;
+    }
+
+    // Функция для парсинга даты из строки DD.MM.YYYY HH:mm
+    function parseDate(dateStr) {
+        const [datePart, timePart] = dateStr.split(' '); // Разделяем дату и время
+        const [day, month, year] = datePart.split('.'); // Разделяем день, месяц и год
+        const [hour, minute] = timePart.split(':'); // Разделяем часы и минуты
+
+        // Конструируем строку в формате, который понимает JavaScript: YYYY-MM-DDTHH:MM
+        const formattedDateStr = `${year}-${month}-${day}T${hour}:${minute}:00`;
+        return new Date(formattedDateStr);
+    }
+
+    // Функция для расчета дат начала и завершения
+    function calculateDates() {
+        const startFlowField = document.getElementById('start_flow');
+        const publicStartField = document.getElementById('public_start');
+        const publicEndField = document.getElementById('public_end');
+        const endFlowField = document.getElementById('end_flow');
+
+        const startDate = parseDate(startFlowField.value); // Дата начала потока
+
+        if (!isNaN(startDate)) {
+            // Рассчитать дату начала продаж (5 дней до начала потока)
+            const publicStartDate = new Date(startDate);
+            publicStartDate.setDate(publicStartDate.getDate() - 5);
+            publicStartDate.setHours(0, 0, 0, 0); // Установить время в 00:00
+            publicStartField.value = formatDate(publicStartDate); // Формат DD.MM.YYYY HH:mm
+
+            // Рассчитать дату завершения продаж (день начала потока, 23:59)
+            const publicEndDate = new Date(startDate);
+            publicEndDate.setHours(23, 59, 59, 999); // Установить время в 23:59
+            publicEndField.value = formatDate(publicEndDate); // Формат DD.MM.YYYY HH:mm
+
+            // Рассчитать дату завершения потока (+4 недели от начала потока)
+            const endFlowDate = new Date(startDate);
+            endFlowDate.setDate(endFlowDate.getDate() + 28); // Добавить 4 недели (28 дней)
+            endFlowDate.setHours(23, 59, 59, 999); // Установить время в 23:59
+            endFlowField.value = formatDate(endFlowDate); // Формат DD.MM.YYYY HH:mm
+        }
+    }
+    $(function() {
+  $('#datepicker').datepicker({
+    onSelect: date => {
+      
+        updateFlowName();
+        
+        calculateDates();
+    }
+  });
+});
+    // Функция для обновления названия потока
+    function updateFlowName() {
+        const productSelect = document.getElementById('product_select');
+        const selectedOptions = Array.from(productSelect.selectedOptions);
+        const startFlowField = document.getElementById('start_flow');
+        const startDate = startFlowField.value.trim();
+        const flowNameField = document.getElementById('flow_name');
+        const flowTitleField = document.getElementById('flow_title');
+
+        if (selectedOptions.length === 1) { // Если выбран один продукт
+            const productName = selectedOptions[0].textContent.trim(); // Имя продукта
+            const formattedDate = startDate.split(' ')[0]; // Дата без времени
+
+            // Формирование значений
+            if (startDate) {
+                flowNameField.value = `${productName} с ${formattedDate}`;
+            } else {
+                flowNameField.value = productName;
+            }
+            flowTitleField.value = productName; // Название для учеников совпадает
+        }
+    }
+
+    // Функция, которая срабатывает при изменении даты начала
+    function forDateTimePickerAction() {
+        updateFlowName();
+        calculateDates();
+    }
+
+    // Инициализация события для выбора продукта
+    document.getElementById('product_select').addEventListener('change', () => {
+        updateFlowName();
+        calculateDates();
+    });
+
+    // Обновление названия и дат при изменении даты начала потока
+    document.getElementById('start_flow').addEventListener('input', () => {
+        updateFlowName();
+        calculateDates();
+    });
+
+    // Обновление названия и дат при изменении даты начала потока (по событию change)
+    document.getElementById('start_flow').addEventListener('change', () => {
+        updateFlowName();
+        calculateDates();
+    });
+
+
+
+</script>
+
+
+</body>
 </body>
 </html>
+
+
+

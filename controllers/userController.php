@@ -162,7 +162,10 @@ class userController extends baseController {
                     $time = $recovery['response'];
                     $new_recovery = json_encode($recovery);
                 } else {
-                    ErrorPage::returnError('Error 444');
+                    $recovery['update'] = $now;
+                    $time = $recovery['response'];
+                    $new_recovery = json_encode($recovery);
+                   // ErrorPage::returnError('Error 444');
                 }
                 
                 User::updateRecovery($data['user_id'], $new_recovery);
