@@ -162,10 +162,7 @@ class userController extends baseController {
                     $time = $recovery['response'];
                     $new_recovery = json_encode($recovery);
                 } else {
-                    $recovery['update'] = $now;
-                    $time = $recovery['response'];
-                    $new_recovery = json_encode($recovery);
-                   // ErrorPage::returnError('Error 444');
+                    ErrorPage::returnError('Error 444');
                 }
                 
                 User::updateRecovery($data['user_id'], $new_recovery);
@@ -180,7 +177,7 @@ class userController extends baseController {
                 $max = 8;
                 $size = strlen($chars)-1;
                 $password = null; 
-        		while ($max--) {
+                while ($max--) {
                     $password.=$chars[mt_rand(0,$size)];
                 }
 
