@@ -5,9 +5,9 @@ require_once (ROOT . '/extensions/training/web/frontend/style/training.php');?>
     <div id="hero" class="hero-wrap" style="background-image: url(/images/training/<?=$training['full_cover']?>);background-color: #373A4C; <?= empty($training['full_cover']) ? "opacity: 75%;" : "" ?>">
         <h1><?=$training['name'];?></h1>
         <ul class="breadcrumbs hero-breadcrumbs">
-            <?foreach($breadcrumbs as $link => $name):?>
-                <li><?=$link ? "<a href=\"$link\">$name</a>" : $name;?></li>
-            <?endforeach;?>
+           <!-- <?foreach($breadcrumbs as $link => $name):?>
+                <li><=$link ? "<a href=\"$link\">$name</a>" : $name;?></li>
+            <?endforeach;?>-->
         </ul>
     </div>
 <?endif;?>

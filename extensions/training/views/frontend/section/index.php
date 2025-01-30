@@ -5,10 +5,14 @@ if($training['cover_settings'] == 2):?><!-- большая картинка с �
 <div id="hero" class="hero-wrap" style="background-image: url(/images/training/<?=$training['full_cover']?>);background-color: #373A4C; <?= empty($training['full_cover']) ? "opacity: 75%;" : "" ?>">
         <h1><?=$section['name'];?></h1>
         <ul class="breadcrumbs hero-breadcrumbs">
-            <?$breadcrumbs = Training::getBreadcrumbs($this->tr_settings, $category, $sub_category, $training, $section);
+           <!-- <?$breadcrumbs = Training::getBreadcrumbs($this->tr_settings, $category, $sub_category, $training, $section);
             foreach ($breadcrumbs as $link => $name):?>
-                <li><?=$link ? "<a href=\"$link\">$name</a>" : $name;?></li>
-            <?endforeach;?>
+                <li><=$link ? "<a href=\"$link\">$name</a>" : $name;?></li>
+            <?endforeach;?>-->
+
+                 <!-- <?foreach($breadcrumbs as $link => $name):?>
+                <li><=$link ? "<a href=\"$link\">$name</a>" : $name;?></li>
+                <?endforeach;?>-->
         </ul>
     </div>
 <?endif;?>
