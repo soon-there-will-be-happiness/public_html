@@ -19,7 +19,6 @@ $metriks = !empty($setting['yacounter']) || $setting['ga_target'] == 1 ? ' onsub
 
 $flow_ids = Flows::getFlowForProduct($id);
 $flows = Flows::getActualFlowByIDs($flow_ids, $date);
-var_dump($flows);
 Log::add('1','log',['flows'=>$flows[0]['flow_id']],'flows.log');
 $promo= $_GET['partner'] ?? null;
 
