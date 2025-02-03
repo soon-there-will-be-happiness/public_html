@@ -177,7 +177,7 @@ class userController extends baseController {
                 $max = 8;
                 $size = strlen($chars)-1;
                 $password = null; 
-        		while ($max--) {
+                while ($max--) {
                     $password.=$chars[mt_rand(0,$size)];
                 }
 
