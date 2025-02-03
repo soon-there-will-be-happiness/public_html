@@ -15,6 +15,8 @@ require_once (ROOT . '/components/autoload.php');
 require_once (ROOT . '/vendor/autoload.php');
 System::enableLongWaitForQueries();
 
+$db = Db::getConnection();
+
 $setting = System::getSetting();
 $now = time();
 $name_jobs = "member_cron";
@@ -73,6 +75,20 @@ if($plane_list){
                             $send = Email::SendExpirationMessageByClient($user['email'], $user['user_name'],
                                 $plane[$letter_subj_key], $plane[$letter_text_key], $linkToEmail
                             );
+                            $text = 'У клиента '.$user['user_name'].' '.$user['email']." через $plane[$letter_time_key] часов заканчивается подписка. Напомните ему, чтобы он не пропустил";
+
+
+                            Email::SendMessageToBlank($partner_id['email'], 'Окончание подписки у вашего ученика', 'Окончание подписки у вашего ученика', $text);
+
+
+                            // Обновить
+                            $num = 1;
+                            $sql = 'UPDATE '.PREFICS."member_maps SET send_notification = :notif WHERE id = :map_id";
+
+                            $result = $db->prepare($sql);
+                            $result->bindParam(':map_id', $map['id'], PDO::PARAM_INT);
+                            $result->bindParam(':notif', $num, PDO::PARAM_INT);
+                            return $result->execute();
                         }
 
                         if ($plane[$sms_status_key] && $user['phone']) {
