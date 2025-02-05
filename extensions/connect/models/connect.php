@@ -264,7 +264,7 @@ class Connect {
             $data = [
                 'media' =>[
                     'media'=>[
-                        'media'=>$file_path,
+                        'file_url'=>$file_path,
                         'type'=>self::detectFileType($file_path)
                     ]
                 ],
@@ -282,9 +282,9 @@ class Connect {
             if (@$user['params'][$service['name']]['noti'] != true || !($key = self::getServiceKey($service['name'])) || !isset($user[$key]))
                 continue;
 
-            // Отправка текстового сообщения
             if ($method = self::getServiceMethod($service['name'], 'sendMessage')) {
                 if ($method($user[$key], $data)) {
+                        $res['users'][$email] ?? $res['users'][$email] = [];
                     $res['users'][$email][$key] = $user[$key];
                 }
             }

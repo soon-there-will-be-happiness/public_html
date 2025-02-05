@@ -183,7 +183,7 @@ class Model implements \Connect\Service{
     public static function sendMessage(int $user_id, array $data){
         $pre_msg = false;
         $text = false;
-
+        $media= false;
         if(isset($data['text']) && !empty($data['text']) && is_string($data['text']))
             $text = $data['text'];
 
