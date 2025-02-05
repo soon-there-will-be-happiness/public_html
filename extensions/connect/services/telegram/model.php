@@ -187,6 +187,9 @@ class Model implements \Connect\Service{
         if(isset($data['text']) && !empty($data['text']) && is_string($data['text']))
             $text = $data['text'];
 
+        if(isset($data['media']) && !empty($data['media']))
+            $media = $data['media'];
+
         elseif(isset($data['pre_msg']) && !empty($data['pre_msg']) && is_string($data['pre_msg']))
             $pre_msg = $data['pre_msg'];
 
@@ -208,6 +211,12 @@ class Model implements \Connect\Service{
             $keyboard = isset($data['keyboard']) ? $data['keyboard'] : false;
 
             return (bool) $api->sendMessage($text, $keyboard);
+        }
+
+        elseif($media){
+            $keyboard = isset($data['keyboard']) ? $data['keyboard'] : false;
+
+            return (bool) $api->sendMedia($media, $text, $keyboard);
         }
         
         return false;

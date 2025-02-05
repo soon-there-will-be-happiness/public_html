@@ -170,6 +170,12 @@ class Methods{
 			->sendMessage($text, true);
 	}
 
+    public function sendMedia($media, string $text, $keyboard = false){
+        return $this->tg
+            ->_addKeyboard($keyboard)
+            ->sendMedia($media, $text, false);
+    }
+
 	public function sendMessageWithDeleteKeyboard(string $text) {
         return $this->tg
             ->_deleteKeyboard()

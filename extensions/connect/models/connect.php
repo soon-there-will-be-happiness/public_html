@@ -260,30 +260,27 @@ class Connect {
         $text = str_replace(['<br>', '<br/>', '<br />', '</br>'], "\n", $text);
         $text = htmlspecialchars_decode($text);
         $text = html_entity_decode($text);
-        $data = [
-            'text' => $text
-        ];
+        if (!empty($file_path) && file_exists($file_path)) {
+            $data = [
+                'media' =>[
+                    'media'=>[
+                        'media'=>$file_path,
+                        'type'=>self::detectFileType($file_path)
+                    ]
+                ],
+            ];
+        } else {
+            $data = [
+                'text' => $text,
+            ];
 
+        }
         foreach ($services as $id => $service) {
             if (!empty($filter) && isset($filter['service_name']) && !empty($filter['service_name']) && !in_array($service['name'], $filter['service_name']))
                 continue;
 
             if (@$user['params'][$service['name']]['noti'] != true || !($key = self::getServiceKey($service['name'])) || !isset($user[$key]))
                 continue;
-
-            // Отправка файла, если он есть
-            if (!empty($file_path) && file_exists($file_path)) {
-                if ($method = self::getServiceMethod($service['name'], 'sendMedia')) {
-                    $media_data = [
-                        'type' => self::detectFileType($file_path),
-                        'media' => new CURLFile($file_path)
-                    ];
-                    if ($method($user[$key], $media_data, $text, true)) {
-                        $res['users'][$email][$key] = $user[$key];
-                    }
-                    continue;
-                }
-            }
 
             // Отправка текстового сообщения
             if ($method = self::getServiceMethod($service['name'], 'sendMessage')) {
