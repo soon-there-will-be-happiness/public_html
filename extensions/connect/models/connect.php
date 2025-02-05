@@ -223,7 +223,7 @@ class Connect {
      *
      * @return array
      */
-    public static function sendMessagesByEmail(string $email, string $text, array $addit_data = []){
+    public static function sendMessagesByEmail(string $email, string $text, array $addit_data = [], string $file_path = ''){
         $filter = [];
         $res = ['users' => [], 'count' => 0];
 
@@ -271,9 +271,23 @@ class Connect {
             if (@$user['params'][$service['name']]['noti'] != true || !($key = self::getServiceKey($service['name'])) || !isset($user[$key]))
                 continue;
 
+            // Отправка файла, если он есть
+            if (!empty($file_path) && file_exists($file_path)) {
+                if ($method = self::getServiceMethod($service['name'], 'sendMedia')) {
+                    $media_data = [
+                        'type' => self::detectFileType($file_path),
+                        'media' => new CURLFile($file_path)
+                    ];
+                    if ($method($user[$key], $media_data, $text, true)) {
+                        $res['users'][$email][$key] = $user[$key];
+                    }
+                    continue;
+                }
+            }
+
+            // Отправка текстового сообщения
             if ($method = self::getServiceMethod($service['name'], 'sendMessage')) {
                 if ($method($user[$key], $data)) {
-                    $res['users'][$email] ?? $res['users'][$email] = [];
                     $res['users'][$email][$key] = $user[$key];
                 }
             }
@@ -283,6 +297,23 @@ class Connect {
         $res['count'] = count($res['users']);
 
         return $res;
+    }
+
+
+    private static function detectFileType($file_path) {
+        $ext = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
+
+        $photo_types = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
+        $video_types = ['mp4', 'mov', 'avi', 'mkv', 'flv'];
+        $audio_types = ['mp3', 'wav', 'ogg'];
+        $document_types = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'];
+
+        if (in_array($ext, $photo_types)) return 'photo';
+        if (in_array($ext, $video_types)) return 'video';
+        if (in_array($ext, $audio_types)) return 'audio';
+        if (in_array($ext, $document_types)) return 'document';
+
+        return 'document'; // По умолчанию отправляем как документ
     }
 
 

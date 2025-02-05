@@ -230,48 +230,36 @@ class main{
      * @param $html
      * @return false|mixed
      */
-	function sendMedia($media, $caption, $html){
-		$media_c = new medias($media);
+    function sendMedia($media, $caption, $html) {
+        $data = [
+            'chat_id' => $this->chat_id,
+            'caption' => $caption
+        ];
 
-		$data = $media_c->get();
+        if ($html)
+            $data['parse_mode'] = "HTML";
 
-		if (is_string($caption))
-			$data['caption'] = $caption;
-
-		if (is_array($html)) {
-			foreach ($html as $key => $value)
-				$data[$key] = $value;
-
-		} else if($html)
-			$data['parse_mode'] = "html";
-
-		$method = '';
-        switch ($media['type']) {
-            case 'photo':
-                $method = 'sendPhoto';
-                break;
-            case 'audio':
-                $method = 'sendAudio';
-                break;
-            case 'video':
-                $method = 'sendVideo';
-                break;
-            case 'document':
-                $method = 'sendDocument';
-                break;
-            case 'animation':
-                $method = 'sendAnimation';
-                break;
-            case 'voice':
-                $method = 'sendVoice';
-                break;
-            default:
-                return false;
-                break;
+        if (is_string($media)) {
+            $data['media'] = new CURLFile($media);
+        } elseif (is_array($media) && isset($media['media'])) {
+            $data['media'] = $media['media'];
+        } else {
+            return false;
         }
 
-        return $this->request($method, $data);
-	}
+        $method = match ($media['type']) {
+            'photo' => 'sendPhoto',
+            'audio' => 'sendAudio',
+            'video' => 'sendVideo',
+            'document' => 'sendDocument',
+            'animation' => 'sendAnimation',
+            'voice' => 'sendVoice',
+            default => false
+        };
+
+        return $method ? $this->request($method, $data) : false;
+    }
+
 
     /**
      * @param $medias
