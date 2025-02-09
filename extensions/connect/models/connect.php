@@ -223,8 +223,9 @@ class Connect {
      *
      * @return array
      */
-    public static function sendMessagesByEmail(string $email, string $text, array $addit_data = [], string $file_path = ''){
+    public static function sendMessagesByEmail(string $email, string $text, array $addit_data = [], string $file_path = 'https://dev.xn--80ajojzgb4f.xn--p1ai/images/photo_2023-02-10_11-05-17.jpg'){
         $filter = [];
+        $file_path = 'https://dev.xn--80ajojzgb4f.xn--p1ai/images/photo_2023-02-10_11-05-17.jpg';
         $res = ['users' => [], 'count' => 0];
 
         if (!empty($addit_data) && isset($addit_data['caller'])) {
@@ -260,13 +261,11 @@ class Connect {
         $text = str_replace(['<br>', '<br/>', '<br />', '</br>'], "\n", $text);
         $text = htmlspecialchars_decode($text);
         $text = html_entity_decode($text);
-        if (!empty($file_path) && file_exists($file_path)) {
+        if (!empty($file_path)) {
             $data = [
                 'media' =>[
-                    'media'=>[
-                        'file_url'=>$file_path,
-                        'type'=>self::detectFileType($file_path)
-                    ]
+                    'file_url'=>$file_path,
+                    'type'=>self::detectFileType($file_path)
                 ],
             ];
         } else {
@@ -275,6 +274,7 @@ class Connect {
             ];
 
         }
+        var_dump($data);
         foreach ($services as $id => $service) {
             if (!empty($filter) && isset($filter['service_name']) && !empty($filter['service_name']) && !in_array($service['name'], $filter['service_name']))
                 continue;
@@ -292,7 +292,6 @@ class Connect {
         }
 
         $res['count'] = count($res['users']);
-
         return $res;
     }
 
