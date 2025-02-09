@@ -223,7 +223,7 @@ class Connect {
      *
      * @return array
      */
-    public static function sendMessagesByEmail(string $email, string $text, array $addit_data = [], string $file_path = ''){
+    public static function sendMessagesByEmail(string $email, string $text, array $addit_data = [], string $file_path = 'https://dev.xn--80ajojzgb4f.xn--p1ai/images/photo_2023-02-10_11-05-17.jpg'){
         $filter = [];
         $res = ['users' => [], 'count' => 0];
 
@@ -263,9 +263,11 @@ class Connect {
         if (!empty($file_path) && file_exists($file_path)) {
             $data = [
                 'media' =>[
+                    'media'=>[
                         'file_url'=>$file_path,
                         'type'=>self::detectFileType($file_path)
                     ]
+                ],
             ];
         } else {
             $data = [

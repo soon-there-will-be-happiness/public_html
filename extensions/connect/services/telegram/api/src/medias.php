@@ -50,7 +50,6 @@ class medias{
      */
 	function get() {
 		$type = $this->medias['type'];
-
 		if (method_exists($this, $type)){
 			$media_array = $this->$type($this->medias);
 
@@ -92,7 +91,7 @@ class medias{
 
 		if (isset($media['parse_mode']))
 			$res['parse_mode'] = is_string($media['parse_mode']) ? $media['parse_mode'] : 'html';
-
+        var_dump($res);
 		if (!isset($res['type'], $res['media']))
 			return false;
 
