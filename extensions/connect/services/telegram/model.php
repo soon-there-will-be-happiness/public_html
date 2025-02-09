@@ -187,7 +187,7 @@ class Model implements \Connect\Service{
         if(isset($data['text']) && !empty($data['text']) && is_string($data['text']))
             $text = $data['text'];
 
-        if(isset($data['media']) && !empty($data['media']))
+        elseif(isset($data['media']) && !empty($data['media']))
             $media = $data['media'];
 
         elseif(isset($data['pre_msg']) && !empty($data['pre_msg']) && is_string($data['pre_msg']))

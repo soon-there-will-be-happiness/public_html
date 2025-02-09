@@ -263,11 +263,9 @@ class Connect {
         if (!empty($file_path) && file_exists($file_path)) {
             $data = [
                 'media' =>[
-                    'media'=>[
                         'file_url'=>$file_path,
                         'type'=>self::detectFileType($file_path)
                     ]
-                ],
             ];
         } else {
             $data = [
