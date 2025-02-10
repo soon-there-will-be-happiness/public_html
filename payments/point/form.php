@@ -12,14 +12,15 @@ $inv_id='0'.$inv_id;
 if (!$record) {
     $token = $params['token'];
     $api_url = $params['url'];
-
+    $merchantId = $params['merchantId'];
     $customerCode = $params['customerCode'];
 
     $out_summ =$order['summ'];
     $order_items = Order::getOrderItems($order['order_id']);
     $curl = curl_init();
+
     curl_setopt_array($curl, array(
-        CURLOPT_URL =>  $api_url.'/payments',
+        CURLOPT_URL => $api_url.'/subscriptions',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -28,16 +29,23 @@ if (!$record) {
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
         CURLOPT_POSTFIELDS =>'{
-        "Data": {
-            "customerCode": "'.$customerCode.'",
-            "amount": '.floatval($out_summ).',
-            "purpose": "Оплата за курс",
-            "paymentMode": ["sbp","card"],
-            "redirectUrl": "'.$setting['script_url'].'/payments/point/result?id='.$order['order_id'].'"
-            }
-        }',
+          "Data": {
+              "customerCode":"'.$customerCode.'",
+              "amount":  '.floatval($out_summ).',
+              "purpose": "Оплата за курс",
+              "redirectUrl": "'.$setting['script_url'].'/payments/point/result?id='.$order['order_id'].'",
+              "failRedirectUrl":  "'.$setting['script_url'].'/payments/point/result",
+              "merchantId": '.$merchantId.'",
+              "Options": {
+                  "trancheCount": 13,
+                  "period": "Day",
+                  "daysInPeriod":28,
+              }
+          }
+      }',
         CURLOPT_HTTPHEADER => array(
-            'Content-Type: application/json',"Authorization: Bearer $token",
+          'Authorization: Bearer <token>',
+          'Content-Type: application/json'
         ),
     ));
     $response = curl_exec($curl);
