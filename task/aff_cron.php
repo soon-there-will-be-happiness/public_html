@@ -42,7 +42,7 @@ if($data){
     $buffer = ob_get_contents();
     ob_end_clean();
     
-    Email::SendMessageToBlank('report@kasyanov.info', 'кем стать aff_cron', 'fff', $buffer);
+    //Email::SendMessageToBlank('report@kasyanov.info', 'кем стать aff_cron', 'fff', $buffer);
     
     foreach($data as $map){
         
