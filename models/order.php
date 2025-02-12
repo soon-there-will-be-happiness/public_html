@@ -1738,6 +1738,19 @@ class Order {
     }
 
 
+    // ПОЛУЧИТЬ ЗАКАЗЫ ЗА ЭТУ НЕДЕЛЮ
+    public static function OrderWeek($start_week, $end_week)
+    {
+        $db = Db::getConnection();
+        $result = $db->query("SELECT * FROM ".PREFICS."orders WHERE payment_date >= $start_week AND payment_date <= $end_week AND status = 1 ORDER BY order_id DESC");
+        $data = [];
+        while($row = $result->fetch(PDO::FETCH_ASSOC)){
+            $data[] = $row;
+        }
+
+        return !empty($data) ? $data : false;
+    }
+
     /**
      * ПОЛУЧИТЬ ЗАКАЗЫ КЛИЕНТА С УКАЗАННЫМ СТАТУСОМ, по умолчанию статус ЛЮБОЙ
      * @param $email

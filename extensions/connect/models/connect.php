@@ -225,7 +225,6 @@ class Connect {
      */
     public static function sendMessagesByEmail(string $email, string $text, array $addit_data = [], string $file_path = 'https://dev.xn--80ajojzgb4f.xn--p1ai/images/photo_2023-02-10_11-05-17.jpg'){
         $filter = [];
-        $file_path = 'https://dev.xn--80ajojzgb4f.xn--p1ai/images/photo_2023-02-10_11-05-17.jpg';
         $res = ['users' => [], 'count' => 0];
 
         if (!empty($addit_data) && isset($addit_data['caller'])) {
