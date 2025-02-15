@@ -282,7 +282,7 @@ class orderController extends baseController {
 
                 //Отправка писем, по адресам которые указаны в настройках
                 $emailsToSent = System::getEmailsToAccountStatementIfItIsEnabled();
-                if ($emailsToSent) {
+               if ($emailsToSent) {
                     foreach ($emailsToSent as $email) {
                         $email = trim($email);
                         if ($email == "") {
@@ -292,7 +292,7 @@ class orderController extends baseController {
                         $is_child_attached = $to_child !== false;
                         // +KEMSTAT-8
                         $product = Product::getProductDataForSendOrder($order['product_id']);
-                        Email::sendMessageAccountStatement($email, $order['order_id'], $order['client_name'], $surname?$surname:'', $order['product_id'], $product['product_name'], $order['client_email'], $order['client_phone'], $order['order_date'], $nds_price['price'],  $is_child_attached);
+                        $send=Email::sendMessageAccountStatement($email, $order['order_id'], $order['client_name'], $surname?$surname:'', $order['product_id'], $product['product_name'], $order['client_email'], $order['client_phone'], $order['order_date'], $nds_price['price'],  $is_child_attached);
                         // -KEMSTAT-8
                         
                     }
@@ -317,6 +317,7 @@ class orderController extends baseController {
                             setcookie("cookie_name", "cookie_value", time() + 3600, "/"); // Куки будет действовать 1 час
 
                             System::redirectUrl("/pay/$date");
+                            return true;
                         }
                     }
                 }
@@ -748,7 +749,7 @@ class orderController extends baseController {
     public function actionPay($order_date)
     {
 
-        $value =false;
+        $value = false;
 
         $this->view['noindex'] = true;
         if (isset($_COOKIE["cookie_name"])) {
