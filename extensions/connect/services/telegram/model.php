@@ -181,7 +181,6 @@ class Model implements \Connect\Service{
      * @return bool
      */
     public static function sendMessage(int $user_id, array $data){
-        var_dump($data);
         $pre_msg = false;
         $text = false;
         $media= false;
@@ -210,14 +209,11 @@ class Model implements \Connect\Service{
 
         elseif($text){
             $keyboard = isset($data['keyboard']) ? $data['keyboard'] : false;
-            var_dump('Text');
-
             return (bool) $api->sendMessage($text, $keyboard);
         }
 
         elseif($media){
             $keyboard = isset($data['keyboard']) ? $data['keyboard'] : false;
-            var_dump('Media');
             return (bool) $api->sendMedia($media, $text, $keyboard);
         }
         

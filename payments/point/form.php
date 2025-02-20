@@ -39,7 +39,7 @@ if (!$record) {
               "Options": {
                   "trancheCount": 13,
                   "period": "Day",
-                  "daysInPeriod":28,
+                  "daysInPeriod":1,
               }
           }
       }',

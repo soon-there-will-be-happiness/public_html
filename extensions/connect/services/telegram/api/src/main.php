@@ -423,9 +423,6 @@ class main{
                     ["result" => $result]
                 );
         	}
-        	var_dump($method);
-            var_dump($data);
-            var_dump($result);
             return isset($result['ok']) && $result['ok'] ? $result : false;
 		}
 		return false;

@@ -273,7 +273,6 @@ class Connect {
             ];
 
         }
-        var_dump($data);
         foreach ($services as $id => $service) {
             if (!empty($filter) && isset($filter['service_name']) && !empty($filter['service_name']) && !in_array($service['name'], $filter['service_name']))
                 continue;

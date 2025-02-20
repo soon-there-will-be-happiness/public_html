@@ -1,6 +1,8 @@
 <?php define('BILLINGMASTER', 1); 
-ini_set('display_errors',1);
-ini_set('display_startup_errors',1);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // 1 раз в час - норм.
 
 // Настройки системы
@@ -11,10 +13,15 @@ $root = dirname(__FILE__) . '/../';
 define('ROOT', $root);
 define("PREFICS", $prefics);
 
+
 require_once (ROOT . '/components/autoload.php');
 require_once (ROOT . '/vendor/autoload.php');
 System::enableLongWaitForQueries();
 //use PhpOffice\PhpSpreadsheet\Spreadsheet;
+
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 $db = Db::getConnection();
 
@@ -26,48 +33,52 @@ $thisDay = strtotime("today")+3600*3-3600*24;
 $firstDayOfWeek = $thisDay - 3600*24*6;
 var_dump($firstDayOfWeek);
 $weekOrders = Order::OrderWeek($firstDayOfWeek,$thisDay);
-$lastWeekOrders = Order::OrderWeek();
+//$lastWeekOrders = Order::OrderWeek();
 
+//var_dump(Member::getMemberListWithFilter(''));
+$data=Member::getMemberListWithFilter('');
+foreach ($data as &$row) {
+    $row['begin'] = date("Y-m-d", $row['begin']);
+    $row['end'] = date("Y-m-d", $row['end']);
+    $row['create_date'] = date("Y-m-d", $row['create_date']);
+    $row['last_update'] = date("Y-m-d", $row['last_update']);
+}
 
 // 🔹 Файл Excel, который будем создавать
 $file_path = "/home/t/thecarsx/dev.kemstatj.rf/public_html/images/multi_sheet.xlsx";
 $zip_path = "/home/t/thecarsx/dev.kemstatj.rf/public_html/images/multi_sheet.zip";
 
-// 1️⃣ Создаем новый Excel-документ
+// Создаём объект Spreadsheet
 $spreadsheet = new Spreadsheet();
+$sheet = $spreadsheet->getActiveSheet();
 
-// 🔹 Лист 1 (Sheet1)
-$sheet1 = $spreadsheet->getActiveSheet();
-$sheet1->setTitle('Лист 1');
-$sheet1->setCellValue('A1', 'Название');
-$sheet1->setCellValue('B1', 'Цена');
-$sheet1->setCellValue('A2', 'Продукт A');
-$sheet1->setCellValue('B2', '100$');
-$sheet1->setCellValue('A3', 'Продукт B');
-$sheet1->setCellValue('B3', '150$');
-
-// 🔹 Лист 2 (Sheet2)
-$spreadsheet->createSheet();
-$sheet2 = $spreadsheet->setActiveSheetIndex(1);
-$sheet2->setTitle('Лист 2');
-$sheet2->setCellValue('A1', 'Код');
-$sheet2->setCellValue('B1', 'Категория');
-$sheet2->setCellValue('A2', '001');
-$sheet2->setCellValue('B2', 'Электроника');
-$sheet2->setCellValue('A3', '002');
-$sheet2->setCellValue('B3', 'Бытовая техника');
-
-// 🔹 Возвращаемся на первый лист
-$spreadsheet->setActiveSheetIndex(0);
-
-// 2️⃣ Сохраняем Excel-файл
-$writer = new Xlsx($spreadsheet);
-$writer->save($file_path);
-
-// 3️⃣ Проверяем, существует ли файл перед отправкой
-if (!file_exists($file_path)) {
-    die("Ошибка: Файл не создан!");
+// Заполняем заголовки (первая строка)
+$headers = array_keys($data[0]);
+$col = 1;
+foreach ($headers as $header) {
+    $sheet->setCellValueByColumnAndRow($col, 1, $header);
+    $col++;
 }
+
+// Заполняем данные (начиная со второй строки)
+$rowNum = 2;
+foreach ($data as $row) {
+    $col = 1;
+    foreach ($row as $value) {
+        $sheet->setCellValueByColumnAndRow($col, $rowNum, $value ?? "");
+        $col++;
+    }
+    $rowNum++;
+}
+
+// Указываем путь для сохранения файла
+$filePath = __DIR__ . '/data.xlsx';
+
+// Создаём объект Writer и сохраняем файл
+$writer = new Xlsx($spreadsheet);
+$writer->save($filePath);
+
+echo "Файл сохранён в: " . $filePath;
 
 $zip = new ZipArchive();
 if ($zip->open($zip_path, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
