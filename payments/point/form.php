@@ -39,12 +39,12 @@ if (!$record) {
               "Options": {
                   "trancheCount": 13,
                   "period": "Day",
-                  "daysInPeriod":1,
+                  "daysInPeriod": 1,
               }
           }
       }',
         CURLOPT_HTTPHEADER => array(
-          'Authorization: Bearer <token>',
+          'Authorization: Bearer '.$token,
           'Content-Type: application/json'
         ),
     ));
