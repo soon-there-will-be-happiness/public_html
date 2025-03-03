@@ -284,8 +284,7 @@ class medias{
 
 		elseif (isset($media['attach']))
 			$res['media'] = "attach://" . $media['attach'];
-
-
+			
 		if (isset($media['thumb']))
 			$res['thumb'] = $media['thumb'];
 

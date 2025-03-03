@@ -1573,7 +1573,6 @@ class Email {
         );
         $text = strtr($letter, $replace);
         $subject = System::Lang('Сформирован заказ');
-
         return self::sender($email, $subject, $text, $setting, $setting['sender_email'], $email);
     }
 }
