@@ -31,11 +31,11 @@ if (!$record) {
         CURLOPT_POSTFIELDS =>'{
           "Data": {
               "customerCode":"'.$customerCode.'",
-              "amount":  '.floatval($out_summ).',
+              "amount":   "'.floatval($out_summ).' ",
               "purpose": "Оплата за курс",
               "redirectUrl": "'.$setting['script_url'].'/payments/point/result?id='.$order['order_id'].'",
               "failRedirectUrl":  "'.$setting['script_url'].'/payments/point/result",
-              "merchantId": '.$merchantId.'",
+              "merchantId":  "'.$merchantId.'",
               "Options": {
                   "trancheCount": 13,
                   "period": "Day",
