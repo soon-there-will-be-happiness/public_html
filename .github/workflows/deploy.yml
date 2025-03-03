@@ -17,4 +17,4 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            BRANCH=${{ github.ref_name }} /home/t/thecarsx/dev.kemstatj.rf/deploy.sh
+            BRANCH=${{ github.ref_name }} /home/t/${{ secrets.SSH_USER }}/dev.kemstatj.rf/deploy.sh
