@@ -20,7 +20,7 @@ if (!$record) {
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-        CURLOPT_URL => $api_url.'/subscriptions',
+        CURLOPT_URL => 'https://enter.tochka.com/uapi/acquiring/v1.0/subscriptions',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
