@@ -39,7 +39,7 @@ if (!$record) {
               "Options": {
                   "trancheCount": 13,
                   "period": "Day",
-                  "daysInPeriod": 1,
+                  "daysInPeriod": 1
               }
           }
       }',
@@ -50,21 +50,26 @@ if (!$record) {
     ));
     $response = curl_exec($curl);
     $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-    $payment_data = json_decode($response, true);
-
     curl_close($curl);
+    
     if ($http_code == 200) {
         $payment_data = json_decode($response, true);
-        $payment_url = $payment_data['Data']['paymentLink'] ?? '';
-        if (!empty($payment_url)) {
-            PointDB::insertRecord( htmlspecialchars($payment_url),$inv_id,false,$payment_data['Data']['operationId'] );
+        if (isset($payment_data['Data'])) {
+            $data = $payment_data['Data'];
+            $payment_url = $data['paymentLink'] ?? '';
+            $operation_id = $data['operationId'] ?? '';
+            
+            if (!empty($payment_url)) {
+                PointDB::insertRecord(htmlspecialchars($payment_url), $inv_id, false, $operation_id);
+            } else {
+                echo 'Ошибка: URL для оплаты не найден в ответе.';
+            }
         } else {
-            echo 'Ошибка: URL для оплаты не найден в ответе.';
+            echo 'Ошибка: неверный формат ответа, отсутствует ключ "Data".';
         }
-    }
-    else{
-        $error_message=print_r($response,  true);
-        LogEmail:: PaymentError( $error_message, "point/result.php","sell");
+    } else {
+        $error_message = print_r($response, true);
+        LogEmail::PaymentError($error_message, "point/result.php", "sell");
         echo $error_message;
     }
 }
