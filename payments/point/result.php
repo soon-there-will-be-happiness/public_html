@@ -5,7 +5,7 @@ $order_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 if($order_id !=0){
 
 $order = Order::getOrder($order_id);
-$point=PointDB::findRecordByOrderId($order_id )[0];
+$point=PointDB::findRecordByOrderId($order_id );
 $setting = System::getSetting(true);
 
     $api_url = $params['url'];
