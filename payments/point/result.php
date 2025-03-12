@@ -41,6 +41,6 @@ $setting = System::getSetting(true);
 
 System::redirectUrl($setting['script_url'] . '/payments/point/success?id='.$order_id); 
 
-
+}
 
 ?>
