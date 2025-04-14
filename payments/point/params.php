@@ -12,4 +12,7 @@ $params = unserialize(base64_decode($payment['params']));
         <p><label>Customer Code:</label>
             <input type="text" name="params[customerCode]" value="<?php echo $params['customerCode']; ?>"></p>
         </div>
+        <label>Merchant Id:</label>
+            <input type="text" name="params[merchantId]" value="<?php echo $params['merchantId']; ?>"></p>
+        </div>
 </div>
