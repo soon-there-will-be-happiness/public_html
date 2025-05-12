@@ -61,7 +61,7 @@ return [
     // СТАТИЧНЫЕ СТРАНИЦЫ
     'page/([a-zA-Z0-9_-]+)' => 'site/page/$1',
     'politika' => 'site/politika',
-    'privacy' => 'site/privacy',
+    'privacy' => 'site/politika',
     'oferta' => 'site/oferta',
     'st/kemstat/page' => 'site/kemstat',
 

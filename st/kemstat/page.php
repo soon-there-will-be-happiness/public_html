@@ -13,7 +13,12 @@ $setting = System::getSetting();
 $flow_ids = Flows::getFlowForProduct($id);
 $flows = Flows::getActualFlowByIDs($flow_ids, $date);
 
-$name = $email = $phone = $surname = $patronymic = null;
+$name = $surname = $patronymic = null;
+$user = $_GET['user'] ?? '';
+$email = $_GET['email'] ?? '';
+$phone = $_GET['phone'] ?? '';
+
+
 $metriks = !empty($setting['yacounter']) || $setting['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
 
 
@@ -3862,18 +3867,18 @@ if ($partner_id != null || $promo != null) {
 
                                 <form class="form" action="<?=$setting['script_url']?>/buy/<?=$id?>" method="POST" <?=$metriks;?> id="form_order_buy">
                                     <label for="first_name" id="label_first_name">Имя<span style="color: red;">*</span></label>
-                                    <input class="input-field" type="text" id="first_name" name="name" value="<?= isset($name) ? $name : ''; ?>" placeholder="Введите ваше имя" required>
+                                    <input class="input-field" type="text" id="first_name" name="name" value="<?= htmlspecialchars($user) ?>" placeholder="Введите ваше имя" required>
 
                                     <label for="email" id="label_email">Электронная почта<span style="color: red;">*</span></label>
                                     <?if($this->settings['email_protection']):?>
                                         <script>document.write(window.atob("PGlucHV0IHR5cGU9ImVtYWlsIiBuYW1lPSJlbWFpbCI="));</script>
-                                    <input class="input-field" type="email" id="email" name="email" value="<?=$user_email ?? $email?>" placeholder="Введите вашу почту" required>
+                                    <input class="input-field" type="email" id="email" name="email" value="<?= htmlspecialchars($email) ?>" placeholder="Введите вашу почту" required>
                                     <?else:?>
-                                    <input class="input-field" type="email" id="email" name="email" value="" placeholder="Введите вашу почту" required>
+                                    <input class="input-field" type="email" id="email" name="email" value="<?= htmlspecialchars($email) ?>" placeholder="Введите вашу почту" required>
                                     <?endif;?>
 
                                     <label for="phone" id="label_phone">Телефон <?$flows?><span style="color: red;">*</span></label>
-                                    <input class="input-field" type="tel" id="phone_inp" name="phone" maxlength="12" placeholder="912 333-33-33" required>
+                                    <input class="input-field" type="tel" id="phone_inp" name="phone" value="<?= htmlspecialchars($phone) ?>" maxlength="13" placeholder="912 333-33-33" required>
 
                                     <span class="text-hint" onclick="toggleFields()">Вы также можете указать никнейм телеграм для оперативной связи</span>
 

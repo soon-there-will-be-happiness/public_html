@@ -350,8 +350,8 @@ class Flows {
     public static function getActualFlowByIDs($flow_ids, $date)
     {
         $db = Db::getConnection();
-        $flow_ids = implode(',', $flow_ids);
-        $result = $db->query("SELECT * FROM ".PREFICS."flows WHERE status = 1 AND public_start < $date AND public_end > $date AND flow_id IN ($flow_ids)");
+        $flow_ids = implode(',', array_map('intval', $flow_ids));
+        $result = $db->query("SELECT * FROM ".PREFICS."flows WHERE status = 1 AND public_start < ".$date." AND public_end > ".$date." AND flow_id IN (".$flow_ids.")");
         $data = [];
         while($row = $result->fetch(PDO::FETCH_ASSOC)){
         	$data[] = $row;

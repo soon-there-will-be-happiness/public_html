@@ -223,7 +223,7 @@ if( isset($this->settings['params']['order_img_mob']) && $this->settings['params
                                 <input type="checkbox" name="politika" required="required">
                                 <?if(!isset($_SESSION['org'])):?>
                                     <?if(stripos($product['group_id'], "23") === false):?>
-                                        <span class="politics"><?=System::Lang('LINK_CONFIRMED_P');?><?=$_GET['pr'];?><?=System::Lang('LINK_CONFIRMED_O');?></span>
+                                        <span class="politics"><?=System::Lang('LINK_CONFIRMED_P');?><?=$_GET['pr'] ?? null;?><?=System::Lang('LINK_CONFIRMED_O');?></span>
                                     <?else:?>
                                         <span class="politics"><?=System::Lang('LINK_CONFIRMED');?></span>
                                     <?endif;?>

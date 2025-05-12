@@ -705,7 +705,7 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                 <div class="due-date"><strong>Крайний срок оплаты:</strong>
                     <input style="border:none; padding: 0 0 0 5px; width: auto; text-decoration:underline; color:#0772A0"
                            class="datetimepicker" required type="text" name="expire_date"
-                           value="<?= date("d.m.Y H:i:s", $expire); ?>">
+                           value="<?= date("d.m.Y H:i:s", $expire ?? ""); ?>">
                 </div>
             <?php } ?>
             </div>
