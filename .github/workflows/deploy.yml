@@ -1,0 +1,20 @@
+name: Auto Deploy (non-main branches)
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            BRANCH=${{ github.ref_name }} /home/t/${{ secrets.SSH_USER }}/dev.kemstatj.rf/deploy.sh
