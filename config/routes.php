@@ -66,8 +66,8 @@ return [
     'st/kemstat/page' => 'site/kemstat',
 
     'st/free/page' => 'site/free',
-    'st/project1/page' => 'site/project1',
-    'st/project2/page' => 'site/project2',
+    'st/kemstat7_11/page' => 'site/project',
+    'st/kemstat12_17/page' => 'site/project',
 
     'st/ambassador/page' => 'site/ambassador',
 
