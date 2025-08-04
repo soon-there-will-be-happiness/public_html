@@ -5224,7 +5224,7 @@ if ($partner_id != null || $promo != null) {
   <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/style3.css">
   <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/normalize.css">
   <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/mobile.css">
-  <!-- <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/main_no_compress.css"> -->
+   <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/main_no_compress.css"> 
   <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/jquery.datetimepicker.min.css">
   <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/intlTellInput-11.0.14.css">
   <link rel="stylesheet" href="https://xn--80ajojzgb4f.xn--p1ai/template/new_simple/css/gallery.css">

@@ -273,11 +273,23 @@ class siteController extends baseController {
     }
     
     
+    public function actionProject1(){
+        require_once (ROOT.'/st/project1/page.php');
+        return true;
+    }
+    
+
+    public function actionProject2(){
+        require_once (ROOT.'/st/project2/page.php');
+        return true;
+    }
+
+
     public function actionFree(){
         require_once (ROOT.'/st/free/page.php');
         return true;
     }
-    
+
     
     public function actionKemstat()
     {  
