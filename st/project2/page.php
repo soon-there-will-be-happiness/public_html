@@ -1,4 +1,12 @@
 <?require_once ("{$this->layouts_path}/head.php");?>
+   <?php  defined('BILLINGMASTER') or die;
+   $promo= null;
+   if(isset( $_GET['partner'])) $promo= $_GET['partner'];
+   $promo= $_GET['partner'] ?? null;
+   $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
+
+   if ($partner_id != null || $promo != null) {
+?>
 <!DOCTYPE html> <html> <head> <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
@@ -449,14 +457,7 @@ function ValidPhone(myPhone) {
 </script><!-- nominify end -->
 <script type="text/javascript">window.dataLayer=window.dataLayer||[];</script> <!-- VK Pixel Code --> <script type="text/javascript" data-tilda-cookie-type="advertising">setTimeout(function(){!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src="https://vk.com/js/api/openapi.js?161",t.onload=function(){VK.Retargeting.Init("VK-RTRG-974419-2ZkvK"),VK.Retargeting.Hit()},document.head.appendChild(t)}();},2000);</script> <!-- End VK Pixel Code --> <script type="text/javascript">(function() {if((/bot|google|yandex|baidu|bing|msn|duckduckbot|teoma|slurp|crawler|spider|robot|crawling|facebook/i.test(navigator.userAgent))===false&&typeof(sessionStorage)!='undefined'&&sessionStorage.getItem('visited')!=='y'&&document.visibilityState){var style=document.createElement('style');style.type='text/css';style.innerHTML='@media screen and (min-width: 980px) {.t-records {opacity: 0;}.t-records_animated {-webkit-transition: opacity ease-in-out .2s;-moz-transition: opacity ease-in-out .2s;-o-transition: opacity ease-in-out .2s;transition: opacity ease-in-out .2s;}.t-records.t-records_visible {opacity: 1;}}';document.getElementsByTagName('head')[0].appendChild(style);function t_setvisRecs(){var alr=document.querySelectorAll('.t-records');Array.prototype.forEach.call(alr,function(el) {el.classList.add("t-records_animated");});setTimeout(function() {Array.prototype.forEach.call(alr,function(el) {el.classList.add("t-records_visible");});sessionStorage.setItem("visited","y");},400);}
 document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script></head> 
-   <?php  defined('BILLINGMASTER') or die;
-   $promo= null;
-   if(isset( $_GET['partner'])) $promo= $_GET['partner'];
-   $promo= $_GET['partner'] ?? null;
-   $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 
-   if ($partner_id != null || $promo != null) {
-?>
 <body class="t-body" style="margin:0;"> <!--allrecords--> 
    <div id="allrecords" data-tilda-export="yes" class="t-records" data-hook="blocks-collection-content-node" data-tilda-project-id="227222" data-tilda-page-id="30623663" data-tilda-page-alias="kurs_kemstat" data-tilda-formskey="563b98246626f60e23e5fa77537148c9" data-tilda-stat-scroll="yes" data-tilda-lazy="yes" data-tilda-root-zone="com" data-tilda-project-headcode="yes" data-tilda-ts="y" data-tilda-project-country="RU"> <div id="rec495689812" class="r t-rec t-screenmin-980px" style=" " data-animationappear="off" data-record-type="257" data-screen-min="980px"> <!-- T228 --> <div id="nav495689812marker"></div> <div class="tmenu-mobile"> <div class="tmenu-mobile__container"> <div class="tmenu-mobile__text t-name t-name_md" field="menu_mob_title">&nbsp;</div> <button type="button"
 class="t-menuburger t-menuburger_first "
