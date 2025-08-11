@@ -67,7 +67,7 @@ return [
 
     'st/free/page' => 'site/free',
     'st/kemstat7_11/page' => 'site/kemstat7_11',
-    'st/kemstat12_17/page' => 'site/project',
+    'st/kemstat12_17/page' => 'site/kemstat12_17',
     'st/ambassador/page' => 'site/ambassador',
 
     'oferta?id=([0-9]+)' => 'site/oferta/$1',

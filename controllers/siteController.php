@@ -278,7 +278,10 @@ class siteController extends baseController {
     }
     
 
-    
+    public function actionKemstat12_17(){
+        require_once (ROOT.'/st/kemstat12_17/page.php');
+        return true;
+    }
 
 
 
