@@ -118,7 +118,7 @@ jQuery(document).ready(function($) {
     
 
         
-    }
+    
     
     if($('#rec618297354 .t599__btn').length > 0) {
         
