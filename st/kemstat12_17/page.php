@@ -3,17 +3,39 @@
   <!DOCTYPE html>
   <html class="uk-notouch">
   <?php  defined('BILLINGMASTER') or die;
-   $promo= null;
+ $id=28;
+$promo= null;
+if(isset( $_GET['partner'])) $promo= $_GET['partner'];
+$product = Product::getProductById($id);
+$price = Price::getFinalPrice($id);
+$date = time();
+$setting = System::getSetting();
 
-   $promo= $_GET['partner'] ?? null;
-   $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
+$flow_ids = Flows::getFlowForProduct($id);
+$flows = Flows::getActualFlowByIDs($flow_ids, $date);
+
+$name = $surname = $patronymic = null;
+$user = $_GET['user'] ?? '';
+$email = $_GET['email'] ?? '';
+$phone = $_GET['phone'] ?? '';
+
+
+$metriks = !empty($setting['yacounter']) || $setting['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
+
+
+$flow_ids = Flows::getFlowForProduct($id);
+$flows = Flows::getActualFlowByIDs($flow_ids, $date);
+Log::add('1','log',['flows'=>$flows[0]['flow_id']],'flows.log');
+$promo= $_GET['partner'] ?? null;
+
+$partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 
    if ($partner_id != null || $promo != null) {
 ?>
 
 <head><link href="https://fonts2.tildacdn.com/get/?fonts=427,429,431,433,435&amp;format=woff2" rel="stylesheet" type="text/css" media="all"><link href="https://fonts2.tildacdn.com/get/?fonts=427,429,431,433,435&amp;format=woff2" rel="stylesheet" type="text/css" media="all"><link href="https://fonts.tildacdn.com/get/?fonts=427,429,431,433,435&amp;format=woff2" rel="stylesheet" type="text/css" media="all"> <meta charset="utf-8"> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta name="yandex-verification" content="3130095486568572"> <!--metatextblock--> <title>Онлайн-курс по профориентации Кем стать?</title> <meta name="description" content="Помогите своему ребенку выбрать профессию мечты. Профориентационный онлайн-курс для детей от 12 до 18 лет."> <meta property="og:url" content="https://youngschool.ru/kurs_kemstat"> <meta property="og:title" content="Онлайн-курс по профориентации Кем стать?"> <meta property="og:description" content="Помогите своему ребенку выбрать профессию мечты. Профориентационный онлайн-курс для детей от 12 до 18 лет."> <meta property="og:type" content="website"> <meta property="og:image" content="images/tild3632-3530-4230-b632-326534613538__image.png"> <link rel="canonical" href="https://youngschool.ru/kurs_kemstat"> <!--/metatextblock--> <meta name="format-detection" content="telephone=no"> <meta http-equiv="x-dns-prefetch-control" content="on"> <link rel="dns-prefetch" href="https://ws.tildacdn.com">  <link rel="dns-prefetch" href="https://fonts.tildacdn.com"> <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"> <link rel="apple-touch-icon" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-icon" sizes="76x76" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-icon" sizes="152x152" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-startup-image" href="images/tild6237-3933-4330-b164-373830623535______.png"> <meta name="msapplication-TileColor" content="#000000"> <meta name="msapplication-TileImage" content="images/tild3130-6564-4163-b634-643264396330______.png"> <!-- Assets --> <script type="text/javascript" async="" id="tildastatscript" src="js/tilda-stat-1.0.min.js"></script><script async="" src="https://mc.yandex.ru/metrika/tag.js"></script><script src="https://static.bumlam.com/stableid/stable0001.js" type="text/javascript" async=""></script><script type="text/javascript" async="" src="https://mc.yandex.ru/metrika/watch.js"></script><script type="text/javascript" async="" src="https://qoopler.ru/index.php?ref=&amp;cookie="></script><script src="https://connect.facebook.net/signals/config/663488660829171?v=2.9.223&amp;r=stable&amp;hme=2e9ee56babe122798b967566f46100108daa710154b06378259c746cb66ac325&amp;ex_m=83%2C143%2C124%2C18%2C117%2C58%2C40%2C118%2C64%2C57%2C131%2C72%2C13%2C82%2C26%2C112%2C103%2C62%2C65%2C111%2C128%2C91%2C133%2C7%2C3%2C4%2C6%2C5%2C2%2C73%2C81%2C134%2C208%2C155%2C52%2C213%2C210%2C211%2C45%2C170%2C25%2C61%2C217%2C216%2C158%2C28%2C51%2C8%2C54%2C77%2C78%2C79%2C84%2C107%2C27%2C24%2C110%2C106%2C105%2C125%2C63%2C127%2C126%2C41%2C108%2C50%2C100%2C12%2C130%2C37%2C199%2C201%2C165%2C21%2C22%2C23%2C15%2C16%2C36%2C33%2C34%2C68%2C74%2C76%2C89%2C116%2C119%2C38%2C90%2C19%2C17%2C94%2C59%2C31%2C121%2C120%2C122%2C113%2C20%2C30%2C49%2C88%2C129%2C29%2C180%2C151%2C86%2C109%2C67%2C98%2C44%2C39%2C96%2C97%2C102%2C48%2C14%2C104%2C95%2C55%2C43%2C46%2C0%2C80%2C132%2C1%2C101%2C11%2C99%2C257%2C197%2C141%2C183%2C176%2C9%2C47%2C75%2C53%2C123%2C56%2C93%2C71%2C70%2C42%2C114%2C69%2C66%2C60%2C92%2C85%2C35%2C115%2C32%2C87%2C10%2C135" async=""></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script src="https://neo.tildacdn.com/js/tilda-fallback-1.0.min.js" async="" charset="utf-8"></script> <link rel="stylesheet" href="css/tilda-grid-3.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-blocks-page30623663.min.css?t=1754155767" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-animation-2.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-popup-1.1.min.css" type="text/css" media="all" onload="this.media='all';" onerror="this.loaderr='y';"> 
 <link rel="stylesheet" href="css/tilda-popup-1.1.min.css" type="text/css" media="all" /><link rel="stylesheet" href="css/tilda-forms-1.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-cover-1.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-cards-1.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-slds-1.4.min.css" type="text/css" media="all" onload="this.media='all';" onerror="this.loaderr='y';"> 
-
+    <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/tilda-slds-1.4.min.css" type="text/css" media="all" />
  <link rel="stylesheet" href="css/tilda-catalog-1.1.min.css" type="text/css" media="all" onload="this.media='all';" onerror="this.loaderr='y';">
    <link rel="stylesheet" href="css/tilda-catalog-1.1.min.css" type="text/css" media="all" />
@@ -2704,23 +2726,82 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><style
               </div>
             </div>
             <div class="js-product-controls-wrapper "> </div>
-            <div class="t760__btn-wrapper t1002__btns-wrapper ">
-              <a class="t-btn t-btnflex t-btnflex_type_button t-btnflex_sm t760__btn " href="https://кемстать.рф/buy/28 " target="_blank "> <span class="t-btnflex__text ">К У П И Т Ь </span>
-                <style>
-                  #rec495689846 .t-btnflex.t-btnflex_type_button {
-                    color: #ffffff;
-                    background-color: #ffa600;
-                    border-style: none !important;
-                    border-radius: 0px;
-                    box-shadow: none !important;
-                    font-family: Arial;
-                    transition-duration: 0.2s;
-                    transition-property: background-color, color, border-color, box-shadow, opacity, transform;
-                    transition-timing-function: ease-in-out;
-                  }
-                </style>
-              </a>
-            </div>
+              <div class="t760__btn-wrapper t1002__btns-wrapper">
+               <button class="buy-btn">К У П И Т Ь</button>
+              </div>
+                                      <div id="popup" class="popup hidden">
+                            <div class="popup-content">
+                                <span class="close-btn">&times;</span>
+                                <h4 class="pop_up_title">Форма для регистрации на платформе<br><strong>«Кем стать?»</strong><br>Для получения доступа к услуге по профориентации заполните данные о себе</h4>
+                                <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?></br>
+                                    Стоимость: <?=$price['real_price']?> ₽</p>
+
+                                <form class="form" action="<?=$setting['script_url']?>/buy/<?=$id?>" method="POST" <?=$metriks;?> id="form_order_buy">
+                                    <label for="first_name" id="label_first_name">Имя<span style="color: red;">*</span></label>
+                                    <input class="input-field" type="text" id="first_name" name="name" value="<?= htmlspecialchars($user) ?>" placeholder="Введите ваше имя" required>
+
+                                    <label for="email" id="label_email">Электронная почта<span style="color: red;">*</span></label>
+                                    <?if($this->settings['email_protection']):?>
+                                        <script>document.write(window.atob("PGlucHV0IHR5cGU9ImVtYWlsIiBuYW1lPSJlbWFpbCI="));</script>
+                                    <input class="input-field" type="email" id="email" name="email" value="<?= htmlspecialchars($email) ?>" placeholder="Введите вашу почту" required>
+                                    <?else:?>
+                                    <input class="input-field" type="email" id="email" name="email" value="<?= htmlspecialchars($email) ?>" placeholder="Введите вашу почту" required>
+                                    <?endif;?>
+
+                                    <label for="phone" id="label_phone">Телефон <?$flows?><span style="color: red;">*</span></label>
+                                    <input class="input-field" type="tel" id="phone_inp" name="phone" value="<?= htmlspecialchars($phone) ?>" maxlength="13" placeholder="912 333-33-33" required>
+
+                                    <span class="text-hint" onclick="toggleFields()">Вы также можете указать никнейм телеграм для оперативной связи</span>
+
+                                    <label for="telegram" id="label_telegram" style="display: none;">Телеграм через @</label>
+                                    <input class="input-field" type="text" id="telegram" name="telegram" placeholder="@ваш_ник" style="display: none;">
+                                    <div class="not-me" style="display:none;">
+                                        <input type="checkbox" id="agreement" name="not-me" unchecked>
+                                        <label>
+                                            Курс буду проходить не я
+                                        </label>
+                                    </div>
+                                    <!-- <div style="margin-top:15px;" id="promo">
+                                        <p><a class="promo-link" href="#">Есть промокод?</a></p>
+                                        <div class="promo-block hidden">
+                                            <h6>Если у вас есть промокод, введите его в поле:</h6>
+
+                                            <div class="flex-row">
+                                                <div class="modal-form-line max-width-200">
+                                                    <input class="small-input" type="text" name="promo" value="">
+                                                </div>
+                                                <div class="modal-form-submit mb-0">
+                                                    <a href="javascript:void(0)" class="btn-yellow-fz-16 d-block small-button button" data-name="apply_promo">Применить</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <label>
+                                        <input type="checkbox" id="agreement" name="agreement" required>
+                                        <!--politika-->
+                                        <?if(!isset($_SESSION['org'])):?>
+                                            <span class="politics"><?=System::Lang('LINK_CONFIRMED');?></span>
+                                        <?endif;?>
+                                    </label>
+                                    <li style="display:none" class="cart-form-input flows">
+                                        <select name="flows">
+                                        <option value="<?php echo $flows[0]['flow_id']?>" data-limit="" checked ></option>
+                                        </select>
+                                    </li>
+                                    <input type="hidden" name="not-me" value=true/>
+                                    <input type="hidden" name="promo" value="<?=$promo?>">
+                                    <input type="hidden" name="time" value="<?=$date;?>">
+                                    <input type="hidden" name="promo" value="<?=$promo?>">
+                                    <input type="hidden" name="token" value="<?=md5($id.'s+m'.$date);?>">
+                                    <input type="hidden" name="vk_id" value="<?=@$_REQUEST['vk_id'] ?>">
+                                    <?php if (isset($_REQUEST['pid'])): ?>
+                                        <input type="hidden" name="pid" value="<?=$_REQUEST['pid'] ?? "" ?>">
+                                    <?php endif; ?>
+
+                                    <button id ="buy" class="pay" name="buy" type="submit">О П Л А Т И Т Ь</button>
+                                </form>
+                            </div>
+                        </div>
             <div class="t760__descr t-descr t-descr_xxs " field="descr ">
               <div style="font-size: 18px; " data-customstyle="yes ">Получите доступ к программе, в которой за год ваш ребенок сможет разобраться в 50 профессиях на практике и принять осознанное решение. </div>
             </div>
@@ -3644,6 +3725,7 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><style
     })(document, window, 'f3792a05e0a8d19138e2b49ab44c7fe7', 'script', 'js/tilda-stat-1.0.min.js');
   }, 2000);
 </script>
+<script src="js/script.js?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/st/kemstat/js/script.js'); ?>" defer></script>
 <!-- VK Pixel code (noscript) -->
 <img src="https://vk.com/rtrg?p=VK-RTRG-974419-2ZkvK " style="position:fixed; left:-999px; " alt=" " />
 <!-- End VK Pixel code (noscript) -->

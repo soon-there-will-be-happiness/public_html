@@ -69,7 +69,7 @@ return [
     'st/kemstat7_11/page' => 'site/kemstat7_11',
     'st/kemstat12_17/page' => 'site/kemstat12_17',
     'st/ambassador/page' => 'site/ambassador',
-
+    'st/partner/page' => 'site/partner',
     'oferta?id=([0-9]+)' => 'site/oferta/$1',
 
     // РАССЫЛКА

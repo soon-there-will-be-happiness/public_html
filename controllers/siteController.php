@@ -271,6 +271,10 @@ class siteController extends baseController {
         require_once (ROOT.'/st/ambassador/page.php');
         return true;
     }
+    public function actionPartner(){
+        require_once (ROOT.'/st/partner/page.php');
+        return true;
+    }
     
     public function actionKemstat7_11(){
         require_once (ROOT.'/st/kemstat7_11/page.php');
