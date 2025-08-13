@@ -33,7 +33,21 @@ $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster'
    if ($partner_id != null || $promo != null) {
 ?>
 
-<head><link href="https://fonts2.tildacdn.com/get/?fonts=427,429,431,433,435&amp;format=woff2" rel="stylesheet" type="text/css" media="all"><link href="https://fonts2.tildacdn.com/get/?fonts=427,429,431,433,435&amp;format=woff2" rel="stylesheet" type="text/css" media="all"><link href="https://fonts.tildacdn.com/get/?fonts=427,429,431,433,435&amp;format=woff2" rel="stylesheet" type="text/css" media="all"> <meta charset="utf-8"> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta name="yandex-verification" content="3130095486568572"> <!--metatextblock--> <title>Онлайн-курс по профориентации Кем стать?</title> <meta name="description" content="Помогите своему ребенку выбрать профессию мечты. Профориентационный онлайн-курс для детей от 12 до 18 лет."> <meta property="og:url" content="https://youngschool.ru/kurs_kemstat"> <meta property="og:title" content="Онлайн-курс по профориентации Кем стать?"> <meta property="og:description" content="Помогите своему ребенку выбрать профессию мечты. Профориентационный онлайн-курс для детей от 12 до 18 лет."> <meta property="og:type" content="website"> <meta property="og:image" content="images/tild3632-3530-4230-b632-326534613538__image.png"> <link rel="canonical" href="https://youngschool.ru/kurs_kemstat"> <!--/metatextblock--> <meta name="format-detection" content="telephone=no"> <meta http-equiv="x-dns-prefetch-control" content="on"> <link rel="dns-prefetch" href="https://ws.tildacdn.com">  <link rel="dns-prefetch" href="https://fonts.tildacdn.com"> <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"> <link rel="apple-touch-icon" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-icon" sizes="76x76" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-icon" sizes="152x152" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-startup-image" href="images/tild6237-3933-4330-b164-373830623535______.png"> <meta name="msapplication-TileColor" content="#000000"> <meta name="msapplication-TileImage" content="images/tild3130-6564-4163-b634-643264396330______.png"> <!-- Assets --> <script type="text/javascript" async="" id="tildastatscript" src="js/tilda-stat-1.0.min.js"></script><script async="" src="https://mc.yandex.ru/metrika/tag.js"></script><script src="https://static.bumlam.com/stableid/stable0001.js" type="text/javascript" async=""></script><script type="text/javascript" async="" src="https://mc.yandex.ru/metrika/watch.js"></script><script type="text/javascript" async="" src="https://qoopler.ru/index.php?ref=&amp;cookie="></script><script src="https://connect.facebook.net/signals/config/663488660829171?v=2.9.223&amp;r=stable&amp;hme=2e9ee56babe122798b967566f46100108daa710154b06378259c746cb66ac325&amp;ex_m=83%2C143%2C124%2C18%2C117%2C58%2C40%2C118%2C64%2C57%2C131%2C72%2C13%2C82%2C26%2C112%2C103%2C62%2C65%2C111%2C128%2C91%2C133%2C7%2C3%2C4%2C6%2C5%2C2%2C73%2C81%2C134%2C208%2C155%2C52%2C213%2C210%2C211%2C45%2C170%2C25%2C61%2C217%2C216%2C158%2C28%2C51%2C8%2C54%2C77%2C78%2C79%2C84%2C107%2C27%2C24%2C110%2C106%2C105%2C125%2C63%2C127%2C126%2C41%2C108%2C50%2C100%2C12%2C130%2C37%2C199%2C201%2C165%2C21%2C22%2C23%2C15%2C16%2C36%2C33%2C34%2C68%2C74%2C76%2C89%2C116%2C119%2C38%2C90%2C19%2C17%2C94%2C59%2C31%2C121%2C120%2C122%2C113%2C20%2C30%2C49%2C88%2C129%2C29%2C180%2C151%2C86%2C109%2C67%2C98%2C44%2C39%2C96%2C97%2C102%2C48%2C14%2C104%2C95%2C55%2C43%2C46%2C0%2C80%2C132%2C1%2C101%2C11%2C99%2C257%2C197%2C141%2C183%2C176%2C9%2C47%2C75%2C53%2C123%2C56%2C93%2C71%2C70%2C42%2C114%2C69%2C66%2C60%2C92%2C85%2C35%2C115%2C32%2C87%2C10%2C135" async=""></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script src="https://neo.tildacdn.com/js/tilda-fallback-1.0.min.js" async="" charset="utf-8"></script> <link rel="stylesheet" href="css/tilda-grid-3.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-blocks-page30623663.min.css?t=1754155767" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-animation-2.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-popup-1.1.min.css" type="text/css" media="all" onload="this.media='all';" onerror="this.loaderr='y';"> 
+<head>
+  
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="yandex-verification" content="3130095486568572" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/css/intlTelInput.css">
+    <!-- Подключаем UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" />
+    <script src="https://neo.tildacdn.com/js/tilda-fallback-1.0.min.js" async charset="utf-8"></script>
+    <!-- Подключаем UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script>
+<link href="https://fonts2.tildacdn.com/get/?fonts=427,429,431,433,435&amp;format=woff2" rel="stylesheet" type="text/css" media="all"><link href="https://fonts2.tildacdn.com/get/?fonts=427,429,431,433,435&amp;format=woff2" rel="stylesheet" type="text/css" media="all"><link href="https://fonts.tildacdn.com/get/?fonts=427,429,431,433,435&amp;format=woff2" rel="stylesheet" type="text/css" media="all"> <meta charset="utf-8"> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta name="yandex-verification" content="3130095486568572"> <!--metatextblock--> <title>Онлайн-курс по профориентации Кем стать?</title> <meta name="description" content="Помогите своему ребенку выбрать профессию мечты. Профориентационный онлайн-курс для детей от 12 до 18 лет."> <meta property="og:url" content="https://youngschool.ru/kurs_kemstat"> <meta property="og:title" content="Онлайн-курс по профориентации Кем стать?"> <meta property="og:description" content="Помогите своему ребенку выбрать профессию мечты. Профориентационный онлайн-курс для детей от 12 до 18 лет."> <meta property="og:type" content="website"> <meta property="og:image" content="images/tild3632-3530-4230-b632-326534613538__image.png"> <link rel="canonical" href="https://youngschool.ru/kurs_kemstat"> <!--/metatextblock--> <meta name="format-detection" content="telephone=no"> <meta http-equiv="x-dns-prefetch-control" content="on"> <link rel="dns-prefetch" href="https://ws.tildacdn.com">  <link rel="dns-prefetch" href="https://fonts.tildacdn.com"> <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"> <link rel="apple-touch-icon" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-icon" sizes="76x76" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-icon" sizes="152x152" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-startup-image" href="images/tild6237-3933-4330-b164-373830623535______.png"> <meta name="msapplication-TileColor" content="#000000"> <meta name="msapplication-TileImage" content="images/tild3130-6564-4163-b634-643264396330______.png"> <!-- Assets --> <script type="text/javascript" async="" id="tildastatscript" src="js/tilda-stat-1.0.min.js"></script><script async="" src="https://mc.yandex.ru/metrika/tag.js"></script><script src="https://static.bumlam.com/stableid/stable0001.js" type="text/javascript" async=""></script><script type="text/javascript" async="" src="https://mc.yandex.ru/metrika/watch.js"></script><script type="text/javascript" async="" src="https://qoopler.ru/index.php?ref=&amp;cookie="></script><script src="https://connect.facebook.net/signals/config/663488660829171?v=2.9.223&amp;r=stable&amp;hme=2e9ee56babe122798b967566f46100108daa710154b06378259c746cb66ac325&amp;ex_m=83%2C143%2C124%2C18%2C117%2C58%2C40%2C118%2C64%2C57%2C131%2C72%2C13%2C82%2C26%2C112%2C103%2C62%2C65%2C111%2C128%2C91%2C133%2C7%2C3%2C4%2C6%2C5%2C2%2C73%2C81%2C134%2C208%2C155%2C52%2C213%2C210%2C211%2C45%2C170%2C25%2C61%2C217%2C216%2C158%2C28%2C51%2C8%2C54%2C77%2C78%2C79%2C84%2C107%2C27%2C24%2C110%2C106%2C105%2C125%2C63%2C127%2C126%2C41%2C108%2C50%2C100%2C12%2C130%2C37%2C199%2C201%2C165%2C21%2C22%2C23%2C15%2C16%2C36%2C33%2C34%2C68%2C74%2C76%2C89%2C116%2C119%2C38%2C90%2C19%2C17%2C94%2C59%2C31%2C121%2C120%2C122%2C113%2C20%2C30%2C49%2C88%2C129%2C29%2C180%2C151%2C86%2C109%2C67%2C98%2C44%2C39%2C96%2C97%2C102%2C48%2C14%2C104%2C95%2C55%2C43%2C46%2C0%2C80%2C132%2C1%2C101%2C11%2C99%2C257%2C197%2C141%2C183%2C176%2C9%2C47%2C75%2C53%2C123%2C56%2C93%2C71%2C70%2C42%2C114%2C69%2C66%2C60%2C92%2C85%2C35%2C115%2C32%2C87%2C10%2C135" async=""></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script src="https://neo.tildacdn.com/js/tilda-fallback-1.0.min.js" async="" charset="utf-8"></script> <link rel="stylesheet" href="css/tilda-grid-3.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-blocks-page30623663.min.css?t=1754155767" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-animation-2.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-popup-1.1.min.css" type="text/css" media="all" onload="this.media='all';" onerror="this.loaderr='y';"> 
 <link rel="stylesheet" href="css/tilda-popup-1.1.min.css" type="text/css" media="all" /><link rel="stylesheet" href="css/tilda-forms-1.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-cover-1.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-cards-1.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"> <link rel="stylesheet" href="css/tilda-slds-1.4.min.css" type="text/css" media="all" onload="this.media='all';" onerror="this.loaderr='y';"> 
     <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/tilda-slds-1.4.min.css" type="text/css" media="all" />
@@ -3697,6 +3711,13 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><style
   }, 2000);
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/js/intlTelInput.min.js"></script>
+<script>
+    const input = document.querySelector("#phone");
+    window.intlTelInput(input, {
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/js/utils.js",
+    });
+</script>
   <div><img src="https://mc.yandex.ru/watch/51539072 " style="position:absolute; left:-9999px; " alt=" " /></div>
 
 <!-- /Yandex.Metrika counter -->
@@ -3729,6 +3750,115 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><style
 <!-- VK Pixel code (noscript) -->
 <img src="https://vk.com/rtrg?p=VK-RTRG-974419-2ZkvK " style="position:fixed; left:-999px; " alt=" " />
 <!-- End VK Pixel code (noscript) -->
+<? if(@ $this->settings['params']['mask_all_countries'] == 1):?>
+    <script src="/lib/inputmask/js/jquery.inputmask.min.js?8"></script>
+    <script src="/lib/inputmask/js/jquery.inputmask.js?8"></script>
+    <script>
+
+        var input_phone = $('input[name=phone]');
+
+        input_phone.each(function (){
+           $(this).attr("value", "7");
+
+        });
+
+        var maskList = $.masksSort($.masksLoad("/lib/inputmask/data/phone-codes.json"), ['#'], /[0-9]|#/, "mask");
+        var maskOpts = {
+            inputmask: {
+                definitions: {
+                    '#': {
+                        validator: "[0-9]",
+                        cardinality: 1
+                    }
+                },
+                // clearIncomplete: true,
+                showMaskOnHover: false,
+                autoUnmask: true
+            },
+
+            match: /[0-9]/,
+            replace: '#',
+            list: maskList,
+            listKey: "mask",
+
+            onMaskChange: function(maskObj, completed) {
+
+                if (completed) {
+                    if (maskObj.desc_ru && maskObj.desc_ru != "")
+                        maskObj.name_ru += " (" + maskObj.desc_ru + ")";
+                }
+
+                $(this).attr("placeholder", $(this).inputmask("getemptymask"));
+            }
+        };
+
+        input_phone.inputmasks(maskOpts);
+
+    </script>
+
+<? elseif (!empty($this->settings['countries_list']) && ($countries_list = $this->settings['countries_list'])):?>
+
+    <link href="/template/<?=$this->settings['template'];?>/css/intlTelInput-11.0.14.css" rel="stylesheet" />
+    <script src="/template/<?=$this->settings['template'];?>/js/utils-11.0.14.js"></script>
+    <script src="/template/<?=$this->settings['template'];?>/js/intlTelInput-11.0.14.js"></script>
+    <script src="/template/<?=$this->settings['template'];?>/js/jquery.mask-1.14.11.js"></script>
+
+    <script>
+        let cntrs_list = <?=$countries_list;?>;
+        let $phone_input = $("input[name='phone']");
+
+        if ($phone_input.length == 1) {
+            let iti = $phone_input.intlTelInput({
+                initialCountry: cntrs_list.indexOf('ru') != -1 ? 'ru' : cntrs_list[0],
+                preferredCountries: cntrs_list.indexOf('ru') != -1 ? ['ru'] : [cntrs_list[0]],
+                separateDialCode: true,
+                onlyCountries: cntrs_list
+            });
+        }
+
+        $(document).ready(function() {
+            if ($phone_input.length == 1) {
+
+                if ($('.intl-tel-input .selected-flag .iti-flag').hasClass('ru')) {
+                    $phone_input.attr('placeholder', '912 333-33-33');
+                }
+
+                let mask = $phone_input.attr('placeholder').replace(/[0-9]/g, 0);
+                $phone_input.mask(mask);
+
+                $phone_input.on("countrychange", function(e, countryData) {
+                    if (countryData.iso2 == 'ru') {
+                        $phone_input.attr('placeholder', '912 333-33-33');
+                    }
+
+                    mask = $phone_input.attr('placeholder').replace(/[0-9]/g, 0);
+                    $phone_input.mask(mask).attr('maxlength', 13);
+                });
+
+                $phone_input.parents('form').submit(function() {
+                    if ($('.selected-flag .selected-dial-code').length > 0) {
+                        let phone_code = $(this).find('.selected-flag .selected-dial-code').text();
+                        $(this).append('<input type="hidden" name="phone_code" value="' + phone_code + '">');
+                    }
+
+                    let phone = $phone_input.val();
+                    let placeholder = $phone_input.attr('placeholder');
+
+                    if (typeof(placeholder) !== 'undefined' && phone.length !== placeholder.length) {
+                        $phone_input.addClass('error');
+                        return false;
+                    } else {
+                        $phone_input.removeClass('error');
+                    }
+                });
+            }
+        });
+
+    </script>
+<? else: ?>
+    <script>
+    </script>
+<? endif; ?>
 </body> 
    
 <?php } else {?>
