@@ -1,4 +1,45 @@
-<!DOCTYPE html> <html> <head> <meta charset="utf-8" /> <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <meta name="yandex-verification" content="3130095486568572" /> <!--metatextblock--> <title>Партнер платформы «Кем стать?»</title> <meta name="description" content="Заработай от 30 000₽ до 100 000 ₽ в месяц на профориентации с проектом «Кем стать?»" /> <meta name="keywords" content="профориентация, открыть бизнес, франшиза, детский бизнес" /> <meta property="og:url" content="https://youngschool.ru/partner_kemstat" /> <meta property="og:title" content="Партнер платформы «Кем стать?»" /> <meta property="og:description" content="Заработай от 30 000₽ до 100 000 ₽ в месяц на профориентации с проектом «Кем стать?»" /> <meta property="og:type" content="website" /> <meta property="og:image" content="images/tild6534-3437-4139-a630-373934626231__image.png" /> <link rel="canonical" href="https://youngschool.ru/partner_kemstat"> <!--/metatextblock--> <meta name="format-detection" content="telephone=no" /> <meta http-equiv="x-dns-prefetch-control" content="on"> <link rel="dns-prefetch" href="https://ws.tildacdn.com">  <link rel="dns-prefetch" href="https://fonts.tildacdn.com"> <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" /> <link rel="apple-touch-icon" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-icon" sizes="76x76" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-icon" sizes="152x152" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-startup-image" href="images/tild6237-3933-4330-b164-373830623535______.png"> <meta name="msapplication-TileColor" content="#000000"> <meta name="msapplication-TileImage" content="images/tild3130-6564-4163-b634-643264396330______.png"> <!-- Assets --> <script src="https://neo.tildacdn.com/js/tilda-fallback-1.0.min.js" async charset="utf-8"></script> <link rel="stylesheet" href="css/tilda-grid-3.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"/> <link rel="stylesheet" href="css/tilda-blocks-page36354864.min.css?t=1755000398" type="text/css" media="all" onerror="this.loaderr='y';" /> <link rel="stylesheet" href="css/tilda-cards-1.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';" /> <link rel="stylesheet" href="css/tilda-slds-1.4.min.css" type="text/css" media="print" onload="this.media='all';" onerror="this.loaderr='y';" /> <noscript><link rel="stylesheet" href="css/tilda-slds-1.4.min.css" type="text/css" media="all" /></noscript> <link rel="stylesheet" href="css/tilda-forms-1.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';" /> <link rel="stylesheet" href="css/tilda-popup-1.1.min.css" type="text/css" media="print" onload="this.media='all';" onerror="this.loaderr='y';" /> <noscript><link rel="stylesheet" href="css/tilda-popup-1.1.min.css" type="text/css" media="all" /></noscript> <script type="text/javascript">TildaFonts=["427","429","431","433","435"];</script> <script type="text/javascript" src="js/tilda-fonts.min.js" charset="utf-8" onerror="this.loaderr='y';"></script> <script nomodule src="js/tilda-polyfill-1.0.min.js" charset="utf-8"></script> <script type="text/javascript">function t_onReady(func) {if(document.readyState!='loading') {func();} else {document.addEventListener('DOMContentLoaded',func);}}
+<?require_once ("{$this->layouts_path}/head.php");?>
+  <?php  defined('BILLINGMASTER') or die;
+ $id=33
+ ;
+$promo= null;
+if(isset( $_GET['partner'])) $promo= $_GET['partner'];
+$product = Product::getProductById($id);
+$price = Price::getFinalPrice($id);
+$date = time();
+$setting = System::getSetting();
+
+//$flow_ids = Flows::getFlowForProduct($id);
+//$flows = Flows::getActualFlowByIDs($flow_ids, $date);
+
+$name = $surname = $patronymic = null;
+$user = $_GET['user'] ?? '';
+$email = $_GET['email'] ?? '';
+$phone = $_GET['phone'] ?? '';
+
+
+$metriks = !empty($setting['yacounter']) || $setting['ga_target'] == 1 ? ' onsubmit="'.$ya_goal.$ga_goal.' return true;"' : null;
+
+
+$flow_ids = Flows::getFlowForProduct($id);
+$flows = Flows::getActualFlowByIDs($flow_ids, $date);
+Log::add('1','log',['flows'=>$flows[0]['flow_id']],'flows.log');
+$promo= $_GET['partner'] ?? null;
+
+$partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
+
+
+?>
+<!DOCTYPE html> <html> <head> 
+       <link rel="stylesheet" href="css/style.css">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/css/intlTelInput.css">
+    <!-- Подключаем UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" />
+    <script src="https://neo.tildacdn.com/js/tilda-fallback-1.0.min.js" async charset="utf-8"></script>
+    <!-- Подключаем UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script>
+   <meta charset="utf-8" /> <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <meta name="yandex-verification" content="3130095486568572" /> <!--metatextblock--> <title>Партнер платформы «Кем стать?»</title> <meta name="description" content="Заработай от 30 000₽ до 100 000 ₽ в месяц на профориентации с проектом «Кем стать?»" /> <meta name="keywords" content="профориентация, открыть бизнес, франшиза, детский бизнес" /> <meta property="og:url" content="https://youngschool.ru/partner_kemstat" /> <meta property="og:title" content="Партнер платформы «Кем стать?»" /> <meta property="og:description" content="Заработай от 30 000₽ до 100 000 ₽ в месяц на профориентации с проектом «Кем стать?»" /> <meta property="og:type" content="website" /> <meta property="og:image" content="images/tild6534-3437-4139-a630-373934626231__image.png" /> <link rel="canonical" href="https://youngschool.ru/partner_kemstat"> <!--/metatextblock--> <meta name="format-detection" content="telephone=no" /> <meta http-equiv="x-dns-prefetch-control" content="on"> <link rel="dns-prefetch" href="https://ws.tildacdn.com">  <link rel="dns-prefetch" href="https://fonts.tildacdn.com"> <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" /> <link rel="apple-touch-icon" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-icon" sizes="76x76" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-icon" sizes="152x152" href="images/tild6237-3933-4330-b164-373830623535______.png"> <link rel="apple-touch-startup-image" href="images/tild6237-3933-4330-b164-373830623535______.png"> <meta name="msapplication-TileColor" content="#000000"> <meta name="msapplication-TileImage" content="images/tild3130-6564-4163-b634-643264396330______.png"> <!-- Assets --> <script src="https://neo.tildacdn.com/js/tilda-fallback-1.0.min.js" async charset="utf-8"></script> <link rel="stylesheet" href="css/tilda-grid-3.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';"/> <link rel="stylesheet" href="css/tilda-blocks-page36354864.min.css?t=1755000398" type="text/css" media="all" onerror="this.loaderr='y';" /> <link rel="stylesheet" href="css/tilda-cards-1.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';" /> <link rel="stylesheet" href="css/tilda-slds-1.4.min.css" type="text/css" media="print" onload="this.media='all';" onerror="this.loaderr='y';" /> <noscript><link rel="stylesheet" href="css/tilda-slds-1.4.min.css" type="text/css" media="all" /></noscript> <link rel="stylesheet" href="css/tilda-forms-1.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';" /> <link rel="stylesheet" href="css/tilda-popup-1.1.min.css" type="text/css" media="print" onload="this.media='all';" onerror="this.loaderr='y';" /> <noscript><link rel="stylesheet" href="css/tilda-popup-1.1.min.css" type="text/css" media="all" /></noscript> <script type="text/javascript">TildaFonts=["427","429","431","433","435"];</script> <script type="text/javascript" src="js/tilda-fonts.min.js" charset="utf-8" onerror="this.loaderr='y';"></script> <script nomodule src="js/tilda-polyfill-1.0.min.js" charset="utf-8"></script> <script type="text/javascript">function t_onReady(func) {if(document.readyState!='loading') {func();} else {document.addEventListener('DOMContentLoaded',func);}}
 function t_onFuncLoad(funcName,okFunc,time) {if(typeof window[funcName]==='function') {okFunc();} else {setTimeout(function() {t_onFuncLoad(funcName,okFunc,time);},(time||100));}}function t_throttle(fn,threshhold,scope) {return function() {fn.apply(scope||this,arguments);};}</script> <script src="js/jquery-1.10.2.min.js" charset="utf-8" onerror="this.loaderr='y';"></script> <script src="js/tilda-scripts-3.0.min.js" charset="utf-8" defer onerror="this.loaderr='y';"></script> <script src="js/tilda-blocks-page36354864.min.js?t=1755000398" charset="utf-8" async onerror="this.loaderr='y';"></script> <script src="js/lazyload-1.3.min.export.js" charset="utf-8" async onerror="this.loaderr='y';"></script> <script src="js/hammer.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script> <script src="js/tilda-cards-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script> <script src="js/tilda-slds-1.4.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script> <script src="js/tilda-video-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script> <script src="js/tilda-text-clamp.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script> <script src="js/tilda-forms-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script> <script src="js/tilda-popup-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script> <script src="js/tilda-events-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script> <!-- nominify begin --><!-- Facebook Pixel Code --> <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -780,8 +821,205 @@ tabindex="-1"
 aria-label="Политика защиты персональной информации пользователей сайта"> <div class="t-popup__close t-popup__block-close"> <button
 type="button"
 class="t-popup__close-wrapper t-popup__block-close-button"
-aria-label="Закрыть диалоговое окно"> <svg role="presentation" class="t-popup__close-icon" width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <g stroke="none" stroke-width="1" fill="#fff" fill-rule="evenodd"> <rect transform="translate(11.313708, 11.313708) rotate(-45.000000) translate(-11.313708, -11.313708) " x="10.3137085" y="-3.6862915" width="2" height="30"></rect> <rect transform="translate(11.313708, 11.313708) rotate(-315.000000) translate(-11.313708, -11.313708) " x="10.3137085" y="-3.6862915" width="2" height="30"></rect> </g> </svg> </button> </div> <div class="t-popup__container t-width t-width_6" style="background-color:#fbfbf9;"> <div class="t390__wrapper t-align_center"> <div class="t390__title t-heading t-heading_lg" id="popuptitle_587294551">Политика защиты персональной информации пользователей сайта</div> <div class="t390__descr t-descr t-descr_xs">Настоящая Политика определяет порядок обработки и защиты школой искусств «Колокол» в лице индивидуального предпринимателя Гончар Арины Сергеевны: при использовании Пользователем услуг/товаров, неисключительной лицензии предоставляемых в том числе посредством сайта (далее – Сайт).<br />Целью настоящей Политики является обеспечение надлежащей защиты персональной информации которую Пользователь предоставляет о себе самостоятельно при использовании Сайта или в процессе регистрации (создании учетной записи), для приобретения товаров/услуг, неисключительной лицензии от несанкционированного доступа и разглашения.<br />Регистрируясь на Сайте и используя Сайт Пользователь выражает свое полное согласие с условиями настоящей Политики.</div> </div> </div> </div> </div> <script type="text/javascript">t_onReady(function(){var rec=document.querySelector('#rec587294551');if(!rec) return;rec.setAttribute('data-animationappear','off');rec.style.opacity=1;t_onFuncLoad('t390_initPopup',function() {t390_initPopup('587294551');});});</script> </div> <div id="rec587294552" class="r t-rec t-rec_pt_90 t-rec_pb_90" style="padding-top:90px;padding-bottom:90px;background-color:#ffffff; " data-record-type="588" data-bg-color="#ffffff"> <!-- T588 --> <div class="t588"> <div class="t-container"> <div class="t-col t-col_8 t-prefix_2 t-align_center"> <div class="t588__title t-heading t-heading_lg t-margin_auto" field="title"><div style="font-size: 42px;" data-customstyle="yes"><span style="color: rgb(167, 155, 214);">Стань партнером платформы </span><br /><span style="color: rgb(167, 155, 214);">«Кем стать?» прямо сейчас за 0₽</span><span style="color: rgb(99, 112, 83);"> </span></div></div> <div class="t588__buttons"> <div class="t588__buttons-wrapper t-margin_auto"> <a
-class="t-btn t-btnflex t-btnflex_type_button t-btnflex_xl"
-href="https://xn--80ajojzgb4f.xn--p1ai/buy/33"
-target="_blank"> <span class="t-btnflex__text">Стать партнером!</span> <style>#rec587294552 .t-btnflex.t-btnflex_type_button {color:#ffffff;background-color:#a79bd6;border-style:none !important;border-radius:60px;box-shadow:none !important;transition-duration:0.2s;transition-property:background-color,color,border-color,box-shadow,opacity,transform;transition-timing-function:ease-in-out;}</style> </a> </div> </div> </div> </div> </div> <style> #rec587294552 .t588__descr{max-width:700px;}</style> </div> <div id="rec587294555" class="r t-rec t-rec_pt_45 t-rec_pb_60" style="padding-top:45px;padding-bottom:60px;background-color:#111111; " data-record-type="144" data-bg-color="#111111"> <!-- T134 --> <div class="t134"> <div class="t-container"> <div class="t-col t-col_10 t-prefix_1"> <div class="t134__descr" field="descr">ООО "Онлайн университет Янг" ИНН 3664246543 ОГРН 1203600012989<br /><a href="https://schoolyoung.getcourse.ru/oferta" target="_blank" rel="noreferrer noopener">Договор-оферта Политика конфиденциальности</a></div> </div> </div> </div> <style>#rec587294555 .t134__title,#rec587294555 .t134__descr{color:#ffffff;}</style> </div> </div> <!--/allrecords--> <!-- Tilda copyright. Don't remove this line --><div class="t-tildalabel " id="tildacopy" data-tilda-sign="227222#36354864"><a href="https://tilda.cc/" class="t-tildalabel__link"><div class="t-tildalabel__wrapper"><div class="t-tildalabel__txtleft">Made on </div><div class="t-tildalabel__wrapimg"><img src="images/tildacopy.png" class="t-tildalabel__img" fetchpriority="low" alt=""></div><div class="t-tildalabel__txtright">Tilda</div></div></a></div> <!-- Stat --> <!-- Yandex.Metrika counter 51539072 --> <script type="text/javascript" data-tilda-cookie-type="analytics">setTimeout(function(){(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");window.mainMetrikaId='51539072';ym(window.mainMetrikaId,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true,ecommerce:"dataLayer"});},2000);</script> <noscript><div><img src="https://mc.yandex.ru/watch/51539072" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter --> <script type="text/javascript">if(!window.mainTracker) {window.mainTracker='tilda';}
-window.tildastatscroll='yes';setTimeout(function(){(function(d,w,k,o,g) {var n=d.getElementsByTagName(o)[0],s=d.createElement(o),f=function(){n.parentNode.insertBefore(s,n);};s.type="text/javascript";s.async=true;s.key=k;s.id="tildastatscript";s.src=g;if(w.opera=="[object Opera]") {d.addEventListener("DOMContentLoaded",f,false);} else {f();}})(document,window,'f3792a05e0a8d19138e2b49ab44c7fe7','script','js/tilda-stat-1.0.min.js');},2000);</script> <!-- VK Pixel code (noscript) --> <noscript><img src="https://vk.com/rtrg?p=VK-RTRG-974419-2ZkvK" style="position:fixed; left:-999px;" alt=""/></noscript> <!-- End VK Pixel code (noscript) --> </body> </html>
+aria-label="Закрыть диалоговое окно"> 
+<svg role="presentation" class="t-popup__close-icon" width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g stroke="none" stroke-width="1" fill="#fff" fill-rule="evenodd"> <rect transform="translate(11.313708, 11.313708) rotate(-45.000000) translate(-11.313708, -11.313708) " x="10.3137085" y="-3.6862915" width="2" height="30"></rect> <rect transform="translate(11.313708, 11.313708) rotate(-315.000000) translate(-11.313708, -11.313708) " x="10.3137085" y="-3.6862915" width="2" height="30"></rect> </g> </svg> </button> </div> <div class="t-popup__container t-width t-width_6" style="background-color:#fbfbf9;"> <div class="t390__wrapper t-align_center"> <div class="t390__title t-heading t-heading_lg" id="popuptitle_587294551">Политика защиты персональной информации пользователей сайта</div> <div class="t390__descr t-descr t-descr_xs">Настоящая Политика определяет порядок обработки и защиты школой искусств «Колокол» в лице индивидуального предпринимателя Гончар Арины Сергеевны: при использовании Пользователем услуг/товаров, неисключительной лицензии предоставляемых в том числе посредством сайта (далее – Сайт).<br />Целью настоящей Политики является обеспечение надлежащей защиты персональной информации которую Пользователь предоставляет о себе самостоятельно при использовании Сайта или в процессе регистрации (создании учетной записи), для приобретения товаров/услуг, неисключительной лицензии от несанкционированного доступа и разглашения.<br />Регистрируясь на Сайте и используя Сайт Пользователь выражает свое полное согласие с условиями настоящей Политики.</div> </div> </div> </div> </div> <script type="text/javascript">t_onReady(function(){var rec=document.querySelector('#rec587294551');if(!rec) return;rec.setAttribute('data-animationappear','off');rec.style.opacity=1;t_onFuncLoad('t390_initPopup',function() {t390_initPopup('587294551');});});</script> </div> <div id="rec587294552" class="r t-rec t-rec_pt_90 t-rec_pb_90" style="padding-top:90px;padding-bottom:90px;background-color:#ffffff; " data-record-type="588" data-bg-color="#ffffff"> <!-- T588 --> <div class="t588"> <div class="t-container"> <div class="t-col t-col_8 t-prefix_2 t-align_center"> <div class="t588__title t-heading t-heading_lg t-margin_auto" field="title"><div style="font-size: 42px;" data-customstyle="yes"><span style="color: rgb(167, 155, 214);">Стань партнером платформы </span><br /><span style="color: rgb(167, 155, 214);">«Кем стать?» прямо сейчас за 0₽</span><span style="color: rgb(99, 112, 83);"> </span></div></div> <div class="t588__buttons"> 
+      <div class="t588__buttons-wrapper t-margin_auto"> <a class="t-btn t-btnflex t-btnflex_type_button t-btnflex_xl buy-btn"  target="_blank"> 
+         <span class="t-btnflex__text">Стать партнером!</span>
+
+<style>
+
+#rec587294552 .t-btnflex.t-btnflex_type_button {color:#ffffff;background-color:#a79bd6;border-style:none !important;border-radius:60px;box-shadow:none !important;transition-duration:0.2s;transition-property:background-color,color,border-color,box-shadow,opacity,transform;transition-timing-function:ease-in-out;}</style> 
+</a> 
+
+</div> 
+  
+                <div id="popup" class="popup hidden">
+                            <div class="popup-content">
+                                <span class="close-btn">&times;</span>
+                                <h4 class="pop_up_title">Форма для регистрации на платформе<br><strong>«Кем стать?»</strong><br>Для получения доступа к услуге по профориентации заполните данные о себе</h4>
+                                <p class="pop_up_subtitle">Продукт: <?=$product['product_name'];?></br>
+                                    Стоимость: <?=$price['real_price']?> ₽</p>
+
+                                <form class="form" action="<?=$setting['script_url']?>/buy/<?=$id?>" method="POST" <?=$metriks;?> id="form_order_buy">
+                                    <label for="first_name" id="label_first_name">Имя<span style="color: red;">*</span></label>
+                                    <input class="input-field" type="text" id="first_name" name="name" value="<?= htmlspecialchars($user) ?>" placeholder="Введите ваше имя" required>
+
+                                    <label for="email" id="label_email">Электронная почта<span style="color: red;">*</span></label>
+                                    <?if($this->settings['email_protection']):?>
+                                        <script>document.write(window.atob("PGlucHV0IHR5cGU9ImVtYWlsIiBuYW1lPSJlbWFpbCI="));</script>
+                                    <input class="input-field" type="email" id="email" name="email" value="<?= htmlspecialchars($email) ?>" placeholder="Введите вашу почту" required>
+                                    <?else:?>
+                                    <input class="input-field" type="email" id="email" name="email" value="<?= htmlspecialchars($email) ?>" placeholder="Введите вашу почту" required>
+                                    <?endif;?>
+
+                                    <label for="phone" id="label_phone">Телефон <?$flows?><span style="color: red;">*</span></label>
+                                    <input class="input-field" type="tel" id="phone_inp" name="phone" value="<?= htmlspecialchars($phone) ?>" maxlength="13" placeholder="912 333-33-33" required>
+
+                                    <span class="text-hint" onclick="toggleFields()">Вы также можете указать никнейм телеграм для оперативной связи</span>
+
+                                    <label for="telegram" id="label_telegram" style="display: none;">Телеграм через @</label>
+                                    <input class="input-field" type="text" id="telegram" name="telegram" placeholder="@ваш_ник" style="display: none;">
+                                    <div class="not-me" style="display:none;">
+                                        <input type="checkbox" id="agreement" name="not-me" unchecked>
+                                        <label>
+                                            Курс буду проходить не я
+                                        </label>
+                                    </div>
+                                    <!-- <div style="margin-top:15px;" id="promo">
+                                        <p><a class="promo-link" href="#">Есть промокод?</a></p>
+                                        <div class="promo-block hidden">
+                                            <h6>Если у вас есть промокод, введите его в поле:</h6>
+
+                                            <div class="flex-row">
+                                                <div class="modal-form-line max-width-200">
+                                                    <input class="small-input" type="text" name="promo" value="">
+                                                </div>
+                                                <div class="modal-form-submit mb-0">
+                                                    <a href="javascript:void(0)" class="btn-yellow-fz-16 d-block small-button button" data-name="apply_promo">Применить</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <label>
+                                        <input type="checkbox" id="agreement" name="agreement" required>
+                                        <!--politika-->
+                                        <?if(!isset($_SESSION['org'])):?>
+                                            <span class="politics"><?=System::Lang('LINK_CONFIRMED');?></span>
+                                        <?endif;?>
+                                    </label>
+                                    <li style="display:none" class="cart-form-input flows">
+                                        <select name="flows">
+                                        <option value="<?php echo $flows[0]['flow_id']?>" data-limit="" checked ></option>
+                                        </select>
+                                    </li>
+                                    <input type="hidden" name="not-me" value=true/>
+                                    <input type="hidden" name="promo" value="<?=$promo?>">
+                                    <input type="hidden" name="time" value="<?=$date;?>">
+                                    <input type="hidden" name="promo" value="<?=$promo?>">
+                                    <input type="hidden" name="token" value="<?=md5($id.'s+m'.$date);?>">
+                                    <input type="hidden" name="vk_id" value="<?=@$_REQUEST['vk_id'] ?>">
+                                    <?php if (isset($_REQUEST['pid'])): ?>
+                                        <input type="hidden" name="pid" value="<?=$_REQUEST['pid'] ?? "" ?>">
+                                    <?php endif; ?>
+
+                                    <button id ="buy" class="pay" name="buy" type="submit">О П Л А Т И Т Ь</button>
+                                </form>
+                            </div>
+                </div>
+
+
+</div> </div> </div> </div> <style> #rec587294552 .t588__descr{max-width:700px;}</style> 
+</div> <div id="rec587294555" class="r t-rec t-rec_pt_45 t-rec_pb_60" style="padding-top:45px;padding-bottom:60px;background-color:#111111; " data-record-type="144" data-bg-color="#111111"> <!-- T134 --> <div class="t134"> <div class="t-container"> <div class="t-col t-col_10 t-prefix_1"> <div class="t134__descr" field="descr">ООО "Онлайн университет Янг" ИНН 3664246543 ОГРН 1203600012989<br /><a href="https://schoolyoung.getcourse.ru/oferta" target="_blank" rel="noreferrer noopener">Договор-оферта Политика конфиденциальности</a></div> </div> </div> </div> <style>#rec587294555 .t134__title,#rec587294555 .t134__descr{color:#ffffff;}</style> </div> </div> <!--/allrecords--> <!-- Tilda copyright. Don't remove this line --><div class="t-tildalabel " id="tildacopy" data-tilda-sign="227222#36354864"><a href="https://tilda.cc/" class="t-tildalabel__link"><div class="t-tildalabel__wrapper"><div class="t-tildalabel__txtleft">Made on </div><div class="t-tildalabel__wrapimg"><img src="images/tildacopy.png" class="t-tildalabel__img" fetchpriority="low" alt=""></div><div class="t-tildalabel__txtright">Tilda</div></div></a></div> <!-- Stat --> <!-- Yandex.Metrika counter 51539072 --> <script type="text/javascript" data-tilda-cookie-type="analytics">setTimeout(function(){(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");window.mainMetrikaId='51539072';ym(window.mainMetrikaId,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true,ecommerce:"dataLayer"});},2000);</script> <noscript><div><img src="https://mc.yandex.ru/watch/51539072" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter --> <script type="text/javascript">if(!window.mainTracker) {window.mainTracker='tilda';}
+window.tildastatscroll='yes';setTimeout(function(){(function(d,w,k,o,g) {var n=d.getElementsByTagName(o)[0],s=d.createElement(o),f=function(){n.parentNode.insertBefore(s,n);};s.type="text/javascript";s.async=true;s.key=k;s.id="tildastatscript";s.src=g;if(w.opera=="[object Opera]") {d.addEventListener("DOMContentLoaded",f,false);} else {f();}})(document,window,'f3792a05e0a8d19138e2b49ab44c7fe7','script','js/tilda-stat-1.0.min.js');},2000);</script> <!-- VK Pixel code (noscript) --> <noscript><img src="https://vk.com/rtrg?p=VK-RTRG-974419-2ZkvK" style="position:fixed; left:-999px;" alt=""/></noscript> <!-- End VK Pixel code (noscript) --> 
+<? if(@ $this->settings['params']['mask_all_countries'] == 1):?>
+    <script src="/lib/inputmask/js/jquery.inputmask.min.js?8"></script>
+    <script src="/lib/inputmask/js/jquery.inputmask.js?8"></script>
+    <script>
+
+        var input_phone = $('input[name=phone]');
+
+        input_phone.each(function (){
+           $(this).attr("value", "7");
+
+        });
+
+        var maskList = $.masksSort($.masksLoad("/lib/inputmask/data/phone-codes.json"), ['#'], /[0-9]|#/, "mask");
+        var maskOpts = {
+            inputmask: {
+                definitions: {
+                    '#': {
+                        validator: "[0-9]",
+                        cardinality: 1
+                    }
+                },
+                // clearIncomplete: true,
+                showMaskOnHover: false,
+                autoUnmask: true
+            },
+
+            match: /[0-9]/,
+            replace: '#',
+            list: maskList,
+            listKey: "mask",
+
+            onMaskChange: function(maskObj, completed) {
+
+                if (completed) {
+                    if (maskObj.desc_ru && maskObj.desc_ru != "")
+                        maskObj.name_ru += " (" + maskObj.desc_ru + ")";
+                }
+
+                $(this).attr("placeholder", $(this).inputmask("getemptymask"));
+            }
+        };
+
+        input_phone.inputmasks(maskOpts);
+
+    </script>
+
+<? elseif (!empty($this->settings['countries_list']) && ($countries_list = $this->settings['countries_list'])):?>
+
+    <link href="/template/<?=$this->settings['template'];?>/css/intlTelInput-11.0.14.css" rel="stylesheet" />
+    <script src="/template/<?=$this->settings['template'];?>/js/utils-11.0.14.js"></script>
+    <script src="/template/<?=$this->settings['template'];?>/js/intlTelInput-11.0.14.js"></script>
+    <script src="/template/<?=$this->settings['template'];?>/js/jquery.mask-1.14.11.js"></script>
+
+    <script>
+        let cntrs_list = <?=$countries_list;?>;
+        let $phone_input = $("input[name='phone']");
+
+        if ($phone_input.length == 1) {
+            let iti = $phone_input.intlTelInput({
+                initialCountry: cntrs_list.indexOf('ru') != -1 ? 'ru' : cntrs_list[0],
+                preferredCountries: cntrs_list.indexOf('ru') != -1 ? ['ru'] : [cntrs_list[0]],
+                separateDialCode: true,
+                onlyCountries: cntrs_list
+            });
+        }
+
+        $(document).ready(function() {
+            if ($phone_input.length == 1) {
+
+                if ($('.intl-tel-input .selected-flag .iti-flag').hasClass('ru')) {
+                    $phone_input.attr('placeholder', '912 333-33-33');
+                }
+
+                let mask = $phone_input.attr('placeholder').replace(/[0-9]/g, 0);
+                $phone_input.mask(mask);
+
+                $phone_input.on("countrychange", function(e, countryData) {
+                    if (countryData.iso2 == 'ru') {
+                        $phone_input.attr('placeholder', '912 333-33-33');
+                    }
+
+                    mask = $phone_input.attr('placeholder').replace(/[0-9]/g, 0);
+                    $phone_input.mask(mask).attr('maxlength', 13);
+                });
+
+                $phone_input.parents('form').submit(function() {
+                    if ($('.selected-flag .selected-dial-code').length > 0) {
+                        let phone_code = $(this).find('.selected-flag .selected-dial-code').text();
+                        $(this).append('<input type="hidden" name="phone_code" value="' + phone_code + '">');
+                    }
+
+                    let phone = $phone_input.val();
+                    let placeholder = $phone_input.attr('placeholder');
+
+                    if (typeof(placeholder) !== 'undefined' && phone.length !== placeholder.length) {
+                        $phone_input.addClass('error');
+                        return false;
+                    } else {
+                        $phone_input.removeClass('error');
+                    }
+                });
+            }
+        });
+
+    </script>
+<? else: ?>
+    <script>
+    </script>
+<? endif; ?>
+<script src="js/script.js?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/st/kemstat/js/script.js'); ?>" defer></script>
+</body> </html>
