@@ -1,7 +1,6 @@
 <?require_once ("{$this->layouts_path}/head.php");?>
   <?php  defined('BILLINGMASTER') or die;
- $id=33
- ;
+ $id=33 ;
 $promo= null;
 if(isset( $_GET['partner'])) $promo= $_GET['partner'];
 $product = Product::getProductById($id);
@@ -24,7 +23,7 @@ $metriks = !empty($setting['yacounter']) || $setting['ga_target'] == 1 ? ' onsub
 $flow_ids = Flows::getFlowForProduct($id);
 $flows = Flows::getActualFlowByIDs($flow_ids, $date);
 Log::add('1','log',['flows'=>$flows[0]['flow_id']],'flows.log');
-$promo= $_GET['partner'] ?? null;
+
 
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 

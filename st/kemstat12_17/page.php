@@ -1885,7 +1885,7 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><style
                           <div style="color: rgb(33, 33, 33); font-size: 62px;" data-customstyle="yes">Поможем выбрать профессию мечты</div>
                         </div>
                         <div class="t181__descr t-descr t-descr_lg " field="descr"><span style="font-weight: 400; color: rgb(0, 0, 0);">Ролевая коммуникационно-профориентационная онлайн-игра «Кем стать?»</span>
-                          <br /><span style="font-weight: 400; color: rgb(0, 0, 0);">для школьников от 7 до17 лет</span></div>
+                          <br /><span style="font-weight: 400; color: rgb(0, 0, 0);">для школьников от 7 до 17 лет</span></div>
                         <div class="t181__button-wrapper" style="margin-top:30px;">
                           <a class="t-btn t-btnflex t-btnflex_type_button t-btnflex_md" href="#rec495689835"> <span class="t-btnflex__text">Смотреть программу курса</span>
                             <style>
