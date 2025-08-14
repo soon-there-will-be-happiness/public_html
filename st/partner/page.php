@@ -22,8 +22,6 @@ $metriks = !empty($setting['yacounter']) || $setting['ga_target'] == 1 ? ' onsub
 
 $flow_ids = Flows::getFlowForProduct($id);
 $flows = Flows::getActualFlowByIDs($flow_ids, $date);
-Log::add('1','log',['flows'=>$flows[0]['flow_id']],'flows.log');
-
 
 $partner_id = !empty($_COOKIE['aff_billingmaster'])?$_COOKIE['aff_billingmaster']:null;
 
