@@ -1916,7 +1916,64 @@ class System {
         return $result->execute();
     }
 
+   public static function GetByDate($id_partner = null, $date = null)
+{
+    $db = Db::getConnection();
 
+    $sql = 'SELECT * FROM '.PREFICS.'oferta 
+            WHERE (:id_partner IS NULL AND id_partner IS NULL OR id_partner = :id_partner)
+              AND (:date IS NULL OR DATE(data) = :date)
+            ORDER BY data ASC';
+
+    $result = $db->prepare($sql);
+    $result->bindParam(':id_partner', $id_partner, PDO::PARAM_INT);
+    $result->bindParam(':date', $date, PDO::PARAM_STR);
+    $result->execute();
+
+    return $result->fetchAll(PDO::FETCH_ASSOC);
+}
+
+  public static function InsertOferta($text, $id_partner = null)
+    {
+        $db = Db::getConnection();
+
+        if ($id_partner === null) {
+            $sql = 'INSERT INTO '.PREFICS.'oferta (text, data) 
+                    VALUES (:text, NOW())';
+        } else {
+            $sql = 'INSERT INTO '.PREFICS.'oferta (text, id_partner, data) 
+                    VALUES (:text, :id_partner, NOW())';
+        }
+
+        $result = $db->prepare($sql);
+        $result->bindParam(':text', $text, PDO::PARAM_STR);
+
+        if ($id_partner !== null) {
+            $result->bindParam(':id_partner', $id_partner, PDO::PARAM_INT);
+        }
+
+        return $result->execute();
+    }
+
+    public static function GetWithPartner()
+    {
+        $db = Db::getConnection();
+        $sql = 'SELECT * FROM '.PREFICS.'oferta 
+                WHERE id_partner IS NOT NULL 
+                ORDER BY data ASC';
+        $result = $db->query($sql);
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function GetWithoutPartner()
+    {
+        $db = Db::getConnection();
+        $sql = 'SELECT * FROM '.PREFICS.'oferta 
+                WHERE id_partner IS NULL 
+                ORDER BY data ASC';
+        $result = $db->query($sql);
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
     /**
      * @param $client_letter_subj
      * @param $client_letter

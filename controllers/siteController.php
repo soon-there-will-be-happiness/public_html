@@ -152,70 +152,116 @@ class siteController extends baseController {
     }
     
     
-    // СТРАНИЦА ОФЕРТЫ
-   /* public function actionOferta()
-   {
-       $params['params']['commenthead'] = null;
-       $page['in_head'] = '<style>#page {padding:5%}</style>';
-       $page['in_body']= null;
-       $page['content'] = $this->main_settings['oferta_text'];
-   
-       $this->setSEOParams($this->main_settings['oferta_link']);
-   
-       $this->setViewPath('static/static_nostyle.php');
-       require_once($this->view['path']);
-       return true;
-   } */
-    
     
     // +KEMSTAT-8
-    public function actionOferta()
-    {
-        $partner_id = null;
+public function actionOferta()
+{
+    $partner_id = null;
+    $dateParam = null;
 
-        // Проверяем GET-параметр
-        if (isset($_GET['partner_id']) && ctype_digit($_GET['partner_id'])) {
-            $partner_id = intval($_GET['partner_id']);
-        }
-
-        // Проверяем cookie, если GET-параметр отсутствует
-        elseif (isset($_COOKIE['aff_billingmaster']) && ctype_digit($_COOKIE['aff_billingmaster'])) {
-            $partner_id = intval($_COOKIE['aff_billingmaster']);
-        }
-
-        $partner_data = Aff::getPartnerReq($partner_id);
-        $params['params']['commenthead'] = null;
-        $page['in_head'] = '<style>#page {padding:5%}</style>';
-        $page['in_body']= null;
-        if($partner_data)
-        {
-            $setting_main = System::getSettingMainpageBySecondId();
-            $partner_req = $partner_data['requsits'];
-            $data = unserialize($partner_req);
-            // Извлечение fio и inn
-            $fio = $data['rs']['fio'];
-            $inn = $data['rs']['inn'];
-            
-            $user = User::getUserDataForAdmin($partner_id);
-            $email = $user['email'];
-            $phone = $user['phone'];
-            $page['content'] =$setting_main['oferta_text'];
-            $replace = array(
-                        '[FIO]' => !empty($fio)?$fio:"Ivanov",
-                        '[INN]' => !empty($inn)?$inn:"000000000",
-                        '[EMAIL]' => !empty($email)?$email:"example@exp.com",
-                        '[PHONE]' => !empty($phone)?$phone:"+789999999999",
-                    );
-            $page['content'] = strtr($page['content'], $replace);
-        } else{
-            $page['content'] = $this->main_settings['oferta_text'];
-        }
-        
-        $this->setSEOParams($this->main_settings['oferta_link']);
-        $this->setViewPath('static/static_nostyle.php');
-        require_once($this->view['path']);
-        return true;
+    // Проверяем GET-параметр partner_id
+    if (isset($_GET['partner_id']) && ctype_digit($_GET['partner_id'])) {
+        $partner_id = intval($_GET['partner_id']);
     }
+    // Проверяем cookie, если GET-параметр отсутствует
+    elseif (isset($_COOKIE['aff_billingmaster']) && ctype_digit($_COOKIE['aff_billingmaster'])) {
+        $partner_id = intval($_COOKIE['aff_billingmaster']);
+    }
+
+    // Проверяем GET-параметр data
+    if (isset($_GET['data'])) {
+        $dateParam = preg_replace('/[^0-9\-]/', '', $_GET['data']); // защита от мусора
+    }
+
+
+    $params['params']['commenthead'] = null;
+    $page['in_head'] = '<style>#page {padding:5%}</style>';
+    $page['in_body'] = null;
+
+    $setting_main = System::getSettingMainpageBySecondId();
+
+    if ( $partner_id != null) {
+        
+    $partner_data = Aff::getPartnerReq($partner_id);
+        // Если есть партнёр
+        if ($dateParam) {
+            $oferta_texts = System::GetByDate($partner_id, $dateParam);
+        } else {
+            $oferta_texts = System::GetWithPartner();
+        }
+
+        // Подстановка данных партнёра
+        $partner_req = $partner_data['requsits'];
+        $data = unserialize($partner_req);
+
+        $fio   = $data['rs']['fio']   ?? "Ivanov";
+        $inn   = $data['rs']['inn']   ?? "000000000";
+        $user  = User::getUserDataForAdmin($partner_id);
+        $email = $user['email'] ?? "example@exp.com";
+        $phone = $user['phone'] ?? "+789999999999";
+
+        // Если оферта по дате есть → берём её текст
+        if ($dateParam && !empty($oferta_texts)) {
+            $page['content'] = $oferta_texts[0]['text'];
+        } else {
+            $page['content'] = $setting_main['oferta_text'];
+        }
+
+        $replace = [
+            '[FIO]'   => $fio,
+            '[INN]'   => $inn,
+            '[EMAIL]' => $email,
+            '[PHONE]' => $phone,
+        ];
+        $page['content'] = strtr($page['content'], $replace);
+
+        // Ссылки
+        $linksHtml = "<ul>";
+        foreach ($oferta_texts as $row) {
+            $dateStr = date('Y-m-d', strtotime($row['data']));
+            $link = "https://".$_SERVER['HTTP_HOST']."/oferta?partner_id=".$partner_id."&data=".$dateStr;
+            $linksHtml .= "<li><a href=\"{$link}\">Оферта от {$dateStr}</a></li>";
+        }
+        $linksHtml .= "</ul>";
+
+        $page['content'] = $linksHtml.      $page['content'] ;
+        $page['oferta_texts'] = $oferta_texts;     $page['oferta_text2'] = $oferta_texts;
+
+    } else {
+         $setting_main = System::getSettingMainpage();
+        // Если партнёр не найден
+        if ($dateParam) {
+            $oferta_texts = System::GetByDate(1, $dateParam);
+        } else {
+            $oferta_texts = System::GetWithoutPartner();
+        }
+
+        if ($dateParam && !empty($oferta_texts)) {
+            $page['content'] = $oferta_texts[0]['text'];
+        } else {
+            $page['content'] = $setting_main['oferta_text'];
+        }
+
+        // Ссылки
+        $linksHtml = "<ul>";
+        foreach ($oferta_texts as $row) {
+            $dateStr = date('Y-m-d', strtotime($row['data']));
+            $link = "https://".$_SERVER['HTTP_HOST']."/oferta?data=".$dateStr;
+            $linksHtml .= "<li><a href=\"{$link}\">Оферта от {$dateStr}</a></li>";
+        }
+        $linksHtml .= "</ul>";
+
+          $page['content'] = $linksHtml.      $page['content'] ;
+        $page['oferta_texts'] = $oferta_texts;
+    }
+
+    $this->setSEOParams($this->main_settings['oferta_link']);
+    $this->setViewPath('static/static_nostyle.php');
+    require_once($this->view['path']);
+    return true;
+}
+
+
     // -KEMSTAT-8
     
     
