@@ -182,7 +182,7 @@ public function actionOferta()
 
     if ( $partner_id != null) {
         
-    $partner_data = Aff::getPartnerReq($partner_id)[0];
+    $partner_data = Aff::getPartnerReq($partner_id);
         // Если есть партнёр
         if ($dateParam) {
             $oferta_texts = System::GetByDate($partner_id, $dateParam);
