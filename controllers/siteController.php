@@ -218,8 +218,12 @@ public function actionOferta()
         // Ссылки
         $linksHtml = "<ul>";
         foreach ($oferta_texts as $row) {
-            $dateStr = date('Y-m-d', strtotime($row['data']));
-            $link = "https://".$_SERVER['HTTP_HOST']."/oferta?partner_id=".$partner_id."&data=".$dateStr;
+            $dateStr = date('Y-m-d H:i:s', strtotime($row['data'])); // дата + время
+            if ($partner_id) {
+                $link = "https://".$_SERVER['HTTP_HOST']."/oferta?partner_id=".$partner_id."&data=".$dateStr;
+            } else {
+                $link = "https://".$_SERVER['HTTP_HOST']."/oferta?data=".$dateStr;
+            }
             $linksHtml .= "<li><a href=\"{$link}\">Оферта от {$dateStr}</a></li>";
         }
         $linksHtml .= "</ul>";
@@ -245,13 +249,17 @@ public function actionOferta()
         // Ссылки
         $linksHtml = "<ul>";
         foreach ($oferta_texts as $row) {
-            $dateStr = date('Y-m-d', strtotime($row['data']));
-            $link = "https://".$_SERVER['HTTP_HOST']."/oferta?data=".$dateStr;
+            $dateStr = date('Y-m-d H:i:s', strtotime($row['data'])); // дата + время
+            if ($partner_id) {
+                $link = "https://".$_SERVER['HTTP_HOST']."/oferta?partner_id=".$partner_id."&data=".$dateStr;
+            } else {
+                $link = "https://".$_SERVER['HTTP_HOST']."/oferta?data=".$dateStr;
+            }
             $linksHtml .= "<li><a href=\"{$link}\">Оферта от {$dateStr}</a></li>";
         }
         $linksHtml .= "</ul>";
 
-          $page['content'] = $linksHtml.      $page['content'] ;
+        $page['content'] = $linksHtml.      $page['content'] ;
         $page['oferta_texts'] = $oferta_texts;
     }
 
