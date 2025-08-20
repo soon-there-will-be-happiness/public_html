@@ -232,13 +232,8 @@ public function actionOferta()
         $page['oferta_texts'] = $oferta_texts;     $page['oferta_text2'] = $oferta_texts;
 
     } else {
-         $setting_main = System::getSettingMainpage();
-        // Если партнёр не найден
-        if ($dateParam) {
-            $oferta_texts = System::GetByDate(1, $dateParam);
-        } else {
-            $oferta_texts = System::GetWithoutPartner();
-        }
+        $setting_main = System::getSettingMainpage();
+        $oferta_texts = System::GetWithoutPartner();
 
         if ($dateParam && !empty($oferta_texts)) {
             $page['content'] = $oferta_texts[0]['text'];
@@ -266,8 +261,7 @@ public function actionOferta()
     $this->setSEOParams($this->main_settings['oferta_link']);
     $this->setViewPath('static/static_nostyle.php');
     require_once($this->view['path']);
-    return true;
-}
+    return true;}
 
 
     // -KEMSTAT-8
