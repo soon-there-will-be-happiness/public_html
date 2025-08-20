@@ -1960,7 +1960,7 @@ class System {
         $db = Db::getConnection();
         $sql = 'SELECT * FROM '.PREFICS.'oferta 
                 WHERE id_partner IS NOT NULL 
-                ORDER BY data ASC';
+                ORDER BY data DESC ';
         $result = $db->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -1970,7 +1970,7 @@ class System {
         $db = Db::getConnection();
         $sql = 'SELECT * FROM '.PREFICS.'oferta 
                 WHERE id_partner IS NULL 
-                ORDER BY data ASC';
+                ORDER BY data DESC ';
         $result = $db->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }

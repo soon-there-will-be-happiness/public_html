@@ -243,11 +243,11 @@ class adminSettingController extends AdminBase {
                 }
         }
     }    
-        $oferta_texts=System::GetWithPartner(1);
+        $oferta_texts=System::GetWithPartner();
         $is_equal1=false;
         if($oferta_texts!=null){
             if($oferta_texts[0]!=null){
-                      if($oferta_texts[0]['text'] == $oferta_text)
+                      if($oferta_texts[0]['text'] == $oferta_text2)
                 {
                     $is_equal1=true;
                 }
