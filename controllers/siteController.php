@@ -157,42 +157,42 @@ class siteController extends baseController {
 public function actionOferta()
 {
     $partner_id = null;
-    $dateParam = null;
+    $dateParam  = null;
 
-    // Проверяем GET-параметр partner_id
-    if (isset($_GET['partner_id']) && ctype_digit($_GET['partner_id'])) {
-        $partner_id = intval($_GET['partner_id']);
-    }
-    // Проверяем cookie, если GET-параметр отсутствует
-    elseif (isset($_COOKIE['aff_billingmaster']) && ctype_digit($_COOKIE['aff_billingmaster'])) {
-        $partner_id = intval($_COOKIE['aff_billingmaster']);
+    // 1. Получаем partner_id из GET или cookie
+    if (!empty($_GET['partner_id']) && ctype_digit($_GET['partner_id'])) {
+        $partner_id = (int) $_GET['partner_id'];
+    } elseif (!empty($_COOKIE['aff_billingmaster']) && ctype_digit($_COOKIE['aff_billingmaster'])) {
+        $partner_id = (int) $_COOKIE['aff_billingmaster'];
     }
 
-    // Проверяем GET-параметр data
-    if (isset($_GET['data'])) {
-        $dateParam = preg_replace('/[^0-9\-]/', '', $_GET['data']); // защита от мусора
+    // 2. Получаем дату из GET (форматируем в Y-m-d H:i:s)
+    if (!empty($_GET['data'])) {
+        $cleanDate = preg_replace('/[^0-9\-\s:]/', '', $_GET['data']);
+        $timestamp = strtotime($cleanDate);
+        if ($timestamp) {
+            $dateParam = date('Y-m-d H:i:s', $timestamp);
+        }
     }
 
-
+    // 3. Общие параметры страницы
     $params['params']['commenthead'] = null;
     $page['in_head'] = '<style>#page {padding:5%}</style>';
     $page['in_body'] = null;
 
-    $setting_main = System::getSettingMainpageBySecondId();
+    // ---------- Если партнёр ----------
+    if ($partner_id) {
+        $setting_main = System::getSettingMainpageBySecondId();
+        $partner_data = Aff::getPartnerReq($partner_id);
 
-    if ( $partner_id != null) {
-        
-    $partner_data = Aff::getPartnerReq($partner_id);
-        // Если есть партнёр
-        if ($dateParam) {
-            $oferta_texts = System::GetByDate($partner_id, $dateParam);
-        } else {
-            $oferta_texts = System::GetWithPartner();
-        }
+        // Получаем тексты оферт
+        $oferta_texts = $dateParam
+            ? System::GetByDate(1, $dateParam)
+            : System::GetWithPartner();
 
         // Подстановка данных партнёра
-        $partner_req = $partner_data['requsits'];
-        $data = unserialize($partner_req);
+        $partner_req = $partner_data['requsits'] ?? '';
+        $data = @unserialize($partner_req) ?: [];
 
         $fio   = $data['rs']['fio']   ?? "Ivanov";
         $inn   = $data['rs']['inn']   ?? "000000000";
@@ -200,13 +200,14 @@ public function actionOferta()
         $email = $user['email'] ?? "example@exp.com";
         $phone = $user['phone'] ?? "+789999999999";
 
-        // Если оферта по дате есть → берём её текст
-        if ($dateParam && !empty($oferta_texts)) {
+        // Определяем текст оферты
+        if (!empty($oferta_texts) && $dateParam) {
             $page['content'] = $oferta_texts[0]['text'];
         } else {
             $page['content'] = $setting_main['oferta_text'];
         }
 
+        // Подставляем реквизиты
         $replace = [
             '[FIO]'   => $fio,
             '[INN]'   => $inn,
@@ -215,60 +216,50 @@ public function actionOferta()
         ];
         $page['content'] = strtr($page['content'], $replace);
 
-        // Ссылки
-        $linksHtml = "<ul>";
-        foreach ($oferta_texts as $row) {
-            $dateStr = date('Y-m-d H:i:s', strtotime($row['data'])); // дата + время
-            if ($partner_id) {
-                $link = "https://".$_SERVER['HTTP_HOST']."/oferta?partner_id=".$partner_id."&data=".$dateStr;
-            } else {
-                $link = "https://".$_SERVER['HTTP_HOST']."/oferta?data=".$dateStr;
-            }
-            $linksHtml .= "<li><a href=\"{$link}\">Оферта от {$dateStr}</a></li>";
-        }
-        $linksHtml .= "</ul>";
-
-        $page['content'] = $linksHtml.      $page['content'] ;
-        $page['oferta_texts'] = $oferta_texts;     $page['oferta_text2'] = $oferta_texts;
-
+    // ---------- Если партнёра нет ----------
     } else {
-         $setting_main = System::getSettingMainpage();
-        // Если партнёр не найден
-        if ($dateParam) {
-            $oferta_texts = System::GetByDate(0, $dateParam);
-        } else {
-            $oferta_texts = System::GetWithoutPartner();
-        }
+        $setting_main = System::getSettingMainpage();
 
-        if ($dateParam && !empty($oferta_texts)) {
+        $oferta_texts = $dateParam
+            ? System::GetByDate(null, $dateParam)
+            : System::GetWithoutPartner();
+
+        if (!empty($oferta_texts) && $dateParam) {
             $page['content'] = $oferta_texts[0]['text'];
         } else {
             $page['content'] = $setting_main['oferta_text'];
         }
-
-        // Ссылки
-        $linksHtml = "<ul>";
-        foreach ($oferta_texts as $row) {
-            $dateStr = date('Y-m-d H:i:s', strtotime($row['data'])); // дата + время
-            if ($partner_id) {
-                $link = "https://".$_SERVER['HTTP_HOST']."/oferta?partner_id=".$partner_id."&data=".$dateStr;
-            } else {
-                $link = "https://".$_SERVER['HTTP_HOST']."/oferta?data=".$dateStr;
-            }
-            $linksHtml .= "<li><a href=\"{$link}\">Оферта от {$dateStr}</a></li>";
-        }
-        $linksHtml .= "</ul>";
-
-          $page['content'] = $linksHtml.      $page['content'] ;
-        $page['oferta_texts'] = $oferta_texts;
     }
 
+    // 4. Генерация списка ссылок
+    $linksHtml = "<ul>";
+    foreach ($oferta_texts as $row) {
+        $dateStr   = date('Y-m-d H:i:s', strtotime($row['data'])); // ISO формат
+        $urlDate   = urlencode($dateStr);
+
+        if ($partner_id) {
+            $link = "https://{$_SERVER['HTTP_HOST']}/oferta?partner_id={$partner_id}&data={$urlDate}";
+        } else {
+            $link = "https://{$_SERVER['HTTP_HOST']}/oferta?data={$urlDate}";
+        }
+
+        // Человеческий формат для отображения
+        $displayDate = date('d.m.Y H:i:s', strtotime($row['data']));
+        $linksHtml  .= "<li><a href=\"{$link}\">Оферта от {$displayDate}</a></li>";
+    }
+    $linksHtml .= "</ul>";
+
+    // 5. Ссылки + контент
+    $page['content']      = $linksHtml . $page['content'];
+    $page['oferta_texts'] = $oferta_texts;
+
+    // 6. SEO + вывод
     $this->setSEOParams($this->main_settings['oferta_link']);
     $this->setViewPath('static/static_nostyle.php');
     require_once($this->view['path']);
+
     return true;
 }
-
 
     // -KEMSTAT-8
     

@@ -1916,20 +1916,32 @@ class System {
         return $result->execute();
     }
 
-   public static function GetByDate($id_partner = null, $date = null)
+public static function GetByDate($id_partner = null, $date = null)
 {
     $db = Db::getConnection();
 
-    $sql = 'SELECT * FROM '.PREFICS.'oferta 
-            WHERE (:id_partner IS NULL AND id_partner IS NULL OR id_partner = :id_partner)
-              AND (:date IS NULL OR DATE(data) = :date)
-            ORDER BY data ASC';
+    if ($id_partner !== null) {
+        // Если указан partner_id
+        $sql = 'SELECT * FROM '.PREFICS.'oferta 
+                WHERE id_partner = :id_partner
+                  AND   data = :date
+                ORDER BY data ASC';
 
-    $result = $db->prepare($sql);
-    $result->bindParam(':id_partner', $id_partner, PDO::PARAM_INT);
-    $result->bindParam(':date', $date, PDO::PARAM_STR);
+        $result = $db->prepare($sql);
+        $result->bindParam(':id_partner', $id_partner, PDO::PARAM_INT);
+        $result->bindParam(':date', $date, PDO::PARAM_STR);
+    } else {
+        // Если partner_id нет (NULL)
+        $sql = 'SELECT * FROM '.PREFICS.'oferta 
+                WHERE
+                   data = :date
+                ORDER BY data ASC';
+
+        $result = $db->prepare($sql);
+        $result->bindParam(':date', $date, PDO::PARAM_STR);
+    }
+
     $result->execute();
-
     return $result->fetchAll(PDO::FETCH_ASSOC);
 }
 
