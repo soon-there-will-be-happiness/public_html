@@ -242,12 +242,12 @@ class adminSettingController extends AdminBase {
                     $is_equal=true;
                 }
         }
-    }  
+    }    
         $oferta_texts=System::GetWithPartner(1);
         $is_equal1=false;
         if($oferta_texts!=null){
             if($oferta_texts[0]!=null){
-                if($oferta_texts[0].['text'] == $oferta_text2)
+                      if($oferta_texts[0]['text'] == $oferta_text)
                 {
                     $is_equal1=true;
                 }
