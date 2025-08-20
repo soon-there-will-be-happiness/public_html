@@ -1933,7 +1933,8 @@ public static function GetByDate($id_partner = null, $date = null)
     } else {
         // Если partner_id нет (NULL)
         $sql = 'SELECT * FROM '.PREFICS.'oferta 
-                WHERE
+                WHERE  id_partner IS NULL
+                AND
                    data = :date
                 ORDER BY data ASC';
 
