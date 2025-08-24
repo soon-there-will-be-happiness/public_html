@@ -350,8 +350,8 @@ class Flows {
     public static function getActualFlowByIDs($flow_ids, $date)
     {
         $db = Db::getConnection();
-        $flow_ids = implode(',', $flow_ids);
-        $result = $db->query("SELECT * FROM ".PREFICS."flows WHERE status = 1 AND public_start < $date AND public_end > $date AND flow_id IN ($flow_ids)");
+        $flow_ids = implode(',', array_map('intval', $flow_ids));
+        $result = $db->query("SELECT * FROM ".PREFICS."flows WHERE status = 1 AND public_start < ".$date." AND public_end > ".$date." AND flow_id IN (".$flow_ids.")");
         $data = [];
         while($row = $result->fetch(PDO::FETCH_ASSOC)){
         	$data[] = $row;
@@ -468,11 +468,12 @@ class Flows {
         
         // Сопоставляем group_ids в том же порядке, что и group_names
         $group_ids = [];
+        Log::add(1,"Flows",['group_names'=>$group_names,'group_map'=>$group_map],'Flows_schedule.log');
         foreach ($group_names as $name) {
             if (isset($group_map[$name])) {
                 $group_ids[] = $group_map[$name];
             } else {
-                throw new Exception("Группа с именем '{$name}' не найдена.");
+                throw new Exception("Group with name '{$name}' not found.");
             }
         }
         

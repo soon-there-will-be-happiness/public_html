@@ -50,6 +50,44 @@ class Email {
             $sender_name = $setting['sender_name'];
             $sender_name = html_entity_decode($sender_name);
 
+        $user = User::getUserDataByEmail($email);
+
+        if (preg_match('/LINK_(\d+)_PLANE_(\d+)/', $text, $matches)) {
+            $product_id = $matches[1]; // 3
+            $plane_id = $matches[2]; // 5
+            Log::add(5,'TEST', ["product_id" => $product_id, "plane_id" => $plane_id],'member_test.log');
+            $plane = Member::getPlaneByID($plane_id);
+            $product = Product::getProductById($product_id);
+            if ($plane['renewal_type'] != 3) {
+    
+                if ($plane['renewal_type'] == 1) {
+                    $link = $setting['script_url'].'/buy/'.$product['product_id'];
+                } elseif ($plane['renewal_type'] == 2) {
+                    $link = $setting['script_url'].'/catalog/'.$product['product_alias'];
+                }
+            } else {
+                $link = $plane['renewal_link'];
+            }
+            $linkToEmail = $link;
+            $partner_id=Order::getPayedOrderDataByClientAndProduct($user['email'],$product['product_id']);
+            if($product['product_id'] == 28) {
+                $linkToEmail = "{$link}?partner={$partner_id['partner_id']}&user={$user['user_name']}&email={$user['email']}&phone={$user['phone']}#pay";
+            } 
+            $text = preg_replace('/\[LINK_\d+_PLANE_\d+\]/', $linkToEmail, $text);
+        }
+
+       
+        $replace = array(
+            '[NAME]' => $user['user_name'],
+            '[CLIENT_NAME]' => $user['user_name'],
+            '[SURNAME]' => $user['surname'],
+            '[EMAIL]' => $user['email'],
+            '[NICK_TG]' => $user['nick_telegram'],
+            '[NICK_IG]' => $user['nick_instagram']
+        );
+
+        $text = strtr($text, $replace);
+
         $send = self::sender($email, $subject, $text, $setting, $sender_name, $setting['sender_email'], $is_testLetter, $reply_to, $addit_data);
 
         return $send ? true : false;

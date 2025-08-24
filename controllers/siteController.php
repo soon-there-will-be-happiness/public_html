@@ -152,70 +152,115 @@ class siteController extends baseController {
     }
     
     
-    // СТРАНИЦА ОФЕРТЫ
-   /* public function actionOferta()
-   {
-       $params['params']['commenthead'] = null;
-       $page['in_head'] = '<style>#page {padding:5%}</style>';
-       $page['in_body']= null;
-       $page['content'] = $this->main_settings['oferta_text'];
-   
-       $this->setSEOParams($this->main_settings['oferta_link']);
-   
-       $this->setViewPath('static/static_nostyle.php');
-       require_once($this->view['path']);
-       return true;
-   } */
-    
     
     // +KEMSTAT-8
-    public function actionOferta()
-    {
-        $partner_id = null;
+public function actionOferta()
+{
+    $partner_id = null;
+    $dateParam  = null;
 
-        // Проверяем GET-параметр
-        if (isset($_GET['partner_id']) && ctype_digit($_GET['partner_id'])) {
-            $partner_id = intval($_GET['partner_id']);
-        }
-
-        // Проверяем cookie, если GET-параметр отсутствует
-        elseif (isset($_COOKIE['aff_billingmaster']) && ctype_digit($_COOKIE['aff_billingmaster'])) {
-            $partner_id = intval($_COOKIE['aff_billingmaster']);
-        }
-
-        $partner_data = Aff::getPartnerReq($partner_id);
-        $params['params']['commenthead'] = null;
-        $page['in_head'] = '<style>#page {padding:5%}</style>';
-        $page['in_body']= null;
-        if($partner_data)
-        {
-            $setting_main = System::getSettingMainpageBySecondId();
-            $partner_req = $partner_data['requsits'];
-            $data = unserialize($partner_req);
-            // Извлечение fio и inn
-            $fio = $data['rs']['fio'];
-            $inn = $data['rs']['inn'];
-            
-            $user = User::getUserDataForAdmin($partner_id);
-            $email = $user['email'];
-            $phone = $user['phone'];
-            $page['content'] =$setting_main['oferta_text'];
-            $replace = array(
-                        '[FIO]' => !empty($fio)?$fio:"Ivanov",
-                        '[INN]' => !empty($inn)?$inn:"000000000",
-                        '[EMAIL]' => !empty($email)?$email:"example@exp.com",
-                        '[PHONE]' => !empty($phone)?$phone:"+789999999999",
-                    );
-            $page['content'] = strtr($page['content'], $replace);
-        } else{
-            $page['content'] = $this->main_settings['oferta_text'];
-        }
-        
-        $this->setSEOParams($this->main_settings['oferta_link']);
-        $this->setViewPath('static/static_nostyle.php');
-        require_once($this->view['path']);
-        return true;
+    // 1. Получаем partner_id из GET или cookie
+    if (!empty($_GET['partner_id']) && ctype_digit($_GET['partner_id'])) {
+        $partner_id = (int) $_GET['partner_id'];
+    } elseif (!empty($_COOKIE['aff_billingmaster']) && ctype_digit($_COOKIE['aff_billingmaster'])) {
+        $partner_id = (int) $_COOKIE['aff_billingmaster'];
     }
+
+    // 2. Получаем дату из GET (форматируем в Y-m-d H:i:s)
+    if (!empty($_GET['data'])) {
+        $cleanDate = preg_replace('/[^0-9\-\s:]/', '', $_GET['data']);
+        $timestamp = strtotime($cleanDate);
+        if ($timestamp) {
+            $dateParam = date('Y-m-d H:i:s', $timestamp);
+        }
+    }
+
+    // 3. Общие параметры страницы
+    $params['params']['commenthead'] = null;
+    $page['in_head'] = '<style>#page {padding:5%}</style>';
+    $page['in_body'] = null;
+
+    // ---------- Если партнёр ----------
+    if ($partner_id) {
+        $setting_main = System::getSettingMainpageBySecondId();
+        $partner_data = Aff::getPartnerReq($partner_id);
+
+        // Получаем тексты оферт
+        $oferta_texts = $dateParam
+            ? System::GetByDate(1, $dateParam)
+            : System::GetWithPartner();
+
+        // Подстановка данных партнёра
+        $partner_req = $partner_data['requsits'] ?? '';
+        $data = @unserialize($partner_req) ?: [];
+
+        $fio   = $data['rs']['fio']   ?? "Ivanov";
+        $inn   = $data['rs']['inn']   ?? "000000000";
+        $user  = User::getUserDataForAdmin($partner_id);
+        $email = $user['email'] ?? "example@exp.com";
+        $phone = $user['phone'] ?? "+789999999999";
+
+        // Определяем текст оферты
+        if (!empty($oferta_texts) && $dateParam) {
+            $page['content'] = $oferta_texts[0]['text'];
+        } else {
+            $page['content'] = $setting_main['oferta_text'];
+        }
+
+        // Подставляем реквизиты
+        $replace = [
+            '[FIO]'   => $fio,
+            '[INN]'   => $inn,
+            '[EMAIL]' => $email,
+            '[PHONE]' => $phone,
+        ];
+        $page['content'] = strtr($page['content'], $replace);
+
+    // ---------- Если партнёра нет ----------
+    } else {
+        $setting_main = System::getSettingMainpage();
+
+        $oferta_texts = $dateParam
+            ? System::GetByDate(null, $dateParam)
+            : System::GetWithoutPartner();
+
+        if (!empty($oferta_texts) && $dateParam) {
+            $page['content'] = $oferta_texts[0]['text'];
+        } else {
+            $page['content'] = $setting_main['oferta_text'];
+        }
+    }
+
+    // 4. Генерация списка ссылок
+    $linksHtml = "<ul>";
+    foreach ($oferta_texts as $row) {
+        $dateStr   = date('Y-m-d H:i:s', strtotime($row['data'])); // ISO формат
+        $urlDate   = urlencode($dateStr);
+
+        if ($partner_id) {
+            $link = "https://{$_SERVER['HTTP_HOST']}/oferta?partner_id={$partner_id}&data={$urlDate}";
+        } else {
+            $link = "https://{$_SERVER['HTTP_HOST']}/oferta?data={$urlDate}";
+        }
+
+        // Человеческий формат для отображения
+        $displayDate = date('d.m.Y H:i:s', strtotime($row['data']));
+        $linksHtml  .= "<li><a href=\"{$link}\">Оферта от {$displayDate}</a></li>";
+    }
+    $linksHtml .= "</ul>";
+
+    // 5. Ссылки + контент
+    $page['content']      = $linksHtml . $page['content'];
+    $page['oferta_texts'] = $oferta_texts;
+
+    // 6. SEO + вывод
+    $this->setSEOParams($this->main_settings['oferta_link']);
+    $this->setViewPath('static/static_nostyle.php');
+    require_once($this->view['path']);
+
+    return true;
+}
+
     // -KEMSTAT-8
     
     
@@ -271,13 +316,29 @@ class siteController extends baseController {
         require_once (ROOT.'/st/ambassador/page.php');
         return true;
     }
+    public function actionPartner(){
+        require_once (ROOT.'/st/partner/page.php');
+        return true;
+    }
     
+    public function actionKemstat7_11(){
+        require_once (ROOT.'/st/kemstat7_11/page.php');
+        return true;
+    }
     
+
+    public function actionKemstat12_17(){
+        require_once (ROOT.'/st/kemstat12_17/page.php');
+        return true;
+    }
+
+
+
     public function actionFree(){
         require_once (ROOT.'/st/free/page.php');
         return true;
     }
-    
+
     
     public function actionKemstat()
     {  

@@ -57,11 +57,11 @@ if($plane_list){
                     foreach($search_list as $item) {
                         // Получить данные юзера
                         $user = User::getUserById($item['user_id']);
-                        echo '\nemail: '.$user['email'];
+                        //echo 'email: '.$user['email'].'\nlink:'.$linkToEmail.'\n';
                         $partner_id=Order::getPayedOrderDataByClientAndProduct($user['email'],$product['product_id']);
-                        echo 'partner_id: '.$partner_id;
+                        //var_dump($partner_id);
                         if($product['product_id'] == 28) {
-                            $linkToEmail = "{$link}?partner={$partner_id['partner_id']}#pay";
+                            $linkToEmail = "{$link}?partner={$partner_id['partner_id']}&user={$user['user_name']}&email={$user['email']}&phone={$user['phone']}#pay";
                         } else {
                             $linkToEmail="{$link}?subs_id={$item['id']}";
                         }
@@ -72,23 +72,21 @@ if($plane_list){
                             continue;
                         }
                         if ($plane[$letter_status_key]) { // Отправить письмо клиенту
-                            $send = Email::SendExpirationMessageByClient($user['email'], $user['user_name'],
+                            $send = false;/*Email::SendExpirationMessageByClient($user['email'], $user['user_name'],
                                 $plane[$letter_subj_key], $plane[$letter_text_key], $linkToEmail
-                            );
+                            );*/
                             $text = 'У клиента '.$user['user_name'].' '.$user['email']." через $plane[$letter_time_key] часов заканчивается подписка. Напомните ему, чтобы он не пропустил";
+    
 
+                            //Email::SendMessageToBlank($partner_id['email'], 'Окончание подписки у вашего ученика', 'Окончание подписки у вашего ученика. Ссылка продления: '. $linkToEmail, $text);
+                            Log::add(1,'Data', [
+                                "email" => $user['email'],
+                                "kick_time" => $kick_time,
+                                "letter_time_key"=>$letter_time_key,
+                                "item"=>$item,
+                                ]
+                                ,'test_membership.log');
 
-                            Email::SendMessageToBlank($partner_id['email'], 'Окончание подписки у вашего ученика', 'Окончание подписки у вашего ученика', $text);
-
-
-                            // Обновить
-                            $num = 1;
-                            $sql = 'UPDATE '.PREFICS."member_maps SET send_notification = :notif WHERE id = :map_id";
-
-                            $result = $db->prepare($sql);
-                            $result->bindParam(':map_id', $map['id'], PDO::PARAM_INT);
-                            $result->bindParam(':notif', $num, PDO::PARAM_INT);
-                            return $result->execute();
                         }
 
                         if ($plane[$sms_status_key] && $user['phone']) {
@@ -128,13 +126,13 @@ if($recurrents){
 
 }
 
-$planes = Member::SearchExpirePlane();
+/*$planes = Member::SearchExpirePlane();
 
 if ($planes) {
     Member::deleteExpirePlanes($planes);
     Member::addUsersToGroupsByExpPlns($planes);
     Member::addPlanesToUser($planes);
-}
+}*/
 
 //Пишем в таблицу логов крона
 //TODO в дальнейшем надо сделать модели и класс если этот функционал будет расширятся

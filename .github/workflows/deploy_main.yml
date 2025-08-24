@@ -1,0 +1,19 @@
+name: Deploy to Production (Main Branch)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH to Production (Main)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_SSH_HOST }}
+          username: ${{ secrets.PROD_SSH_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            BRANCH=main /bin/bash /home/t/${{ secrets.PROD_SSH_USER }}/deploy_main.sh
