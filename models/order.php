@@ -194,7 +194,12 @@ class Order {
                 {
                     $membership = System::CheckExtensension('membership', 1);
                     if ($membership && $client && !empty($product['subscription_id']) && ($order['installment_map_id'] == 0 || $installment_map['pay_actions'] == null)) {
-                        Member::renderMember($product['subscription_id'], $client['user_id'], 1, $subscription_id, $order['subs_id']);
+                        if ($product['product_id']== 28 || $product['product_id']== 38) {
+                            $start_date = (new DateTime())->modify('next sunday')->setTime(0, 0)->format('Y-m-d H:i:s');
+                            Member::renderMember($product['subscription_id'], $client['user_id'], 1, $subscription_id, $order['subs_id'], $start_date);
+                        } else {
+                            Member::renderMember($product['subscription_id'], $client['user_id'], 1, $subscription_id, $order['subs_id']);
+                        }
                     }
                 }
 
@@ -449,7 +454,7 @@ class Order {
                     // Считаем комиссию для 2 ур.
                     if ($aff_params['params']['aff_2_level'] > 0) {
                         $partner2 = User::getUserById($partner_id);
-
+                        
                         if ($partner['ref_id'] != 0 || $partner2['from_id'] != 0) {
                             if ($partner2['from_id'] != 0) {
                                 $partner2_id = $partner2['from_id'];
@@ -460,7 +465,7 @@ class Order {
                             }
 
                             $partner_status = $partner2_id ? Aff::PartnerVerify($partner2_id) : null;
-                            if (!$partner_status) {
+                            if (!$partner_status || !Aff::hasActiveStudents($partner2_id)) {
                                 return false;
                             }
 
@@ -482,9 +487,10 @@ class Order {
 
                                 if ($data2['ref_id'] != 0) {
                                     $partner_status = Aff::PartnerVerify($data2['ref_id']);
-                                    if (!$partner_status) {
+                                    if (!$partner_status || !Aff::hasActiveStudents($data2['ref_id'])) {
                                         return false;
                                     }
+                                    
 
                                     $commission_3 = round(($item['price']*0.973 / 100) * $aff_params['params']['aff_3_level']); // комисси ядля партнёра 3 ур.
                                     $total_aff = $total_aff - $commission_3; // остаток суммы с вычтенной комиссией партнёров 1,2 и 3 ур.
@@ -544,6 +550,10 @@ class Order {
                         $data = Aff::getPartnerReq($partner_id);
 
                         if ($data['ref_id'] != 0) {
+                            $partner2_id = $data['ref_id'];
+                            if (!Aff::PartnerVerify($partner2_id) || !Aff::hasActiveStudents($partner2_id)) {
+                                return false;
+                            }
                             $commission_2 = round(($item['price']*0.973 / 100) * $aff_params['params']['aff_2_level']); // комиссия для партнёра 2 ур.
                             $total_aff = $total_aff - $commission_2; // остаток суммы с вычтенной комиссией партнёров 1 и 2 ур.
 
@@ -562,6 +572,9 @@ class Order {
 
                                 if ($data2['ref_id'] != 0) {
                                     $partner3_id = $data2['ref_id'];
+                                    if (!Aff::PartnerVerify($partner3_id) || !Aff::hasActiveStudents($partner3_id)) {
+                                        return false;
+                                    }
                                     $commission_3 = round(($item['price']*0.973 / 100) * $aff_params['params']['aff_3_level']); // комисси ядля партнёра 3 ур.
                                     $total_aff = $total_aff - $commission_3; // остаток суммы с вычтенной комиссией партнёров 1,2 и 3 ур.
 

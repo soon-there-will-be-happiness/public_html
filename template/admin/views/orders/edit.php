@@ -196,7 +196,7 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                                     <div class="del-partner-row">
                                         <div class="del-partner-text"><?=$partner['summ'];?> <?=$setting['currency'];?> (<a target="_blank" href="/admin/users/edit/<?=$partner['user_id'];?>"><?php $partner_name = User::getUserNameByID($partner['user_id']); echo $partner_name['user_name'];?></a>)</div>
                                         <div id="del_partner" class="del_partner">
-                                            <a onclick="deletePartner();"><i class="icon-remove"></i></a>
+                                            <a onclick="deletePartner(this,<?echo (int)$partner['user_id'];?>);"><i class="icon-remove"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -213,7 +213,7 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                                     <div class="del-partner-row">
                                         <div class="del-partner-text"> <a target="_blank" href="/admin/users/edit/<?=$order['partner_id'] ?? ''?>"><?php $order['partner_id'] ? $partner_name = User::getUserNameByID($order['partner_id']) : $partner_name['user_name'] = ''; echo $partner_name['user_name'];?></a></div>
                                         <div id="del_partner" class="del_partner">
-                                            <a onclick="deletePartner();"><i class="icon-remove"></i></a>
+                                            <a onclick="deletePartner(this,<? echo (int)$order['partner_id'];?>);"><i class="icon-remove"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -811,21 +811,29 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
     lang:'ru'
   });
   
-   function deletePartner() {
+   function deletePartner(el,pid) {
+      if (!pid) return;
       if (confirm('Вы точно хотите удалить партнера из заказа и начисления ?')) {
 
          $.ajax({
            url: '/admin/orders/delpartner',
            method: 'post',
            dataType: 'json',
-           data: {order_id:"<?php echo $order['order_id'];?>", partner_id:"<?php echo $order['partner_id'];?>", delpartner: 'true'},
-           success: function(data) {
-             if (data.success) {
-                $('#part_id').remove();
-                $('#del_partner').empty();
-                $('#del_partner').html('<p>Партнер удален...</p>');                 
-             }
-            }
+           data: {order_id:"<?php echo $order['order_id'];?>", partner_id:pid, delpartner: 'true'},
+           success: function (resp) {
+              if (resp && resp.success) {
+                const $row = $(el).closest('.order-data-table__row'); // ← нужная строка
+                // 1) убираем строку с анимацией
+                $row.slideUp(200, function () { $(this).remove(); });
+        
+                // 2) (опц.) выводим мини-сообщение прямо там, где была строка
+                $('<p class="text-muted mb-0">Партнёр удалён…</p>')
+                      .insertAfter($row);
+              } else {
+                alert('Не удалось удалить партнёра');
+              }
+            },
+            error: function () { alert('Ошибка сети'); }
          });
       }
     };

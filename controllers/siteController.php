@@ -272,12 +272,26 @@ class siteController extends baseController {
         return true;
     }
     
+    public function actionPartner(){
+        require_once (ROOT.'/st/partner/page.php');
+        return true;
+    }
+
+    public function actionKemstat7_11(){
+        require_once (ROOT.'/st/kemstat7_11/page.php');
+        return true;
+    }
+
+
+    public function actionKemstat12_17(){
+        require_once (ROOT.'/st/kemstat12_17/page.php');
+        return true;
+    }
     
     public function actionFree(){
         require_once (ROOT.'/st/free/page.php');
         return true;
     }
-    
     
     public function actionKemstat()
     {  

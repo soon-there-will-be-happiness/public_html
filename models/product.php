@@ -2098,8 +2098,8 @@ class Product {
     {
         return [
             [
-                'link' => '/st/kemstat/page',
-                'text' => 'Услуга по профориентации'
+                'link' => '/st/kemstat7_11/page',
+                'text' => 'Услуга по профориентации 7-11 лет'
             ],
             [
                 'link' => '/st/free/page',
@@ -2108,6 +2108,14 @@ class Product {
             [
                 'link' => '/st/ambassador/page',
                 'text' => 'Регистрация амбассадоров'
+            ],
+            [
+                'link' => '/st/kemstat12_17/page',
+                'text' => 'Услуга по профориентации 12-17 лет'
+            ],
+            [
+                'link' => '/st/partner/page',
+                'text' => 'Регистрация партнёров'
             ]
         ];
     }
