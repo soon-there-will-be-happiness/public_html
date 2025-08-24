@@ -2642,7 +2642,7 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><style
                 <div class="t-section__title t-title t-title_xs t-align_center t-margin_auto" field="btitle">
                   Готовы к выбору будущей профессии?
                 </div>
-                <div>
+                <div
                   class="t-section__descr t-descr t-descr_xl t-align_center t-margin_auto" field="bdescr"> Следуя этим шагам уже сегодня можно начать путь выбора работы мечты
                 </div>
               </div>
@@ -2716,7 +2716,7 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><style
     }
   </style>
 </div>
-<div id="rec495689846 " class="r t-rec t-rec_pt_0 t-rec_pb_60 " style="padding-top:0px;padding-bottom:60px; " data-animationappear="off " data-record-type="760 ">
+<div id="rec495689846" class="r t-rec t-rec_pt_0 t-rec_pb_60 " style="padding-top:0px;padding-bottom:60px; " data-animationappear="off " data-record-type="760 ">
   <!-- T760 -->
   <div class="t760 ">
     <div class="t-container js-product js-product-single ">
