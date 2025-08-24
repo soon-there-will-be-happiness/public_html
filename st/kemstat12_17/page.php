@@ -2147,7 +2147,11 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><style
               <div class="t-col t-col_12">
                 <div class="t-section__bottomwrapper t-clear t-align_left">
 
-                  <a class="t-btn t-btnflex t-btnflex_type_bbutton t-btnflex_md" href="#rec495689846"> <span class="t-btnflex__text">Хочу, чтобы у моего ребенка был позитивный сценарий</span>
+                  <a class="t-btn t-btnflex t-btnflex_type_bbutton t-btnflex_md" href="#rec495689846"> 
+              <span class="t-btnflex__text" style="
+
+    white-space: pre-wrap;
+">Хочу, чтобы у моего ребенка был позитивный сценарий</span>
 
                     <style>
                       #rec495689823 .t-btnflex.t-btnflex_type_bbutton {
