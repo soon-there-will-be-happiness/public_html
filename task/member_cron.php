@@ -20,6 +20,7 @@ $db = Db::getConnection();
 $setting = System::getSetting();
 $now = time();
 $name_jobs = "member_cron";
+//echo 'email: ';
 
 // Получить список планов подписки и перебрать их
 
@@ -58,10 +59,10 @@ if($plane_list){
                         // Получить данные юзера
                         $user = User::getUserById($item['user_id']);
                         //echo 'email: '.$user['email'].'\nlink:'.$linkToEmail.'\n';
-                        $partner_id=Order::getPayedOrderDataByClientAndProduct($user['email'],$product['product_id']);
+                        $partner_id=User::getUserDataByEmail($user['email']);
                         //var_dump($partner_id);
                         if($product['product_id'] == 28) {
-                            $linkToEmail = "{$link}?partner={$partner_id['partner_id']}&user={$user['user_name']}&email={$user['email']}&phone={$user['phone']}#pay";
+                            $linkToEmail = "{$link}?partner={$partner_id['from_id']}&user={$user['user_name']}&email={$user['email']}&phone={$user['phone']}#pay";
                         } else {
                             $linkToEmail="{$link}?subs_id={$item['id']}";
                         }
@@ -72,20 +73,20 @@ if($plane_list){
                             continue;
                         }
                         if ($plane[$letter_status_key]) { // Отправить письмо клиенту
-                            $send = false;/*Email::SendExpirationMessageByClient($user['email'], $user['user_name'],
+                            $send = Email::SendExpirationMessageByClient($user['email'], $user['user_name'],
                                 $plane[$letter_subj_key], $plane[$letter_text_key], $linkToEmail
-                            );*/
-                            $text = 'У клиента '.$user['user_name'].' '.$user['email']." через $plane[$letter_time_key] часов заканчивается подписка. Напомните ему, чтобы он не пропустил";
+                            );
+                            /*$text = 'У клиента '.$user['user_name'].' '.$user['email']." через $plane[$letter_time_key] часов заканчивается подписка. Напомните ему, чтобы он не пропустил";
     
 
-                            //Email::SendMessageToBlank($partner_id['email'], 'Окончание подписки у вашего ученика', 'Окончание подписки у вашего ученика. Ссылка продления: '. $linkToEmail, $text);
+                            Email::SendMessageToBlank($partner_id['email'], 'Окончание подписки у вашего ученика', 'Окончание подписки у вашего ученика. Ссылка продления: '. $linkToEmail, $text);
                             Log::add(1,'Data', [
                                 "email" => $user['email'],
                                 "kick_time" => $kick_time,
                                 "letter_time_key"=>$letter_time_key,
                                 "item"=>$item,
                                 ]
-                                ,'test_membership.log');
+                                ,'test_membership.log');*/
 
                         }
 
@@ -116,7 +117,7 @@ if($recurrents){
         
         if($rec_item[0] == 'Robokassa'){
             
-            //Email::SendMessageToBlank('report@kasyanov.info', 'fff', 'fff', $buffer.'<br />ID = '.$rec_item[1]);
+            ////Email::SendMessageToBlank('report@kasyanov.info', 'fff', 'fff', $buffer.'<br />ID = '.$rec_item[1]);
             
             
             Member::PayRobokassa($rec_item[1], $recurrent['subs_id'], $recurrent['id'], $recurrent['user_id'], $now);
@@ -126,13 +127,13 @@ if($recurrents){
 
 }
 
-/*$planes = Member::SearchExpirePlane();
+$planes = Member::SearchExpirePlane();
 
 if ($planes) {
     Member::deleteExpirePlanes($planes);
     Member::addUsersToGroupsByExpPlns($planes);
     Member::addPlanesToUser($planes);
-}*/
+}
 
 //Пишем в таблицу логов крона
 //TODO в дальнейшем надо сделать модели и класс если этот функционал будет расширятся

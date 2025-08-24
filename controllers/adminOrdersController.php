@@ -509,8 +509,8 @@ class adminOrdersController extends AdminBase {
         }
     }
 
-
-    public function actionDelPartner() {
+    
+    /*public function actionDelPartner() {
         $acl = self::checkAdmin();
 
         if (!isset($acl['show_orders'])) 
@@ -523,7 +523,34 @@ class adminOrdersController extends AdminBase {
             header('Content-Type: application/json');
             echo json_encode($data);
         }
+    }*/
+    public function actionDelPartner()
+{
+    // 0. доступ
+    $acl = self::checkAdmin();
+    if (!isset($acl['show_orders'])) {
+        System::redirectUrl('/admin');
     }
+
+    // 1. валидация входящих данных
+    $orderId   = (int)($_POST['order_id']   ?? 0);
+    $partnerId = (int)($_POST['partner_id'] ?? 0);
+
+    if (!$orderId || !$partnerId) {
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'error' => 'bad_params']);
+        return;
+    }
+
+    // 2. бизнес-логика
+    $ok1 = Aff::deletePartnerTransaction($orderId, $partnerId);
+    $ok2 = Aff::deletePartnerFromOrder($orderId, $partnerId);
+
+    // 3. ответ
+    header('Content-Type: application/json');
+    echo json_encode(['success' => ($ok1 && $ok2)]);
+}
+
 
     public function actionFastFilter() {
 

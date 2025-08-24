@@ -175,8 +175,10 @@ class Aff {
         $result = $db->query("SELECT * FROM ".PREFICS."users WHERE from_id = $userId ORDER BY user_id DESC");
         $i = 0;
         while($row = $result->fetch()){
+            $data[$i]['user_id'] = $row['user_id'];
             $data[$i]['user_name'] = $row['user_name'];
             $data[$i]['email'] = $row['email'];
+            $data[$i]['child_name'] = $row['child_name'];
             $data[$i]['reg_date'] = $row['reg_date'];
             $data[$i]['phone'] = $row['phone'];
             $i++;
@@ -185,7 +187,25 @@ class Aff {
         else return false;
     }
     
+    public static function hasActiveStudents($partner_id)
+    {
+        $db = Db::getConnection();
     
+        $sql = "SELECT COUNT(*) 
+                FROM ".PREFICS."users u
+                JOIN ".PREFICS."member_maps m ON m.user_id = u.user_id
+                WHERE u.from_id = :partner_id
+                  AND m.status = 1
+                  AND m.end >= UNIX_TIMESTAMP(NOW())";
+    
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':partner_id', $partner_id, PDO::PARAM_INT);
+        $stmt->execute();
+    
+        return $stmt->fetchColumn() > 0;
+    }
+
+
     // ПОЛУЧИТЬ СПИСОК ПАРТНЁРОВ, КОМУ НУЖНО СДЕЛАТЬ ВЫПЛАТУ 
     public static function getPartnersToPay($all = null)
     {
@@ -323,7 +343,114 @@ class Aff {
     }
     
     
+    public static function ChangeUserPartner($user_id, $new_partner_id)
+    {
+        if ($user_id == $new_partner_id || empty($new_partner_id)){
+            Log::add(1,'partner issue', ["user_id" => $user_id,"new_partner_id" => $new_partner_id],'aff.php.log');
+            return true;
+        }
+        $db = Db::getConnection();
+        
+        // Получить текущего партнёра
+        $stmt = $db->prepare("SELECT from_id FROM ".PREFICS."users WHERE user_id = :user_id");
+        $stmt->execute([':user_id' => $user_id]);
+        $old_partner_id = $stmt->fetchColumn() ?? 0;
+        
+        
+        // Обновить партнёра
+        $update = $db->prepare("UPDATE ".PREFICS."users SET from_id = :new_partner_id WHERE user_id = :user_id");
+        if (!$update->execute([
+            ':new_partner_id' => $new_partner_id,
+            ':user_id' => $user_id
+        ])) {
+            return false;
+        }
+
+        // Логировать смену
+        $log = $db->prepare("INSERT INTO partner_change_log (user_id, old_partner_id, new_partner_id) 
+                         VALUES (:user_id, :old_partner_id, :new_partner_id)");
+        $log->execute([
+            ':user_id' => $user_id,
+            ':old_partner_id' => $old_partner_id,
+            ':new_partner_id' => $new_partner_id
+        ]);
+        return true;
+    }
     
+    public static function GetPartnerChangeHistory($user_id)
+    {
+        $db = Db::getConnection();
+    
+        $sql = "SELECT 
+                    pcl.user_id,
+                    pcl.old_partner_id,
+                    u1.user_name AS old_partner_name,
+                    u1.surname AS old_partner_surname,
+                    pcl.new_partner_id,
+                    u2.user_name AS new_partner_name,
+                    u2.surname AS new_partner_surname,
+                    pcl.changed_at
+                FROM partner_change_log pcl
+                LEFT JOIN ".PREFICS."users u1 ON pcl.old_partner_id = u1.user_id
+                LEFT JOIN ".PREFICS."users u2 ON pcl.new_partner_id = u2.user_id
+                WHERE pcl.user_id = :user_id
+                ORDER BY pcl.changed_at DESC";
+    
+        $stmt = $db->prepare($sql);
+        $stmt->execute([':user_id' => $user_id]);
+    
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function RenderPartnerChangeHistory($user_id)
+    {
+        $history = self::GetPartnerChangeHistory($user_id);
+        $site_url = settings['site_url'];
+    
+        if (empty($history)) {
+            return '<p style="margin: 30px 0;">История смены партнёров отсутствует.</p>';
+        }
+    
+        $html = '<div style="margin: 30px 0;">'; 
+        $html .= '<h4 style="margin-bottom: 15px;">История смены партнёров</h4>';
+        $html .= '<table cellpadding="8" cellspacing="0" 
+            style="border-collapse: collapse; width: 100%; border: none; font-size: 14px;">';
+        $html .= '<thead>
+            <tr style="background-color: #f7f7f7; border-bottom: 1px solid #ddd;">
+                <th style="text-align: center; padding: 8px;">Дата изменения</th>
+                <th style="text-align: center; padding: 8px;">Был партнёр</th>
+                <th style="text-align: center; padding: 8px;">Стал партнёр</th>
+            </tr>
+        </thead>';
+    
+        foreach ($history as $row) {
+            $old_name = ($row['old_partner_name'] .' '. $row['old_partner_surname']) ?? '—';
+            $new_name = ($row['new_partner_name'] .' '. $row['new_partner_surname']) ?? '—';
+            
+            // Формируем ссылки
+            $old_link = $row['old_partner_id'] 
+                ? '<a href="'  .$row['old_partner_id'] . '" target="_blank">'
+                    . htmlspecialchars($old_name) . ' (ID: ' . $row['old_partner_id'] . ')</a>'
+                : '—';
+    
+            $new_link = $row['new_partner_id'] 
+                ? '<a href="' . $row['new_partner_id'] . '" target="_blank">'
+                    . htmlspecialchars($new_name) . ' (ID: ' . $row['new_partner_id'] . ')</a>'
+                : '—';
+    
+            $html .= '<tr>
+                        <td style="text-align: center;">' . htmlspecialchars($row['changed_at']) . '</td>
+                        <td style="text-align: center;">' . $old_link . '</td>
+                        <td style="text-align: center;">' . $new_link . '</td>
+                      </tr>';
+        }
+    
+        $html .= '</tbody></table></div>';
+    
+        return $html;
+    }
+
+
     // ДОБАВИТЬ КОРОТКУЮ ССЫЛКУ
     public static function AddPartnerShortLink($userId, $url, $desc)
     {
@@ -783,6 +910,15 @@ class Aff {
     // ДОБАВИТЬ СТРОКУ ДЛЯ ДАННЫХ НОВОГО ПАРТНЁРА
     public static function AddStatRow($user_id, $partner_id) 
     {
+        // Проверка на самореферала
+        if ($user_id == $partner_id) {
+            Log::add(3, "Попытка самореферала в AddStatRow", [
+                'user_id' => $user_id,
+                'partner_id' => $partner_id
+            ]);
+            $partner_id = 0;
+            return false;
+        }
         $db = Db::getConnection();
         
         // Проверить на существование
@@ -1029,8 +1165,53 @@ class Aff {
     }
     
     
+    //  УДАЛИТЬ (обнулить) выплату КОНКРЕТНОМУ партнёру
+    public static function deletePartnerTransaction(
+        int $order_id,
+        int $partner_id,
+        ?int $product_id = null
+    ): bool
+    {
+        $db  = Db::getConnection();
     
-    // УДАЛИТЬ ВЫПЛАТУ ПАРТНЁРА
+        $sql = 'UPDATE '.PREFICS.'aff_transaction
+                SET    summ = 0
+                WHERE  order_id   = :order_id
+                  AND  user_id = :partner_id';
+        if ($product_id !== null) {
+            $sql .= ' AND product_id = :product_id';
+        }
+    
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':order_id',   $order_id,   PDO::PARAM_INT);
+        $stmt->bindValue(':partner_id', $partner_id, PDO::PARAM_INT);
+        if ($product_id !== null) {
+            $stmt->bindValue(':product_id', $product_id, PDO::PARAM_INT);
+        }
+        return $stmt->execute();
+    }
+    
+    //  УДАЛИТЬ партнёра ИМЕННО ЭТОГО из заказа
+    public static function deletePartnerFromOrder(
+        int $order_id,
+        int $partner_id
+    ): bool
+    {
+        $db  = Db::getConnection();
+        // зануляем partner_id только если совпадает
+        $sql = 'UPDATE '.PREFICS.'orders
+                SET    partner_id = NULL
+                WHERE  order_id   = :order_id
+                  AND  partner_id = :partner_id';
+    
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':order_id',   $order_id,   PDO::PARAM_INT);
+        $stmt->bindValue(':partner_id', $partner_id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    
+    /*// УДАЛИТЬ ВЫПЛАТУ ПАРТНЁРА
     public static function deletePartnerTransaction($order_id, $product_id = null)
     {
         $db = Db::getConnection();
@@ -1055,7 +1236,7 @@ class Aff {
         $result = $db->prepare($sql);
         $result->bindParam(':order_id', $order_id, PDO::PARAM_INT);
         return $result->execute();
-    }
+    }*/
     
     /**
      *  EMAIL 

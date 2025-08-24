@@ -86,6 +86,8 @@ class Email {
             '[NICK_IG]' => $user['nick_instagram']
         );
 
+        
+        
         $text = strtr($text, $replace);
 
         $send = self::sender($email, $subject, $text, $setting, $sender_name, $setting['sender_email'], $is_testLetter, $reply_to, $addit_data);
@@ -1393,7 +1395,15 @@ class Email {
             'addit_data' => $addit_data
         ]);
 
-
+        Log::add(5,'TEST', [$email, '<b>'.$subject . "</b>\n" . $text_tg,
+            'caller' => $caller,
+            'email' => $email,
+            'subject' => $subject,
+            'text' => $text_tg,
+            'setting' => $setting,
+            'form' => $from,
+            'form_name' => $from_name,
+            'addit_data' => $addit_data,"res" => $res],'test.log');
         if ($setting['use_smtp'] == 1) { // Отправляем через SMTP
             $send = self::SMTPSingleSender($email, $subject, $text, $setting, $from_name, $is_testLetter, $reply_to);
 

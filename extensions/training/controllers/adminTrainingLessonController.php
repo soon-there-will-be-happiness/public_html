@@ -79,7 +79,6 @@ class adminTrainingLessonController  extends AdminBase {
             if ($lesson_id) {
                 $add_task = TrainingLesson::addTask($lesson_id); //task
                 $add_test = $add_task ? TrainingTest::addTest($lesson_id) : false; //test
-
                 System::redirectUrl("/admin/training/editlesson/$training_id/$lesson_id", $add_task && $add_test);
             }
         }
@@ -99,7 +98,7 @@ class adminTrainingLessonController  extends AdminBase {
         if (!isset($acl['change_courses'])) {
             System::redirectUrl('/admin');
         }
-
+        
         $training = Training::getTraining($training_id);
         $lesson = TrainingLesson::getLesson($lesson_id);
         $lesson_list = TrainingLesson::getLessons($training_id); // получаем уроки для выбора в расписании
@@ -110,6 +109,9 @@ class adminTrainingLessonController  extends AdminBase {
 
         $task = TrainingLesson::getTask2Lesson($lesson_id);
         $test = TrainingLesson::getTest2Lesson($lesson_id);
+        
+        Log::add(1,'$task execute', ["task" => $task],'$lesson_id');
+        Log::add(1,'$test execute', ["test" => $test],'$lesson_id');
         $questions = $test['test_id'] ? TrainingTest::getQuestionsByTestId($test['test_id']) : null;
         $elements = TrainingLesson::getElements2Lesson($lesson_id, null);
         $by_button = $lesson['by_button'] ? json_decode($lesson['by_button'], true) : null;

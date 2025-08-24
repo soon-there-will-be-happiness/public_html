@@ -62,67 +62,64 @@ function deleteSpecificWeek(button) {
 }
 
 function updateWeekLabels() {
-    console.clear()
     const rows = document.querySelectorAll('#week-table-body tr');
     const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0); // Устанавливаем время в полночь для точного сравнения
-    let extraWeeksCount = 0;
-    let WeekMoreNow = false
+    currentDate.setHours(0, 0, 0, 0);   // сравниваем по дате без времени
+
+    let extraShift = 0;                 // сдвиг, если недели «ушли» в прошлое
+    let hasCurrent = false;
 
     rows.forEach((row, index) => {
-        let weekStartDate = new Date(startDate);
-        weekStartDate.setDate(weekStartDate.getDate() + index * 7);
-        let weekEndDate = new Date(weekStartDate);
-        weekEndDate.setDate(weekStartDate.getDate() + 7);
-        row.classList.remove('nowData')
-        if (currentDate >= weekStartDate && currentDate < weekEndDate) {
-            // Если неделя сейчас
-            WeekMoreNow = true
-            row.classList.add('nowData')
-            row.children[0].textContent = `Неделя ${index + 1} (с ${formatDate(weekStartDate)})`;
-        } else if (weekStartDate < currentDate) {
-            // Если неделя уже прошла, пересчитываем её дату на будущее
-            extraWeeksCount++;
-            weekStartDate = new Date(startDate);
-            let calcWc = Math.floor((currentDate - weekStartDate) / (7 * 24 * 60 * 60 * 1000));
-            let wc =  calcWc >= weekCount? calcWc:weekCount-1
-            weekStartDate.setDate(weekStartDate.getDate() + (wc + extraWeeksCount) * 7);
-            row.children[0].textContent = `Неделя ${index + 1} (с ${formatDate(weekStartDate)})`;
+
+        if (row.dataset.fixed === '1') return; // фиксированную дату не трогаем
+
+        const cell = row.children[0];
+        let start = new Date(startDate);
+        start.setDate(start.getDate() + index * 7);
+        const end = new Date(start);
+        end.setDate(start.getDate() + 7);
+
+        // снимаем выделение
+        row.classList.remove('nowData');
+
+        if (currentDate >= start && currentDate < end) {
+            // «текущая неделя»
+            hasCurrent = true;
+            row.classList.add('nowData');
+            cell.textContent = `Неделя ${index + 1} (с ${formatDate(start)})`;
+        } else if (start < currentDate) {
+            // неделя прошла → переносим вперёд
+            extraShift++;
+            start = new Date(startDate);
+            const pastCount = Math.floor((currentDate - start) / 604800000); // 7*24*60*60*1000
+            const shift = Math.max(pastCount, weekCount - 1) + extraShift;
+            start.setDate(start.getDate() + shift * 7);
+            cell.textContent = `Неделя ${index + 1} (с ${formatDate(start)})`;
         } else {
-            // Будущие недели остаются неизменными
-            row.children[0].textContent = `Неделя ${index + 1} (с ${formatDate(weekStartDate)})`;
+            // будущее — оставляем
+            cell.textContent = `Неделя ${index + 1} (с ${formatDate(start)})`;
         }
     });
 
-    if(!WeekMoreNow){
-        extraWeeksCount = 0
-        rows.forEach((row, index) => {
-            let weekStartDate = new Date(startDate);
-            weekStartDate.setDate(weekStartDate.getDate() + index * 7);
-            let weekEndDate = new Date(weekStartDate);
-            weekEndDate.setDate(weekStartDate.getDate() + 7);
-            row.classList.remove('nowData')
-            if(index == 0){
-                const today = new Date();
-                let lastWeekSunday = new Date(today);
-                lastWeekSunday.setDate(lastWeekSunday.getDate() - lastWeekSunday.getDay());
-                row.classList.add('nowData')
-                row.children[0].textContent = `Неделя ${index + 1} (с ${formatDate(lastWeekSunday)})`;
-            }else{
-                // Если неделя уже прошла, пересчитываем её дату на будущее
-                extraWeeksCount++;
-                weekStartDate = new Date(startDate);
-                let calcWc = Math.floor((currentDate - weekStartDate) / (7 * 24 * 60 * 60 * 1000));
-                let wc =  calcWc >= weekCount? calcWc:weekCount-1
-                weekStartDate.setDate(weekStartDate.getDate() + (wc + extraWeeksCount) * 7);
-                row.children[0].textContent = `Неделя ${index + 1} (с ${formatDate(weekStartDate)})`;
-            }
-        })
+    /* если «текущей» недели не оказалось, ставим выделение первой строке,
+       только если она НЕ fixed */
+    if (!hasCurrent && rows.length) {
+        const firstRow = rows[0];
+        if (firstRow.dataset.fixed !== '1') {
+            firstRow.classList.add('nowData');
+            const today = new Date();
+            today.setDate(today.getDate() - today.getDay()); // предыдущее воскресенье
+            firstRow.children[0].textContent =
+                `Неделя 1 (с ${formatDate(today)})`;
+        }
     }
 }
 
-function formatDate(date) {
-    return `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getFullYear()).slice(2)}`;
+/* helper форматирования */
+function formatDate(d) {
+    return `${String(d.getDate()).padStart(2, '0')}.` +
+           `${String(d.getMonth() + 1).padStart(2, '0')}.` +
+           `${String(d.getFullYear()).slice(2)}`;
 }
 
 function makeRowsDraggable() {
@@ -186,19 +183,35 @@ function handleDragEnd() {
     updateWeekLabels();
 }
 
-const printData = (savedData,lessons ) => {
+function printData(savedData, lessons) {
     const container = document.getElementById('week-table-body');
-    container.innerHTML = ''
-    const formatDate = (date) =>
-        date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' });
+    container.innerHTML = '';
 
-    for(let week = 1; week <= weekCount; week ++){
-        const weekStartDate = new Date(startDate);
-        weekStartDate.setDate(startDate.getDate() + (week * 7));
-        const formattedDate = formatDate(weekStartDate);
-        let data = savedData[week-1]?savedData[week-1]:"Выберите урок"
-        container.appendChild( generateHTMLElement(week, formattedDate, lessons, data))
+    // helper: 01.04.25
+    const fmt = d => d.toLocaleDateString('ru-RU',
+                  { day: '2-digit', month: '2-digit', year: '2-digit' });
+
+    for (let week = 1; week <= weekCount; week++) {
+        const src = savedData[week - 1] ?? { value: 'Выберите урок', date: null };
+
+        let dateStr, isFixed = false;
+
+        if (src.date) {                 // дата пришла из PHP/BД
+            dateStr = src.date;
+            isFixed = true;             // пометим как «фиксированная»
+        } else {                        // даты нет → считаем
+            const ds = new Date(startDate);
+            ds.setDate(ds.getDate() + (week - 1) * 7);
+            dateStr = fmt(ds);
+        }
+
+        const row = generateHTMLElement(week, dateStr, lessons, src);
+
+        if (isFixed) row.dataset.fixed = '1'; // <tr data-fixed="1">
+        container.appendChild(row);
     }
+
+    makeRowsDraggable();
 }
 
 function submitForm(form) { 

@@ -230,8 +230,8 @@ class Member {
      * @param int $map_id
      * @return bool
      */
-    public static function renderMember($plane_id, $user_id, $status = 1, $subscription_id = null, $map_id = 0) {
-        $date = time();
+    public static function renderMember($plane_id, $user_id, $status = 1, $subscription_id = null, $map_id = 0, $start_date = null) {
+        $date = $start_date ? strtotime($start_date) : time();
         $result = false;
         $plane = self::getPlaneByID($plane_id);
 

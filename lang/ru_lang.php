@@ -321,6 +321,7 @@ $lang = array(
 'BASIC' => 'Основное',
 'ORDER_DATE' => 'Дата заказа',
 'CLIENT_NAME' => 'Клиент',
+'CHILD_NAME' => 'Ребёнок',
 'CLIENT_PHONE' => 'Телефон',
 'CITY' => 'Город',
 'POSTCODE' => 'Индекс',
