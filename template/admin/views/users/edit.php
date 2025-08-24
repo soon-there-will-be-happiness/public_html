@@ -112,7 +112,33 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                             </p>
         
                             <p><label>Новый пароль: </label><input type="text" name="pass"></p>
-        
+                            
+                            <div class="width-100">
+                                <label>Сменить партнёра на: </label>
+                                <div class="select-wrap">
+                                    <select name="new_partner">
+                                        <option value="">— Не выбран —</option>
+                                        <?php
+                                        $curators = User::getCurators();
+                                        $current_partner_id = $user['from_id'] ?? null; 
+                            
+                                        if ($curators):
+                                            foreach ($curators as $curator):
+                                                    $selected = ($curator['user_id'] == $current_partner_id) ? 'selected' : '';
+                                                    ?>
+                                                    <option value="<?php echo $curator['user_id']; ?>" <?php echo $selected; ?>>
+                                                        <?php echo htmlspecialchars($curator['user_name'] . ' ' . $curator['surname']); ?>
+                                                    </option>
+                                                <?php
+                                            endforeach;
+                                        endif;
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            
+                            
                             <p><label>Статус: </label>
                                 <span class="custom-radio-wrap">
                                     <label class="custom-radio"><input name="status" type="radio" value="1" <?php if($user['status']== 1) echo 'checked';?>><span>Вкл</span></label>
@@ -146,7 +172,6 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                                 <textarea name="note" cols="45" rows="3"><?=$user['note'];?></textarea>
                             </p>
                         </div>
-                        
                         <div class="col-1-2">
                             <div class="round-block mb-20">
                                 <p class="text-center mb-50 user-avatar">
@@ -240,6 +265,7 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                         </div>
                     </div>
 
+                    <?php echo Aff::RenderPartnerChangeHistory($user['user_id']);?>
                     <h4 class="mt-30">Социальные сети</h4>
                     <div class="row-line">
                         <div class="col-1-2">
@@ -543,7 +569,6 @@ require_once (ROOT . '/template/admin/layouts/admin-head.php'); ?>
                         <?php endif;
                     endif;?>
                 </div>
-
 
                 <!-- 2 вкладка Заказы -->
                 <div>

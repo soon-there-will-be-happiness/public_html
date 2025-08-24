@@ -71,7 +71,33 @@ class affController extends baseController {
                 TelegramProduct::addOrUpdate($user_id, $product_id , $telegram );
             }
         }
-       
+       Log::add(1,'cron', ["_POST" => $_POST],'affController');
+        if (isset($_POST['child_name'])) {
+            Log::add(1,'cron execute', ["_POST" => $_POST],'affController');
+            $table = PREFICS . 'users';
+            $sql   = "UPDATE $table
+                      SET child_name = :name
+                      WHERE user_id = :id"; 
+                      
+            $db   = Db::getConnection();             
+            $stmt = $db->prepare($sql);
+    
+            foreach ($_POST['child_name'] as $id => $name) {
+                $id   = (int) $id;
+                $name = trim($name);
+        
+                if ($name === '' || mb_strlen($name) > 120) {
+                    continue;
+                }
+        
+                // ваш родной helper
+                $stmt->execute([':name' => $name, ':id' => $id]);
+            }
+        
+            System::redirectUrl('/lk/aff?success_child');
+            return;
+        }
+
 
 
 
@@ -167,6 +193,8 @@ class affController extends baseController {
 
         require_once ("{$this->template_path}/main.php");
     }
+    
+    
     public function actionParent() {
         $user_id = User::checkLogged();
     

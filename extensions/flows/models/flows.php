@@ -346,19 +346,39 @@ class Flows {
     }
     
     
-    // ПОЛУЧИТЬ АКТУАЛЬНЫЕ ПОТОКИ ПО ИХ ID 
-    public static function getActualFlowByIDs($flow_ids, $date)
-    {
-        $db = Db::getConnection();
-        $flow_ids = implode(',', array_map('intval', $flow_ids));
-        $result = $db->query("SELECT * FROM ".PREFICS."flows WHERE status = 1 AND public_start < ".$date." AND public_end > ".$date." AND flow_id IN (".$flow_ids.")");
-        $data = [];
-        while($row = $result->fetch(PDO::FETCH_ASSOC)){
-        	$data[] = $row;
-        }
-        
-        return !empty($data) ? $data : false;
+// ПОЛУЧИТЬ АКТУАЛЬНЫЕ ПОТОКИ ПО ИХ ID 
+public static function getActualFlowByIDs($flow_ids, $date)
+{
+    $db = Db::getConnection();
+
+    // Проверка на пустой массив
+    if (empty($flow_ids)) {
+        return false;
     }
+
+    // Преобразуем в целые числа
+    $flow_ids = array_map('intval', $flow_ids);
+    $placeholders = implode(',', array_fill(0, count($flow_ids), '?'));
+
+    $sql = "SELECT * 
+            FROM " . PREFICS . "flows 
+            WHERE status = 1 
+              AND public_start < ? 
+              AND public_end > ? 
+              AND flow_id IN ($placeholders)";
+
+    $stmt = $db->prepare($sql);
+
+    // Формируем параметры: дата дважды + список ID
+    $params = array_merge([$date, $date], $flow_ids);
+
+    $stmt->execute($params);
+
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return !empty($data) ? $data : false;
+}
+
     
     
     // ПОДСЧИТАТЬ ОПЛАЧЕННЕ ЗАКАЗЫ С КОНКРЕТНЫМ ПОТОКОМ

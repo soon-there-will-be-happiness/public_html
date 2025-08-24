@@ -22,19 +22,19 @@ $setting = System::getSetting();
 
 // НАЙТИ ИСТЕКАЮЩИЕ ПОДПИСКИ
 
-$time_left = 72; // подписка заканчивается через 3 дня
+$time_left = 62; // подписка заканчивается через 3 дня
 $kick_time = $now + $time_left * 3600;
 
 $db = Db::getConnection();
-$sql = "SELECT * FROM ".PREFICS."member_maps WHERE end < $kick_time AND end > $now AND status = 1 AND send_notification = 0 ";
+$sql = "SELECT * FROM ".PREFICS."member_maps WHERE end < $kick_time AND end > $now AND status = 1 AND send_notification = 0";
 
 $result = $db->query($sql);
 
 $data = [];
 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
     $data[] = $row;
+    var_dump($row);
 }
-
 if($data){
     
     ob_start();
@@ -48,7 +48,7 @@ if($data){
         
         $user_data = User::getUserById($map['user_id']); // получили ID юзера из карты подписки
         if($user_data){
-            
+            var_dump($user_data.'\n');
             if($user_data['from_id'] > 0){
                 $partner_id = $user_data['from_id']; // получили ID партнёра
                 
@@ -61,9 +61,18 @@ if($data){
                     print_r($map);
                     $buffer = ob_get_contents();
                     ob_end_clean();
-                    
-                    Email::SendMessageToBlank($partner_data['email'], 'Окончание подписки у вашего ученика', 'Окончание подписки у вашего ученика', $text);
-                    
+                    $addit_data = [
+                        'caller' => 'user_edit',
+                        'mail' => [
+                            'telegram' => [
+                                'msg' => '1'
+                            ]
+                        ]
+                    ];
+
+
+                    Email::SendMessageToBlank($partner_data['email'], 'Окончание подписки у вашего ученика', 'Окончание подписки у вашего ученика', $text,null,false,false,$addit_data);
+                    var_dump($partner_data['email'].' | '.$user_data['email']);
                     
                     // Обновить
                     $num = 1;
@@ -72,7 +81,7 @@ if($data){
                     $result = $db->prepare($sql);
                     $result->bindParam(':map_id', $map['id'], PDO::PARAM_INT);
                     $result->bindParam(':notif', $num, PDO::PARAM_INT);
-                    return $result->execute();
+                    $result->execute();
                     
                 }
             }
