@@ -358,7 +358,6 @@ class adminUsersController extends AdminBase {
         $id = intval($id);
         $setting = System::getSetting();
 		$user_cerificates = false;
-		
 		if (isset($_POST['make_partner'])) {
             $act = Aff::AddUserToPartner($id, 0);
 		} //else $act = Aff::AuthorAction($id, 0);
@@ -483,6 +482,13 @@ class adminUsersController extends AdminBase {
 			$login = htmlentities($_POST['login']);
 			$role = htmlentities($_POST['role']);
             $level = isset($_POST['level']) ? intval($_POST['level']) : 0;
+            $new_partner_id = isset($_POST['new_partner']) ? intval($_POST['new_partner']) : null;
+            Log::add(1,'new_partner_id', ["new_partner_id" => $new_partner_id],'new_partner_id');
+            if($new_partner_id==null){
+                $new_partner=true;
+            } else {
+                $new_partner = Aff::ChangeUserPartner($id, $new_partner_id);
+            }
 
             if($old_email != null or $old_email = User::getUserNameByID($id)['email']){
 
@@ -546,7 +552,7 @@ class adminUsersController extends AdminBase {
                 $sex, $nick_telegram, $nick_instagram, $level, $vk_url, $spec_aff, $curators
             );
             
-            if ($edit) {
+            if ($edit & $new_partner) {
                 if ($custom_fields) {
                     $custom_fields_data = isset($_POST['custom_fields']) ? $_POST['custom_fields'] : [];
                     CustomFields::saveUserFields($id, null, $custom_fields_data, null);
@@ -1131,12 +1137,30 @@ class adminUsersController extends AdminBase {
             return return404();
         }
 
-        if (intval($client) != 0) {
-            $users[] = User::getUserById(intval($client));
-            returnResult($users);
+//        if (intval($client) != 0) {
+//            $users[] = User::getUserById(intval($client));
+//            returnResult($users);
+//        }
+        $client = trim($client);
+        $q = mb_strtolower(addslashes($client));
+        
+        if (filter_var($q, FILTER_VALIDATE_EMAIL)) {
+            $clauses = "LOWER(u.email) = '$q'";
         }
 
-        $clauses = "u.user_name LIKE '%$client%' OR u.email LIKE '%$client%' OR u.surname LIKE '%$client%' OR u.patronymic LIKE '%$client%'";
+        elseif (ctype_digit($q)) {
+            $users[] = User::getUserById((int)$q);
+            return returnResult($users);
+        }
+
+
+//        $clauses = "u.user_name LIKE '%$client%' OR u.email LIKE '%$client%' OR u.surname LIKE '%$client%' OR u.patronymic LIKE '%$client%'";
+        $clauses = "
+            LOWER(u.user_name) LIKE '%$q%' OR
+            LOWER(u.email) LIKE '%$q%' OR
+            LOWER(u.surname) LIKE '%$q%' OR
+            LOWER(u.patronymic) LIKE '%$q%'
+        ";
 
         $users = User::getUsersWithConditions($clauses);
 

@@ -24,6 +24,7 @@
                 
                 // Без особого режима партнёра
                 foreach($links as $link):
+                    
                     if (in_array(60, $user_groups) & $link['product_id']!=35) {
                         continue;
                     }
@@ -83,15 +84,14 @@
                        
                         }
                     } else {
-                        $order_url = $this->settings['script_url'].'/buy/'.$link['product_id'];
+                        $order_url = $this->settings['script_url'].'/buy/'.$link['product_id']."?partner=".$user['user_id'];
                         $short_link_id = Aff::isShortLinkByPartner($user['user_id'], $order_url);
                         if ($short_link_id) {
                             // Если короткая ссылка найдена, подставляем ID в ссылку
                             $order_url = $this->settings['script_url'] . '/pr/' . $short_link_id;
                         } else {
                             // Если короткая ссылка не найдена, создаём новую
-                            $created = Aff::AddPartnerShortLink($user['user_id'], $order_url."?partner=".$user['user_id'], $product['product_title']);
-                            
+                            $created = Aff::AddPartnerShortLink($user['user_id'], $order_url, $product['product_title']);
                             if ($created) {
                                 // После создания, ищем созданную ссылку
                                 $short_link_id = Aff::isShortLinkByPartner($user['user_id'], $order_url);
@@ -155,7 +155,7 @@
                               
                             $fill_req = Aff::checkAllPartnerReq($user['user_id']);
                             if($fill_req || $link['product_id']==33) {
-                                if($link['product_id']!=33 & $link['product_id']!=35) { ?>
+                                if($link['product_id']!=35) { ?>
                                     <div class="table-form-line">
                                         <span class="text-right"><?=System::Lang('LENDING');?></span><div class="table-form-input"><input readonly onclick="this.select()" type="text" value="<?=$url;?>" class="link_input"></div>
                                     </div>

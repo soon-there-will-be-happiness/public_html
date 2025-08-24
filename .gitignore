@@ -30,3 +30,4 @@ images/**/fonts/*.ttf
 
 load/avatars/
 load/hometask/
+!load/hometask/index.php
