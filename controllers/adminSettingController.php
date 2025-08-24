@@ -233,7 +233,29 @@ class adminSettingController extends AdminBase {
                 $catalog_keys, $reviews_tune, $politika_link, $oferta_link, $politika_text, $oferta_text,
                 $external_url, $catalog_filter, $params, $oferta_text2 
             );
-            
+        $oferta_texts=System::GetWithoutPartner();
+        $is_equal=false;
+        if($oferta_texts!=null){
+            if($oferta_texts[0]!=null){
+                if($oferta_texts[0]['text'] == $oferta_text)
+                {
+                    $is_equal=true;
+                }
+        }
+    }    
+        $oferta_texts=System::GetWithPartner();
+        $is_equal1=false;
+        if($oferta_texts!=null){
+            if($oferta_texts[0]!=null){
+                      if($oferta_texts[0]['text'] == $oferta_text2)
+                {
+                    $is_equal1=true;
+                }
+        }}
+        if(!$is_equal1)
+            System::InsertOferta(  $oferta_text2,1);
+        if(!$is_equal)
+            System::InsertOferta(  $oferta_text);
             if ($save) {
                 $log = ActionLog::writeLog('settings', 'edit', 'save_vid', 1, time(), $_SESSION['admin_user'], json_encode($_POST));
                 header("Location: ".$setting['script_url']."/admin/settings?cat=vid&success");
@@ -352,6 +374,7 @@ class adminSettingController extends AdminBase {
         }
         return true;
     }
+    
     
     
     

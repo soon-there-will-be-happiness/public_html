@@ -1,0 +1,341 @@
+.buy-btn {
+    background-color: #ffa600;
+    color: #ffffff;
+    font-family: 'FuturaPT', Arial, sans-serif;
+    font-weight: 700;
+    border: 0 none;
+    cursor: pointer;
+    height: 50px;
+    width: 130px;
+    font-size: 16px;
+    box-sizing:border-box;
+}
+
+/* Приховуємо попап */
+.hidden {
+    display: none; /* Приховує елемент повністю */
+  }
+  
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* Важливо! Початковий стан - попап прихований */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    box-sizing:border-box;
+}
+
+.popup.show {
+    display: flex; /* Відображаємо попап при доданні класу "show" */
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 30px 20px 30px 20px;
+    border-radius: 10px;
+    position: relative;
+    width: 100%;
+    max-width: 390px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    box-sizing:border-box;
+}
+
+.popup-content p {
+    color: black;
+    font-family: 'FuturaPT', Arial, sans-serif;
+    font-weight: 700;
+    box-sizing:border-box;
+}
+
+.close-btn {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 50px;
+    box-sizing:border-box;
+}
+
+.input-field {
+    width: 100%;
+    height: 32px;
+    border-radius: 8px;
+    border-width: 1px;
+    box-sizing:border-box;
+    padding-left: 5px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-sizing:border-box;
+}
+
+.form label {
+    font-size: 18px;
+    font-family: 'FuturaPT', Arial, sans-serif;
+    box-sizing:border-box;
+}
+
+#payment_method {
+    width: 100%;
+    height: 28px;
+    border-radius: 8px;
+    border-width: 1px;
+    box-sizing:border-box;
+}
+
+.pay {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    border-width: 0px;
+    background:#ffa600;
+    box-sizing:border-box;
+}
+
+.t760__floating {
+    z-index: 99999999;
+}
+
+.iti__flag-container {
+    display: none;
+}
+
+input[type="tel"] {
+    padding-left: 50px;
+}
+.phone-container {
+    position: relative;
+}
+.phone-container .country-code {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+}
+
+.iti__globe {
+  display: none;
+}
+
+.iti__search-input {
+  display: none;
+}
+
+.iti__country-list, #iti__country-list, .t-records ul {
+  padding-left: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.iti__selected-dial-code, .iti__country-name, #phone_inp {
+  font-family: 'FuturaPT', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+}
+
+
+#popup > div > form > div > div.iti.iti--show-flags.iti--inline-dropdown {
+  width: 100%;
+}
+
+#phone_inp {
+  height: 32px;
+  padding-top: 2px;
+}
+
+#promo_code_container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+}
+
+#promo_code_container.active {
+  max-height: 100px; /* Достаточно, чтобы отобразить поле ввода */
+}
+
+.promo-block {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+.promo-block.active {
+  max-height: 200px; /* Размер для отображения блока */
+  opacity: 1;
+}
+
+.hidden {
+  display: none;
+}
+
+#promo > p > a {
+  color: black !important;
+  font-size: 16px !important;
+  text-decoration: none;
+  font-weight: 300;
+}
+
+#promo > div > h6 {
+  font-family: 'FuturaPT', Arial, sans-serif;
+  color: black !important;
+  font-size: 14px !important;
+  text-decoration: none;
+  font-weight: 300;
+}
+
+.small-input {
+  width: 50%;
+  height: 32px;
+  border-radius: 8px;
+  border-width: 1px;
+}
+
+#promo, .promo-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#promo > div > div > div.modal-form-submit.mb-0 > a {
+  font-family: 'FuturaPT', Arial, sans-serif;
+  color: black !important;
+  font-size: 14px !important;
+  text-decoration: none;
+  font-weight: 300;
+}
+
+#promo > div > div > div.modal-form-submit.mb-0 {
+  margin-top: 10px;
+}
+
+.not-me {
+  display: flex;
+}
+
+#agreement {
+  width: 13px;
+  height: 13px;
+}
+
+#popup > div > form > div.not-me > label {
+  margin-left: 6px;
+}
+
+.text-hint {
+  color: #007BFF;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.3s; /* Плавный переход */
+  font-size: 12px;
+}
+
+
+.text-hint:hover {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+.politics {
+    font-size: 14px;
+    line-height: 0.5;
+    margin: 0; /* Убираем отступы */
+    padding: 0; /* Убираем отступы */
+}
+
+.politics a {
+    display: inline;
+    line-height: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+.politics a.oferta, .politics a {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.politics, .politics * {
+    margin: 0 !important; /* Принудительное удаление всех отступов */
+    padding: 0 !important;
+}
+
+.popup-content {
+    text-align: center !important; /* Центрирование текста */
+}
+
+.pop_up_title, .pop_up_subtitle {
+    display: block;
+    margin: 0 auto;
+    text-align: center !important;
+    color: #000; /* Или любые другие стили */
+}
+
+.pop_up_title {
+    font-size: 15px;
+    margin: 10px;
+}
+
+.pop_up_subtitle {
+    font-weight: bold;
+    background-color: #D3D3D3;
+    margin: 0px;
+    padding:7px  0px 7px 0px;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.form {
+    text-align: left !important;
+}
+
+@media (max-width: 630px) {
+    p {
+        margin-bottom: -10px;
+        padding-bottom: -10px;
+    }
+    .form label {
+        font-size: 16px;
+    }
+    .t_title {
+        font-size: 42px !important; 
+        line-height: 56px !important;
+    }
+    .title {
+        font-size: 42px !important;
+    }
+}
+
+@media (max-width: 415px) {
+    #promo {
+        margin-top: 0px !important;
+        margin-bottom: -10 !important;
+    }
+    .popup_content {
+        padding: 30px 30px 0px;
+    }
+    .t_title {
+        font-size: 36px !important; 
+        line-height: 40px !important;
+    }
+    .title {
+        font-size: 36px !important;
+    }
+    .t181__wrapper {
+        padding-top: 0 !important;
+    }
+}
+
