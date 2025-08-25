@@ -2147,7 +2147,11 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><style
               <div class="t-col t-col_12">
                 <div class="t-section__bottomwrapper t-clear t-align_left">
 
-                  <a class="t-btn t-btnflex t-btnflex_type_bbutton t-btnflex_md" href="#rec495689846"> <span class="t-btnflex__text">Хочу, чтобы у моего ребенка был позитивный сценарий</span>
+                  <a class="t-btn t-btnflex t-btnflex_type_bbutton t-btnflex_md" href="#rec495689846"> 
+              <span class="t-btnflex__text" style="
+
+    white-space: pre-wrap;
+">Хочу, чтобы у моего ребенка был позитивный сценарий</span>
 
                     <style>
                       #rec495689823 .t-btnflex.t-btnflex_type_bbutton {
@@ -2644,7 +2648,7 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><style
                 <div class="t-section__title t-title t-title_xs t-align_center t-margin_auto" field="btitle">
                   Готовы к выбору будущей профессии?
                 </div>
-                <div>
+                <div
                   class="t-section__descr t-descr t-descr_xl t-align_center t-margin_auto" field="bdescr"> Следуя этим шагам уже сегодня можно начать путь выбора работы мечты
                 </div>
               </div>
@@ -2701,7 +2705,7 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><style
             </ul>
           </div>
           </div> 
-         <div id="rec495689845 " class="r t-rec t-rec_pt_60 t-rec_pb_60 " style="padding-top:60px;padding-bottom:60px; " data-record-type="30 ">
+         <div id="rec495689845" class="r t-rec t-rec_pt_60 t-rec_pb_60 " style="padding-top:60px;padding-bottom:60px; " data-record-type="30 ">
   <!-- T015 -->
   <div class="t015 ">
     <div class="t-container t-align_center ">
