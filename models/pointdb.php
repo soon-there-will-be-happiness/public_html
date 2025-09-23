@@ -82,4 +82,25 @@ class PointDB {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+        public static function getPendingRecordsWithCustomerCode() {
+        $db = Db::getConnection();
+        $sql = '
+            SELECT p.*, o.customerCode 
+            FROM '.PREFICS.'point p
+            LEFT JOIN '.PREFICS.'orders o ON p.order_id = o.order_id
+            WHERE p.status = 0';
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+        /**
+     * Получает все записи со статусом "не оплачено"
+     */
+    public static function getPendingRecords() {
+        $db = Db::getConnection();
+        $sql = 'SELECT * FROM '.PREFICS.'point WHERE status = 0';
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

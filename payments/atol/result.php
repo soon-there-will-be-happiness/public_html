@@ -28,6 +28,7 @@ if (isset($callback_data['orderId']) && isset($callback_data['status'])) {
         $group_code=$params['group_code'];
         $payment_address=$params['payment_address'];
         $token=AutoToken::checkToken($login, $pass);
+
         $token = $params['token2'];
         foreach($order_items as $item){
             $items[] = [

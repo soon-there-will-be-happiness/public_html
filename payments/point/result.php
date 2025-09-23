@@ -39,6 +39,7 @@ if($point['status']!=true)
         PointDB::updateStatusToTrue($order_id);
         AutoToken::sendCheck( $order);
     }
+    PointSubscriptionService::checkAllSubscriptionsStatus();
 }
 System::redirectUrl($setting['script_url'] . '/payments/point/success?id='.$order_id); 
 }
