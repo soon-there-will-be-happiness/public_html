@@ -24,7 +24,22 @@ class PointSubscriptionService {
                 $updatedCount++;
                 self::processPaidOrder($record['order_id']);
             }
-            
+            //TODO бзаимодействие с бенефициаром
+
+            $order = Order::getOrderDataByID($pendingRecords["order_id"],100);
+            $partner = AFF::getPartnerReq($order['partner_id']);
+            $pay= Order::getCyclopPaymentID($order['partner_id']);
+            if(!$pay){
+                //todo создать бенефициара
+            }
+
+
+
+            $transaction = AFF::getPartnerTransactionReq($order['partner_id'], $order['order_id']);
+            $serializedData = $partner['requsits'];
+            $data = unserialize($serializedData);
+
+
             if (!$result['success']) {
                 $errors[] = "Order {$record['order_id']}: " . $result['message'];
             }
@@ -47,7 +62,7 @@ class PointSubscriptionService {
     public static function checkSingleSubscriptionStatus($record) {
         // Получаем параметры из записи или из связанных данных
       $payment = Order::getPaymentSetting('point');
-$params = unserialize(base64_decode($payment['params']));
+      $params = unserialize(base64_decode($payment['params']));
         
         if (!$params || !isset($params['token']) || !isset($params['api_url'])) {
             return [

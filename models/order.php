@@ -2121,6 +2121,17 @@ class Order {
         return !empty($data) ? $data : false;
     }
 
+    //Данные о платежах
+    public static function getCyclopPaymentID($id)
+    {
+        $status = intval($status);
+        $sql = "SELECT * FROM " . PREFICS . "cyclop_payments WHERE user_id = $id";
+        $db = Db::getConnection();
+        $result = $db->query($sql);
+        $data = $result->fetch(PDO::FETCH_ASSOC);
+
+        return !empty($data) ? $data : false;
+    }
 
     // ДАННЫЕ ЗАКАЗА ПО order_id ДЛЯ ПОКУПАТЕЛЯ
     public static function getPayedOrderDataByClientAndProduct($client_email, $product_id)
